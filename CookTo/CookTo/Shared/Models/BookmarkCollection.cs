@@ -1,13 +1,19 @@
-﻿using CookTo.Shared.Models;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using System.Text.Json.Serialization;
 
 namespace CookTo.Shared.Models;
 
 public class BookmarkCollection
 {
-	public int BookmarkCollectionId { get; set; }
-	public int UserBookmarksId { get; set; }
-	public List<Bookmark> Bookmarks { get; set; }	   	
-	public string CreationDate { get; set; }
+	[BsonElement("id")]
+	[JsonPropertyName("id")]
+	public object BookmarkCollectionId { get; set; }
+
+	[BsonElement("title")]
+	[BsonRequired]
+	public string CollectionTitle { get; set; }
+	[JsonIgnore]
+	public List<ObjectId> Bookmarks { get; set; }
 }
 

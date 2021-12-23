@@ -1,23 +1,32 @@
 ﻿using System.Text.Json.Serialization;
-
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 namespace CookTo.Shared.Models;
 
 public class Recipe
-    {
-        public int RecipeId { get; set; }
-        public string Title { get; set; }
-        public int CategoryId { get; set; }
-        public string Description { get; set; }
-        public string ImageURL { get; set; }
-        public string PrepartionTime { get; set; }
-        public string CookingTime { get; set; }
-        public string Serves { get; set; }
-        public string AuthorId { get; set; }
-        public List<RecipePart> RecipeParts { get; set; }
-        public List<CookingStep> CookingSteps { get; set; }
-        public List<Tip>? Tips { get; set; }
-        public string CreationDate { get; set; }
-    }
+{
+	[BsonElement("_id")]
+	[JsonPropertyName("_id")]
+	[BsonId]
+	[BsonRepresentation(BsonType.ObjectId)]
+	public string Id { get; set; }
+	[BsonElement("title")]
+	[BsonRequired]
+	public string Title { get; set; }
+	public string Category { get; set; }
+	public string Description { get; set; }
+	public string ImageURL { get; set; }
+	public string PrepartionTime { get; set; }
+	public string CookingTime { get; set; }
+	public int Serves { get; set; }
+	[BsonRequired]
+	[BsonElement("author")]
+	public string AuthorId { get; set; }
+	public List<RecipePart> RecipeParts { get; set; }
+	public List<string> CookingSteps { get; set; }
+	public List<string>? Tips { get; set; }
+
+}
 
 
 
