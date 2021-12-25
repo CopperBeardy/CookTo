@@ -20,7 +20,12 @@ public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where T
 		{
 			var filter = Builders<TEntity>.Filter.Empty;
 			var all = await _dbCollection.FindAsync(filter);
-			return await all.ToListAsync();
+			var result = await all.ToListAsync();
+			if(result.Count == 0)
+			{
+				result = new List<TEntity>();
+			}
+			return result;
 		}
 		catch (Exception)
 		{
@@ -67,17 +72,18 @@ public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where T
 			throw;
 		}
 	}
-	public  async Task DeleteAsync(string id)
+	public  async Task<DeleteResult> DeleteAsync(string id)
 	{
 		try
 		{
 			var oid = new ObjectId(id);
 			FilterDefinition<TEntity> data = Builders<TEntity>.Filter.Eq("Id", oid);
-			await _dbCollection.DeleteOneAsync(data);
+			return await _dbCollection.DeleteOneAsync(data);
+			
 		}
-		catch
+		catch(Exception ex)
 		{
-			throw;
+			throw new Exception(ex.ToString());
 		}
 	}
 
