@@ -10,8 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	.AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+builder.Services.Configure<MongoSettings>(builder.Configuration.GetSection(nameof(MongoSettings)))
+	.AddOptions();
+
 builder.Services.AddSingleton<ICookToDbContext, CookToDbContext>();
-//builder.Services.AddSingleton<IIngredientRepository, IngredientRepository>();
+builder.Services.AddSingleton<IIngredientRepository, IngredientRepository>();
+builder.Services.AddSingleton<IRecipeRepository, RecipeRepository>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 

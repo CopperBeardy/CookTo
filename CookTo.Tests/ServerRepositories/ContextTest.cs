@@ -10,7 +10,7 @@ using MongoDB.Driver;
 using Moq;
 using Xunit;
 
-namespace CookTo.Tests.Server.Repositories.Tests;
+namespace CookTo.Tests.ServerRepositories;
 
 public  class ContextTest
 {

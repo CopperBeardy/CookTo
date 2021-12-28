@@ -1,5 +1,4 @@
 ﻿using CookTo.Server.DbContext;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using ServiceStack;
 
@@ -14,77 +13,58 @@ public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where T
 		_dbCollection = _dbContext.GetCollection<TEntity>(typeof(TEntity).Name);
 	}
 
-	public async Task<List<TEntity>> GetAllAsync()
+	public virtual async Task<List<TEntity>> GetAllAsync()
 	{
-		try
+		var docs = await _dbCollection.FindAsync(e => true);
+		var result = await docs.ToListAsync();
+		if (result.Count() == 0)
 		{
-			var filter = Builders<TEntity>.Filter.Empty;
-			var all = await _dbCollection.FindAsync(filter);
-			var result = await all.ToListAsync();
-			if(result.Count == 0)
-			{
-				result = new List<TEntity>();
-			}
-			return result;
+			throw new Exception($"no documents found ");
 		}
-		catch (Exception)
-		{
-
-			throw;
-		}
-	}
-		public async Task<TEntity> GetByIdAsync(string id)
-		{
-			try
-			{
-				var oid = new ObjectId(id);
-				FilterDefinition<TEntity> filter = Builders<TEntity>.Filter.Eq("_id", oid);
-				return await _dbCollection.FindAsync(filter).Result.FirstOrDefaultAsync();
-			}
-			catch (Exception ex)
-			{
-				throw new Exception(ex.ToString());
-			}
-		}
-
-	public async Task CreateAsync(TEntity obj)
-	{
-		try
-		{
-			await _dbCollection.InsertOneAsync(obj);
-		}
-		catch
-		{
-			throw;
-		}
+		return result;
 	}
 
+	public virtual async Task<TEntity> GetByIdAsync(string id)
+	{
+		if (string.IsNullOrEmpty(id))
+		{
+			throw new ArgumentNullException(nameof(id));
+		}
+		var docs = await _dbCollection.FindAsync(e => e.GetId().Equals(id));
+		 var result = await docs.FirstOrDefaultAsync();
+		if (result == null)
+		{
+			throw new Exception($"unable to find document with Id : {id}");
+		}
+		return result;
+	}
 
+	public virtual async Task CreateAsync(TEntity obj)
+	{
+		if(obj == null)
+		{
+			throw new ArgumentNullException(nameof(obj));
+		}
+		await _dbCollection.InsertOneAsync(obj);
+	}
 
 	public virtual async Task UpdateAsync(TEntity obj)
 	{
-		try
+		if (obj == null)
 		{
-			await _dbCollection.ReplaceOneAsync(Builders<TEntity>.Filter.Eq("_id", obj.GetId()),obj);
+			throw new ArgumentNullException(nameof(obj));
 		}
-		catch
-		{
-			throw;
-		}
+		await _dbCollection.ReplaceOneAsync(
+						e => e.GetId().Equals(obj.GetId()), obj);
 	}
-	public  async Task<DeleteResult> DeleteAsync(string id)
+
+	public async Task<DeleteResult> DeleteAsync(string id)
 	{
-		try
+		if (string.IsNullOrEmpty(id))
 		{
-			var oid = new ObjectId(id);
-			FilterDefinition<TEntity> data = Builders<TEntity>.Filter.Eq("Id", oid);
-			return await _dbCollection.DeleteOneAsync(data);
-			
+			throw new ArgumentNullException(nameof(id));
 		}
-		catch(Exception ex)
-		{
-			throw new Exception(ex.ToString());
-		}
+		return await _dbCollection.DeleteOneAsync(e => e.GetId().Equals(id));
 	}
 
 }

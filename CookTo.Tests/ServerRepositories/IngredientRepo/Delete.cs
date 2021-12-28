@@ -14,14 +14,14 @@ using Xunit;
 
 namespace CookTo.Tests.ServerRepositories.IngredientRepo;
 
-public class IngredientServiceDelete
+public class Delete
 {
 	private Mock<IMongoCollection<Ingredient>> _mockCollection;
 	private Mock<ICookToDbContext> _mockContext;
 	private Ingredient _ingredient;
 	private List<Ingredient> _list;
 
-	public IngredientServiceDelete()
+	public Delete()
 	{
 		string id = "1234a1234b1234c1234d1234";
 		var oid = new ObjectId(id);
@@ -40,7 +40,7 @@ public class IngredientServiceDelete
 	}
 
 	[Fact]
-	public async Task IngredientService_RemoveItem_Succuess()
+	public async Task IngredientService_RemoveItem_ValidId_Succuss()
 	{ 
 		_mockCollection.Setup(x => x.DeleteOneAsync(
 			It.IsAny<FilterDefinition<Ingredient>>(),
@@ -54,10 +54,35 @@ public class IngredientServiceDelete
 
 		//Delete item
 		var result = await ingredientRepo.DeleteAsync("1234a1234b1234c1234d1234");
-		  Assert.Equal(result.DeletedCount, 1);
+		  Assert.Equal(1, result.DeletedCount);
 		//verify the DeleteOneAsync is called once
 		_mockCollection.Verify(c => c.DeleteOneAsync(It.IsAny<FilterDefinition<Ingredient>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
 	}
+
+	[Fact]
+	public async Task IngredientService_RemoveItem_ThrowException_Success()
+	{
+		_mockCollection.Setup(x => x.DeleteOneAsync(
+			It.IsAny<FilterDefinition<Ingredient>>(),
+			It.IsAny<CancellationToken>()))
+			.ThrowsAsync(new Exception());
+
+		//Mock GetCollection
+		_mockContext.Setup(c => c.GetCollection<Ingredient>(typeof(Ingredient).Name))
+		.Returns(_mockCollection.Object);
+		var ingredientRepo = new IngredientRepository(_mockContext.Object);
+
+		//Delete item
+		var result = () => ingredientRepo.DeleteAsync("1234a1234b1234c1234d1234");
+
+		
+		await Assert.ThrowsAsync<Exception>(result);
+		//verify the DeleteOneAsync is called once
+		_mockCollection.Verify(c => c.DeleteOneAsync(It.IsAny<FilterDefinition<Ingredient>>(),
+			It.IsAny<CancellationToken>()), Times.Once);
+
+	}
+
 }

@@ -14,14 +14,14 @@ using Xunit;
 
 namespace CookTo.Tests.ServerRepositories.IngredientRepo;
 
-public class IngredientRepositoryGet
+public class Get
 {
 	private Mock<IMongoCollection<Ingredient>> _mockCollection;
 	private Mock<ICookToDbContext> _mockContext;
 	private Ingredient _ingredient;
 	private List<Ingredient> _list;
 
-	public IngredientRepositoryGet()
+	public Get()
 	{
 		string id = "1234a1234b1234c1234d1234";
 		var oid = new ObjectId(id);
@@ -40,7 +40,7 @@ public class IngredientRepositoryGet
 	}
 
 	[Fact]
-	public async Task IngredientService_GetIngredientById_valid_Success()
+	public async Task GetIngredientById_Valid_Success()
 	{
 		//Mock MoveNextAsync
 		Mock<IAsyncCursor<Ingredient>> _ingredientCursor = new Mock<IAsyncCursor<Ingredient>>();
@@ -72,19 +72,31 @@ public class IngredientRepositoryGet
 			It.IsAny<CancellationToken>()), Times.Once);
 	}
 
-	[Fact]
-	public async Task IngredientService_GetIngredientById_Docunment_NotFound_Returned_Null_Success()
+	[Theory]
+	[InlineData(null)]
+	[InlineData("")]
+	public async Task GetIngredientById_InvalidID_ExceptionThrown_Success(string value)
 	{
+		//Mock GetCollection
+		_mockContext.Setup(c => c.GetCollection<Ingredient>(typeof(Ingredient).Name)).Returns(_mockCollection.Object);
+		var ingredientRepo = new IngredientRepository(_mockContext.Object);
+
+		await Assert.ThrowsAsync<ArgumentNullException>(() => ingredientRepo.GetByIdAsync(value));
+	}
+
+
+	[Fact]
+	public async Task GetIngredientById_Document_NotFound_ExceptionThrown_Success()
+	{
+
+		var id = "1234a1234b1234c1234d1233";
+		List<Ingredient> list = null;
 		//Mock MoveNextAsync
 		Mock<IAsyncCursor<Ingredient>> _ingredientCursor = new Mock<IAsyncCursor<Ingredient>>();
-		_ingredientCursor.Setup(_ => _.Current).Returns(new List<Ingredient>());
+		_ingredientCursor.Setup(_ => _.Current).Returns(list);
 		_ingredientCursor.SetupSequence(_ => _.MoveNext(It.IsAny<CancellationToken>()))
 			.Returns(true)
 			.Returns(false);
-		_ingredientCursor.SetupSequence(_ => _.MoveNextAsync(It.IsAny<CancellationToken>()))
-			.Returns(Task.FromResult(true))
-			.Returns(Task.FromResult(false));
-		//Mock FindAsync
 		_mockCollection.Setup(op => op.FindAsync(It.IsAny<FilterDefinition<Ingredient>>(),
 			It.IsAny<FindOptions<Ingredient, Ingredient>>(),
 			It.IsAny<CancellationToken>()))
@@ -94,19 +106,11 @@ public class IngredientRepositoryGet
 		_mockContext.Setup(c => c.GetCollection<Ingredient>(typeof(Ingredient).Name)).Returns(_mockCollection.Object);
 		var ingredientRepo = new IngredientRepository(_mockContext.Object);
 
-		var result = await ingredientRepo.GetByIdAsync("1234a1234b1234c1234d1233");
-
-		Assert.Null(result);
-	
-
-		//verify the InsertOneAsync is called once
-		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<Ingredient>>(),
-			It.IsAny<FindOptions<Ingredient>>(),
-			It.IsAny<CancellationToken>()), Times.Once);
+		await Assert.ThrowsAsync<Exception>(() => ingredientRepo.GetByIdAsync(id));
 	}
 
 	[Fact]
-	public async Task IngredientService_GetIngredientById_ThrowException_Failure()
+	public async Task GetIngredientById_ThrowException_Failure()
 	{
 		//Mock MoveNextAsync
 		Mock<IAsyncCursor<Ingredient>> _ingredientCursor = new Mock<IAsyncCursor<Ingredient>>();
@@ -138,7 +142,7 @@ public class IngredientRepositoryGet
 	}
 
 	[Fact]
-	public async Task IngredientService_GetAllIngredientAsync_Valid_Success()
+	public async Task GetAllIngredientAsync_Valid_Success()
 	{
 		//Mock MoveNextAsync
 		Mock<IAsyncCursor<Ingredient>> _ingredientCursor = new Mock<IAsyncCursor<Ingredient>>();
@@ -175,44 +179,12 @@ public class IngredientRepositoryGet
 	}
 
 	[Fact]
-	public async Task IngredientService_GetAllIngredientAsync_ExceptionThrown_Success()
+	public async Task GetAllIngredientAsync_NoDocumentsFound_ExceptionThrown_Success()
 	{
+		List<Ingredient> list = null;
 		//Mock MoveNextAsync
 		Mock<IAsyncCursor<Ingredient>> _ingredientCursor = new Mock<IAsyncCursor<Ingredient>>();
-		_ingredientCursor.Setup(_ => _.Current).Returns(_list);
-		_ingredientCursor.SetupSequence(_ => _.MoveNext(It.IsAny<CancellationToken>()))
-			.Returns(true)
-			.Returns(false);
-
-		//Mock FindAsync
-		_mockCollection.Setup(op => op.FindAsync(It.IsAny<FilterDefinition<Ingredient>>(),
-			It.IsAny<FindOptions<Ingredient, Ingredient>>(),
-			It.IsAny<CancellationToken>()))
-			.ThrowsAsync(new Exception());
-
-		//Mock GetCollection
-		_mockContext.Setup(c => c.GetCollection<Ingredient>(typeof(Ingredient).Name)).Returns(_mockCollection.Object);
-		var ingredientRepo = new IngredientRepository(_mockContext.Object);
-
-		var result = () =>  ingredientRepo.GetAllAsync();
-		await Assert.ThrowsAsync<Exception>(result);
-
-		
-
-		//verify the InsertOneAsync is called once
-		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<Ingredient>>(),
-			It.IsAny<FindOptions<Ingredient>>(),
-			It.IsAny<CancellationToken>()), Times.Once);
-
-
-	}
-
-	[Fact]
-	public async Task IngredientService_GetAllIngredientAsync_NoDocumentsDound_Returned_Null_Success()
-	{
-		//Mock MoveNextAsync retu
-		Mock<IAsyncCursor<Ingredient>> _ingredientCursor = new Mock<IAsyncCursor<Ingredient>>();
-		_ingredientCursor.Setup(_ => _.Current).Returns(new List<Ingredient>());
+		_ingredientCursor.Setup(_ => _.Current).Returns(list);
 		_ingredientCursor.SetupSequence(_ => _.MoveNext(It.IsAny<CancellationToken>()))
 			.Returns(true)
 			.Returns(false);
@@ -227,15 +199,14 @@ public class IngredientRepositoryGet
 		_mockContext.Setup(c => c.GetCollection<Ingredient>(typeof(Ingredient).Name)).Returns(_mockCollection.Object);
 		var ingredientRepo = new IngredientRepository(_mockContext.Object);
 
-		var result = await ingredientRepo.GetAllAsync();
-
-		Assert.NotNull(result);
-		Assert.Empty(result);
-
+		await Assert.ThrowsAsync<Exception>(() => ingredientRepo.GetAllAsync());
 
 		//verify the InsertOneAsync is called once
 		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<Ingredient>>(),
 			It.IsAny<FindOptions<Ingredient>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
+
+
 	}
+
 }
