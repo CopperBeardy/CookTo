@@ -1,13 +1,10 @@
-﻿using System.Text.Json.Serialization;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 namespace CookTo.Shared.Models;
 
-public class Recipe
+public class Recipe	 :BaseEntity
 {
-	[BsonId]
-	[BsonRepresentation(BsonType.ObjectId)]
-	public ObjectId? Id { get; set; }
+	
 	[BsonElement("title")]
 	[BsonRequired]
 	public string Title { get; set; }

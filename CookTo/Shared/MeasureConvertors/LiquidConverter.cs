@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CookTo.Shared.Enums;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CookTo.Shared.Enums;
 
 namespace CookTo.Shared.MeasureConvertors;
 
@@ -43,7 +40,7 @@ public static class LiquidConverter
 			_ => throw new NotSupportedException($"{Enum.GetName(measureTo)} not supported")
 		};
 
-	private static double PintTo(double amount, MeasureUnit measureTo) => 
+	private static double PintTo(double amount, MeasureUnit measureTo) =>
 		measureTo switch
 		{
 			MeasureUnit.ml => amount / 0.0017598,
@@ -59,7 +56,7 @@ public static class LiquidConverter
 			MeasureUnit.ml => amount / 1000,
 			MeasureUnit.floz => amount * 35.195,
 			MeasureUnit.l => amount * 1.7598,
-					_ => throw new NotSupportedException($"{Enum.GetName(measureTo)} not supported")
+			_ => throw new NotSupportedException($"{Enum.GetName(measureTo)} not supported")
 		};
 	}
 }

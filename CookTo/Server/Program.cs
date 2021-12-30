@@ -1,8 +1,6 @@
-using CookTo.Server.DbContext;
-using CookTo.Server.Repositories;
-using Microsoft.AspNetCore.Authentication;
+using CookTo.Server.Services;
+using CookTo.Server.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,8 +12,9 @@ builder.Services.Configure<MongoSettings>(builder.Configuration.GetSection(nameo
 	.AddOptions();
 
 builder.Services.AddSingleton<ICookToDbContext, CookToDbContext>();
-builder.Services.AddSingleton<IIngredientRepository, IngredientRepository>();
-builder.Services.AddSingleton<IRecipeRepository, RecipeRepository>();
+builder.Services.AddSingleton<IIngredientService, IngredientService>();
+builder.Services.AddSingleton<IRecipeService, RecipeService>();
+builder.Services.AddSingleton<IBookmarksService, BookmarksService>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 

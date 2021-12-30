@@ -14,6 +14,6 @@ public enum MeasureUnit
 	tbsp,
 	floz,
 	oz,
-	pint,	
+	pint,
 	lb
 }

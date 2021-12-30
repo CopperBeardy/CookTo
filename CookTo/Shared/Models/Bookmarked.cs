@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CookTo.Shared.Enums;
+using MongoDB.Bson;
 
 namespace CookTo.Shared.Models;
 
-public class RecipeThumbnail
+public class Bookmarked
 {
-	public string Id { get; set; }
+	public ObjectId RecipeId { get; set; }
 	public string Title { get; set; }
-	public string ImageUrl { get; set; }
-	public Category Category { get; set; }
 }

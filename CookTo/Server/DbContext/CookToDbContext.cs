@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Options;
-using MongoDB.Driver;
 
 namespace CookTo.Server.DbContext;
 public class CookToDbContext : ICookToDbContext
