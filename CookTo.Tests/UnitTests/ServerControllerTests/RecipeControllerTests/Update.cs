@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace CookTo.Tests.ServerControllerTests.RecipeControllerTests;
+namespace CookTo.Tests.UnitTests.ServerControllerTests.RecipeControllerTests;
 
 public class Update : RecipeFixture
 {

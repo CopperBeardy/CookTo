@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace CookTo.Tests.ServerControllerTests.BookmarkControllerTests;
+namespace CookTo.Tests.UnitTests.ServerControllerTests.BookmarkControllerTests;
 
 public class BookmarksFixture
 {

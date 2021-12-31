@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace CookTo.Tests.ServerControllerTests.IngredientControllerTests;
+namespace CookTo.Tests.UnitTests.ServerControllerTests.IngredientControllerTests;
 
 public class IngredientFixture
 {

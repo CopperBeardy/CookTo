@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CookTo.Tests.ServerControllerTests.RecipeControllerTests;
+namespace CookTo.Tests.UnitTests.ServerControllerTests.RecipeControllerTests;
 
 
 public class RecipeFixture

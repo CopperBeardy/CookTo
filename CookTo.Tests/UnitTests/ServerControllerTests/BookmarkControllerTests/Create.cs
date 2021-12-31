@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace CookTo.Tests.ServerControllerTests.BookmarkControllerTests;
+namespace CookTo.Tests.UnitTests.ServerControllerTests.BookmarkControllerTests;
 
 public class Create : BookmarksFixture
 {
