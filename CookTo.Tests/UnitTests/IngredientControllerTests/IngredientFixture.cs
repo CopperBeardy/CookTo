@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-
-namespace CookTo.Tests.UnitTests.ServerControllerTests.IngredientControllerTests;
+﻿namespace CookTo.Tests.UnitTests.IngredientControllerTests;
 
 public class IngredientFixture
 {
@@ -12,7 +9,7 @@ public class IngredientFixture
 	public Mock<ILogger<IngredientController>> _mockLogger;
 	public Ingredient _ingredient;
 	public List<Ingredient> _ingredients;
-
+	public IngredientController SUT;
 
 	public IngredientFixture()
 	{
@@ -40,6 +37,9 @@ public class IngredientFixture
 			Id = new ObjectId("3333a3333b3333c3333d3333"),
 			Name = "Milk"
 		};
+		_mockDbContext.Setup(c => c.GetCollection<Ingredient>(typeof(Ingredient).Name)).Returns(_mockCollection.Object);
+		SUT = new IngredientController(_mockService.Object, _mockLogger.Object);
+
 	}
 }
 

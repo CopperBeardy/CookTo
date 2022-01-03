@@ -1,6 +1,5 @@
 ﻿using CookTo.Server.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+
 
 namespace CookTo.Server.Controllers;
 
@@ -26,7 +25,7 @@ public class BookmarksController : ControllerBase
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError($"error occured getting all entity type: {typeof(Bookmarks).Name}", ex);
+			_logger.LogError(ex, "get all", "");
 			return NotFound();
 		}
 	}
@@ -46,7 +45,7 @@ public class BookmarksController : ControllerBase
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError($"error occured during get by Id entity type:{typeof(Bookmarks).Name}, id : {id}", ex);
+			_logger.LogError(ex, "get by Id",  id);
 			return NotFound();
 		}
 	}
@@ -68,7 +67,7 @@ public class BookmarksController : ControllerBase
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError($"error occured during  delete of entity type:{typeof(Bookmarks).Name}, id : {id}", ex);
+			_logger.LogError(ex, "delete",  id);
 			return NotFound();
 		}
 	}
@@ -87,7 +86,7 @@ public class BookmarksController : ControllerBase
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError($"error occured during  creation of entity type:{typeof(Bookmarks).Name}, user : {bookmarks.UserId} ", ex);
+			_logger.LogError(ex, "insert", bookmarks);
 			return NotFound();
 		}
 	}
@@ -106,7 +105,7 @@ public class BookmarksController : ControllerBase
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError($"error occured during  creation of entity type:{typeof(Bookmarks).Name}, user: {bookmarks.UserId} ", ex);
+			_logger.LogError(ex, "error occured during update", bookmarks);
 			return NotFound();
 		}
 	}

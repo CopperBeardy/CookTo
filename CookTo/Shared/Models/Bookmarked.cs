@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CookTo.Shared.Rules;
 using MongoDB.Bson;
 
 namespace CookTo.Shared.Models;
 
 public class Bookmarked
 {
+	[RequiredRule]
 	public ObjectId RecipeId { get; set; }
+	[RequiredRule]
 	public string Title { get; set; }
 }

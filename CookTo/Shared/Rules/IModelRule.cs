@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CookTo.Tests.IntergrationTests.ServerControllerTests.IngredientController;
+namespace CookTo.Shared.Rules;
 
-public class Get
+public interface IModelRule
 {
+	ValidationResult Validate(String fieldname, object fieldValue);
 }

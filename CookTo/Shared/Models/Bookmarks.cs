@@ -1,5 +1,4 @@
-﻿using MongoDB.Bson;
-namespace CookTo.Shared.Models;
+﻿namespace CookTo.Shared.Models;
 
 public class Bookmarks : BaseEntity
 {

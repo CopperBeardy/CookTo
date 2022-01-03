@@ -1,5 +1,4 @@
 ﻿using CookTo.Server.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 
 namespace CookTo.Server.Controllers;
 [Route("api/[controller]")]
@@ -24,7 +23,7 @@ public class RecipeController : ControllerBase
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError($"error occured getting all entity type: {typeof(Recipe).Name}", ex);
+			_logger.LogError(ex, "get all", "");
 			return NotFound();
 		}
 	}
@@ -44,7 +43,7 @@ public class RecipeController : ControllerBase
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError($"error occured during get by Id entity type:{typeof(Recipe).Name}, id : {id}", ex);
+			_logger.LogError(ex, "get by Id", id);
 			return NotFound();
 		}
 	}
@@ -66,12 +65,12 @@ public class RecipeController : ControllerBase
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError($"error occured during  delete of entity type:{typeof(Recipe).Name}, id : {id}", ex);
+			_logger.LogError(ex, "delete", id);
 			return NotFound();
 		}
 	}
 	[HttpPost]
-	public async Task<ActionResult<bool>> Create([FromBody] Recipe Recipe)
+	public async Task<ActionResult<bool>> Create([FromBody] Recipe recipe)
 	{
 		if (!ModelState.IsValid)
 		{
@@ -80,17 +79,17 @@ public class RecipeController : ControllerBase
 
 		try
 		{
-			await _recipeService.CreateAsync(Recipe);
+			await _recipeService.CreateAsync(recipe);
 			return Ok(true);
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError($"error occured during  creation of entity type:{typeof(Recipe).Name}, object : {Recipe.Title} ", ex);
+			_logger.LogError(ex, "insert", recipe);
 			return NotFound();
 		}
 	}
 	[HttpPost]
-	public async Task<ActionResult<bool>> Update([FromBody] Recipe Recipe)
+	public async Task<ActionResult<bool>> Update([FromBody] Recipe recipe)
 	{
 		if (!ModelState.IsValid)
 		{
@@ -99,12 +98,12 @@ public class RecipeController : ControllerBase
 
 		try
 		{
-			await _recipeService.UpdateAsync(Recipe);
+			await _recipeService.UpdateAsync(recipe);
 			return Ok(true);
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError($"error occured during  creation of entity type:{typeof(Recipe).Name}, object : {Recipe.Title} ", ex);
+			_logger.LogError(ex, "update", recipe);
 			return NotFound();
 		}
 	}

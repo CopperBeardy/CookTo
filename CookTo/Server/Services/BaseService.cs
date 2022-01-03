@@ -1,4 +1,5 @@
 ﻿using CookTo.Server.Services.Interfaces;
+using MongoDB.Bson;
 
 namespace CookTo.Server.Services;
 public abstract class BaseService<TEntity> : IBaseService<TEntity> where TEntity : BaseEntity
@@ -15,12 +16,15 @@ public abstract class BaseService<TEntity> : IBaseService<TEntity> where TEntity
 
 	public virtual async Task<List<TEntity>> GetAllAsync() => await _dbCollection.Find(e => true).ToListAsync();
 
-	public virtual async Task<TEntity> GetByIdAsync(string id) => await _dbCollection.Find(e => e.Id.Equals(id)).FirstOrDefaultAsync();
+	public virtual async Task<TEntity> GetByIdAsync(string id) => await _dbCollection.Find(e => e.Id.Equals(new ObjectId(id))).FirstOrDefaultAsync();
 
-	public virtual async Task CreateAsync(TEntity obj) => await _dbCollection.InsertOneAsync(obj);
+	public virtual async Task CreateAsync(TEntity obj)
+	{
+		await _dbCollection.InsertOneAsync(obj);
+	}
 
-	public virtual async Task UpdateAsync(TEntity obj) => await _dbCollection.ReplaceOneAsync( e => e.Id.Equals(obj.Id), obj);
+	public virtual async Task UpdateAsync(TEntity obj) => await _dbCollection.ReplaceOneAsync(e => e.Id.Equals(obj.Id), obj);
 
-	public virtual async Task DeleteAsync(string id) => await _dbCollection.DeleteOneAsync(e => e.Id.Equals(id));
+	public virtual async Task DeleteAsync(string id) => await _dbCollection.DeleteOneAsync(e => e.Id.Equals(new ObjectId(id)));
 
 }

@@ -1,6 +1,4 @@
 ﻿using CookTo.Server.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace CookTo.Server.Controllers;
 [Route("api/[controller]")]
@@ -25,7 +23,7 @@ public class IngredientController : ControllerBase
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError($"error occured getting all entity type: {typeof(Ingredient).Name}", ex);
+			_logger.LogError(ex, $"get all", "");
 			return NotFound();
 		}
 	}
@@ -45,7 +43,7 @@ public class IngredientController : ControllerBase
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError($"error occured during get by Id entity type:{typeof(Ingredient).Name}, id : {id}", ex);
+			_logger.LogError(ex, "get by Id", id);
 			return NotFound();
 		}
 	}
@@ -67,14 +65,15 @@ public class IngredientController : ControllerBase
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError($"error occured during  delete of entity type:{typeof(Ingredient).Name}, id : {id}", ex);
+			_logger.LogError(ex, "delete", id);
 			return NotFound();
 		}
 	}
 	[HttpPost]
-	public async Task<ActionResult<bool>> Create([FromBody] Ingredient ingredient)
+	public async Task<ActionResult<bool>> Create([FromBody]Ingredient ingredient)
 	{
-		if (!ModelState.IsValid)
+		ingredient.CheckRules();
+		if (ingredient.HasErrors())
 		{
 			return BadRequest();
 		}
@@ -86,27 +85,27 @@ public class IngredientController : ControllerBase
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError($"error occured during  creation of entity type:{typeof(Ingredient).Name}, object : {ingredient.Name} ", ex);
+			_logger.LogError(ex, "insert", ingredient);
 			return NotFound();
 		}
 	}
-		[HttpPost]
-		public async Task<ActionResult<bool>> Update([FromBody] Ingredient ingredient)
+	[HttpPost]
+	public async Task<ActionResult<bool>> Update([FromBody] Ingredient ingredient)
+	{
+		if (!ModelState.IsValid)
 		{
-			if (!ModelState.IsValid)
-			{
-				return BadRequest();
-			}
-
-			try
-			{
-				await _ingredientService.UpdateAsync(ingredient);
-				return Ok(true);
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError($"error occured during  creation of entity type:{typeof(Ingredient).Name}, object : {ingredient.Name} ", ex);
-				return NotFound();
-			}
+			return BadRequest();
 		}
+
+		try
+		{
+			await _ingredientService.UpdateAsync(ingredient);
+			return Ok(true);
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError(ex, "update", ingredient);
+			return NotFound();
+		}
+	}
 }

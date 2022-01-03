@@ -12,10 +12,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.Configure<MongoSettings>(builder.Configuration.GetSection(nameof(MongoSettings)))
 	.AddOptions();
 
-builder.Services.AddSingleton<ICookToDbContext, CookToDbContext>();
-builder.Services.AddSingleton<IIngredientService, IngredientService>();
-builder.Services.AddSingleton<IRecipeService, RecipeService>();
-builder.Services.AddSingleton<IBookmarksService, BookmarksService>();
+builder.Services.AddScoped<ICookToDbContext, CookToDbContext>();
+builder.Services.AddScoped<IIngredientService, IngredientService>();
+builder.Services.AddScoped<IRecipeService, RecipeService>();
+builder.Services.AddScoped<IBookmarksService, BookmarksService>();
+
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 

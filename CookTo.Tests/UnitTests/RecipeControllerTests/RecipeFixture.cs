@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CookTo.Tests.UnitTests.ServerControllerTests.RecipeControllerTests;
+﻿namespace CookTo.Tests.UnitTests.RecipeControllerTests;
 
 
 public class RecipeFixture
@@ -13,6 +7,7 @@ public class RecipeFixture
 	public Mock<ICookToDbContext> _mockDbContext;
 	public Mock<IMongoCollection<Recipe>> _mockCollection;
 	public Mock<ILogger<RecipeController>> _mockLogger;
+	public RecipeController SUT;
 	public Recipe _recipe;
 	public List<Recipe> _recipes;
 	public RecipeFixture()
@@ -21,7 +16,7 @@ public class RecipeFixture
 		_mockCollection = new Mock<IMongoCollection<Recipe>>();
 		_mockService = new Mock<IRecipeService>();
 		_mockLogger = new Mock<ILogger<RecipeController>>();
-		 _recipes = new List<Recipe>();
+		_recipes = new List<Recipe>();
 		_recipe = new Recipe()
 		{
 			Id = new ObjectId("1111a2222a3333a4444a5555"),
@@ -70,5 +65,8 @@ public class RecipeFixture
 		};
 		_recipes.Add(_recipe);
 		_mockCollection.Object.InsertMany(_recipes);
+		_mockDbContext.Setup(c => c.GetCollection<Recipe>(typeof(Recipe).Name)).Returns(_mockCollection.Object);
+
+		SUT = new RecipeController(_mockService.Object, _mockLogger.Object);
 	}
 }

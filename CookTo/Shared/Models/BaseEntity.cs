@@ -1,13 +1,12 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using System;
-using System.Linq;
+using MongoDB.Bson.Serialization.IdGenerators;
 
 namespace CookTo.Shared.Models;
 
-public abstract class BaseEntity
+public abstract class BaseEntity  :ModelBase
 {
-	[BsonId]
+	[BsonId(IdGenerator = typeof(ObjectIdGenerator))]
 	[BsonRepresentation(BsonType.ObjectId)]
 	public ObjectId? Id { get; set; }
 }

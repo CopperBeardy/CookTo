@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-
-namespace CookTo.Tests.UnitTests.ServerControllerTests.BookmarkControllerTests;
+﻿namespace CookTo.Tests.UnitTests.BookmarkControllerTests;
 
 public class BookmarksFixture
 {
@@ -12,7 +9,7 @@ public class BookmarksFixture
 	public Mock<ILogger<BookmarksController>> _mockLogger;
 	public Bookmarked _bookmarked;
 	public Bookmarks _bookmarks;
-
+	public BookmarksController SUT;
 
 	public BookmarksFixture()
 	{
@@ -21,11 +18,11 @@ public class BookmarksFixture
 		_mockService = new Mock<IBookmarksService>();
 		_mockLogger = new Mock<ILogger<BookmarksController>>();
 
-		_bookmarks = 	new Bookmarks()
-			{
-				Id = new ObjectId("1111a1111b1111c1111d1111"),
-				UserId = "7777a7777a7777a7777a7777", 
-				BookmarkedRecipes = new List<Bookmarked>()
+		_bookmarks = new Bookmarks()
+		{
+			Id = new ObjectId("1111a1111b1111c1111d1111"),
+			UserId = "7777a7777a7777a7777a7777",
+			BookmarkedRecipes = new List<Bookmarked>()
 				{
 					new Bookmarked()
 					{
@@ -45,6 +42,9 @@ public class BookmarksFixture
 			RecipeId = new ObjectId("3333a3333b3333c3333d3333"),
 			Title = "Butter"
 		};
+		_mockDbContext.Setup(c => c.GetCollection<Bookmarks>(typeof(Bookmarks).Name)).Returns(_mockCollection.Object);
+		SUT = new BookmarksController(_mockService.Object, _mockLogger.Object);
+
 	}
 }
 
