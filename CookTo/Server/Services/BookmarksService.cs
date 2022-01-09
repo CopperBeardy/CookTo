@@ -1,4 +1,5 @@
 ﻿using CookTo.Server.Services.Interfaces;
+using MongoDB.Bson;
 
 namespace CookTo.Server.Services;
 public class BookmarksService : BaseService<Bookmarks>, IBookmarksService
@@ -7,4 +8,7 @@ public class BookmarksService : BaseService<Bookmarks>, IBookmarksService
 	{
 
 	}
+
+	public async Task<Bookmarks> GetByUserIdAsync(string id) => await dbCollection.Find(e => e.UserId.Equals(id)).FirstOrDefaultAsync();
+
 }

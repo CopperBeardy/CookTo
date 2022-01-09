@@ -5,7 +5,6 @@ namespace CookTo.Shared.Models;
 
 public class Recipe : BaseEntity
 {
-
 	[BsonElement("title")]
 	[BsonRequired]
 	[RequiredRule]
@@ -16,7 +15,7 @@ public class Recipe : BaseEntity
 	[RequiredRule]
 	[MinLengthRule(40)]
 	public string Description { get; set; }
-	public string ImageUrl { get; set; }
+	public string? ImageUrl { get; set; }
 	public int PrepartionTime { get; set; }
 	public int CookingTime { get; set; }
 	public int Serves { get; set; }

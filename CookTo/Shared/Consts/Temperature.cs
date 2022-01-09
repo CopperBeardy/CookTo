@@ -6,7 +6,7 @@ public static class Temperature
 {
 	public static ImmutableList<string> GetTemperatures() => ImmutableList<string>.Empty.AddRange(
 		new[] {
-		 "Gas 1/275F/135C/125CFan",
+		"Gas 1/275F/135C/125CFan",
 		"Gas 2/300F/150C/140CFan",
 		"Gas 3/325F/165C/150CFan",
 		"Gas 4/350F/180C/160CFan",

@@ -11,7 +11,7 @@ public class Read : BookmarksFixture
 
 		Assert.NotNull(SUT);
 
-		var result = await SUT.GetById("1111a1111b1111c1111d1111");
+		var result = await SUT.GetByUserId("1111a1111b1111c1111d1111");
 		var okResult = result.Result as OkObjectResult;
 		Assert.NotNull(okResult);
 		Assert.IsType<OkObjectResult>(okResult);
@@ -29,19 +29,10 @@ public class Read : BookmarksFixture
 
 		Assert.NotNull(SUT);
 
-		var result = await SUT.GetById("1111a1111b1111c1111d1111");
+		var result = await SUT.GetByUserId("1111a1111b1111c1111d1111");
 		var notFoundResult = result.Result as NotFoundResult;
 		Assert.IsType<NotFoundResult>(notFoundResult);
 
-		_mockLogger.Verify(
-			l => l.Log(
-				It.Is<LogLevel>(l => l == LogLevel.Error),
-				It.IsAny<EventId>(),
-				It.Is<It.IsAnyType>(
-					(@object, @type) => @object.ToString().Contains("get") && type.Name == "FormattedLogValues"),
-				It.IsAny<Exception>(),
-				It.IsAny<Func<It.IsAnyType, Exception, string>>()),
-			Times.Once());
 	}
 
 	[Theory]
@@ -51,7 +42,7 @@ public class Read : BookmarksFixture
 	{
 		Assert.NotNull(SUT);
 
-		var result = await SUT.GetById(id);
+		var result = await SUT.GetByUserId(id);
 		var badRequesstResult = result.Result as BadRequestResult;
 		Assert.IsType<BadRequestResult>(badRequesstResult);
 

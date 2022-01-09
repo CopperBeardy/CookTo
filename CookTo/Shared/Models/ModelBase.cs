@@ -1,44 +1,39 @@
 ﻿using CookTo.Shared.Rules;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CookTo.Shared.Models;
 
 public class ModelBase
 {
-	private Dictionary<string, Dictionary<string, string>> _errors = new Dictionary<string, Dictionary<string, string>>();
-	 public event EventHandler<EventArgs> ModelChanged;
-	private void AddError(String fieldName, String ruleName, String errorText)
+	private Dictionary<string, Dictionary<string, string>> errors = new();
+	public event EventHandler<EventArgs> ModelChanged;
+	private void AddError(string fieldName, string ruleName, string errorText)
 	{
-		if (!_errors.ContainsKey(fieldName))
+		if (!errors.ContainsKey(fieldName))
 		{
-			_errors.Add(fieldName, new Dictionary<string, string>());
+			errors.Add(fieldName, new Dictionary<string, string>());
 		}
-		if (_errors[fieldName].ContainsKey(ruleName))
+		if (errors[fieldName].ContainsKey(ruleName))
 		{
-			_errors[fieldName].Remove(ruleName);
+			errors[fieldName].Remove(ruleName);
 		}
-		_errors[fieldName].Add(ruleName, errorText);
+		errors[fieldName].Add(ruleName, errorText);
 		OnModelChanged();
 	}
 
-	private void RemoveError(String fieldName, String ruleName)
+	private void RemoveError(string fieldName, string ruleName)
 	{
-		if (!_errors.ContainsKey(fieldName))
+		if (!errors.ContainsKey(fieldName))
 		{
-			_errors.Add(fieldName, new Dictionary<string, string>());
+			errors.Add(fieldName, new Dictionary<string, string>());
 		}
-		if (_errors[fieldName].ContainsKey(ruleName))
+		if (errors[fieldName].ContainsKey(ruleName))
 		{
-			_errors[fieldName].Remove(ruleName);
+			errors[fieldName].Remove(ruleName);
 		}
 		OnModelChanged();
 	}
 
-	public void CheckRules(String fieldName)
+	public void CheckRules(string fieldName)
 	{
 		var propertyInfo = this.GetType().GetProperty(fieldName);
 		var attrInfos = propertyInfo.GetCustomAttributes(true);
@@ -72,9 +67,9 @@ public class ModelBase
 
 	public bool HasErrors()
 	{
-		foreach (var key in _errors.Keys)
+		foreach (var key in errors.Keys)
 		{
-			if (_errors[key].Keys.Count > 0)
+			if (errors[key].Keys.Count > 0)
 			{
 				return true;
 			}
@@ -82,7 +77,7 @@ public class ModelBase
 		return false;
 	}
 
-	public String GetValue(String fieldName)
+	public string GetValue(string fieldName)
 	{
 		var propertyInfo = this.GetType().GetProperty(fieldName);
 		var value = propertyInfo.GetValue(this);
@@ -90,10 +85,10 @@ public class ModelBase
 		{
 			return value.ToString();
 		}
-		return String.Empty;
+		return string.Empty;
 	}
 
-	public void SetValue(String fieldName, object value)
+	public void SetValue(string fieldName, object value)
 	{
 		var propertyInfo = this.GetType().GetProperty(fieldName);
 		propertyInfo.SetValue(this, value);

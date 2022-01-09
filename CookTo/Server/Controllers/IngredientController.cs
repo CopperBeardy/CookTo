@@ -5,12 +5,12 @@ namespace CookTo.Server.Controllers;
 [ApiController]
 public class IngredientController : ControllerBase
 {
-	readonly ILogger<IngredientController> _logger;
-	readonly IIngredientService _ingredientService;
+	readonly ILogger<IngredientController> logger;
+	readonly IIngredientService ingredientService;
 	public IngredientController(IIngredientService ingredientService, ILogger<IngredientController> logger)
 	{
-		_ingredientService = ingredientService;
-		_logger = logger;
+		this.ingredientService = ingredientService;
+		this.logger = logger;
 	}
 
 	[HttpGet]
@@ -18,12 +18,12 @@ public class IngredientController : ControllerBase
 	{
 		try
 		{
-			var result = await _ingredientService.GetAllAsync();
+			var result = await ingredientService.GetAllAsync();
 			return Ok(result);
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError(ex, $"get all", "");
+			logger.LogError(ex, $"get all", "");
 			return NotFound();
 		}
 	}
@@ -38,17 +38,35 @@ public class IngredientController : ControllerBase
 
 		try
 		{
-			var result = await _ingredientService.GetByIdAsync(id);
+			var result = await ingredientService.GetByIdAsync(id);
 			return Ok(result);
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError(ex, "get by Id", id);
+			logger.LogError(ex, "get by Id", id);
 			return NotFound();
 		}
 	}
 
+	[HttpGet("name")]
+	public async Task<ActionResult<Ingredient>> GetByName(string name)
+	{
+		if (string.IsNullOrEmpty(name))
+		{
+			return BadRequest();
+		}
 
+		try
+		{
+			var result = await ingredientService.GetByNameAsync(name);
+			return Ok(result);
+		}
+		catch (Exception ex)
+		{
+			logger.LogError(ex, "get by name", name);
+			return NotFound();
+		}
+	}
 
 	[HttpDelete("id")]
 	public async Task<ActionResult<bool>> Delete(string id)
@@ -60,12 +78,12 @@ public class IngredientController : ControllerBase
 
 		try
 		{
-			await _ingredientService.DeleteAsync(id);
+			 await ingredientService.DeleteAsync(id);
 			return Ok(true);
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError(ex, "delete", id);
+			logger.LogError(ex, "delete", id);
 			return NotFound();
 		}
 	}
@@ -80,31 +98,32 @@ public class IngredientController : ControllerBase
 
 		try
 		{
-			await _ingredientService.CreateAsync(ingredient);
+			await ingredientService.CreateAsync(ingredient);
 			return Ok(true);
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError(ex, "insert", ingredient);
+			logger.LogError(ex, "insert", ingredient);
 			return NotFound();
 		}
 	}
 	[HttpPost]
 	public async Task<ActionResult<bool>> Update([FromBody] Ingredient ingredient)
 	{
-		if (!ModelState.IsValid)
+		ingredient.CheckRules();
+		if (ingredient.HasErrors())
 		{
 			return BadRequest();
 		}
 
 		try
 		{
-			await _ingredientService.UpdateAsync(ingredient);
+			 await ingredientService.UpdateAsync(ingredient);
 			return Ok(true);
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError(ex, "update", ingredient);
+			logger.LogError(ex, "update", ingredient);
 			return NotFound();
 		}
 	}

@@ -17,7 +17,7 @@ public class Read : IngredientFixture
 		Assert.IsType<OkObjectResult>(okResult);
 
 		var obj = okResult.Value as List<Ingredient>;
-		Assert.Equal(2, obj.Count());
+		Assert.Equal(2, obj.Count);
 	}
 
 	[Fact]
@@ -31,15 +31,6 @@ public class Read : IngredientFixture
 		var notFoundResult = result.Result as NotFoundResult;
 		Assert.IsType<NotFoundResult>(notFoundResult);
 
-		_mockLogger.Verify(
-			l => l.Log(
-				It.Is<LogLevel>(l => l == LogLevel.Error),
-				It.IsAny<EventId>(),
-				It.Is<It.IsAnyType>(
-					(@object, @type) => @object.ToString().Contains("get") && type.Name == "FormattedLogValues"),
-				It.IsAny<Exception>(),
-				It.IsAny<Func<It.IsAnyType, Exception, string>>()),
-			Times.Once());
 	}
 
 	[Fact]
@@ -71,15 +62,6 @@ public class Read : IngredientFixture
 		var notFoundResult = result.Result as NotFoundResult;
 		Assert.IsType<NotFoundResult>(notFoundResult);
 
-		_mockLogger.Verify(
-			l => l.Log(
-				It.Is<LogLevel>(l => l == LogLevel.Error),
-				It.IsAny<EventId>(),
-				It.Is<It.IsAnyType>(
-					(@object, @type) => @object.ToString().Contains("get") && type.Name == "FormattedLogValues"),
-				It.IsAny<Exception>(),
-				It.IsAny<Func<It.IsAnyType, Exception, string>>()),
-			Times.Once());
 	}
 
 	[Theory]

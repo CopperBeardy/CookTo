@@ -9,5 +9,5 @@ namespace CookTo.Shared.Rules;
 public class ValidationResult
 {
 	public bool IsValid { get; set; }
-	public String Message { get; set; }
+	public string? Message { get; set; }
 }

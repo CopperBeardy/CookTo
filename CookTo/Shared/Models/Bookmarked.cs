@@ -9,4 +9,5 @@ public class Bookmarked
 	public ObjectId RecipeId { get; set; }
 	[RequiredRule]
 	public string Title { get; set; }
+
 }

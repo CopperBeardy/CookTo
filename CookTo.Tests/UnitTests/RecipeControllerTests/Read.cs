@@ -17,7 +17,7 @@ public class Read : RecipeFixture
 		Assert.IsType<OkObjectResult>(okResult);
 
 		var obj = okResult.Value as List<Recipe>;
-		Assert.Equal(1, obj.Count());
+		Assert.Single(obj);
 	}
 
 	[Fact]
@@ -31,15 +31,6 @@ public class Read : RecipeFixture
 		var notFoundResult = result.Result as NotFoundResult;
 		Assert.IsType<NotFoundResult>(notFoundResult);
 
-		_mockLogger.Verify(
-			l => l.Log(
-				It.Is<LogLevel>(l => l == LogLevel.Error),
-				It.IsAny<EventId>(),
-				It.Is<It.IsAnyType>(
-					(@object, @type) => @object.ToString().Contains("get") && type.Name == "FormattedLogValues"),
-				It.IsAny<Exception>(),
-				It.IsAny<Func<It.IsAnyType, Exception, string>>()),
-			Times.Once());
 	}
 
 	[Fact]
@@ -70,17 +61,7 @@ public class Read : RecipeFixture
 		var result = await SUT.GetById("1111a1111b1111c1111d1111");
 		var notFoundResult = result.Result as NotFoundResult;
 		Assert.IsType<NotFoundResult>(notFoundResult);
-
-		_mockLogger.Verify(
-			l => l.Log(
-				It.Is<LogLevel>(l => l == LogLevel.Error),
-				It.IsAny<EventId>(),
-				It.Is<It.IsAnyType>(
-					(@object, @type) => @object.ToString().Contains("get") && type.Name == "FormattedLogValues"),
-				It.IsAny<Exception>(),
-				It.IsAny<Func<It.IsAnyType, Exception, string>>()),
-			Times.Once());
-	}
+  	}
 
 	[Theory]
 	[InlineData("")]

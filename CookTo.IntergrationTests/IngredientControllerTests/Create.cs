@@ -1,17 +1,15 @@
-﻿
-
-namespace CookTo.Tests.Intergration.IngredientControllerTests;
+﻿namespace CookTo.Tests.Intergration.IngredientControllerTests;
 
 public class Create : IngredientFixture
 {
-	
+
 	[Fact]
 	public async Task Create_Ingredient_OkResult_Success()
 	{
 		var ingredient = new Ingredient
 		{
-		   Name = "Flour"
-		}; 
+			Name = "Flour"
+		};
 		var result = await SUT.Create(ingredient);
 
 		Assert.NotNull(result);
@@ -26,10 +24,10 @@ public class Create : IngredientFixture
 	public async Task Create_Ingredient_RequiredValueMissing_BadRequestResult_Failure()
 	{
 		var ingredient = new Ingredient();
-	
+
 		var result = await SUT.Create(ingredient);
 
-		Assert.NotNull(result);	
+		Assert.NotNull(result);
 		Assert.IsAssignableFrom<BadRequestResult>(result.Result);
 	}
 
@@ -46,6 +44,7 @@ public class Create : IngredientFixture
 		Assert.NotNull(result);
 		Assert.IsAssignableFrom<BadRequestResult>(result.Result);
 	}
+
 
 
 }

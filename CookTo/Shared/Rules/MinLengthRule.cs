@@ -8,15 +8,15 @@ namespace CookTo.Shared.Rules;
 
 public class MinLengthRule : Attribute, IModelRule
 {
-	private int _minLength = 0;
+	private readonly int minLength;
 	public MinLengthRule(int minValue)
 	{
-		  _minLength = minValue;
+		  minLength = minValue;
 	}
 	public ValidationResult Validate(string fieldname, object fieldValue)
 	{
-		ValidationResult result = new ValidationResult();
-		var message = $"cannot be shorted than {_minLength} characters";
+		ValidationResult result = new ();
+		var message = $"cannot be shorted than {minLength} characters";
 		if(fieldValue == null)
 		{
 			result.IsValid = true;
@@ -24,7 +24,7 @@ public class MinLengthRule : Attribute, IModelRule
 		}
 
 		var stringValue = fieldValue.ToString();
-		if(stringValue.Length < _minLength)
+		if(stringValue.Length < minLength)
 		{
 			result.IsValid = false;
 			result.Message = message;

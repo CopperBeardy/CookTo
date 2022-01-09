@@ -11,7 +11,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookTo.Shared", "CookTo\Sha
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookTo.Tests.Unit", "CookTo.Tests\CookTo.Tests.Unit.csproj", "{DDDDCEFF-37DB-4EBC-B778-D4E25CA534B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookTo.Tests.Intergration", "CookTo.IntergrationTests\CookTo.Tests.Intergration.csproj", "{A3E2E1AA-21A7-4AE1-9F73-D43647E06302}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookTo.Tests.Intergration", "CookTo.IntergrationTests\CookTo.Tests.Intergration.csproj", "{A3E2E1AA-21A7-4AE1-9F73-D43647E06302}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B8D20111-C1B5-450C-9F75-423C1F113502}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

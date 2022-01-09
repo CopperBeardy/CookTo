@@ -42,13 +42,6 @@ public class Create : BookmarksFixture
 		var notFoundResult = result.Result as NotFoundResult;
 		Assert.IsType<NotFoundResult>(notFoundResult);
 
-		_mockLogger.Verify(
-			l => l.Log(
-				It.Is<LogLevel>(l => l == LogLevel.Error),
-				It.IsAny<EventId>(),
-				It.Is<It.IsAnyType>((@object, @type) => @object.ToString().Contains("insert") && type.Name == "FormattedLogValues"),
-				It.IsAny<Exception>(),
-				It.IsAny<Func<It.IsAnyType, Exception, string>>()),
-			Times.Once());
+	
 	}
 }

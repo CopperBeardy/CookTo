@@ -5,12 +5,12 @@ namespace CookTo.Server.Controllers;
 [ApiController]
 public class RecipeController : ControllerBase
 {
-	readonly ILogger<RecipeController> _logger;
-	readonly IRecipeService _recipeService;
+	readonly ILogger<RecipeController> logger;
+	readonly IRecipeService recipeService;
 	public RecipeController(IRecipeService recipeService, ILogger<RecipeController> logger)
 	{
-		_recipeService = recipeService;
-		_logger = logger;
+		this.recipeService = recipeService;
+		this.logger = logger;
 	}
 
 	[HttpGet]
@@ -18,12 +18,12 @@ public class RecipeController : ControllerBase
 	{
 		try
 		{
-			var result = await _recipeService.GetAllAsync();
+			var result = await recipeService.GetAllAsync();
 			return Ok(result);
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError(ex, "get all", "");
+			logger.LogError(ex, "get all", "");
 			return NotFound();
 		}
 	}
@@ -38,12 +38,12 @@ public class RecipeController : ControllerBase
 
 		try
 		{
-			var result = await _recipeService.GetByIdAsync(id);
+			var result = await recipeService.GetByIdAsync(id);
 			return Ok(result);
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError(ex, "get by Id", id);
+			logger.LogError(ex, "get by Id", id);
 			return NotFound();
 		}
 	}
@@ -60,50 +60,52 @@ public class RecipeController : ControllerBase
 
 		try
 		{
-			await _recipeService.DeleteAsync(id);
+			await recipeService.DeleteAsync(id);
 			return Ok(true);
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError(ex, "delete", id);
+			logger.LogError(ex, "delete", id);
 			return NotFound();
 		}
 	}
 	[HttpPost]
 	public async Task<ActionResult<bool>> Create([FromBody] Recipe recipe)
 	{
-		if (!ModelState.IsValid)
+		recipe.CheckRules();
+		if (recipe.HasErrors())
 		{
 			return BadRequest();
 		}
 
 		try
 		{
-			await _recipeService.CreateAsync(recipe);
+			await recipeService.CreateAsync(recipe);
 			return Ok(true);
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError(ex, "insert", recipe);
+			logger.LogError(ex, "insert", recipe);
 			return NotFound();
 		}
 	}
 	[HttpPost]
 	public async Task<ActionResult<bool>> Update([FromBody] Recipe recipe)
 	{
-		if (!ModelState.IsValid)
+		recipe.CheckRules();
+		if (recipe.HasErrors())
 		{
 			return BadRequest();
 		}
 
 		try
 		{
-			await _recipeService.UpdateAsync(recipe);
+			await recipeService.UpdateAsync(recipe);
 			return Ok(true);
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError(ex, "update", recipe);
+			logger.LogError(ex, "update", recipe);
 			return NotFound();
 		}
 	}

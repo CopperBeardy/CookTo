@@ -33,7 +33,7 @@ public class RecipeFixture
 				new RecipePart()
 				{
 					Title = "bread ingredients",
-					Ingredients = new List<string>
+					Items = new List<string>
 					{
 						"500g white bread flour",
 						"7g fast action yeast",
@@ -43,18 +43,18 @@ public class RecipeFixture
 					}
 				}
 			},
-			CookingSteps = new List<string>
+			CookingSteps = new List<CookingStep>
 			{
-				"add flour to mixing bowl",
-				"add salt to one side of the bowl and yeast to the other side of the bowl",
-				"add half the water and mix with fingers, adding water as needed to mop up the flour",
-				"spread a little oil on a surface and then add the bread dough",
-				"kneed the dough for 5-10 minutes",
-				"place dough in a lightly oiled bowl and cover with a damp towl to proof until dough doubled in size",
-				"turn dough on to a lightly floured surface and knock back",
-				"shape the dough in the shape of a rugby ball and place in loaf tin",
-				"place in pre heat oven at 220c for 15 minutes then reduce to 170c for 30 minutes",
-				"turn on to wire rack to cool"
+				new CookingStep()  { StepOrder = 1,Step = "add flour to mixing bowl" },
+				new CookingStep() { StepOrder = 2, Step="add salt to one side of the bowl and yeast to the other side of the bowl" },
+				new CookingStep() { StepOrder = 3, Step="add half the water and mix with fingers, adding water as needed to mop up the flour" },
+				new CookingStep() { StepOrder = 4, Step="spread a little oil on a surface and then add the bread dough" },
+				new CookingStep() { StepOrder = 5, Step="kneed the dough for 5-10 minutes" },
+				new CookingStep() { StepOrder = 6, Step="place dough in a lightly oiled bowl and cover with a damp towel to proof until dough doubled in size" },
+				new CookingStep() { StepOrder = 7, Step="turn dough on to a lightly floured surface and knock back" },
+				new CookingStep() { StepOrder = 8, Step="shape the dough in the shape of a rugby ball and place in loaf tin" },
+				new CookingStep() { StepOrder = 9, Step="place in pre heat oven at 220c for 15 minutes then reduce to 170c for 30 minutes" },
+				new CookingStep() { StepOrder = 10, Step="turn on to wire rack to cool" }
 			},
 			Tips = new List<string>
 			{

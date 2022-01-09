@@ -1,12 +1,12 @@
 ﻿
 
-namespace CookTo.Tests.Intergration.IngredientControllerTests;
+namespace CookTo.Tests.Intergration.RecipeControllerTests;
 
-public class Read : IngredientFixture
+public class Read : RecipeFixture
 {
 
 	[Fact]
-	public async Task GetAll_Ingredients_OkResult_Success()
+	public async Task GetAll_Recipes_OkResult_Success()
 	{
 		var result = await SUT.GetAll();
 
@@ -14,11 +14,11 @@ public class Read : IngredientFixture
 
 		var obj = Assert.IsAssignableFrom<OkObjectResult>(result.Result);
 
-		var listResult = Assert.IsAssignableFrom<List<Ingredient>>(obj.Value);
+		var listResult = Assert.IsAssignableFrom<List<Recipe>>(obj.Value);
 
 		Assert.Equal(2, list.Count);
 		var firstItem = listResult.First();
-		Assert.Equal(list[0].Name, firstItem.Name);
+		Assert.Equal(list[0].Title, firstItem.Title);
 
 	}
 
@@ -35,7 +35,7 @@ public class Read : IngredientFixture
 
 		var obj = Assert.IsAssignableFrom<OkObjectResult>(result.Result);
 
-		var list = Assert.IsAssignableFrom<List<Ingredient>>(obj.Value);
+		var list = Assert.IsAssignableFrom<List<Recipe>>(obj.Value);
 		Assert.Empty(list);
 	}
 
@@ -49,12 +49,12 @@ public class Read : IngredientFixture
 		Assert.NotNull(result.Result);
 		var obj = Assert.IsAssignableFrom<OkObjectResult>(result.Result);
 
-		var singleResult = Assert.IsAssignableFrom<Ingredient>(obj.Value);
+		var singleResult = Assert.IsAssignableFrom<Recipe>(obj.Value);
 		Assert.Equal(id, singleResult.Id.ToString());
 	}
 
 	[Fact]
-	public async Task GetById_IngredientNotExisting_OkResult_Success()
+	public async Task GetById_RecipeNotExisting_OkResult_Success()
 	{
 		MongoClient client = new MongoClient(connectionString);
 		var database = client.GetDatabase(db);
@@ -82,34 +82,5 @@ public class Read : IngredientFixture
 		Assert.NotNull(result);
 
 		Assert.IsAssignableFrom<BadRequestResult>(result.Result);
-	}
-
-	[Theory]
-	[InlineData("Bread")]
-	[InlineData("Milk")]
-	public async Task GetByName_ValidName_OKResult_Success(string name)
-	{
-		var result = await SUT.GetByName(name);
-
-		Assert.NotNull(result);
-		var obj = Assert.IsAssignableFrom<OkObjectResult>(result.Result);
-
-		var value = Assert.IsAssignableFrom<Ingredient>(obj.Value);
-		Assert.NotNull(value);
-		Assert.Equal(name, value.Name);
-	}
-
-	[Theory]
-	[InlineData(null)]
-	[InlineData("")]
-	public async Task GetByName_InvalidName_BadResult_Failure(string name)
-	{
-
-		var result = await SUT.GetByName(name);
-		//assert
-		Assert.NotNull(result);
-
-		Assert.IsAssignableFrom<BadRequestResult>(result.Result);
-
 	}
 }
