@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using System;
+using System.Collections;
 using System.Linq;
 
 namespace CookTo.Tests.Intergration.BookmarksControllerTests;
@@ -10,15 +11,26 @@ public class BookmarksFixture : Fixture
 	public IBookmarksService BookmarksService;
 	public BookmarksController SUT;
 	public List<Bookmarks> list;
+	public string collectionName = nameof(Bookmarks);
 	public BookmarksFixture()
 	{
-		SetupCollection("Bookmarks");
-		var collection = CookToDbContext.GetCollection<Bookmarks>(nameof(Bookmarks));
 		var loggerFactory = new LoggerFactory();
 		logger = loggerFactory.CreateLogger<BookmarksController>();
 		BookmarksService = new BookmarksService(CookToDbContext);
 		SUT = new BookmarksController(BookmarksService, logger);
-		list = new List<Bookmarks>();
+
+	}
+
+	  public void SetupCollection()
+	{
+		var client = new MongoClient(connectionString);
+		var database = client.GetDatabase(db);
+		RemoveCollectionIfExists();
+		database.CreateCollection(collectionName);
+
+		var collection = CookToDbContext.GetCollection<Bookmarks>(nameof(Bookmarks));
+
+			list = new List<Bookmarks>();
 
 		list.Add(new Bookmarks
 		{
@@ -55,5 +67,22 @@ public class BookmarksFixture : Fixture
 			}
 		});
 		collection.InsertMany(list);
+	}
+
+	public void Dispose()
+	{
+		RemoveCollectionIfExists();
+		GC.SuppressFinalize(this);
+	}
+
+	private void RemoveCollectionIfExists()
+	{
+		var client = new MongoClient(connectionString);
+		var database = client.GetDatabase(db);
+		var collections = database.ListCollectionNames().ToList();
+		if (collections.Contains(collectionName))
+{
+			database.DropCollection(collectionName);
+		}
 	}
 }

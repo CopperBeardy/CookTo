@@ -1,4 +1,6 @@
-﻿namespace CookTo.Tests.Intergration.RecipeControllerTests;
+﻿using System.Collections;
+
+namespace CookTo.Tests.Intergration.RecipeControllerTests;
 
 public class RecipeFixture : Fixture, IDisposable
 {
@@ -6,16 +8,27 @@ public class RecipeFixture : Fixture, IDisposable
 	public IRecipeService recipeService;
 	public RecipeController SUT;
 	public List<Recipe> list;
+	public string collectionName = nameof(Recipe);
 	public RecipeFixture()
 	{
-		SetupCollection("Recipe");
-		var collection = CookToDbContext.GetCollection<Recipe>(nameof(Recipe));
 		var loggerFactory = new LoggerFactory();
 		logger = loggerFactory.CreateLogger<RecipeController>();
 		recipeService = new RecipeService(CookToDbContext);
 		SUT = new RecipeController(recipeService, logger);
 
-		list = new List<Recipe>() {
+	}
+
+
+	public void SetupCollection()
+	{
+		var client = new MongoClient(connectionString);
+		var database = client.GetDatabase(db);
+		RemoveCollectionIfExists();
+		database.CreateCollection(collectionName);
+
+		var collection = CookToDbContext.GetCollection<Recipe>(nameof(Recipe));
+
+		 list = new List<Recipe>() {
 			 new Recipe()
 			 {
 				 Title = "Bread",
@@ -99,5 +112,22 @@ public class RecipeFixture : Fixture, IDisposable
 			 }
 		 };
 		collection.InsertMany(list);
+
+	}
+	public void Dispose()
+	{
+		RemoveCollectionIfExists();
+		GC.SuppressFinalize(this);
+	}
+
+	private void RemoveCollectionIfExists()
+	{
+		var client = new MongoClient(connectionString);
+		var database = client.GetDatabase(db);
+		var collections = database.ListCollectionNames().ToList();
+		if (collections.Contains(collectionName))
+{
+			database.DropCollection(collectionName);
+		}
 	}
 }
