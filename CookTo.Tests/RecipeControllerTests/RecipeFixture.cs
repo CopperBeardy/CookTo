@@ -1,4 +1,6 @@
-﻿namespace CookTo.Tests.UnitTests.RecipeControllerTests;
+﻿using CookTo.Tests.Server.Unit.TestDbContext;
+
+namespace CookTo.Tests.Server.Unit.RecipeControllerTests;
 
 
 public class RecipeFixture

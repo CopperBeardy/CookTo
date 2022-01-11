@@ -30,7 +30,7 @@ public class RecipeController : ControllerBase
 		}
 	}
 
-	[HttpGet("id")]
+	[HttpGet("{id}")]
 	public async Task<ActionResult<Recipe>> GetById(string id)
 	{
 		if (string.IsNullOrEmpty(id))
@@ -52,7 +52,7 @@ public class RecipeController : ControllerBase
 
 
 
-	[HttpDelete("id")]
+	[HttpDelete("{id}")]
 	public async Task<ActionResult<bool>> Delete(string id)
 	{
 		if (string.IsNullOrEmpty(id))
@@ -72,7 +72,7 @@ public class RecipeController : ControllerBase
 		}
 	}
 	[HttpPost]
-	public async Task<ActionResult<bool>> Create([FromBody] Recipe recipe)
+	public async Task<ActionResult<Recipe>> Create([FromBody] Recipe recipe)
 	{
 		recipe.CheckRules();
 		if (recipe.HasErrors())
@@ -83,7 +83,7 @@ public class RecipeController : ControllerBase
 		try
 		{
 			await recipeService.CreateAsync(recipe);
-			return Ok(true);
+			return Ok(recipe);
 		}
 		catch (Exception ex)
 		{
@@ -91,8 +91,8 @@ public class RecipeController : ControllerBase
 			return NotFound();
 		}
 	}
-	[HttpPost]
-	public async Task<ActionResult<bool>> Update([FromBody] Recipe recipe)
+	[HttpPut]
+	public async Task<ActionResult<Recipe>> Update([FromBody] Recipe recipe)
 	{
 		recipe.CheckRules();
 		if (recipe.HasErrors())
@@ -103,7 +103,7 @@ public class RecipeController : ControllerBase
 		try
 		{
 			await recipeService.UpdateAsync(recipe);
-			return Ok(true);
+			return Ok(recipe);
 		}
 		catch (Exception ex)
 		{

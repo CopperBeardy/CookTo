@@ -1,4 +1,4 @@
-﻿namespace CookTo.Tests.TestDbContext;
+﻿namespace CookTo.Tests.Server.Unit.TestDbContext;
 
 public class MongoSettings
 {

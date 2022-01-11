@@ -7,6 +7,7 @@ namespace CookTo.Server.Controllers;
 [ApiController]
 public class IngredientController : ControllerBase
 {
+	//static readonly string[] scopeRequiredByApi = new string[] { "CookToB2CServer.Access" };
 	readonly ILogger<IngredientController> logger;
 	readonly IIngredientService ingredientService;
 	public IngredientController(IIngredientService ingredientService, ILogger<IngredientController> logger)
@@ -30,7 +31,7 @@ public class IngredientController : ControllerBase
 		}
 	}
 
-	[HttpGet("id")]
+	[HttpGet("{id}")]
 	public async Task<ActionResult<Ingredient>> GetById(string id)
 	{
 		if (string.IsNullOrEmpty(id))
@@ -50,25 +51,6 @@ public class IngredientController : ControllerBase
 		}
 	}
 
-	[HttpGet("name")]
-	public async Task<ActionResult<Ingredient>> GetByName(string name)
-	{
-		if (string.IsNullOrEmpty(name))
-		{
-			return BadRequest();
-		}
-
-		try
-		{
-			var result = await ingredientService.GetByNameAsync(name);
-			return Ok(result);
-		}
-		catch (Exception ex)
-		{
-			logger.LogError(ex, "get by name", name);
-			return NotFound();
-		}
-	}
 
 	[HttpDelete("id")]
 	public async Task<ActionResult<bool>> Delete(string id)
@@ -90,7 +72,7 @@ public class IngredientController : ControllerBase
 		}
 	}
 	[HttpPost]
-	public async Task<ActionResult<bool>> Create([FromBody]Ingredient ingredient)
+	public async Task<ActionResult<Ingredient>> Create([FromBody]Ingredient ingredient)
 	{
 		ingredient.CheckRules();
 		if (ingredient.HasErrors())
@@ -101,7 +83,7 @@ public class IngredientController : ControllerBase
 		try
 		{
 			await ingredientService.CreateAsync(ingredient);
-			return Ok(true);
+			return Ok(ingredient);
 		}
 		catch (Exception ex)
 		{
@@ -109,8 +91,8 @@ public class IngredientController : ControllerBase
 			return NotFound();
 		}
 	}
-	[HttpPost]
-	public async Task<ActionResult<bool>> Update([FromBody] Ingredient ingredient)
+	[HttpPut]
+	public async Task<ActionResult<Ingredient>> Update([FromBody] Ingredient ingredient)
 	{
 		ingredient.CheckRules();
 		if (ingredient.HasErrors())
@@ -121,7 +103,7 @@ public class IngredientController : ControllerBase
 		try
 		{
 			 await ingredientService.UpdateAsync(ingredient);
-			return Ok(true);
+			return Ok(ingredient);
 		}
 		catch (Exception ex)
 		{

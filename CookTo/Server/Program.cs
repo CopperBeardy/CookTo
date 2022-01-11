@@ -12,14 +12,24 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.Configure<MongoSettings>(builder.Configuration.GetSection(nameof(MongoSettings)))
 	.AddOptions();
 
+//var mongoSettings = builder.Configuration.GetSection(nameof(MongoSettings));
+
 builder.Services.AddScoped<ICookToDbContext, CookToDbContext>();
 builder.Services.AddScoped<IIngredientService, IngredientService>();
 builder.Services.AddScoped<IRecipeService, RecipeService>();
 builder.Services.AddScoped<IBookmarksService, BookmarksService>();
-
+builder.Services.AddCors(policy =>
+{
+	policy.AddPolicy("CorsPolicy", opt => opt
+.AllowAnyOrigin()
+.AllowAnyHeader()
+.AllowAnyMethod()
+	.WithExposedHeaders("X-Pagination"));
+});
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
 
 var app = builder.Build();
 
@@ -44,7 +54,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseCors("CorsPolicy");
 
 app.MapRazorPages();
 app.MapControllers();

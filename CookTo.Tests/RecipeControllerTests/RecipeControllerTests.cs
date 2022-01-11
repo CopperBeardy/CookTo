@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace CookTo.Tests.UnitTests.RecipeControllerTests;
+namespace CookTo.Tests.Server.Unit.RecipeControllerTests;
 
 public class RecipeControllerTests : RecipeFixture
 {
 	[Fact]
-	public async Task Get_All_Recipes_Success()
+	public async Task GetAll_Recipes_OKResult()
 	{
 		_mockService.Setup(g => g.GetAllAsync()).ReturnsAsync(_recipes);
 
@@ -21,7 +21,7 @@ public class RecipeControllerTests : RecipeFixture
 	}
 
 	[Fact]
-	public async Task Get_All_recipes_ExceptionThrown_Failure()
+	public async Task GetAll_Recipes_ExceptionThrown_NotFoundResult()
 	{
 		_mockService.Setup(g => g.GetAllAsync()).ThrowsAsync(new Exception());
 
@@ -34,7 +34,7 @@ public class RecipeControllerTests : RecipeFixture
 	}
 
 	[Fact]
-	public async Task GetByID_Recipe_Success()
+	public async Task GetByID_Recipe_OkResult()
 	{
 		_mockService.Setup(g => g.GetByIdAsync(It.IsAny<string>())).ReturnsAsync(_recipes.First());
 
@@ -52,7 +52,7 @@ public class RecipeControllerTests : RecipeFixture
 	}
 
 	[Fact]
-	public async Task GetById_Recipe_ExceptionThrown_Failure()
+	public async Task GetById_Recipe_ExceptionThrown_OkResult()
 	{
 		_mockService.Setup(g => g.GetByIdAsync(It.IsAny<string>())).ThrowsAsync(new Exception());
 
@@ -66,19 +66,19 @@ public class RecipeControllerTests : RecipeFixture
 	[Theory]
 	[InlineData("")]
 	[InlineData(null)]
-	public async Task GetByID_Recipe_InvalidId_Success(string id)
+	public async Task GetByID_Recipe_InvalidId_BadRequestResult(string id)
 	{
 		Assert.NotNull(SUT);
 
 		var result = await SUT.GetById(id);
-		var badRequesstResult = result.Result as BadRequestResult;
-		Assert.IsType<BadRequestResult>(badRequesstResult);
+		var badRequestResult = result.Result as BadRequestResult;
+		Assert.IsType<BadRequestResult>(badRequestResult);
 
 		_mockService.Verify(g => g.GetByIdAsync(It.IsAny<string>()), Times.Never());
 	}
 
 	[Fact(Skip = "true")]
-	public async Task InsertRecipe_ValidModel_Success()
+	public async Task Insert_Recipe_ValidModel_OkResult()
 	{
 		_mockService.Setup(g => g.CreateAsync(It.IsAny<Recipe>())).Returns(Task.CompletedTask);
 
@@ -92,7 +92,7 @@ public class RecipeControllerTests : RecipeFixture
 	}
 
 	[Fact]
-	public async Task InsertRecipe_InValidModel_Failure()
+	public async Task Insert_Recipe_InValidModel_BadRequestResult()
 	{
 		Assert.NotNull(SUT);
 		SUT.ModelState.AddModelError("Title", "Title is required");
@@ -105,7 +105,7 @@ public class RecipeControllerTests : RecipeFixture
 	}
 
 	[Fact(Skip = "true")]
-	public async Task InsertRecipe_ExceptionThrown_Failure()
+	public async Task Insert_Recipe_ExceptionThrown_NotFoundResult()
 	{
 		_mockService.Setup(g => g.CreateAsync(It.IsAny<Recipe>())).ThrowsAsync(new Exception());
 		
@@ -117,7 +117,7 @@ public class RecipeControllerTests : RecipeFixture
 
 	}
 	[Fact]
-	public async Task Delete_Recipe_Success()
+	public async Task Delete_Recipe_ValidId_OkResult()
 	{
 		_mockService.Setup(g => g.DeleteAsync(It.IsAny<string>())).Returns(Task.CompletedTask);
 
@@ -132,7 +132,7 @@ public class RecipeControllerTests : RecipeFixture
 	}
 
 	[Fact]
-	public async Task Delete_Recipe_ExceptionThrown_Failure()
+	public async Task Delete_Recipe_ExceptionThrown_NotFoundResult()
 	{
 		_mockService.Setup(g => g.DeleteAsync(It.IsAny<string>())).ThrowsAsync(new Exception());
 
@@ -147,7 +147,7 @@ public class RecipeControllerTests : RecipeFixture
 	[Theory]
 	[InlineData("")]
 	[InlineData(null)]
-	public async Task Delete_Recipe_InvalidId_Success(string id)
+	public async Task Delete_Recipe_InvalidId_BadRequestResult(string id)
 	{
 		Assert.NotNull(SUT);
 
@@ -159,7 +159,7 @@ public class RecipeControllerTests : RecipeFixture
 	}
 
 	[Fact(Skip ="true")]
-	public async Task UpdateRecipe_ValidModel_Success()
+	public async Task Update_Recipe_ValidModel_OKResult()
 	{
 		var recipe = new Recipe() { Id = new ObjectId("1111a2222a3333a4444a5555"), Title = "White bread" };
 
@@ -175,7 +175,7 @@ public class RecipeControllerTests : RecipeFixture
 	}
 
 	[Fact]
-	public async Task UpdateRecipe_InValidModel_Failure()
+	public async Task Update_Recipe_InValidModel_BadRequestResult()
 	{
 		Assert.NotNull(SUT);
 		SUT.ModelState.AddModelError("Title", "Title is required");

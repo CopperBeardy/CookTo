@@ -2,11 +2,11 @@
 
 namespace CookTo.Tests.Intergration.RecipeControllerTests;
 
-public class RecipeControllerTests	
+public class RecipeControllerTests
 {
 
 	[Fact]
-	public async Task Create_Recipe_OkResult_Success()
+	public async Task Create_Recipe_ValidModel_OkResult()
 	{
 		var fixture = new RecipeFixture();
 		fixture.SetupCollection();
@@ -45,13 +45,12 @@ public class RecipeControllerTests
 		Assert.NotNull(result);
 
 		var obj = Assert.IsAssignableFrom<OkObjectResult>(result.Result);
-		var value = Assert.IsType<bool>(obj.Value);
-		Assert.True(value);
+		 Assert.IsType<Recipe>(obj.Value);
 		fixture.Dispose();
 	}
 
 	[Fact]
-	public async Task Create_Recipe_RequiredValueMissing_BadRequestResult_Failure()
+	public async Task Create_Recipe_InvalidModelValueMissing_BadRequestResult()
 	{
 		var fixture = new RecipeFixture();
 		var recipe = new Recipe();
@@ -64,9 +63,9 @@ public class RecipeControllerTests
 	}
 
 	[Fact]
-	public async Task Create_Recipe_LessThanMinLengthValue_BadRequestResult_Failure()
+	public async Task Create_Recipe_InvalidModelToShortValue_BadRequestResult()
 	{
-		var fixture = new RecipeFixture();	 		
+		var fixture = new RecipeFixture();
 		var recipe = new Recipe()
 		{
 			Title = "a"
@@ -79,7 +78,7 @@ public class RecipeControllerTests
 		fixture.Dispose();
 	}
 	[Fact]
-	public async Task GetAll_Recipes_OkResult_Success()
+	public async Task GetAll_Recipe_OkResult()
 	{
 		var fixture = new RecipeFixture();
 		fixture.SetupCollection();
@@ -99,7 +98,7 @@ public class RecipeControllerTests
 	}
 
 	[Fact]
-	public async Task GetAll_CollectionNotExisting_OkResult_EmptyList_Success()
+	public async Task GetAll_Recipe_CollectionNotExisting_OkResult()
 	{
 		var fixture = new RecipeFixture();
 
@@ -115,7 +114,7 @@ public class RecipeControllerTests
 	}
 
 	[Fact]
-	public async Task GetById_ValidId_OkResult_Success()
+	public async Task GetById_Recipe_ValidId_OkResult()
 	{
 		var fixture = new RecipeFixture();
 		fixture.SetupCollection();
@@ -132,7 +131,7 @@ public class RecipeControllerTests
 	}
 
 	[Fact]
-	public async Task GetById_RecipeNotExisting_OkResult_Success()
+	public async Task GetById_Recipe_NotExisting_OkResult()
 	{
 		var fixture = new RecipeFixture();
 		fixture.SetupCollection();
@@ -149,7 +148,7 @@ public class RecipeControllerTests
 	[Theory]
 	[InlineData(null)]
 	[InlineData("")]
-	public async Task GetById_InvalidId_BadResult_Failure(string id)
+	public async Task GetById_Recipe_InvalidId_BadResult(string id)
 	{
 		var fixture = new RecipeFixture();
 
@@ -162,7 +161,7 @@ public class RecipeControllerTests
 	}
 	[Fact]
 
-	public async Task Delete_ValidId_OkResult_Success()
+	public async Task Delete_Recipe_ValidId_OkResult()
 	{
 		var fixture = new RecipeFixture();
 		fixture.SetupCollection();
@@ -178,7 +177,7 @@ public class RecipeControllerTests
 	}
 
 	[Fact]
-	public async Task Delete_InValidId_NotFoundResult_Failure()
+	public async Task Delete__Recipe_InValidId_NotFoundResult()
 	{
 		var fixture = new RecipeFixture();
 
@@ -192,11 +191,11 @@ public class RecipeControllerTests
 	}
 
 	[Fact]
-	public async Task Update_ValidObject_OkResult_Success()
+	public async Task Update_Recipe_ValidObject_OkResult()
 	{
 		var fixture = new RecipeFixture();
 		fixture.SetupCollection();
-	
+
 		var item = fixture.list.First();
 		var updateValue = "White bread flour";
 		item.Title = updateValue;
@@ -217,10 +216,10 @@ public class RecipeControllerTests
 	[Theory]
 	[InlineData(null)]
 	[InlineData("")]
-	public async Task Update_InValidObject_BadRequest_Failure(string? value)
+	public async Task Update_Recipe_InValidObject_BadRequest(string? value)
 	{
 		var fixture = new RecipeFixture();
-		fixture.SetupCollection();	
+		fixture.SetupCollection();
 
 		var item = fixture.list.First();
 		item.Title = value;

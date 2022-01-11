@@ -1,4 +1,6 @@
-﻿namespace CookTo.Tests.UnitTests.BookmarkControllerTests;
+﻿using CookTo.Tests.Server.Unit.TestDbContext;
+
+namespace CookTo.Tests.Server.Unit.BookmarkControllerTests;
 
 public class BookmarksFixture
 {

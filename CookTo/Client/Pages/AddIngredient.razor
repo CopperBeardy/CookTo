@@ -1,0 +1,26 @@
+﻿@page "/ingredient/add"
+@inject HttpClient http
+
+<EditForm Model="@ingredient" OnValidSubmit="@HandleValidSubmit">
+	<DataAnnotationsValidator/>
+	<ValidationSummary/>
+	<InputText id="name" @bind-Value="@ingredient.Name"/>
+	<button type="submit">Add</button>
+</EditForm>
+
+@code{
+	private Ingredient ingredient { get; set; } = new Ingredient();
+	private async Task HandleValidSubmit()
+		{
+			try
+			{
+				
+				var result = await http.PostAsJsonAsync("api/Ingredient",  ingredient);
+				result.EnsureSuccessStatusCode();
+			}
+			catch (Exception ex)
+			{
+				Console.Error.WriteLine(ex);
+			}
+		}
+}

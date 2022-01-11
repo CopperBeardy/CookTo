@@ -1,4 +1,6 @@
-﻿namespace CookTo.Tests.UnitTests.IngredientControllerTests;
+﻿using CookTo.Tests.Server.Unit.TestDbContext;
+
+namespace CookTo.Tests.Server.Unit.IngredientControllerTests;
 
 public class IngredientFixture
 {

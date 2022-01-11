@@ -7,7 +7,7 @@ namespace CookTo.Tests.Intergration.BookmarksControllerTests;
 public class BookmarksControllerTests
 {
 	[Fact]
-	public async Task Create_Recipe_OkResult_Success()
+	public async Task Create_Bookmarks_ValidModel_OkResult()
 	{
 		var fixture = new BookmarksFixture();
 		fixture.SetupCollection();
@@ -33,13 +33,12 @@ public class BookmarksControllerTests
 		Assert.NotNull(result);
 
 		var obj = Assert.IsAssignableFrom<OkObjectResult>(result.Result);
-		var value = Assert.IsType<bool>(obj.Value);
-		Assert.True(value);
+		Assert.IsType<Bookmarks>(obj.Value);	  		
 		fixture.Dispose();
 	}
 
 	[Fact]
-	public async Task Create_Bookmarks_RequiredValueMissing_BadRequestResult_Failure()
+	public async Task Create_Bookmarks_RequiredValueMissing_BadRequestResult()
 	{
 		var fixture = new BookmarksFixture();
 
@@ -51,7 +50,7 @@ public class BookmarksControllerTests
 	}
 
 	[Fact]
-	public async Task GetAll_Bookmarks_OkResult_Success()
+	public async Task GetAll_Bookmarks_OkResult()
 	{
 		var fixture = new BookmarksFixture();
 		fixture.SetupCollection();
@@ -73,7 +72,7 @@ public class BookmarksControllerTests
 	}
 
 	[Fact]
-	public async Task GetAll_CollectionNotExisting_OkResult_EmptyList_Success()
+	public async Task GetAll_Bookmarks_CollectionNotExisting_OkResult()
 	{
 		var fixture = new BookmarksFixture();
 
@@ -89,7 +88,7 @@ public class BookmarksControllerTests
 	}
 
 	[Fact]
-	public async Task GetByUserId_ValidId_OkResult_Success()
+	public async Task GetByUserId_Boomarks_ValidId_OkResult()
 	{
 		var fixture = new BookmarksFixture();
 		fixture.SetupCollection();
@@ -107,7 +106,7 @@ public class BookmarksControllerTests
 	}
 
 	[Fact]
-	public async Task GetByUserId_UserIdNotPresent_OkResult_Success()
+	public async Task GetByUserId_Bookmarks_UserIdNotPresent_OkResult()
 	{
 		var fixture = new BookmarksFixture();
 		fixture.SetupCollection();
@@ -122,7 +121,7 @@ public class BookmarksControllerTests
 	}
 	[Fact]
 
-	public async Task Delete_ValidId_OkResult_Success()
+	public async Task Delete_Bookmarks_ValidId_OkResult()
 	{
 		var fixture = new BookmarksFixture();
 		fixture.SetupCollection();
@@ -141,7 +140,7 @@ public class BookmarksControllerTests
 	}
 
 	[Fact]
-	public async Task Delete_InValidId_NotFoundResult_Failure()
+	public async Task Delete_Bookmarks_InValidId_NotFoundResult()
 	{
 		var fixture = new BookmarksFixture();
 		fixture.SetupCollection();
@@ -154,7 +153,7 @@ public class BookmarksControllerTests
 		fixture.Dispose();
 	}
 	[Fact]
-	public async Task Update_ValidObject_OkResult_Success()
+	public async Task Update_Bookmarks_ValidObject_OkResult()
 	{
 		var fixture = new BookmarksFixture();
 		fixture.SetupCollection();
@@ -179,7 +178,7 @@ public class BookmarksControllerTests
 	[Theory]
 	[InlineData(null)]
 	[InlineData("")]
-	public async Task Update_InValidObject_BadRequest_Failure(string? value)
+	public async Task Update_Bookmarks_InValidObject_BadRequest(string? value)
 	{
 		var fixture = new BookmarksFixture();
 		fixture.SetupCollection();

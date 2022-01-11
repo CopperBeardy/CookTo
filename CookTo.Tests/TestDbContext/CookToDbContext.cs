@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
-namespace CookTo.Tests.TestDbContext;
+namespace CookTo.Tests.Server.Unit.TestDbContext;
 public class CookToDbContext : ICookToDbContext
 {
 	private readonly IMongoDatabase db;

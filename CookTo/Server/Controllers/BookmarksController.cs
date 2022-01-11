@@ -72,8 +72,8 @@ public class BookmarksController : ControllerBase
 			return NotFound();
 		}
 	}
-	[HttpPost]
-	public async Task<ActionResult<bool>> Create([FromBody] Bookmarks bookmarks)
+	[HttpPut]
+	public async Task<ActionResult<Bookmarks>> Create([FromBody] Bookmarks bookmarks)
 	{
 		bookmarks.CheckRules();
 		if (bookmarks.HasErrors())
@@ -84,7 +84,7 @@ public class BookmarksController : ControllerBase
 		try
 		{
 			await bookmarksService.CreateAsync(bookmarks);
-			return Ok(true);
+			return Ok(bookmarks);
 		}
 		catch (Exception ex)
 		{
@@ -93,7 +93,7 @@ public class BookmarksController : ControllerBase
 		}
 	}
 	[HttpPost]
-	public async Task<ActionResult<bool>> Update([FromBody] Bookmarks bookmarks)
+	public async Task<ActionResult<Bookmarks>> Update([FromBody] Bookmarks bookmarks)
 	{
 		 bookmarks.CheckRules();
 		if (bookmarks.HasErrors())
@@ -104,7 +104,7 @@ public class BookmarksController : ControllerBase
 		try
 		{
 			await bookmarksService.UpdateAsync(bookmarks);
-			return Ok(true);
+			return Ok(bookmarks);
 		}
 		catch (Exception ex)
 		{

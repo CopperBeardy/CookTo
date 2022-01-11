@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace CookTo.Tests.UnitTests.BookmarkControllerTests;
+namespace CookTo.Tests.Server.Unit.BookmarkControllerTests;
 
 public class BookmarkControllerTests : BookmarksFixture
 {
 	[Fact]
-	public async Task InsertBookmarks_ValidModel_Success()
+	public async Task Insert_Bookmarks_ValidModel_OkResult()
 	{
 		_mockService.Setup(g => g.CreateAsync(It.IsAny<Bookmarks>())).Returns(Task.CompletedTask);
 
@@ -19,7 +19,7 @@ public class BookmarkControllerTests : BookmarksFixture
 	}
 
 	[Fact]
-	public async Task InsertBookmarks_InValidModel_Failure()
+	public async Task Insert_Bookmarks_InValidModel_BadRequestResult()
 	{
 		Assert.NotNull(SUT);
 		SUT.ModelState.AddModelError("Name", "Name is required");
@@ -32,7 +32,7 @@ public class BookmarkControllerTests : BookmarksFixture
 	}
 
 	[Fact]
-	public async Task InsertBookmarks_ExceptionThrown_Failure()
+	public async Task Insert_Bookmarks_ExceptionThrown_NotFoundResult()
 	{
 		_mockService.Setup(g => g.CreateAsync(It.IsAny<Bookmarks>())).ThrowsAsync(new Exception());
 
@@ -42,11 +42,11 @@ public class BookmarkControllerTests : BookmarksFixture
 		var notFoundResult = result.Result as NotFoundResult;
 		Assert.IsType<NotFoundResult>(notFoundResult);
 
-	
+
 	}
 
 	[Fact]
-	public async Task Delete_Bookmarks_Success()
+	public async Task Delete_Bookmarks_ValidId_OKResult()
 	{
 		_mockService.Setup(g => g.DeleteAsync(It.IsAny<string>())).Returns(Task.CompletedTask);
 
@@ -61,7 +61,7 @@ public class BookmarkControllerTests : BookmarksFixture
 	}
 
 	[Fact]
-	public async Task Delete_Bookmarks_ExceptionThrown_Failure()
+	public async Task Delete_Bookmarks_ExceptionThrown_NotFoundResult()
 	{
 		_mockService.Setup(g => g.DeleteAsync(It.IsAny<string>())).ThrowsAsync(new Exception());
 
@@ -76,7 +76,7 @@ public class BookmarkControllerTests : BookmarksFixture
 	[Theory]
 	[InlineData("")]
 	[InlineData(null)]
-	public async Task Delete_Bookmarks_InvalidId_Success(string id)
+	public async Task Delete_Bookmarks_InvalidId_OkResult(string id)
 	{
 		Assert.NotNull(SUT);
 
@@ -88,7 +88,7 @@ public class BookmarkControllerTests : BookmarksFixture
 	}
 
 	[Fact]
-	public async Task GetByUserID_Bookmarks_Success()
+	public async Task GetByUserID_Bookmarks_OkResult()
 	{
 		_mockService.Setup(g => g.GetByUserIdAsync(It.IsAny<string>())).ReturnsAsync(_bookmarks);
 
@@ -106,7 +106,7 @@ public class BookmarkControllerTests : BookmarksFixture
 	}
 
 	[Fact]
-	public async Task GetByUserId_Bookmarks_ExceptionThrown_Failure()
+	public async Task GetByUserId_Bookmarks_ExceptionThrown_NotFoundResult()
 	{
 		_mockService.Setup(g => g.GetByUserIdAsync(It.IsAny<string>())).ThrowsAsync(new Exception());
 
@@ -121,7 +121,7 @@ public class BookmarkControllerTests : BookmarksFixture
 	[Theory]
 	[InlineData("")]
 	[InlineData(null)]
-	public async Task GetByID_Bookmarks_InvalidId_Success(string id)
+	public async Task GetByID_Bookmarks_InvalidId_OkResult(string id)
 	{
 		Assert.NotNull(SUT);
 
@@ -132,7 +132,7 @@ public class BookmarkControllerTests : BookmarksFixture
 		_mockService.Verify(g => g.GetByIdAsync(It.IsAny<string>()), Times.Never());
 	}
 	[Fact]
-	public async Task UpdateBookmarks_ValidModel_Success()
+	public async Task Update_Bookmarks_ValidModel_OKResult()
 	{
 		var Bookmarked = new Bookmarked()
 		{
@@ -152,7 +152,7 @@ public class BookmarkControllerTests : BookmarksFixture
 	}
 
 	[Fact]
-	public async Task UpdateBookmarks_InValidModel_Failure()
+	public async Task Update_Bookmarks_InValidModel_BadRequestResult()
 	{
 		Assert.NotNull(SUT);
 		SUT.ModelState.AddModelError("userid", "userid is required");
@@ -165,7 +165,7 @@ public class BookmarkControllerTests : BookmarksFixture
 	}
 
 	[Fact]
-	public async Task UpdateBookmarks_ExceptionThrown_Failure()
+	public async Task Update_Bookmarks_ExceptionThrown_NotFoundResult()
 	{
 		var Bookmarked = new Bookmarked()
 		{

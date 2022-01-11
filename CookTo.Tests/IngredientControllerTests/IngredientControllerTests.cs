@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace CookTo.Tests.UnitTests.IngredientControllerTests;
+namespace CookTo.Tests.Server.Unit.IngredientControllerTests;
 
 public class IngredientControllerTests : IngredientFixture
 {
 	[Fact]
-	public async Task Get_All_Ingredients_Success()
+	public async Task GetAll_Ingredients_OkResult()
 	{
 		_mockService.Setup(g => g.GetAllAsync()).ReturnsAsync(_ingredients);
 
@@ -21,7 +21,7 @@ public class IngredientControllerTests : IngredientFixture
 	}
 
 	[Fact]
-	public async Task Get_All_Ingredients_ExceptionThrown_Failure()
+	public async Task GetAll_Ingredients_ExceptionThrown_NotFoundResult()
 	{
 		_mockService.Setup(g => g.GetAllAsync()).ThrowsAsync(new Exception());
 
@@ -34,7 +34,7 @@ public class IngredientControllerTests : IngredientFixture
 	}
 
 	[Fact]
-	public async Task GetByID_Ingredient_Success()
+	public async Task GetByID_Ingredient_ValidId_OkResult()
 	{
 		_mockService.Setup(g => g.GetByIdAsync(It.IsAny<string>())).ReturnsAsync(_ingredients.First());
 
@@ -52,7 +52,7 @@ public class IngredientControllerTests : IngredientFixture
 	}
 
 	[Fact]
-	public async Task GetById_Ingredient_ExceptionThrown_Failure()
+	public async Task GetById_Ingredient_ExceptionThrown_NotFoundResult()
 	{
 		_mockService.Setup(g => g.GetByIdAsync(It.IsAny<string>())).ThrowsAsync(new Exception());
 
@@ -67,7 +67,7 @@ public class IngredientControllerTests : IngredientFixture
 	[Theory]
 	[InlineData("")]
 	[InlineData(null)]
-	public async Task GetByID_Ingredient_InvalidId_Success(string id)
+	public async Task GetByID_Ingredient_InvalidId_OkResult(string id)
 	{
 		Assert.NotNull(SUT);
 
@@ -79,7 +79,7 @@ public class IngredientControllerTests : IngredientFixture
 	}
 
 	[Fact]
-	public async Task InsertIngredient_ValidModel_Success()
+	public async Task Insert_Ingredient_ValidModel_OkResult()
 	{
 		_mockService.Setup(g => g.CreateAsync(It.IsAny<Ingredient>())).Returns(Task.CompletedTask);
 
@@ -93,7 +93,7 @@ public class IngredientControllerTests : IngredientFixture
 	}
 
 	[Fact]
-	public async Task InsertIngredient_InValidModel_Failure()
+	public async Task Insert_Ingredient_InValidModel_BadRequestResult()
 	{
 		Assert.NotNull(SUT);
 		SUT.ModelState.AddModelError("Name", "Name is required");
@@ -106,7 +106,7 @@ public class IngredientControllerTests : IngredientFixture
 	}
 
 	[Fact]
-	public async Task InsertIngredient_ExceptionThrown_Failure()
+	public async Task Insert_Ingredient_ExceptionThrown_NotFoundResult()
 	{
 		_mockService.Setup(g => g.CreateAsync(It.IsAny<Ingredient>())).ThrowsAsync(new Exception());
 
@@ -117,7 +117,7 @@ public class IngredientControllerTests : IngredientFixture
 		Assert.IsType<NotFoundResult>(notFoundResult);
 	}
 	[Fact]
-	public async Task Delete_Ingredient_Success()
+	public async Task Delete_Ingredient_OKResult()
 	{
 		_mockService.Setup(g => g.DeleteAsync(It.IsAny<string>())).Returns(Task.CompletedTask);
 
@@ -132,7 +132,7 @@ public class IngredientControllerTests : IngredientFixture
 	}
 
 	[Fact]
-	public async Task Delete_Ingredient_ExceptionThrown_Failure()
+	public async Task Delete_Ingredient_ExceptionThrown_NotFoundResult()
 	{
 		_mockService.Setup(g => g.DeleteAsync(It.IsAny<string>())).ThrowsAsync(new Exception());
 
@@ -147,7 +147,7 @@ public class IngredientControllerTests : IngredientFixture
 	[Theory]
 	[InlineData("")]
 	[InlineData(null)]
-	public async Task Delete_Ingredient_InvalidId_Success(string id)
+	public async Task Delete_Ingredient_InvalidId_BadRequestResult(string id)
 	{
 		Assert.NotNull(SUT);
 
@@ -159,7 +159,7 @@ public class IngredientControllerTests : IngredientFixture
 	}
 
 	[Fact]
-	public async Task UpdateIngredient_ValidModel_Success()
+	public async Task Update_Ingredient_ValidModel_OKResult()
 	{
 		var ingredient = new Ingredient() { Id = new ObjectId("1111a1111b1111c1111d1111"), Name = "Cheddar Cheese" };
 
@@ -175,7 +175,7 @@ public class IngredientControllerTests : IngredientFixture
 	}
 
 	[Fact]
-	public async Task UpdateIngredient_InValidModel_Failure()
+	public async Task Update_Ingredient_InValidModel_BadRequestResult()
 	{
 		Assert.NotNull(SUT);
 		SUT.ModelState.AddModelError("Name", "Name is required");
@@ -188,7 +188,7 @@ public class IngredientControllerTests : IngredientFixture
 	}
 
 	[Fact]
-	public async Task UpdateIngredient_ExceptionThrown_Failure()
+	public async Task Update_Ingredient_ExceptionThrown_NotFoundResult()
 	{
 		_mockService.Setup(g => g.UpdateAsync(It.IsAny<Ingredient>())).ThrowsAsync(new Exception());
 		var ingredient = new Ingredient() { Id = new ObjectId("1111a1111b1111c1111d1111"), Name = "Cheddar Cheese" };

@@ -5,7 +5,7 @@ namespace CookTo.Tests.Intergration.IngredientControllerTests;
 public class IngredientControllerTest
 {
 	[Fact]
-	public async Task Create_Ingredient_OkResult_Success()
+	public async Task Create_Ingredient_OkResult()
 	{
 		var fixture = new IngredientFixture();
 		fixture.SetupCollection();
@@ -18,13 +18,13 @@ public class IngredientControllerTest
 		Assert.NotNull(result);
 
 		var obj = Assert.IsAssignableFrom<OkObjectResult>(result.Result);
-		var value = Assert.IsType<bool>(obj.Value);
-		Assert.True(value);
+		Assert.IsType<Ingredient>(obj.Value);
+		
 		fixture.Dispose();
 	}
 
 	[Fact]
-	public async Task Create_Ingredient_RequiredValueMissing_BadRequestResult_Failure()
+	public async Task Create_Ingredient_InvalidModelMissingValue_BadRequestResult()
 	{
 		var fixture = new IngredientFixture();
 		fixture.SetupCollection();
@@ -38,7 +38,7 @@ public class IngredientControllerTest
 	}
 
 	[Fact]
-	public async Task Create_Ingredient_LessThanMinLengthValue_BadRequestResult_Failure()
+	public async Task Create_Ingredient_InvalidModel_BadRequestResult()
 	{
 		var fixture = new IngredientFixture();
 		fixture.SetupCollection();
@@ -54,7 +54,7 @@ public class IngredientControllerTest
 		fixture.Dispose();
 	}
 	[Fact]
-	public async Task Delete_ValidId_OkResult_Success()
+	public async Task Delete_Ingredient_ValidId_OkResult()
 	{
 		var fixture = new IngredientFixture();
 		fixture.SetupCollection();
@@ -71,7 +71,7 @@ public class IngredientControllerTest
 	}
 
 	[Fact]
-	public async Task Delete_InValidId_NotFoundResult_Failure()
+	public async Task Delete_Ingredient_InValidId_NotFoundResult()
 	{
 		var fixture = new IngredientFixture();
 		fixture.SetupCollection();
@@ -86,7 +86,7 @@ public class IngredientControllerTest
 
 
 	[Fact]
-	public async Task GetAll_Ingredients_OkResult_Success()
+	public async Task GetAll_Ingredients_OkResult()
 	{
 		var fixture = new IngredientFixture();
 		fixture.SetupCollection();
@@ -108,7 +108,7 @@ public class IngredientControllerTest
 	}
 
 	[Fact]
-	public async Task GetAll_CollectionNotExisting_OkResult_EmptyList_Success()
+	public async Task GetAll_Ingredient_CollectionNotExisting_OkResult()
 	{
 		var fixture = new IngredientFixture();
 
@@ -124,7 +124,7 @@ public class IngredientControllerTest
 	}
 
 	[Fact]
-	public async Task GetById_ValidId_OkResult_Success()
+	public async Task GetById_Ingredient_ValidId_OkResult()
 	{
 		var fixture = new IngredientFixture();
 		fixture.SetupCollection();
@@ -143,7 +143,7 @@ public class IngredientControllerTest
 	}
 
 	[Fact]
-	public async Task GetById_IngredientNotExisting_OkResult_Success()
+	public async Task GetById_Ingredient_NotExisting_OkResult()
 	{
 		var fixture = new IngredientFixture();
 
@@ -159,7 +159,7 @@ public class IngredientControllerTest
 	[Theory]
 	[InlineData(null)]
 	[InlineData("")]
-	public async Task GetById_InvalidId_BadResult_Failure(string id)
+	public async Task GetById_Ingredient_InvalidId_BadResult(string id)
 	{
 		var fixture = new IngredientFixture();
 
@@ -171,43 +171,8 @@ public class IngredientControllerTest
 		fixture.Dispose();
 	}
 
-	[Theory]
-	[InlineData("Bread")]
-	[InlineData("Milk")]
-	public async Task GetByName_ValidName_OKResult_Success(string name)
-	{
-		var fixture = new IngredientFixture();
-		fixture.SetupCollection();
-
-		var result = await fixture.SUT.GetByName(name);
-
-		Assert.NotNull(result);
-		var obj = Assert.IsAssignableFrom<OkObjectResult>(result.Result);
-
-		var value = Assert.IsAssignableFrom<Ingredient>(obj.Value);
-		Assert.NotNull(value);
-		Assert.Equal(name, value.Name);
-		fixture.Dispose();
-	}
-
-	[Theory]
-	[InlineData(null)]
-	[InlineData("")]
-	public async Task GetByName_InvalidName_BadResult_Failure(string name)
-	{
-		var fixture = new IngredientFixture();
-
-		var result = await fixture.SUT.GetByName(name);
-		//assert
-		Assert.NotNull(result);
-
-		Assert.IsAssignableFrom<BadRequestResult>(result.Result);
-
-		fixture.Dispose();
-	}
-
 	[Fact]
-	public async Task Update_ValidObject_OkResult_Success()
+	public async Task Update_Ingredient_ValidObject_OkResult()
 	{
 		var fixture = new IngredientFixture();
 		fixture.SetupCollection(); 		
@@ -232,7 +197,7 @@ public class IngredientControllerTest
 	[Theory]
 	[InlineData(null)]
 	[InlineData("")]
-	public async Task Update_InValidObject_BadRequest_Failure(string? value)
+	public async Task Update_Ingredient_InValidObject_BadRequest(string? value)
 	{
 		var fixture = new IngredientFixture();
 		fixture.SetupCollection();
