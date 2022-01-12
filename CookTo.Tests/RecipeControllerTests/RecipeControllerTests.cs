@@ -11,7 +11,7 @@ public class RecipeControllerTests : RecipeFixture
 
 		Assert.NotNull(SUT);
 
-		var result = await SUT.GetAll();
+		var result = await SUT.GetAllAsync();
 		var okResult = result.Result as OkObjectResult;
 		Assert.NotNull(okResult);
 		Assert.IsType<OkObjectResult>(okResult);
@@ -27,10 +27,9 @@ public class RecipeControllerTests : RecipeFixture
 
 		Assert.NotNull(SUT);
 
-		var result = await SUT.GetAll();
+		var result = await SUT.GetAllAsync();
 		var notFoundResult = result.Result as NotFoundResult;
 		Assert.IsType<NotFoundResult>(notFoundResult);
-
 	}
 
 	[Fact]
@@ -40,7 +39,7 @@ public class RecipeControllerTests : RecipeFixture
 
 		Assert.NotNull(SUT);
 
-		var result = await SUT.GetById("1111a1111b1111c1111d1111");
+		var result = await SUT.GetByIdAsync("1111a1111b1111c1111d1111");
 		var okResult = result.Result as OkObjectResult;
 		Assert.NotNull(okResult);
 		Assert.IsType<OkObjectResult>(okResult);
@@ -58,7 +57,7 @@ public class RecipeControllerTests : RecipeFixture
 
 		Assert.NotNull(SUT);
 
-		var result = await SUT.GetById("1111a1111b1111c1111d1111");
+		var result = await SUT.GetByIdAsync("1111a1111b1111c1111d1111");
 		var notFoundResult = result.Result as NotFoundResult;
 		Assert.IsType<NotFoundResult>(notFoundResult);
 	}
@@ -70,7 +69,7 @@ public class RecipeControllerTests : RecipeFixture
 	{
 		Assert.NotNull(SUT);
 
-		var result = await SUT.GetById(id);
+		var result = await SUT.GetByIdAsync(id);
 		var badRequestResult = result.Result as BadRequestResult;
 		Assert.IsType<BadRequestResult>(badRequestResult);
 
@@ -84,7 +83,7 @@ public class RecipeControllerTests : RecipeFixture
 
 		Assert.NotNull(SUT);
 
-		var result = await SUT.Create(_recipe);
+		var result = await SUT.CreateAsync(_recipe);
 		var okResult = result.Result as OkObjectResult;
 		Assert.IsType<OkObjectResult>(okResult);
 
@@ -97,7 +96,7 @@ public class RecipeControllerTests : RecipeFixture
 		Assert.NotNull(SUT);
 		SUT.ModelState.AddModelError("Title", "Title is required");
 
-		var result = await SUT.Create(new Recipe());
+		var result = await SUT.CreateAsync(new Recipe());
 		var badRequestResult = result.Result as BadRequestResult;
 		Assert.IsType<BadRequestResult>(badRequestResult);
 
@@ -108,14 +107,14 @@ public class RecipeControllerTests : RecipeFixture
 	public async Task Insert_Recipe_ExceptionThrown_NotFoundResult()
 	{
 		_mockService.Setup(g => g.CreateAsync(It.IsAny<Recipe>())).ThrowsAsync(new Exception());
-		
+
 		Assert.NotNull(SUT);
 
-		var result = await SUT.Create(_recipe);
+		var result = await SUT.CreateAsync(_recipe);
 		var notFoundResult = result.Result as NotFoundResult;
 		Assert.IsType<NotFoundResult>(notFoundResult);
-
 	}
+
 	[Fact]
 	public async Task Delete_Recipe_ValidId_OkResult()
 	{
@@ -123,7 +122,7 @@ public class RecipeControllerTests : RecipeFixture
 
 		Assert.NotNull(SUT);
 
-		var result = await SUT.Delete("1111a1111b1111c1111d1111");
+		var result = await SUT.DeleteAsync("1111a1111b1111c1111d1111");
 		var okResult = result.Result as OkObjectResult;
 		Assert.NotNull(okResult);
 		Assert.IsType<OkObjectResult>(okResult);
@@ -138,10 +137,9 @@ public class RecipeControllerTests : RecipeFixture
 
 		Assert.NotNull(SUT);
 
-		var result = await SUT.Delete("1111a1111b1111c1111d1111");
+		var result = await SUT.DeleteAsync("1111a1111b1111c1111d1111");
 		var notFoundResult = result.Result as NotFoundResult;
 		Assert.IsType<NotFoundResult>(notFoundResult);
-
 	}
 
 	[Theory]
@@ -151,7 +149,7 @@ public class RecipeControllerTests : RecipeFixture
 	{
 		Assert.NotNull(SUT);
 
-		var result = await SUT.Delete(id);
+		var result = await SUT.DeleteAsync(id);
 		var badRequestResult = result.Result as BadRequestResult;
 		Assert.IsType<BadRequestResult>(badRequestResult);
 
@@ -167,7 +165,7 @@ public class RecipeControllerTests : RecipeFixture
 
 		Assert.NotNull(SUT);
 
-		var result = await SUT.Update(recipe);
+		var result = await SUT.UpdateAsync(recipe);
 		var okResult = result.Result as OkObjectResult;
 		Assert.IsType<OkObjectResult>(okResult);
 
@@ -180,13 +178,10 @@ public class RecipeControllerTests : RecipeFixture
 		Assert.NotNull(SUT);
 		SUT.ModelState.AddModelError("Title", "Title is required");
 
-		var result = await SUT.Update(new Recipe());
+		var result = await SUT.UpdateAsync(new Recipe());
 		var badRequestResult = result.Result as BadRequestResult;
 		Assert.IsType<BadRequestResult>(badRequestResult);
 
 		_mockService.Verify(g => g.UpdateAsync(It.IsAny<Recipe>()), Times.Never());
 	}
-
-
-
 }

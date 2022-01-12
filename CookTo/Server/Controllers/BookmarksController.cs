@@ -1,114 +1,40 @@
 ﻿using CookTo.Server.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
 namespace CookTo.Server.Controllers;
 
 [Authorize]
 [Route("api/[controller]")]
 [ApiController]
-public class BookmarksController : ControllerBase
+public class BookmarksController : BaseController<Bookmarks>
 {
+	readonly IBookmarksService bookmarkService;
 	readonly ILogger<BookmarksController> logger;
-	readonly IBookmarksService bookmarksService;
-	public BookmarksController(IBookmarksService bookmarkService, ILogger<BookmarksController> logger)
+
+	public BookmarksController(IBookmarksService bookmarkService, ILogger<BookmarksController> logger) : base(
+		bookmarkService,
+		logger)
 	{
-		this.bookmarksService = bookmarkService;
 		this.logger = logger;
+		this.bookmarkService = bookmarkService;
 	}
 
-	[HttpGet]
-	public async Task<ActionResult<List<Bookmarks>>> GetAll()
+	[HttpGet("{id}")]
+	public  async Task<ActionResult<Bookmarks>> GetByUserIdAsync(string id)
 	{
+		if(string.IsNullOrEmpty(id))
+		{
+			return BadRequest();
+		}
+
 		try
 		{
-			var result = await bookmarksService.GetAllAsync();
+			var result = await bookmarkService.GetByUserIdAsync(id);
 			return Ok(result);
-		}
-		catch (Exception ex)
+		} catch(Exception ex)
 		{
-			logger.LogError(ex, "get all", "");
-			return NotFound();
-		}
-	}
-
-	[HttpGet("id")]
-	public async Task<ActionResult<Bookmarks>> GetByUserId(string id)
-	{
-		if (string.IsNullOrEmpty(id))
-		{
-			return BadRequest();
-		}
-
-		try
-		{
-			var result = await bookmarksService.GetByUserIdAsync(id);
-			return Ok(result);
-		}
-		catch (Exception ex)
-		{
-			logger.LogError(ex, "get by user Id",  id);
-			return NotFound();
-		}
-	}
-
-
-
-	[HttpDelete("id")]
-	public async Task<ActionResult<bool>> Delete(string id)
-	{
-		if (string.IsNullOrEmpty(id))
-		{
-			return BadRequest();
-		}
-
-		try
-		{
-			await bookmarksService.DeleteAsync(id);
-			return Ok(true);
-		}
-		catch (Exception ex)
-		{
-			logger.LogError(ex, "delete",  id);
-			return NotFound();
-		}
-	}
-	[HttpPut]
-	public async Task<ActionResult<Bookmarks>> Create([FromBody] Bookmarks bookmarks)
-	{
-		bookmarks.CheckRules();
-		if (bookmarks.HasErrors())
-		{
-			return BadRequest();
-		}
-
-		try
-		{
-			await bookmarksService.CreateAsync(bookmarks);
-			return Ok(bookmarks);
-		}
-		catch (Exception ex)
-		{
-			logger.LogError(ex, "insert", bookmarks);
-			return NotFound();
-		}
-	}
-	[HttpPost]
-	public async Task<ActionResult<Bookmarks>> Update([FromBody] Bookmarks bookmarks)
-	{
-		 bookmarks.CheckRules();
-		if (bookmarks.HasErrors())
-		{
-			return BadRequest();
-		}
-
-		try
-		{
-			await bookmarksService.UpdateAsync(bookmarks);
-			return Ok(bookmarks);
-		}
-		catch (Exception ex)
-		{
-			logger.LogError(ex, "error occured during update", bookmarks);
+			logger.LogError(ex, "get by Id", id);
 			return NotFound();
 		}
 	}

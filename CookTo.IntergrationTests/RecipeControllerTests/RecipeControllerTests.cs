@@ -4,7 +4,6 @@ namespace CookTo.Tests.Intergration.RecipeControllerTests;
 
 public class RecipeControllerTests
 {
-
 	[Fact]
 	public async Task Create_Recipe_ValidModel_OkResult()
 	{
@@ -20,32 +19,24 @@ public class RecipeControllerTests
 			CookingTime = 240,
 			Serves = 4,
 			AuthorId = Guid.NewGuid().ToString(),
-			RecipeParts = new List<RecipePart>()
-				 {
-					 new RecipePart()
-					 {
-						 Title = "filling for pie",
-						 Items = new List<string>()
-						 {
-							 "300g braising steak"
-					}
-				}
-			},
-			CookingSteps = new List<CookingStep>
-			{
-				new CookingStep()  { StepOrder = 1,Step = "mix butter and sugar until fluffy" }
-			},
-			Tips = new List<string>
-			{
-				"ensure cakes are firm before removin from oven"
-			}
+			RecipeParts =
+				new List<RecipePart>()
+				{
+					new RecipePart() { Title = "filling for pie", Items = new List<string>() { "300g braising steak" } }
+				},
+			CookingSteps =
+				new List<CookingStep>
+				{
+					new CookingStep() { StepOrder = 1, Step = "mix butter and sugar until fluffy" }
+				},
+			Tips = new List<string> { "ensure cakes are firm before removin from oven" }
 		};
-		var result = await fixture.SUT.Create(recipe);
+		var result = await fixture.SUT.CreateAsync(recipe);
 
 		Assert.NotNull(result);
 
 		var obj = Assert.IsAssignableFrom<OkObjectResult>(result.Result);
-		 Assert.IsType<Recipe>(obj.Value);
+		Assert.IsType<Recipe>(obj.Value);
 		fixture.Dispose();
 	}
 
@@ -55,7 +46,7 @@ public class RecipeControllerTests
 		var fixture = new RecipeFixture();
 		var recipe = new Recipe();
 
-		var result = await fixture.SUT.Create(recipe);
+		var result = await fixture.SUT.CreateAsync(recipe);
 
 		Assert.NotNull(result);
 		Assert.IsAssignableFrom<BadRequestResult>(result.Result);
@@ -66,24 +57,22 @@ public class RecipeControllerTests
 	public async Task Create_Recipe_InvalidModelToShortValue_BadRequestResult()
 	{
 		var fixture = new RecipeFixture();
-		var recipe = new Recipe()
-		{
-			Title = "a"
-		};
+		var recipe = new Recipe() { Title = "a" };
 
-		var result = await fixture.SUT.Create(recipe);
+		var result = await fixture.SUT.CreateAsync(recipe);
 
 		Assert.NotNull(result);
 		Assert.IsAssignableFrom<BadRequestResult>(result.Result);
 		fixture.Dispose();
 	}
+
 	[Fact]
 	public async Task GetAll_Recipe_OkResult()
 	{
 		var fixture = new RecipeFixture();
 		fixture.SetupCollection();
 		var expected = fixture.list;
-		var result = await fixture.SUT.GetAll();
+		var result = await fixture.SUT.GetAllAsync();
 
 		Assert.NotNull(result);
 
@@ -102,7 +91,7 @@ public class RecipeControllerTests
 	{
 		var fixture = new RecipeFixture();
 
-		var result = await fixture.SUT.GetAll();
+		var result = await fixture.SUT.GetAllAsync();
 		//assert
 		Assert.NotNull(result);
 
@@ -119,7 +108,7 @@ public class RecipeControllerTests
 		var fixture = new RecipeFixture();
 		fixture.SetupCollection();
 		var id = fixture.list.First().Id.ToString();
-		var result = await fixture.SUT.GetById(id);
+		var result = await fixture.SUT.GetByIdAsync(id);
 		//assert
 		Assert.NotNull(result);
 		Assert.NotNull(result.Result);
@@ -136,7 +125,7 @@ public class RecipeControllerTests
 		var fixture = new RecipeFixture();
 		fixture.SetupCollection();
 
-		var result = await fixture.SUT.GetById(ObjectId.GenerateNewId().ToString());
+		var result = await fixture.SUT.GetByIdAsync(ObjectId.GenerateNewId().ToString());
 		//assert
 		Assert.NotNull(result);
 
@@ -152,13 +141,14 @@ public class RecipeControllerTests
 	{
 		var fixture = new RecipeFixture();
 
-		var result = await fixture.SUT.GetById(id);
+		var result = await fixture.SUT.GetByIdAsync(id);
 		//assert
 		Assert.NotNull(result);
 
 		Assert.IsAssignableFrom<BadRequestResult>(result.Result);
 		fixture.Dispose();
 	}
+
 	[Fact]
 
 	public async Task Delete_Recipe_ValidId_OkResult()
@@ -166,7 +156,7 @@ public class RecipeControllerTests
 		var fixture = new RecipeFixture();
 		fixture.SetupCollection();
 		var id = fixture.list.First().Id.ToString();
-		var result = await fixture.SUT.Delete(id);
+		var result = await fixture.SUT.DeleteAsync(id);
 		Assert.NotNull(result);
 
 		var obj = Assert.IsAssignableFrom<OkObjectResult>(result.Result);
@@ -181,7 +171,7 @@ public class RecipeControllerTests
 	{
 		var fixture = new RecipeFixture();
 
-		var result = await fixture.SUT.Delete(Guid.NewGuid().ToString());
+		var result = await fixture.SUT.DeleteAsync(Guid.NewGuid().ToString());
 		Assert.NotNull(result);
 
 		var obj = Assert.IsAssignableFrom<NotFoundResult>(result.Result);
@@ -200,12 +190,12 @@ public class RecipeControllerTests
 		var updateValue = "White bread flour";
 		item.Title = updateValue;
 
-		var result = await fixture.SUT.Update(item);
+		var result = await fixture.SUT.UpdateAsync(item);
 		Assert.NotNull(result);
 
 		Assert.IsAssignableFrom<OkObjectResult>(result.Result);
 
-		var readUpdate = await fixture.SUT.GetAll();
+		var readUpdate = await fixture.SUT.GetAllAsync();
 		var objUpdateResult = Assert.IsAssignableFrom<OkObjectResult>(readUpdate.Result);
 		var listUpdateResult = Assert.IsAssignableFrom<List<Recipe>>(objUpdateResult.Value);
 		var itemUpdated = listUpdateResult.First();
@@ -224,13 +214,10 @@ public class RecipeControllerTests
 		var item = fixture.list.First();
 		item.Title = value;
 
-		var result = await fixture.SUT.Update(item);
+		var result = await fixture.SUT.UpdateAsync(item);
 		Assert.NotNull(result);
 
 		Assert.IsAssignableFrom<BadRequestResult>(result.Result);
 		fixture.Dispose();
 	}
-
-
-
 }

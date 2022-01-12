@@ -11,7 +11,7 @@ public class IngredientControllerTests : IngredientFixture
 
 		Assert.NotNull(SUT);
 
-		var result = await SUT.GetAll();
+		var result = await SUT.GetAllAsync();
 		var okResult = result.Result as OkObjectResult;
 		Assert.NotNull(okResult);
 		Assert.IsType<OkObjectResult>(okResult);
@@ -27,10 +27,9 @@ public class IngredientControllerTests : IngredientFixture
 
 		Assert.NotNull(SUT);
 
-		var result = await SUT.GetAll();
+		var result = await SUT.GetAllAsync();
 		var notFoundResult = result.Result as NotFoundResult;
 		Assert.IsType<NotFoundResult>(notFoundResult);
-
 	}
 
 	[Fact]
@@ -40,7 +39,7 @@ public class IngredientControllerTests : IngredientFixture
 
 		Assert.NotNull(SUT);
 
-		var result = await SUT.GetById("1111a1111b1111c1111d1111");
+		var result = await SUT.GetByIdAsync("1111a1111b1111c1111d1111");
 		var okResult = result.Result as OkObjectResult;
 		Assert.NotNull(okResult);
 		Assert.IsType<OkObjectResult>(okResult);
@@ -58,10 +57,9 @@ public class IngredientControllerTests : IngredientFixture
 
 		Assert.NotNull(SUT);
 
-		var result = await SUT.GetById("1111a1111b1111c1111d1111");
+		var result = await SUT.GetByIdAsync("1111a1111b1111c1111d1111");
 		var notFoundResult = result.Result as NotFoundResult;
 		Assert.IsType<NotFoundResult>(notFoundResult);
-
 	}
 
 	[Theory]
@@ -71,7 +69,7 @@ public class IngredientControllerTests : IngredientFixture
 	{
 		Assert.NotNull(SUT);
 
-		var result = await SUT.GetById(id);
+		var result = await SUT.GetByIdAsync(id);
 		var badRequesstResult = result.Result as BadRequestResult;
 		Assert.IsType<BadRequestResult>(badRequesstResult);
 
@@ -85,7 +83,7 @@ public class IngredientControllerTests : IngredientFixture
 
 		Assert.NotNull(SUT);
 
-		var result = await SUT.Create(_ingredient);
+		var result = await SUT.CreateAsync(_ingredient);
 		var okResult = result.Result as OkObjectResult;
 		Assert.IsType<OkObjectResult>(okResult);
 
@@ -98,7 +96,7 @@ public class IngredientControllerTests : IngredientFixture
 		Assert.NotNull(SUT);
 		SUT.ModelState.AddModelError("Name", "Name is required");
 
-		var result = await SUT.Create(new Ingredient());
+		var result = await SUT.CreateAsync(new Ingredient());
 		var badRequestResult = result.Result as BadRequestResult;
 		Assert.IsType<BadRequestResult>(badRequestResult);
 
@@ -112,10 +110,11 @@ public class IngredientControllerTests : IngredientFixture
 
 		Assert.NotNull(SUT);
 
-		var result = await SUT.Create(_ingredient);
+		var result = await SUT.CreateAsync(_ingredient);
 		var notFoundResult = result.Result as NotFoundResult;
 		Assert.IsType<NotFoundResult>(notFoundResult);
 	}
+
 	[Fact]
 	public async Task Delete_Ingredient_OKResult()
 	{
@@ -123,7 +122,7 @@ public class IngredientControllerTests : IngredientFixture
 
 		Assert.NotNull(SUT);
 
-		var result = await SUT.Delete("1111a1111b1111c1111d1111");
+		var result = await SUT.DeleteAsync("1111a1111b1111c1111d1111");
 		var okResult = result.Result as OkObjectResult;
 		Assert.NotNull(okResult);
 		Assert.IsType<OkObjectResult>(okResult);
@@ -138,10 +137,9 @@ public class IngredientControllerTests : IngredientFixture
 
 		Assert.NotNull(SUT);
 
-		var result = await SUT.Delete("1111a1111b1111c1111d1111");
+		var result = await SUT.DeleteAsync("1111a1111b1111c1111d1111");
 		var notFoundResult = result.Result as NotFoundResult;
 		Assert.IsType<NotFoundResult>(notFoundResult);
-
 	}
 
 	[Theory]
@@ -151,7 +149,7 @@ public class IngredientControllerTests : IngredientFixture
 	{
 		Assert.NotNull(SUT);
 
-		var result = await SUT.Delete(id);
+		var result = await SUT.DeleteAsync(id);
 		var badRequestResult = result.Result as BadRequestResult;
 		Assert.IsType<BadRequestResult>(badRequestResult);
 
@@ -167,7 +165,7 @@ public class IngredientControllerTests : IngredientFixture
 
 		Assert.NotNull(SUT);
 
-		var result = await SUT.Update(ingredient);
+		var result = await SUT.UpdateAsync(ingredient);
 		var okResult = result.Result as OkObjectResult;
 		Assert.IsType<OkObjectResult>(okResult);
 
@@ -180,7 +178,7 @@ public class IngredientControllerTests : IngredientFixture
 		Assert.NotNull(SUT);
 		SUT.ModelState.AddModelError("Name", "Name is required");
 
-		var result = await SUT.Update(new Ingredient());
+		var result = await SUT.UpdateAsync(new Ingredient());
 		var badRequestResult = result.Result as BadRequestResult;
 		Assert.IsType<BadRequestResult>(badRequestResult);
 
@@ -195,11 +193,8 @@ public class IngredientControllerTests : IngredientFixture
 
 		Assert.NotNull(SUT);
 
-		var result = await SUT.Update(ingredient);
+		var result = await SUT.UpdateAsync(ingredient);
 		var notFoundResult = result.Result as NotFoundResult;
 		Assert.IsType<NotFoundResult>(notFoundResult);
-
 	}
-
-
 }

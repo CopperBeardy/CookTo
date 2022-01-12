@@ -1,5 +1,8 @@
 ﻿@page "/ingredient/add"
-@inject HttpClient http
+@using CookTo.Client.Services
+
+@inject IngredientManager manager
+
 
 <EditForm Model="@ingredient" OnValidSubmit="@HandleValidSubmit">
 	<DataAnnotationsValidator/>
@@ -11,12 +14,12 @@
 @code{
 	private Ingredient ingredient { get; set; } = new Ingredient();
 	private async Task HandleValidSubmit()
+	{
+		try
 		{
-			try
-			{
+
+			var result = manager.Insert(ingredient);
 				
-				var result = await http.PostAsJsonAsync("api/Ingredient",  ingredient);
-				result.EnsureSuccessStatusCode();
 			}
 			catch (Exception ex)
 			{

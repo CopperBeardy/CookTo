@@ -11,7 +11,7 @@ public class BookmarkControllerTests : BookmarksFixture
 
 		Assert.NotNull(SUT);
 
-		var result = await SUT.Create(_bookmarks);
+		var result = await SUT.CreateAsync(_bookmarks);
 		var okResult = result.Result as OkObjectResult;
 		Assert.IsType<OkObjectResult>(okResult);
 
@@ -24,7 +24,7 @@ public class BookmarkControllerTests : BookmarksFixture
 		Assert.NotNull(SUT);
 		SUT.ModelState.AddModelError("Name", "Name is required");
 
-		var result = await SUT.Create(new Bookmarks());
+		var result = await SUT.CreateAsync(new Bookmarks());
 		var badRequestResult = result.Result as BadRequestResult;
 		Assert.IsType<BadRequestResult>(badRequestResult);
 
@@ -38,11 +38,9 @@ public class BookmarkControllerTests : BookmarksFixture
 
 		Assert.NotNull(SUT);
 
-		var result = await SUT.Create(_bookmarks);
+		var result = await SUT.CreateAsync(_bookmarks);
 		var notFoundResult = result.Result as NotFoundResult;
 		Assert.IsType<NotFoundResult>(notFoundResult);
-
-
 	}
 
 	[Fact]
@@ -52,7 +50,7 @@ public class BookmarkControllerTests : BookmarksFixture
 
 		Assert.NotNull(SUT);
 
-		var result = await SUT.Delete("1111a1111b1111c1111d1111");
+		var result = await SUT.DeleteAsync("1111a1111b1111c1111d1111");
 		var okResult = result.Result as OkObjectResult;
 		Assert.NotNull(okResult);
 		Assert.IsType<OkObjectResult>(okResult);
@@ -67,10 +65,9 @@ public class BookmarkControllerTests : BookmarksFixture
 
 		Assert.NotNull(SUT);
 
-		var result = await SUT.Delete("1111a1111b1111c1111d1111");
+		var result = await SUT.DeleteAsync("1111a1111b1111c1111d1111");
 		var notFoundResult = result.Result as NotFoundResult;
 		Assert.IsType<NotFoundResult>(notFoundResult);
-
 	}
 
 	[Theory]
@@ -80,7 +77,7 @@ public class BookmarkControllerTests : BookmarksFixture
 	{
 		Assert.NotNull(SUT);
 
-		var result = await SUT.Delete(id);
+		var result = await SUT.DeleteAsync(id);
 		var badRequestResult = result.Result as BadRequestResult;
 		Assert.IsType<BadRequestResult>(badRequestResult);
 
@@ -94,7 +91,7 @@ public class BookmarkControllerTests : BookmarksFixture
 
 		Assert.NotNull(SUT);
 
-		var result = await SUT.GetByUserId("1111a1111b1111c1111d1111");
+		var result = await SUT.GetByUserIdAsync("1111a1111b1111c1111d1111");
 		var okResult = result.Result as OkObjectResult;
 		Assert.NotNull(okResult);
 		Assert.IsType<OkObjectResult>(okResult);
@@ -106,16 +103,15 @@ public class BookmarkControllerTests : BookmarksFixture
 	}
 
 	[Fact]
-	public async Task GetByUserId_Bookmarks_ExceptionThrown_NotFoundResult()
+	public async Task GetByUserIdAsync_Bookmarks_ExceptionThrown_NotFoundResult()
 	{
 		_mockService.Setup(g => g.GetByUserIdAsync(It.IsAny<string>())).ThrowsAsync(new Exception());
 
 		Assert.NotNull(SUT);
 
-		var result = await SUT.GetByUserId("1111a1111b1111c1111d1111");
+		var result = await SUT.GetByUserIdAsync("1111a1111b1111c1111d1111");
 		var notFoundResult = result.Result as NotFoundResult;
 		Assert.IsType<NotFoundResult>(notFoundResult);
-
 	}
 
 	[Theory]
@@ -125,12 +121,13 @@ public class BookmarkControllerTests : BookmarksFixture
 	{
 		Assert.NotNull(SUT);
 
-		var result = await SUT.GetByUserId(id);
+		var result = await SUT.GetByUserIdAsync(id);
 		var badRequesstResult = result.Result as BadRequestResult;
 		Assert.IsType<BadRequestResult>(badRequesstResult);
 
 		_mockService.Verify(g => g.GetByIdAsync(It.IsAny<string>()), Times.Never());
 	}
+
 	[Fact]
 	public async Task Update_Bookmarks_ValidModel_OKResult()
 	{
@@ -144,7 +141,7 @@ public class BookmarkControllerTests : BookmarksFixture
 
 		Assert.NotNull(SUT);
 
-		var result = await SUT.Update(_bookmarks);
+		var result = await SUT.UpdateAsync(_bookmarks);
 		var okResult = result.Result as OkObjectResult;
 		Assert.IsType<OkObjectResult>(okResult);
 
@@ -157,7 +154,7 @@ public class BookmarkControllerTests : BookmarksFixture
 		Assert.NotNull(SUT);
 		SUT.ModelState.AddModelError("userid", "userid is required");
 
-		var result = await SUT.Update(new Bookmarks());
+		var result = await SUT.UpdateAsync(new Bookmarks());
 		var badRequestResult = result.Result as BadRequestResult;
 		Assert.IsType<BadRequestResult>(badRequestResult);
 
@@ -178,12 +175,8 @@ public class BookmarkControllerTests : BookmarksFixture
 
 		Assert.NotNull(SUT);
 
-		var result = await SUT.Update(_bookmarks);
+		var result = await SUT.UpdateAsync(_bookmarks);
 		var notFoundResult = result.Result as NotFoundResult;
 		Assert.IsType<NotFoundResult>(notFoundResult);
-
-
 	}
-
-
 }

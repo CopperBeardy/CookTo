@@ -14,26 +14,19 @@ public class BookmarksControllerTests
 		var Bookmarks = new Bookmarks
 		{
 			UserId = Guid.NewGuid().ToString(),
-			BookmarkedRecipes = new List<Bookmarked>()
-			  {
-				  new Bookmarked()
-				  {
-					 RecipeId = ObjectId.GenerateNewId(),
-					 Title = "White bread loaf"
-				  },
-				  new Bookmarked()
-				  {
-					 RecipeId = ObjectId.GenerateNewId(),
-					 Title = "Sponge cake"
-				  }
-			  }
+			BookmarkedRecipes =
+				new List<Bookmarked>()
+				{
+					new Bookmarked() { RecipeId = ObjectId.GenerateNewId(), Title = "White bread loaf" },
+					new Bookmarked() { RecipeId = ObjectId.GenerateNewId(), Title = "Sponge cake" }
+				}
 		};
-		var result = await fixture.SUT.Create(Bookmarks);
+		var result = await fixture.SUT.CreateAsync(Bookmarks);
 
 		Assert.NotNull(result);
 
 		var obj = Assert.IsAssignableFrom<OkObjectResult>(result.Result);
-		Assert.IsType<Bookmarks>(obj.Value);	  		
+		Assert.IsType<Bookmarks>(obj.Value);
 		fixture.Dispose();
 	}
 
@@ -42,7 +35,7 @@ public class BookmarksControllerTests
 	{
 		var fixture = new BookmarksFixture();
 
-		var result = await fixture.SUT.Create(new Bookmarks());
+		var result = await fixture.SUT.CreateAsync(new Bookmarks());
 
 		Assert.NotNull(result);
 		Assert.IsAssignableFrom<BadRequestResult>(result.Result);
@@ -56,7 +49,7 @@ public class BookmarksControllerTests
 		fixture.SetupCollection();
 		var expected = fixture.list;
 		var expectedTitle = expected[0].BookmarkedRecipes.First().Title;
-		var result = await fixture.SUT.GetAll();
+		var result = await fixture.SUT.GetAllAsync();
 
 		Assert.NotNull(result);
 
@@ -76,7 +69,7 @@ public class BookmarksControllerTests
 	{
 		var fixture = new BookmarksFixture();
 
-		var result = await fixture.SUT.GetAll();
+		var result = await fixture.SUT.GetAllAsync();
 		//assert
 		Assert.NotNull(result);
 
@@ -94,7 +87,7 @@ public class BookmarksControllerTests
 		fixture.SetupCollection();
 		var expected = fixture.list;
 		var id = expected.First().UserId.ToString();
-		var result = await fixture.SUT.GetByUserId(id);
+		var result = await fixture.SUT.GetByUserIdAsync(id);
 		//assert
 		Assert.NotNull(result);
 		Assert.NotNull(result.Result);
@@ -111,7 +104,7 @@ public class BookmarksControllerTests
 		var fixture = new BookmarksFixture();
 		fixture.SetupCollection();
 
-		var result = await fixture.SUT.GetByUserId(Guid.NewGuid().ToString());
+		var result = await fixture.SUT.GetByUserIdAsync(Guid.NewGuid().ToString());
 		//assert
 		Assert.NotNull(result);
 
@@ -119,17 +112,18 @@ public class BookmarksControllerTests
 		Assert.Null(obj.Value);
 		fixture.Dispose();
 	}
+
 	[Fact]
 
 	public async Task Delete_Bookmarks_ValidId_OkResult()
 	{
 		var fixture = new BookmarksFixture();
 		fixture.SetupCollection();
-		var read = await fixture.SUT.GetAll();
+		var read = await fixture.SUT.GetAllAsync();
 		var objResult = Assert.IsAssignableFrom<OkObjectResult>(read.Result);
 		var listResult = Assert.IsAssignableFrom<List<Bookmarks>>(objResult.Value);
 
-		var result = await fixture.SUT.Delete(listResult.First().Id.ToString());
+		var result = await fixture.SUT.DeleteAsync(listResult.First().Id.ToString());
 		Assert.NotNull(result);
 
 		var obj = Assert.IsAssignableFrom<OkObjectResult>(result.Result);
@@ -144,7 +138,7 @@ public class BookmarksControllerTests
 	{
 		var fixture = new BookmarksFixture();
 		fixture.SetupCollection();
-		var result = await fixture.SUT.Delete(Guid.NewGuid().ToString());
+		var result = await fixture.SUT.DeleteAsync(Guid.NewGuid().ToString());
 		Assert.NotNull(result);
 
 		var obj = Assert.IsAssignableFrom<NotFoundResult>(result.Result);
@@ -152,22 +146,23 @@ public class BookmarksControllerTests
 		Assert.IsAssignableFrom<NotFoundResult>(obj);
 		fixture.Dispose();
 	}
+
 	[Fact]
 	public async Task Update_Bookmarks_ValidObject_OkResult()
 	{
 		var fixture = new BookmarksFixture();
 		fixture.SetupCollection();
-		var items = fixture.list;	  	
+		var items = fixture.list;
 		var item = items.First();
 		var updateValue = "White bread flour";
 		item.BookmarkedRecipes.First().Title = updateValue;
 
-		var result = await fixture.SUT.Update(item);
+		var result = await fixture.SUT.UpdateAsync(item);
 		Assert.NotNull(result);
 
 		Assert.IsAssignableFrom<OkObjectResult>(result.Result);
 
-		var readUpdate = await fixture.SUT.GetAll();
+		var readUpdate = await fixture.SUT.GetAllAsync();
 		var objUpdateResult = Assert.IsAssignableFrom<OkObjectResult>(readUpdate.Result);
 		var listUpdateResult = Assert.IsAssignableFrom<List<Bookmarks>>(objUpdateResult.Value);
 		var itemUpdated = listUpdateResult.First();
@@ -182,18 +177,16 @@ public class BookmarksControllerTests
 	{
 		var fixture = new BookmarksFixture();
 		fixture.SetupCollection();
-		var read = await fixture.SUT.GetAll();
+		var read = await fixture.SUT.GetAllAsync();
 		var objResult = Assert.IsAssignableFrom<OkObjectResult>(read.Result);
 		var listResult = Assert.IsAssignableFrom<List<Bookmarks>>(objResult.Value);
 		var item = listResult.First();
 		item.UserId = value;
 
-		var result = await fixture.SUT.Update(item);
+		var result = await fixture.SUT.UpdateAsync(item);
 		Assert.NotNull(result);
 
 		Assert.IsAssignableFrom<BadRequestResult>(result.Result);
 		fixture.Dispose();
 	}
-
-
 }

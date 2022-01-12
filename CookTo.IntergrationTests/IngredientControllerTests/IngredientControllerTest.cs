@@ -9,17 +9,14 @@ public class IngredientControllerTest
 	{
 		var fixture = new IngredientFixture();
 		fixture.SetupCollection();
-		var ingredient = new Ingredient
-		{
-			Name = "Flour"
-		};
-		var result = await fixture.SUT.Create(ingredient);
+		var ingredient = new Ingredient { Name = "Flour" };
+		var result = await fixture.SUT.CreateAsync(ingredient);
 
 		Assert.NotNull(result);
 
 		var obj = Assert.IsAssignableFrom<OkObjectResult>(result.Result);
 		Assert.IsType<Ingredient>(obj.Value);
-		
+
 		fixture.Dispose();
 	}
 
@@ -30,7 +27,7 @@ public class IngredientControllerTest
 		fixture.SetupCollection();
 		var ingredient = new Ingredient();
 
-		var result = await fixture.SUT.Create(ingredient);
+		var result = await fixture.SUT.CreateAsync(ingredient);
 
 		Assert.NotNull(result);
 		Assert.IsAssignableFrom<BadRequestResult>(result.Result);
@@ -42,25 +39,23 @@ public class IngredientControllerTest
 	{
 		var fixture = new IngredientFixture();
 		fixture.SetupCollection();
-		var ingredient = new Ingredient()
-		{
-			Name = "a"
-		};
+		var ingredient = new Ingredient() { Name = "a" };
 
-		var result = await fixture.SUT.Create(ingredient);
+		var result = await fixture.SUT.CreateAsync(ingredient);
 
 		Assert.NotNull(result);
 		Assert.IsAssignableFrom<BadRequestResult>(result.Result);
 		fixture.Dispose();
 	}
+
 	[Fact]
 	public async Task Delete_Ingredient_ValidId_OkResult()
 	{
 		var fixture = new IngredientFixture();
 		fixture.SetupCollection();
-		var items = fixture.list;	 
+		var items = fixture.list;
 
-		var result = await fixture.SUT.Delete(items.First().Id.ToString());
+		var result = await fixture.SUT.DeleteAsync(items.First().Id.ToString());
 		Assert.NotNull(result);
 
 		var obj = Assert.IsAssignableFrom<OkObjectResult>(result.Result);
@@ -75,7 +70,7 @@ public class IngredientControllerTest
 	{
 		var fixture = new IngredientFixture();
 		fixture.SetupCollection();
-		var result = await fixture.SUT.Delete(Guid.NewGuid().ToString());
+		var result = await fixture.SUT.DeleteAsync(Guid.NewGuid().ToString());
 		Assert.NotNull(result);
 
 		var obj = Assert.IsAssignableFrom<NotFoundResult>(result.Result);
@@ -92,7 +87,7 @@ public class IngredientControllerTest
 		fixture.SetupCollection();
 		var expected = fixture.list;
 
-		var result = await fixture.SUT.GetAll();
+		var result = await fixture.SUT.GetAllAsync();
 
 		Assert.NotNull(result);
 
@@ -112,7 +107,7 @@ public class IngredientControllerTest
 	{
 		var fixture = new IngredientFixture();
 
-		var result = await fixture.SUT.GetAll();
+		var result = await fixture.SUT.GetAllAsync();
 		//assert
 		Assert.NotNull(result);
 
@@ -131,7 +126,7 @@ public class IngredientControllerTest
 		var expected = fixture.list;
 		var id = expected[0].Id.ToString();
 
-		var result = await fixture.SUT.GetById(id);
+		var result = await fixture.SUT.GetByIdAsync(id);
 		//assert
 		Assert.NotNull(result);
 		Assert.NotNull(result.Result);
@@ -147,7 +142,7 @@ public class IngredientControllerTest
 	{
 		var fixture = new IngredientFixture();
 
-		var result = await fixture.SUT.GetById(ObjectId.GenerateNewId().ToString());
+		var result = await fixture.SUT.GetByIdAsync(ObjectId.GenerateNewId().ToString());
 		//assert
 		Assert.NotNull(result);
 
@@ -163,7 +158,7 @@ public class IngredientControllerTest
 	{
 		var fixture = new IngredientFixture();
 
-		var result = await fixture.SUT.GetById(id);
+		var result = await fixture.SUT.GetByIdAsync(id);
 		//assert
 		Assert.NotNull(result);
 
@@ -175,23 +170,22 @@ public class IngredientControllerTest
 	public async Task Update_Ingredient_ValidObject_OkResult()
 	{
 		var fixture = new IngredientFixture();
-		fixture.SetupCollection(); 		
+		fixture.SetupCollection();
 		var item = fixture.list.First();
 		var expected = "White bread flour";
 		item.Name = expected;
 
-		var result = await fixture.SUT.Update(item);
+		var result = await fixture.SUT.UpdateAsync(item);
 		Assert.NotNull(result);
 
 		Assert.IsAssignableFrom<OkObjectResult>(result.Result);
 
-		var readUpdate = await fixture.SUT.GetAll();
+		var readUpdate = await fixture.SUT.GetAllAsync();
 		var objUpdateResult = Assert.IsAssignableFrom<OkObjectResult>(readUpdate.Result);
 		var listUpdateResult = Assert.IsAssignableFrom<List<Ingredient>>(objUpdateResult.Value);
 		var itemUpdated = listUpdateResult.First();
 		Assert.Equal(expected, itemUpdated.Name);
 		fixture.Dispose();
-
 	}
 
 	[Theory]
@@ -201,17 +195,14 @@ public class IngredientControllerTest
 	{
 		var fixture = new IngredientFixture();
 		fixture.SetupCollection();
-		var items = fixture.list; 	
+		var items = fixture.list;
 		var item = items.First();
 		item.Name = value;
 
-		var result = await fixture.SUT.Update(item);
+		var result = await fixture.SUT.UpdateAsync(item);
 		Assert.NotNull(result);
 
 		Assert.IsAssignableFrom<BadRequestResult>(result.Result);
 		fixture.Dispose();
 	}
-
-
-
 }
