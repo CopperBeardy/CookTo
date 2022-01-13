@@ -1,4 +1,4 @@
-﻿namespace CookTo.Server.Controllers;
+﻿namespace CookTo.Server.Controllers.Interfaces;
 
 public interface IBaseController<TEntity> where TEntity : BaseEntity
 {

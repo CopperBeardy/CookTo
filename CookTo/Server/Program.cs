@@ -7,10 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+builder.Services
+	.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	.AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
-builder.Services.Configure<MongoSettings>(builder.Configuration.GetSection(nameof(MongoSettings)))
-	.AddOptions();
+builder.Services.Configure<MongoSettings>(builder.Configuration.GetSection(nameof(MongoSettings))).AddOptions();
 
 //var mongoSettings = builder.Configuration.GetSection(nameof(MongoSettings));
 
@@ -18,14 +18,18 @@ builder.Services.AddScoped<ICookToDbContext, CookToDbContext>();
 builder.Services.AddScoped<IIngredientService, IngredientService>();
 builder.Services.AddScoped<IRecipeService, RecipeService>();
 builder.Services.AddScoped<IBookmarksService, BookmarksService>();
-builder.Services.AddCors(policy =>
-{
-	policy.AddPolicy("CorsPolicy", opt => opt
+builder.Services
+	.AddCors(
+		policy =>
+		{
+			policy.AddPolicy(
+				"CorsPolicy",
+				opt => opt
 .AllowAnyOrigin()
-.AllowAnyHeader()
-.AllowAnyMethod()
-	.WithExposedHeaders("X-Pagination"));
-});
+						.AllowAnyHeader()
+						.AllowAnyMethod()
+						.WithExposedHeaders("X-Pagination"));
+		});
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

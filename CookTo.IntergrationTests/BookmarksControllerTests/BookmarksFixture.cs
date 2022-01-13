@@ -1,7 +1,4 @@
 ﻿using MongoDB.Bson;
-using System;
-using System.Collections;
-using System.Linq;
 
 namespace CookTo.Tests.Intergration.BookmarksControllerTests;
 
@@ -12,16 +9,16 @@ public class BookmarksFixture : Fixture
 	public BookmarksController SUT;
 	public List<Bookmarks> list;
 	public string collectionName = nameof(Bookmarks);
+
 	public BookmarksFixture()
 	{
 		var loggerFactory = new LoggerFactory();
 		logger = loggerFactory.CreateLogger<BookmarksController>();
 		BookmarksService = new BookmarksService(CookToDbContext);
 		SUT = new BookmarksController(BookmarksService, logger);
-
 	}
 
-	  public void SetupCollection()
+	public void SetupCollection()
 	{
 		var client = new MongoClient(connectionString);
 		var database = client.GetDatabase(db);
@@ -30,42 +27,30 @@ public class BookmarksFixture : Fixture
 
 		var collection = CookToDbContext.GetCollection<Bookmarks>(nameof(Bookmarks));
 
-			list = new List<Bookmarks>();
+		list = new List<Bookmarks>();
 
-		list.Add(new Bookmarks
-		{
-			UserId = "1111a1111a1111a1111a1111",
-			BookmarkedRecipes = new List<Bookmarked>()
+		list.Add(
+			new Bookmarks
 			{
-				new Bookmarked()
-				{
-					RecipeId= ObjectId.GenerateNewId(),
-					Title="Baked Alaska"
-				},
-				new Bookmarked()
-				{
-					RecipeId = ObjectId.GenerateNewId(),
-					Title = "Cup Cakes"
-				}
-			}
-		});
-		list.Add(new Bookmarks
-		{
-			UserId = "1111b1111b1111b1111b1111",
-			BookmarkedRecipes = new List<Bookmarked>()
+				UserId = "1111a1111a1111a1111a1111",
+				BookmarkedRecipes =
+					new List<Bookmarked>()
+						{
+							new Bookmarked() { RecipeId = ObjectId.GenerateNewId(), Title = "Baked Alaska" },
+							new Bookmarked() { RecipeId = ObjectId.GenerateNewId(), Title = "Cup Cakes" }
+						}
+			});
+		list.Add(
+			new Bookmarks
 			{
-				new Bookmarked()
-				{
-					RecipeId= ObjectId.GenerateNewId(),
-					Title="Cheese Flan"
-				},
-				new Bookmarked()
-				{
-					RecipeId = ObjectId.GenerateNewId(),
-					Title = "Sponge cake"
-				}
-			}
-		});
+				UserId = "1111b1111b1111b1111b1111",
+				BookmarkedRecipes =
+					new List<Bookmarked>()
+						{
+							new Bookmarked() { RecipeId = ObjectId.GenerateNewId(), Title = "Cheese Flan" },
+							new Bookmarked() { RecipeId = ObjectId.GenerateNewId(), Title = "Sponge cake" }
+						}
+			});
 		collection.InsertMany(list);
 	}
 
@@ -81,7 +66,7 @@ public class BookmarksFixture : Fixture
 		var database = client.GetDatabase(db);
 		var collections = database.ListCollectionNames().ToList();
 		if (collections.Contains(collectionName))
-{
+		{
 			database.DropCollection(collectionName);
 		}
 	}

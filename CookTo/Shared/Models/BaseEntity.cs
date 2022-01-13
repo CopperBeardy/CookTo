@@ -4,7 +4,7 @@ using MongoDB.Bson.Serialization.IdGenerators;
 
 namespace CookTo.Shared.Models;
 
-public abstract class BaseEntity  :ModelBase
+public abstract class BaseEntity : ModelBase
 {
 	[BsonId(IdGenerator = typeof(ObjectIdGenerator))]
 	[BsonRepresentation(BsonType.ObjectId)]

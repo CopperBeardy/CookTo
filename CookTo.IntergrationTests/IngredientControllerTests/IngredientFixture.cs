@@ -1,16 +1,13 @@
-﻿
+﻿namespace CookTo.Tests.Intergration.IngredientControllerTests;
 
-using MongoDB.Driver.Core.Configuration;
-
-namespace CookTo.Tests.Intergration.IngredientControllerTests;
-
-public class IngredientFixture	 : Fixture,IDisposable
+public class IngredientFixture : Fixture, IDisposable
 {
 	public ILogger<IngredientController> logger;
 	public IIngredientService ingredientService;
 	public IngredientController SUT;
 	public List<Ingredient> list;
 	public string collectionName = nameof(Ingredient);
+
 	public IngredientFixture()
 	{
 		var loggerFactory = new LoggerFactory();
@@ -28,16 +25,7 @@ public class IngredientFixture	 : Fixture,IDisposable
 
 		var collection = CookToDbContext.GetCollection<Ingredient>(nameof(Ingredient));
 
-		list = new List<Ingredient>() {
-		 new Ingredient()
-		{
-			Name = "Bread"
-		},
-		 new Ingredient()
-		{
-			Name = "Milk"
-		}
-		};
+		list = new List<Ingredient>() { new Ingredient() { Name = "Bread" }, new Ingredient() { Name = "Milk" } };
 
 		collection.InsertMany(list);
 	}
@@ -50,7 +38,7 @@ public class IngredientFixture	 : Fixture,IDisposable
 	}
 
 	private void RemoveCollectionIfExists()
-{
+	{
 		var client = new MongoClient(connectionString);
 		var database = client.GetDatabase(db);
 		var collections = database.ListCollectionNames().ToList();

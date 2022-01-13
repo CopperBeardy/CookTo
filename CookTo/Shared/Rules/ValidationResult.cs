@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CookTo.Shared.Rules;
+﻿namespace CookTo.Shared.Rules;
 
 public class ValidationResult
 {
 	public bool IsValid { get; set; }
+
 	public string? Message { get; set; }
 }

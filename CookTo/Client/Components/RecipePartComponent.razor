@@ -1,0 +1,53 @@
+﻿@page "/test"
+@inject IngredientRepository repo
+
+
+<EditForm Model="@currentIngredient" OnSubmit="@HandleSubmit">
+	<div>
+		<label for="quantityInput">Quantity</label>
+		<InputNumber TValue="double" min=0 id="quantityInput" @bind-Value="currentIngredient.Amount"/>
+	</div>
+	<div>
+		<label for="unitSelect">Unit</label>
+		<InputSelect TValue="MeasureUnit" @bind-Value="currentIngredient.Unit">
+			@foreach (var unit in Enum.GetValues(typeof(MeasureUnit)))
+		   {
+			   <option value="@unit">@unit</option>
+		   }
+		</InputSelect>
+	</div>
+	<div>
+		<label for="ingrdientSelect">Ingredient</label>
+		<InputSelect  id="ingrdientSelect"  @bind-Value="@currentIngredient.Ingredient">
+			@foreach (var ing in Ingredients)
+				{
+					<option value="@ing.Id">@ing.Name</option>
+				}
+			</InputSelect>
+	</div>
+	<div>
+			<label for="descriptionInput">Description</label>	
+			<InputText @bind-Value="@currentIngredient.Description"> </InputText>	
+	</div>
+</EditForm>
+
+@foreach (var ing in Ingredients)
+				{
+					<p >@ing.Name</p>
+				}
+@code {
+	public PartIngredient currentIngredient { get; set; } = new PartIngredient();
+	public IEnumerable<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
+
+
+	protected override async Task OnInitializedAsync()
+	{
+		Ingredients = await repo.GetAllAsync();
+	
+	}
+
+	public void HandleSubmit()
+	{
+		
+	}
+}

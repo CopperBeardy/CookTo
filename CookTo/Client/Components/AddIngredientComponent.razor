@@ -1,0 +1,31 @@
+﻿
+
+<EditForm Model="@ingredient" OnValidSubmit="@HandleValidSubmit">
+	<DataAnnotationsValidator/>
+	<ValidationSummary/>
+	<InputText id="name" @bind-Value="@ingredient.Name"/>
+	<button type="submit">Add</button>
+</EditForm>
+
+@code{
+	[Parameter]
+	public Ingredient ingredient { get; set; } = new ();
+	[Parameter]
+	public IngredientRepository repo { get; set; }
+	[Parameter]
+	public EventCallback<Ingredient> onAdd{ get; set; }
+
+	private async Task HandleValidSubmit()
+	{
+		try
+		{
+			var result = await repo.InsertAsync(ingredient);
+			ingredient = new();
+			await onAdd.InvokeAsync(result);
+		}
+		catch (Exception ex)
+		{
+			await onAdd.InvokeAsync(null);
+		}
+	}
+}

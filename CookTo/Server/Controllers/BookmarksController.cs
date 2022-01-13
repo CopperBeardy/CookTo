@@ -1,6 +1,5 @@
 ﻿using CookTo.Server.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Logging;
 
 namespace CookTo.Server.Controllers;
 
@@ -21,9 +20,9 @@ public class BookmarksController : BaseController<Bookmarks>
 	}
 
 	[HttpGet("{id}")]
-	public  async Task<ActionResult<Bookmarks>> GetByUserIdAsync(string id)
+	public async Task<ActionResult<Bookmarks>> GetByUserIdAsync(string id)
 	{
-		if(string.IsNullOrEmpty(id))
+		if (string.IsNullOrEmpty(id))
 		{
 			return BadRequest();
 		}
@@ -32,7 +31,8 @@ public class BookmarksController : BaseController<Bookmarks>
 		{
 			var result = await bookmarkService.GetByUserIdAsync(id);
 			return Ok(result);
-		} catch(Exception ex)
+		}
+		catch (Exception ex)
 		{
 			logger.LogError(ex, "get by Id", id);
 			return NotFound();
