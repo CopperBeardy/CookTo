@@ -159,7 +159,7 @@ public class RecipeControllerTests : RecipeFixture
 	[Fact(Skip = "true")]
 	public async Task Update_Recipe_ValidModel_OKResult()
 	{
-		var recipe = new Recipe() { Id = new ObjectId("1111a2222a3333a4444a5555"), Title = "White bread" };
+		var recipe = new Recipe() { Id = "1111a2222a3333a4444a5555", Title = "White bread" };
 
 		_mockService.Setup(g => g.UpdateAsync(It.IsAny<Recipe>())).Returns(Task.CompletedTask);
 

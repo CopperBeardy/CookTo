@@ -6,8 +6,10 @@ namespace CookTo.Shared.Models;
 public class Bookmarked
 {
 	[RequiredRule]
-	public ObjectId RecipeId { get; set; }
-	[RequiredRule]
-	public string Title { get; set; }
+	[JsonPropertyName("recipeId")]
+	public string RecipeId { get; set; }
 
+	[RequiredRule]
+	[JsonPropertyName("title")]
+	public string Title { get; set; }
 }

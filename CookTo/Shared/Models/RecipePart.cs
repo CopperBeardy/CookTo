@@ -10,11 +10,10 @@ public class RecipePart
 	[BsonRequired]
 	[RequiredRule]
 	[MinLengthRule(5)]
+	[JsonPropertyName("title")]
 	public string Title { get; set; }
+
 	public List<string> Items { get; set; }
-
-
 }
-
 
 

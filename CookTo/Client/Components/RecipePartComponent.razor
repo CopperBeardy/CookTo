@@ -3,9 +3,9 @@
 
 
 <EditForm Model="@currentIngredient" OnSubmit="@HandleSubmit">
-	<div>
+@*	<div>
 		<label for="quantityInput">Quantity</label>
-		<InputNumber TValue="double" min=0 id="quantityInput" @bind-Value="currentIngredient.Amount"/>
+		<InputNumber TValue="double" min=0 id="quantityInput" @bind-Value="@currentIngredient.Amount"/>
 	</div>
 	<div>
 		<label for="unitSelect">Unit</label>
@@ -15,39 +15,47 @@
 			   <option value="@unit">@unit</option>
 		   }
 		</InputSelect>
-	</div>
+	</div>*@
 	<div>
+
 		<label for="ingrdientSelect">Ingredient</label>
-		<InputSelect  id="ingrdientSelect"  @bind-Value="@currentIngredient.Ingredient">
+		
+		<InputSelect id="ingrdientSelect"  @bind-Value="@currentIngredient.Name">
+		
 			@foreach (var ing in Ingredients)
 				{
-					<option value="@ing.Id">@ing.Name</option>
+					<option  value=@ing.Name>@ing.Name</option>
 				}
 			</InputSelect>
+			
 	</div>
-	<div>
-			<label for="descriptionInput">Description</label>	
-			<InputText @bind-Value="@currentIngredient.Description"> </InputText>	
-	</div>
+	@*<div>
+			<label for="descriptionInput">Description</label>
+			<InputText @bind-Value="@currentIngredient.Description"> </InputText>
+	</div>*@
 </EditForm>
 
-@foreach (var ing in Ingredients)
-				{
-					<p >@ing.Name</p>
-				}
+
 @code {
 	public PartIngredient currentIngredient { get; set; } = new PartIngredient();
-	public IEnumerable<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
-
+	public IEnumerable<Ingredient>? Ingredients { get; set; } = new List<Ingredient>() { };
+	public string newIngredient { get; set; } = "";
 
 	protected override async Task OnInitializedAsync()
 	{
 		Ingredients = await repo.GetAllAsync();
-	
+		await InvokeAsync(StateHasChanged);
+	}
+
+	public void IngredientSelectChange(ChangeEventArgs args)
+	{
+		
 	}
 
 	public void HandleSubmit()
 	{
-		
+
 	}
+
+
 }

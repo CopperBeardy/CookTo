@@ -131,11 +131,7 @@ public class BookmarkControllerTests : BookmarksFixture
 	[Fact]
 	public async Task Update_Bookmarks_ValidModel_OKResult()
 	{
-		var Bookmarked = new Bookmarked()
-		{
-			RecipeId = new ObjectId("1111a1111b1111c1111d1111"),
-			Title = "Cheddar Cheese"
-		};
+		var Bookmarked = new Bookmarked() { RecipeId = "1111a1111b1111c1111d1111", Title = "Cheddar Cheese" };
 		_bookmarks.BookmarkedRecipes.Add(Bookmarked);
 		_mockService.Setup(g => g.UpdateAsync(It.IsAny<Bookmarks>())).Returns(Task.CompletedTask);
 
@@ -164,11 +160,7 @@ public class BookmarkControllerTests : BookmarksFixture
 	[Fact]
 	public async Task Update_Bookmarks_ExceptionThrown_NotFoundResult()
 	{
-		var Bookmarked = new Bookmarked()
-		{
-			RecipeId = new ObjectId("1111a1111b1111c1111d1111"),
-			Title = "Cheddar Cheese"
-		};
+		var Bookmarked = new Bookmarked() { RecipeId = "1111a1111b1111c1111d1111", Title = "Cheddar Cheese" };
 		_bookmarks.BookmarkedRecipes.Add(Bookmarked);
 
 		_mockService.Setup(g => g.UpdateAsync(It.IsAny<Bookmarks>())).ThrowsAsync(new Exception());

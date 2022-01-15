@@ -5,9 +5,11 @@ namespace CookTo.Shared.Models;
 public class CookingStep
 {
 	[RequiredRule]
-	public int StepOrder { get; set; }
+	[JsonPropertyName("stepnumber")]
+	public int StepNumber { get; set; }
 
 	[RequiredRule]
 	[MinLengthRule(10)]
+	[JsonPropertyName("step")]
 	public string Step { get; set; }
 }

@@ -4,7 +4,6 @@ namespace CookTo.Tests.Server.Unit.IngredientControllerTests;
 
 public class IngredientFixture
 {
-
 	public Mock<IIngredientService> _mockService;
 	public Mock<ICookToDbContext> _mockDbContext;
 	public Mock<IMongoCollection<Ingredient>> _mockCollection;
@@ -22,26 +21,13 @@ public class IngredientFixture
 
 		_ingredients = new List<Ingredient>()
 		{
-			new Ingredient()
-			{
-				Id = new ObjectId("1111a1111b1111c1111d1111"),
-				Name = "Cheese"
-			},
-			new Ingredient()
-			{
-				Id =new ObjectId("2222a2222b2222c2222d2222"),
-				Name="Flour"
-			}
+			new Ingredient() { Id = "1111a1111b1111c1111d1111", Name = "Cheese" },
+			new Ingredient() { Id = "2222a2222b2222c2222d2222", Name = "Flour" }
 		};
 		_mockCollection.Object.InsertMany(_ingredients);
-		_ingredient = new Ingredient()
-		{
-			Id = new ObjectId("3333a3333b3333c3333d3333"),
-			Name = "Milk"
-		};
+		_ingredient = new Ingredient() { Id = "3333a3333b3333c3333d3333", Name = "Milk" };
 		_mockDbContext.Setup(c => c.GetCollection<Ingredient>(typeof(Ingredient).Name)).Returns(_mockCollection.Object);
 		SUT = new IngredientController(_mockService.Object, _mockLogger.Object);
-
 	}
 }
 

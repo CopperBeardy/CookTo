@@ -14,6 +14,7 @@ namespace CookTo.Client.Repositories
 			_url = $"api/{controller}";
 		}
 
+
 		public async Task<IEnumerable<TEntity>> GetAllAsync()
 		{
 			try
@@ -21,7 +22,7 @@ namespace CookTo.Client.Repositories
 				var result = await _httpClient.GetAsync(_url);
 				result.EnsureSuccessStatusCode();
 				string responseBody = await result.Content.ReadAsStringAsync();
-				var response = responseBody as List<TEntity>;
+				var response = JsonSerializer.Deserialize<IEnumerable<TEntity>>(responseBody);
 				return response;
 			} catch(Exception)
 			{

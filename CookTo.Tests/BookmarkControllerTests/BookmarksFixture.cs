@@ -4,7 +4,6 @@ namespace CookTo.Tests.Server.Unit.BookmarkControllerTests;
 
 public class BookmarksFixture
 {
-
 	public Mock<IBookmarksService> _mockService;
 	public Mock<ICookToDbContext> _mockDbContext;
 	public Mock<IMongoCollection<Bookmarks>> _mockCollection;
@@ -22,31 +21,19 @@ public class BookmarksFixture
 
 		_bookmarks = new Bookmarks()
 		{
-			Id = new ObjectId("1111a1111b1111c1111d1111"),
+			Id = "1111a1111b1111c1111d1111",
 			UserId = "7777a7777a7777a7777a7777",
-			BookmarkedRecipes = new List<Bookmarked>()
+			BookmarkedRecipes =
+				new List<Bookmarked>()
 				{
-					new Bookmarked()
-					{
-						RecipeId = new ObjectId("aaaa1aaaa2aaaa3aaaa4aaaa"),
-						Title = "Bread"
-					}  ,
-					new Bookmarked()
-					{
-						RecipeId = new ObjectId("aaaa2aaaa5aaaa7aaaa8aaaa"),
-						Title = "Milk"
-					}
+					new Bookmarked() { RecipeId = "aaaa1aaaa2aaaa3aaaa4aaaa", Title = "Bread" },
+					new Bookmarked() { RecipeId = "aaaa2aaaa5aaaa7aaaa8aaaa", Title = "Milk" }
 				}
 		};
 		_mockCollection.Object.InsertOne(_bookmarks);
-		_bookmarked = new Bookmarked()
-		{
-			RecipeId = new ObjectId("3333a3333b3333c3333d3333"),
-			Title = "Butter"
-		};
+		_bookmarked = new Bookmarked() { RecipeId = "3333a3333b3333c3333d3333", Title = "Butter" };
 		_mockDbContext.Setup(c => c.GetCollection<Bookmarks>(typeof(Bookmarks).Name)).Returns(_mockCollection.Object);
 		SUT = new BookmarksController(_mockService.Object, _mockLogger.Object);
-
 	}
 }
 

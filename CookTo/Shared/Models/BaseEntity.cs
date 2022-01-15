@@ -8,5 +8,6 @@ public abstract class BaseEntity : ModelBase
 {
 	[BsonId(IdGenerator = typeof(ObjectIdGenerator))]
 	[BsonRepresentation(BsonType.ObjectId)]
-	public ObjectId? Id { get; set; }
+	[JsonPropertyName("_id")]
+	public string Id { get; set; }
 }

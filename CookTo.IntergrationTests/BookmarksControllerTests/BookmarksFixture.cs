@@ -36,8 +36,8 @@ public class BookmarksFixture : Fixture
 				BookmarkedRecipes =
 					new List<Bookmarked>()
 						{
-							new Bookmarked() { RecipeId = ObjectId.GenerateNewId(), Title = "Baked Alaska" },
-							new Bookmarked() { RecipeId = ObjectId.GenerateNewId(), Title = "Cup Cakes" }
+							new Bookmarked() { RecipeId = "id", Title = "Baked Alaska" },
+							new Bookmarked() { RecipeId = "id", Title = "Cup Cakes" }
 						}
 			});
 		list.Add(
@@ -47,8 +47,8 @@ public class BookmarksFixture : Fixture
 				BookmarkedRecipes =
 					new List<Bookmarked>()
 						{
-							new Bookmarked() { RecipeId = ObjectId.GenerateNewId(), Title = "Cheese Flan" },
-							new Bookmarked() { RecipeId = ObjectId.GenerateNewId(), Title = "Sponge cake" }
+							new Bookmarked() { RecipeId = "id", Title = "Cheese Flan" },
+							new Bookmarked() { RecipeId = "id", Title = "Sponge cake" }
 						}
 			});
 		collection.InsertMany(list);
@@ -65,7 +65,7 @@ public class BookmarksFixture : Fixture
 		var client = new MongoClient(connectionString);
 		var database = client.GetDatabase(db);
 		var collections = database.ListCollectionNames().ToList();
-		if (collections.Contains(collectionName))
+		if(collections.Contains(collectionName))
 		{
 			database.DropCollection(collectionName);
 		}

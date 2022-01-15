@@ -15,7 +15,7 @@ public class RecipeControllerTests
 			Category = "Baking",
 			Description = "steak Pie with puff pastry and vegtables",
 			ImageUrl = "test3.png",
-			PrepartionTime = 60,
+			PreparationTime = 60,
 			CookingTime = 240,
 			Serves = 4,
 			AuthorId = Guid.NewGuid().ToString(),
@@ -27,7 +27,7 @@ public class RecipeControllerTests
 			CookingSteps =
 				new List<CookingStep>
 				{
-					new CookingStep() { StepOrder = 1, Step = "mix butter and sugar until fluffy" }
+					new CookingStep() { StepNumber = 1, Step = "mix butter and sugar until fluffy" }
 				},
 			Tips = new List<string> { "ensure cakes are firm before removin from oven" }
 		};

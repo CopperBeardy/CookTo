@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using CookTo.Shared.Rules;
-using MongoDB.Bson.Serialization.Attributes;
+﻿
 namespace CookTo.Shared.Models;
 
 public class Ingredient : BaseEntity
@@ -9,6 +7,6 @@ public class Ingredient : BaseEntity
 	[BsonRequired]
 	[RequiredRule]
 	[MinLengthRule(2)]
+	[JsonPropertyName("name")]
 	public string Name { get; set; }
-
 }

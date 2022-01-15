@@ -5,11 +5,11 @@ namespace CookTo.Client.ViewModels;
 
 public class PartIngredient
 {
-	public double Amount { get; set; } = 0;
+	public double Amount { get; set; }
 
-	public MeasureUnit Unit { get; set; } = MeasureUnit.g;
+	public MeasureUnit Unit { get; set; }
 
-	public Ingredient Ingredient { get; set; } = new Ingredient();
+	public string Name { get; set; }
 
-	public string Description { get; set; } = string.Empty;
+	public string Description { get; set; }
 }

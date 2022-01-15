@@ -159,7 +159,7 @@ public class IngredientControllerTests : IngredientFixture
 	[Fact]
 	public async Task Update_Ingredient_ValidModel_OKResult()
 	{
-		var ingredient = new Ingredient() { Id = new ObjectId("1111a1111b1111c1111d1111"), Name = "Cheddar Cheese" };
+		var ingredient = new Ingredient() { Id = "1111a1111b1111c1111d1111", Name = "Cheddar Cheese" };
 
 		_mockService.Setup(g => g.UpdateAsync(It.IsAny<Ingredient>())).Returns(Task.CompletedTask);
 
@@ -189,7 +189,7 @@ public class IngredientControllerTests : IngredientFixture
 	public async Task Update_Ingredient_ExceptionThrown_NotFoundResult()
 	{
 		_mockService.Setup(g => g.UpdateAsync(It.IsAny<Ingredient>())).ThrowsAsync(new Exception());
-		var ingredient = new Ingredient() { Id = new ObjectId("1111a1111b1111c1111d1111"), Name = "Cheddar Cheese" };
+		var ingredient = new Ingredient() { Id = "1111a1111b1111c1111d1111", Name = "Cheddar Cheese" };
 
 		Assert.NotNull(SUT);
 

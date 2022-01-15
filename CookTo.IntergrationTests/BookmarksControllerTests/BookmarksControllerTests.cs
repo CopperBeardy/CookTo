@@ -15,8 +15,8 @@ public class BookmarksControllerTests
 			BookmarkedRecipes =
 				new List<Bookmarked>()
 				{
-					new Bookmarked() { RecipeId = ObjectId.GenerateNewId(), Title = "White bread loaf" },
-					new Bookmarked() { RecipeId = ObjectId.GenerateNewId(), Title = "Sponge cake" }
+					new Bookmarked() { RecipeId = "id", Title = "White bread loaf" },
+					new Bookmarked() { RecipeId = "id", Title = "Sponge cake" }
 				}
 		};
 		var result = await fixture.SUT.CreateAsync(Bookmarks);

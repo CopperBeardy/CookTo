@@ -34,7 +34,7 @@ public class RecipeFixture : Fixture, IDisposable
 				Category = "Baking",
 				Description = "White Bread loaf recipe with a crisp crust",
 				ImageUrl = "test.png",
-				PrepartionTime = 120,
+				PreparationTime = 120,
 				CookingTime = 30,
 				Serves = 4,
 				AuthorId = Guid.NewGuid().ToString(),
@@ -58,45 +58,45 @@ public class RecipeFixture : Fixture, IDisposable
 				CookingSteps =
 					new List<CookingStep>()
 					{
-						new CookingStep() { StepOrder = 1, Step = "add flour to mixing bowl" },
+						new CookingStep() { StepNumber = 1, Step = "add flour to mixing bowl" },
 						new CookingStep()
 						{
-							StepOrder = 2,
+							StepNumber = 2,
 							Step = "add salt to one side of the bowl and yeast to the other side of the bowl"
 						},
 						new CookingStep()
 						{
-							StepOrder = 3,
+							StepNumber = 3,
 							Step = "add half the water and mix with fingers, adding water as needed to mop up the flour"
 						},
 						new CookingStep()
 						{
-							StepOrder = 4,
+							StepNumber = 4,
 							Step = "spread a little oil on a surface and then add the bread dough"
 						},
-						new CookingStep() { StepOrder = 5, Step = "kneed the dough for 5-10 minutes" },
+						new CookingStep() { StepNumber = 5, Step = "kneed the dough for 5-10 minutes" },
 						new CookingStep()
 						{
-							StepOrder = 6,
+							StepNumber = 6,
 							Step =
 								"place dough in a lightly oiled bowl and cover with a damp towel to proof until dough doubled in size"
 						},
 						new CookingStep()
 						{
-							StepOrder = 7,
+							StepNumber = 7,
 							Step = "turn dough on to a lightly floured surface and knock back"
 						},
 						new CookingStep()
 						{
-							StepOrder = 8,
+							StepNumber = 8,
 							Step = "shape the dough in the shape of a rugby ball and place in loaf tin"
 						},
 						new CookingStep()
 						{
-							StepOrder = 9,
+							StepNumber = 9,
 							Step = "place in pre heat oven at 220c for 15 minutes then reduce to 170c for 30 minutes"
 						},
-						new CookingStep() { StepOrder = 10, Step = "turn on to wire rack to cool" }
+						new CookingStep() { StepNumber = 10, Step = "turn on to wire rack to cool" }
 					},
 				Tips =
 					new List<string>
@@ -111,7 +111,7 @@ public class RecipeFixture : Fixture, IDisposable
 				Category = "Baking",
 				Description = "Fluffy cup cakes with fun covering",
 				ImageUrl = "test2.png",
-				PrepartionTime = 15,
+				PreparationTime = 15,
 				CookingTime = 13,
 				Serves = 12,
 				AuthorId = Guid.NewGuid().ToString(),
@@ -135,10 +135,10 @@ public class RecipeFixture : Fixture, IDisposable
 				CookingSteps =
 					new List<CookingStep>
 					{
-						new CookingStep() { StepOrder = 1, Step = "mix butter and sugar until fluffy" },
-						new CookingStep() { StepOrder = 2, Step = "add vanilla essence" },
-						new CookingStep() { StepOrder = 3, Step = "fold in the flour" },
-						new CookingStep() { StepOrder = 5, Step = "bake for 10 minutes or until firm" }
+						new CookingStep() { StepNumber = 1, Step = "mix butter and sugar until fluffy" },
+						new CookingStep() { StepNumber = 2, Step = "add vanilla essence" },
+						new CookingStep() { StepNumber = 3, Step = "fold in the flour" },
+						new CookingStep() { StepNumber = 5, Step = "bake for 10 minutes or until firm" }
 					},
 				Tips = new List<string> { "ensure cakes are firm before removin from oven" }
 			}
@@ -157,7 +157,7 @@ public class RecipeFixture : Fixture, IDisposable
 		var client = new MongoClient(connectionString);
 		var database = client.GetDatabase(db);
 		var collections = database.ListCollectionNames().ToList();
-		if (collections.Contains(collectionName))
+		if(collections.Contains(collectionName))
 		{
 			database.DropCollection(collectionName);
 		}
