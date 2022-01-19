@@ -6,8 +6,8 @@ namespace CookTo.Shared.Models;
 
 public abstract class BaseEntity : ModelBase
 {
-	[BsonId(IdGenerator = typeof(ObjectIdGenerator))]
-	[BsonRepresentation(BsonType.ObjectId)]
+	[BsonId(IdGenerator = typeof(StringObjectIdGenerator))]
+
 	[JsonPropertyName("_id")]
 	public string Id { get; set; }
 }

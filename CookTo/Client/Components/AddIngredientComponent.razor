@@ -1,4 +1,5 @@
-﻿
+﻿@page "/add"
+@inject IngredientRepository Repo
 
 <EditForm Model="@ingredient" OnValidSubmit="@HandleValidSubmit">
 	<DataAnnotationsValidator/>
@@ -9,7 +10,7 @@
 
 @code{
 	[Parameter]
-	public Ingredient ingredient { get; set; } = new ();
+	public Ingredient ingredient { get; set; } = new (){Id = ""};
 	[Parameter]
 	public IngredientRepository repo { get; set; }
 	[Parameter]
@@ -19,7 +20,7 @@
 	{
 		try
 		{
-			var result = await repo.InsertAsync(ingredient);
+			var result = await Repo.InsertAsync(ingredient);
 			ingredient = new();
 			await onAdd.InvokeAsync(result);
 		}

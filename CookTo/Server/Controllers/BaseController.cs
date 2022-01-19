@@ -26,8 +26,7 @@ public abstract class BaseController<TEntity> : ControllerBase, IBaseController<
 		{
 			var result = await service.GetAllAsync();
 			return Ok(result);
-		}
-		catch (Exception ex)
+		} catch(Exception ex)
 		{
 			logger.LogError(ex, $"get all", string.Empty);
 			return NotFound();
@@ -37,7 +36,7 @@ public abstract class BaseController<TEntity> : ControllerBase, IBaseController<
 	[HttpGet("{id}")]
 	public virtual async Task<ActionResult<TEntity>> GetByIdAsync(string id)
 	{
-		if (string.IsNullOrEmpty(id))
+		if(string.IsNullOrEmpty(id))
 		{
 			return BadRequest();
 		}
@@ -46,8 +45,7 @@ public abstract class BaseController<TEntity> : ControllerBase, IBaseController<
 		{
 			var result = await service.GetByIdAsync(id);
 			return Ok(result);
-		}
-		catch (Exception ex)
+		} catch(Exception ex)
 		{
 			logger.LogError(ex, "get by Id", id);
 			return NotFound();
@@ -58,7 +56,7 @@ public abstract class BaseController<TEntity> : ControllerBase, IBaseController<
 	[HttpDelete("id")]
 	public virtual async Task<ActionResult<bool>> DeleteAsync(string id)
 	{
-		if (string.IsNullOrEmpty(id))
+		if(string.IsNullOrEmpty(id))
 		{
 			return BadRequest();
 		}
@@ -67,8 +65,7 @@ public abstract class BaseController<TEntity> : ControllerBase, IBaseController<
 		{
 			await service.DeleteAsync(id);
 			return Ok(true);
-		}
-		catch (Exception ex)
+		} catch(Exception ex)
 		{
 			logger.LogError(ex, "delete", id);
 			return NotFound();
@@ -79,7 +76,7 @@ public abstract class BaseController<TEntity> : ControllerBase, IBaseController<
 	public virtual async Task<ActionResult<TEntity>> CreateAsync([FromBody] TEntity entity)
 	{
 		entity.CheckRules();
-		if (entity.HasErrors())
+		if(entity.HasErrors())
 		{
 			return BadRequest();
 		}
@@ -88,8 +85,7 @@ public abstract class BaseController<TEntity> : ControllerBase, IBaseController<
 		{
 			await service.CreateAsync(entity);
 			return Ok(entity);
-		}
-		catch (Exception ex)
+		} catch(Exception ex)
 		{
 			logger.LogError(ex, "insert", entity);
 			return NotFound();
@@ -100,7 +96,7 @@ public abstract class BaseController<TEntity> : ControllerBase, IBaseController<
 	public virtual async Task<ActionResult<TEntity>> UpdateAsync([FromBody] TEntity entity)
 	{
 		entity.CheckRules();
-		if (entity.HasErrors())
+		if(entity.HasErrors())
 		{
 			return BadRequest();
 		}
@@ -109,8 +105,7 @@ public abstract class BaseController<TEntity> : ControllerBase, IBaseController<
 		{
 			await service.UpdateAsync(entity);
 			return Ok(entity);
-		}
-		catch (Exception ex)
+		} catch(Exception ex)
 		{
 			logger.LogError(ex, "update", entity);
 			return NotFound();

@@ -3,7 +3,7 @@
 
 
 <EditForm Model="@currentIngredient" OnSubmit="@HandleSubmit">
-@*	<div>
+	<div>
 		<label for="quantityInput">Quantity</label>
 		<InputNumber TValue="double" min=0 id="quantityInput" @bind-Value="@currentIngredient.Amount"/>
 	</div>
@@ -15,12 +15,12 @@
 			   <option value="@unit">@unit</option>
 		   }
 		</InputSelect>
-	</div>*@
+	</div>
 	<div>
 
 		<label for="ingrdientSelect">Ingredient</label>
 		
-		<InputSelect id="ingrdientSelect"  @bind-Value="@currentIngredient.Name">
+		<InputSelect id="ingrdientSelect" ValueExpression="@(() => currentIngredient.Name)"   ValueChanged="@((string name) => OnValueChanged(name))">
 		
 			@foreach (var ing in Ingredients)
 				{
@@ -29,10 +29,11 @@
 			</InputSelect>
 			
 	</div>
-	@*<div>
+	<div>
 			<label for="descriptionInput">Description</label>
 			<InputText @bind-Value="@currentIngredient.Description"> </InputText>
-	</div>*@
+	</div>
+	<button type="submit"> Add</button>
 </EditForm>
 
 
@@ -47,15 +48,18 @@
 		await InvokeAsync(StateHasChanged);
 	}
 
-	public void IngredientSelectChange(ChangeEventArgs args)
+	public async void OnValueChanged(string name)
 	{
-		
+		currentIngredient.Name = name;		
 	}
 
-	public void HandleSubmit()
+	public async Task HandleSubmit()
 	{
-
+		var result = Ingredients.Where(x => x.Name == currentIngredient.Name);
+		if(result == null)
+		{
+			await repo.InsertAsync(new Ingredient() { Name = currentIngredient.Name });
+		}
+		var x = "";
 	}
-
-
 }
