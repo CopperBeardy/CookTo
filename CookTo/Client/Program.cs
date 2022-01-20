@@ -1,6 +1,5 @@
 
 using CookTo.Client;
-using CookTo.Client.Repositories;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -25,9 +24,9 @@ builder.Services
 				.Add("https://cookto.onmicrosoft.com/39f9835a-542c-4737-a4c2-05e68f4ecf18/CookToB2CServer.Access");
 		});
 
-builder.Services.AddScoped<IngredientRepository>();
-builder.Services.AddScoped<RecipeRepository>();
-builder.Services.AddScoped<BookmarksRepository>();
+builder.Services.AddScoped<CookTo.Client.Features.ManageRecipes.IngredientRepository>();
+builder.Services.AddScoped<CookTo.Client.Features.ManageRecipes.RecipeRepository>();
+builder.Services.AddScoped<CookTo.Client.Features.ManageBookmarks.BookmarksRepository>();
 
 
 await builder.Build().RunAsync();

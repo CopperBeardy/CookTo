@@ -1,7 +1,8 @@
-﻿using CookTo.Shared.Models;
+﻿
 using System.Text.Json;
 
-namespace CookTo.Client.Repositories;
+
+namespace CookTo.Client.Features.ManageBookmarks;
 
 public class BookmarksRepository : BaseRepository<Bookmarks>
 {

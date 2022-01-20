@@ -1,6 +1,5 @@
-﻿using CookTo.Shared.Models;
-
-namespace CookTo.Client.Repositories;
+﻿
+namespace CookTo.Client.Features.ManageRecipes;
 
 public class IngredientRepository : BaseRepository<Ingredient>
 {
