@@ -1,0 +1,65 @@
+﻿@page "/test"
+@using static CookTo.Shared.Features.ManageRecipes.RecipeDto.RecipePart
+
+@inject IMediator Mediator
+<EditForm Model="@currentIngredient" OnSubmit="@HandleSubmit">
+	<div>
+		<label for="quantityInput">Quantity</label>
+		<InputNumber TValue="double?" min=0 id="quantityInput" @bind-Value="@currentIngredient.Amount"/>
+	</div>
+	<div>
+		<label for="unitSelect">Unit</label>
+		<InputSelect TValue="MeasureUnit" @bind-Value="currentIngredient.Unit">
+			@foreach (var unit in Enum.GetValues(typeof(MeasureUnit)))
+		   {
+			   <option value="@unit">@unit</option>
+		   }
+		</InputSelect>
+	</div>
+	<div>
+
+		<label for="ingrdientSelect">Ingredient</label>
+		
+		<InputSelect id="ingrdientSelect" ValueExpression="@(() => currentIngredient.Name)"   ValueChanged="@((string name) => OnValueChanged(name))">
+		
+			@foreach (var ing in Ingredients)
+				{
+					<option  value=@ing.Name>@ing.Name</option>
+				}
+			</InputSelect>
+			
+	</div>
+	<div>
+			<label for="descriptionInput">Description</label>
+			<InputText @bind-Value="@currentIngredient.Description"> </InputText>
+	</div>
+	<button type="submit"> Add</button>
+</EditForm>
+
+
+@code {
+	public PartIngredient currentIngredient { get; set; } = new PartIngredient();
+	public IEnumerable<IngredientDto>? Ingredients { get; set; } = new List<IngredientDto>() { };
+	public string newIngredient { get; set; } = "";
+
+	protected override async Task OnInitializedAsync()
+	{
+		//Ingredients = 
+		await InvokeAsync(StateHasChanged);
+	}
+
+	public async void OnValueChanged(string name)
+	{
+		currentIngredient.Name = name;		
+	}
+
+	public async Task HandleSubmit()
+	{
+		var result = Ingredients.Where(x => x.Name == currentIngredient.Name);
+		if(result == null)
+		{
+			//await repo.InsertAsync(new Ingredient() { Name = currentIngredient.Name });
+		}
+		var x = "";
+	}
+}

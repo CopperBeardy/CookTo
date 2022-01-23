@@ -9,12 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookTo.Client", "CookTo\Cli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookTo.Shared", "CookTo\Shared\CookTo.Shared.csproj", "{29832D91-600C-4F43-B05B-FB528E841DDF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookTo.Tests.Server.Unit", "CookTo.Tests\CookTo.Tests.Server.Unit.csproj", "{DDDDCEFF-37DB-4EBC-B778-D4E25CA534B4}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookTo.Tests.Intergration", "CookTo.IntergrationTests\CookTo.Tests.Intergration.csproj", "{A3E2E1AA-21A7-4AE1-9F73-D43647E06302}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookTo.Tests.Client.Unit", "CookTo.Tests.Client.Unit\CookTo.Tests.Client.Unit.csproj", "{38E387D0-CEE7-4D7C-94EB-26CF4AD45C97}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,18 +27,6 @@ Global
 		{29832D91-600C-4F43-B05B-FB528E841DDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29832D91-600C-4F43-B05B-FB528E841DDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29832D91-600C-4F43-B05B-FB528E841DDF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DDDDCEFF-37DB-4EBC-B778-D4E25CA534B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DDDDCEFF-37DB-4EBC-B778-D4E25CA534B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DDDDCEFF-37DB-4EBC-B778-D4E25CA534B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DDDDCEFF-37DB-4EBC-B778-D4E25CA534B4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A3E2E1AA-21A7-4AE1-9F73-D43647E06302}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A3E2E1AA-21A7-4AE1-9F73-D43647E06302}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A3E2E1AA-21A7-4AE1-9F73-D43647E06302}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A3E2E1AA-21A7-4AE1-9F73-D43647E06302}.Release|Any CPU.Build.0 = Release|Any CPU
-		{38E387D0-CEE7-4D7C-94EB-26CF4AD45C97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{38E387D0-CEE7-4D7C-94EB-26CF4AD45C97}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{38E387D0-CEE7-4D7C-94EB-26CF4AD45C97}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{38E387D0-CEE7-4D7C-94EB-26CF4AD45C97}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
