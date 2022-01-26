@@ -1,0 +1,94 @@
+﻿@inherits InputBase<RecipeDto.RecipePart.PartIngredient>
+
+<div>
+    <div>  
+        <label for="quantityInput">Quantity</label>
+        <input id= "quantityInput"
+                    class="form-control"
+                    type="number"
+                    min="0" 
+                    @onchange="SetQuantityValue" value="_quantity"
+                    />       
+    </div>
+    <div>
+        <label for="measureUnitSelect">Unit</label>
+        <select id="measureUnitSelect"
+                        class="form-control"
+                        @onchange="SetUnitValue" value="_unit">
+        @foreach (var unit in Enum.GetValues(typeof(MeasureUnit)))
+		   {
+			   <option value="@unit">@unit</option>
+		   }            
+        </select>                                            
+    </div>
+    <div>
+        <label for="ingredientInput">Ingredient</label>
+        <select id="ingredientSelect"
+                    class="form-control"
+                    @onchange="SetIngredientValue" selectedItem="_ingredient" >
+                @foreach(var ing in Ingredients)
+            {
+                <option value="@ing">@ing.Name</option>
+            }
+        </select>
+    </div>
+    <div>
+        <label for="descriptionInput">Description</label>
+        <input id="decsriptionInput"
+                   class="form--control"           
+                    type="text"
+                    placeholder="additional information"/>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public List<IngredientDto> Ingredients { get; set; }
+    private double _quantity;
+    private MeasureUnit _unit;
+    private IngredientDto _ingredient;
+    private string _description;
+
+    public RecipeDto.RecipePart.PartIngredient PartIngredient { get; set; }
+
+    public void SetQuantityValue(ChangeEventArgs args)
+    {
+        double.TryParse(args.Value?.ToString(), out _quantity);
+    }
+
+    public void SetUnitValue(ChangeEventArgs args)
+    {
+        Enum.TryParse(args.Value?.ToString(), out _unit);
+    }
+
+    public void SetIngredientValue(ChangeEventArgs args)
+    {
+        _ingredient = Ingredients.Where(x => x.Name == args.Value?.ToString()).FirstOrDefault();
+    }
+
+    public void SetDescriptionValue(ChangeEventArgs args)
+    {
+        var val = args.Value?.ToString();
+        if (string.IsNullOrEmpty(val))
+        {
+            _description = string.Empty;
+        }
+        else
+        {
+            _description = val;
+        }       
+    }
+
+    public void SetCurrentModelValue()
+    {
+        PartIngredient.Amount = _quantity;
+        PartIngredient.Unit = _unit;
+        PartIngredient.Name = Enum.GetName(typeof(MeasureUnit), _ingredient);
+        PartIngredient.Description = _description;
+    }
+
+    protected override bool TryParseValueFromString(string? value, 
+        out RecipeDto.RecipePart.PartIngredient result,  
+        out string validationErrorMessage) => throw new NotImplementedException();
+}

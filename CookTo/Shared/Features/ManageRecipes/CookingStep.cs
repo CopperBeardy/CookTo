@@ -8,6 +8,6 @@ public partial class RecipeDto
         public int OrderNumber { get; set; } = 0;
 
         [JsonPropertyName("step")]
-        public string StepDescription { get; set; } = string.Empty;
+        public string StepDescription { get; set; } = "";
     }
 }

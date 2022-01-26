@@ -2,6 +2,7 @@
 
 public enum MeasureUnit
 {
+    _,
     ml,
     l,
     g,

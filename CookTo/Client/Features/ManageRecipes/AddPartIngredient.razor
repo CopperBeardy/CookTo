@@ -1,0 +1,80 @@
+﻿
+@using static CookTo.Shared.Features.ManageRecipes.RecipeDto.RecipePart
+
+<EditForm EditContext="_editContext" OnValidSubmit="HandleValidSubmit" >
+<div>
+	<div class=row>
+		<label for="quantityInput" class="font-weight-bold text-secondary" >Quantity</label>
+		<InputNumber  min=0 @bind-Value="_partIngredient.Amount" class="form-control" id="quantityInput" />
+		<ValidationMessage For="@(() => _partIngredient.Amount)"/>
+
+	<FormFieldSet Width="col-3">
+		<label for="unitSelect" class="font-weight-bold text-secondary" >Unit</label>
+		<InputSelect TValue="MeasureUnit" class="form-control" @bind-Value="_partIngredient.Unit">
+			@foreach (var unit in Enum.GetValues(typeof(MeasureUnit)))
+		   {
+			   <option value="@unit">@unit</option>
+		   }
+		</InputSelect>
+		<ValidationMessage For="@(() => _partIngredient.Unit)"/>
+	</FormFieldSet>
+	
+		<FormFieldSet>
+		<label for="ingredientSelect" class="font-weight-bold text-secondary">Ingredient</label>
+		
+		<InputSelect id="ingredientSelect" class="form-control" ValueExpression="@(() => _partIngredient.Name)"   ValueChanged="@((string name) => OnValueChanged(name))">
+		
+			@foreach (var ing in Ingredients)
+				{
+					<option  value=@ing.Name>@ing.Name</option>
+				}
+			</InputSelect>
+				<ValidationMessage For="@(() => _partIngredient.Name)"/>
+		</FormFieldSet>	
+	
+	</div>
+	<div class="row">
+		<FormFieldSet>
+			<label for="descriptionInput" class="font-weight-bold text-secondary">Description</label>
+			<InputText @bind-Value="_partIngredient.Description" class="form-control"> </InputText>
+			<ValidationMessage For="@(() => _partIngredient.Description)" />
+		</FormFieldSet>
+	</div>
+	
+</div>
+</EditForm>
+
+@code {
+	
+
+	
+	public PartIngredient _partIngredient { get; set; } = new PartIngredient();
+	public IEnumerable<IngredientDto>? Ingredients { get; set; } = new List<IngredientDto>() { };
+	public string newIngredient { get; set; } = "";
+	private EditContext _editContext = default!;
+
+	protected override void OnInitialized()
+    {
+        _editContext = new EditContext(_partIngredient);
+        _editContext.SetFieldCssClassProvider(new BootstrapCssClassProvider());
+    }
+
+
+	protected override async Task OnInitializedAsync()
+	{
+		//Ingredients = 
+		await InvokeAsync(StateHasChanged);
+	}
+
+	public async void OnValueChanged(string name)
+	{
+		_partIngredient.Name = name;		
+	}
+
+	
+		public async Task HandleValidSubmit()
+		{
+			
+		}
+
+}
