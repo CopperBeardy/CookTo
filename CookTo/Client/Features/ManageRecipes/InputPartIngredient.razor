@@ -1,94 +1,126 @@
-﻿@inherits InputBase<RecipeDto.RecipePart.PartIngredient>
+﻿@inherits InputBase<PartIngredient>
 
-<div>
-    <div>  
-        <label for="quantityInput">Quantity</label>
-        <input id= "quantityInput"
-                    class="form-control"
-                    type="number"
-                    min="0" 
-                    @onchange="SetQuantityValue" value="_quantity"
-                    />       
+<div class="d-flex flex-row">
+    <div class="col-sm-2 me-1">
+        <label for="quantityInput" class="font-weight-bold text-secondary me-1">Quantity</label>
+        <input  min=0
+                       id="quantityInput"
+                     type="number"
+                     class="form-control "
+                     @onchange="OnChangeQuantity"
+                     value="@_quantity" />
     </div>
-    <div>
-        <label for="measureUnitSelect">Unit</label>
-        <select id="measureUnitSelect"
-                        class="form-control"
-                        @onchange="SetUnitValue" value="_unit">
-        @foreach (var unit in Enum.GetValues(typeof(MeasureUnit)))
-		   {
-			   <option value="@unit">@unit</option>
-		   }            
-        </select>                                            
-    </div>
-    <div>
-        <label for="ingredientInput">Ingredient</label>
-        <select id="ingredientSelect"
-                    class="form-control"
-                    @onchange="SetIngredientValue" selectedItem="_ingredient" >
-                @foreach(var ing in Ingredients)
-            {
-                <option value="@ing">@ing.Name</option>
-            }
+
+    <div class="col-sm-2 me-1">
+        <label for="measureUnitSelect" class="font-weight-bold text-secondary me-1">Unit</label>
+        <select 
+                      id="measureUnitSelect"
+                     class="form-control "
+                     @onchange="@OnChangeUnit"
+                     value="_unit">
+                     @foreach (var unit in Enum.GetValues(typeof(MeasureUnit)))
+                     {
+                         <option value="@unit">@unit</option>
+                     }
         </select>
     </div>
-    <div>
-        <label for="descriptionInput">Description</label>
+
+    <div class="col-3 me-1">
+        <label for="ingredientInput" class="font-weight-bold text-secondary me-1">Ingredient</label>
+         <select id="ingredientSelect"
+                    class="form-control"
+                    @onchange="OnChangeSetIngredient" selectedItem="_ingredient" >
+                @foreach(var ing in Ingredients)
+            {
+                <option value="@ing.Name">@ing.Name</option>
+            }
+        </select>
+
+    </div>
+
+    <div class="col-4">
+        <label for="descriptionInput" class="font-weight-bold text-secondary me-1">Description</label>
         <input id="decsriptionInput"
-                   class="form--control"           
-                    type="text"
-                    placeholder="additional information"/>
+                     class="form-control "
+                     type="text"
+                     placeholder="additional information"
+                     value="@_description"
+                     @onchange="OnChangeDescription"/>
     </div>
 </div>
 
-
 @code {
-    [Parameter]
-    public List<IngredientDto> Ingredients { get; set; }
+    public List<IngredientDto>? Ingredients { get; set; }
     private double _quantity;
-    private MeasureUnit _unit;
-    private IngredientDto _ingredient;
-    private string _description;
+    private MeasureUnit _unit ;
+    private string _ingredient ;
+    private string _description ;
 
-    public RecipeDto.RecipePart.PartIngredient PartIngredient { get; set; }
+    [CascadingParameter]
+    public PartIngredient? PartIngredient { get; set; } = new();
 
-    public void SetQuantityValue(ChangeEventArgs args)
+
+    protected override async Task OnInitializedAsync()
+    {
+        Ingredients = new List<IngredientDto>()
+        {
+            new IngredientDto(){Id="1231241241", Name="White Flour"},
+            new IngredientDto(){Id="122241241", Name="Caster Sugar"},
+        };
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private void OnChangeQuantity(ChangeEventArgs args) 
     {
         double.TryParse(args.Value?.ToString(), out _quantity);
+        SetCurrentValues();
+    }
+    private void OnChangeUnit(ChangeEventArgs args)
+    {
+        _unit =  (MeasureUnit)Enum.Parse(typeof(MeasureUnit),args.Value?.ToString());
+        SetCurrentValues();
     }
 
-    public void SetUnitValue(ChangeEventArgs args)
+    private void OnChangeDescription(ChangeEventArgs args)
     {
-        Enum.TryParse(args.Value?.ToString(), out _unit);
-    }
-
-    public void SetIngredientValue(ChangeEventArgs args)
-    {
-        _ingredient = Ingredients.Where(x => x.Name == args.Value?.ToString()).FirstOrDefault();
-    }
-
-    public void SetDescriptionValue(ChangeEventArgs args)
-    {
-        var val = args.Value?.ToString();
-        if (string.IsNullOrEmpty(val))
+        var temp = args.Value?.ToString();
+        if (string.IsNullOrEmpty(temp))
         {
             _description = string.Empty;
         }
         else
         {
-            _description = val;
-        }       
+            _description = temp;
+
+        }
+        SetCurrentValues();
     }
 
-    public void SetCurrentModelValue()
+
+    public void OnChangeSetIngredient(ChangeEventArgs args)
     {
-        PartIngredient.Amount = _quantity;
-        PartIngredient.Unit = _unit;
-        PartIngredient.Name = Enum.GetName(typeof(MeasureUnit), _ingredient);
-        PartIngredient.Description = _description;
+        _ingredient = args.Value?.ToString();
+        SetCurrentValues();
     }
 
-    protected override bool TryParseValueFromString(string? value, 
-        out RecipeDto.RecipePart.PartIngredient result,  
+    protected void SetCurrentValues()
+    {
+        PartIngredient.Unit = _unit;
+        PartIngredient.Amount = _quantity;
+        PartIngredient.Description = _description;
+
+        var ingredient = Ingredients.Where(x => x.Name == _ingredient).FirstOrDefault();
+        if (ingredient != null)
+        {
+            PartIngredient.Ingredient = ingredient;
+        }
+        else
+        {
+            //Todo add new ingredient to db
+            PartIngredient.Ingredient = new IngredientDto() { Id = "fsfsdf", Name = _ingredient };
+        }
+    }
+    protected override bool TryParseValueFromString(string? value,
+        out PartIngredient result,
         out string validationErrorMessage) => throw new NotImplementedException();
 }

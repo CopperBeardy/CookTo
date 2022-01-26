@@ -1,4 +1,5 @@
-﻿using CookTo.Server.Services.Interfaces;
+﻿using CookTo.Server.Documents;
+using CookTo.Server.Services.Interfaces;
 using MongoDB.Bson;
 
 namespace CookTo.Server.Services;

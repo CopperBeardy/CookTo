@@ -12,7 +12,8 @@ public class RecipeProfile : Profile
             cfg =>
             {
                 cfg.AllowNullCollections = true;
-                cfg.CreateMap<Recipe, RecipeDto>().ReverseMap();
+                cfg.CreateMap<Recipe, AddRecipeDto>().ReverseMap();
+                cfg.CreateMap<Recipe, RecipeResultDto>().ReverseMap();
             });
     }
 }

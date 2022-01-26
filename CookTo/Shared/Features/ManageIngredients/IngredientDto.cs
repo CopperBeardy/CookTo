@@ -1,9 +1,10 @@
-﻿using CookTo.Shared.Models;
+﻿namespace CookTo.Shared.Features.ManageIngredients;
 
-namespace CookTo.Shared.Features.ManageIngredients;
-
-public class IngredientDto : BaseEntity
+public class IngredientDto
 {
+    [JsonPropertyName("_id")]
+    public string Id { get; set; }
+
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
 }

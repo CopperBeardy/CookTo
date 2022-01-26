@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson.Serialization.IdGenerators;
+using System.Text.Json.Serialization;
 
-namespace CookTo.Shared.Models;
+namespace CookTo.Server.Documents;
 
 public abstract class BaseEntity
 {

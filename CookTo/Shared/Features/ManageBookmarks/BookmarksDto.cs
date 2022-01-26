@@ -1,10 +1,10 @@
-﻿using CookTo.Shared.Models;
+﻿namespace CookTo.Shared.Features.ManageBookmarks;
 
-
-namespace CookTo.Shared.Features.ManageBookmarks;
-
-public partial class BookmarksDto : BaseEntity
+public partial class BookmarksDto
 {
+    [JsonPropertyName("_id")]
+    public string Id { get; set; }
+
     [JsonPropertyName("userid")]
     public string UserId { get; set; } = string.Empty;
 

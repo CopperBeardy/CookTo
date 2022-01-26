@@ -1,6 +1,7 @@
-﻿namespace CookTo.Shared.Features.ManageRecipes.Validators;
+﻿
+namespace CookTo.Shared.Features.ManageRecipes.Validators;
 
-public class CookingStepValidator : AbstractValidator<RecipeDto.CookingStep>
+public class CookingStepValidator : AbstractValidator<CookingStep>
 {
     public CookingStepValidator()
     {

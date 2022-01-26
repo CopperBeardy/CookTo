@@ -1,11 +1,13 @@
 ﻿using CookTo.Shared.Enums;
-using CookTo.Shared.Models;
 
 
 namespace CookTo.Shared.Features.ManageRecipes;
 
-public partial class RecipeDto : BaseEntity
+public class RecipeResultDto
 {
+    [JsonPropertyName("_id")]
+    public string Id { get; set; }
+
     [JsonPropertyName("title")]
     public string Title { get; set; } = string.Empty;
 

@@ -6,7 +6,7 @@ using CookTo.Shared.Features.ManageRecipes;
 
 namespace CookTo.Server.Features.ManageRecipes;
 
-public class AddRecipeEndpoint : EndpointBaseAsync.WithRequest<AddRecipeRequest>.WithActionResult<Recipe>
+public class AddRecipeEndpoint : EndpointBaseAsync.WithRequest<AddRecipeRequest>.WithActionResult<RecipeResultDto>
 {
     readonly IMapper _mapper;
     readonly IRecipeService _recipeService;
@@ -18,12 +18,12 @@ public class AddRecipeEndpoint : EndpointBaseAsync.WithRequest<AddRecipeRequest>
     }
 
     [HttpPost(AddRecipeRequest.RouteTemplate)]
-    public override async Task<ActionResult<Recipe>> HandleAsync(
+    public override async Task<ActionResult<RecipeResultDto>> HandleAsync(
         AddRecipeRequest request,
         CancellationToken cancellationToken = default)
     {
         Recipe recipe = _mapper.Map<Recipe>(request.recipe);
         await _recipeService.CreateAsync(recipe);
-        return Ok(_mapper.Map<RecipeDto>(recipe));
+        return Ok(_mapper.Map<RecipeResultDto>(recipe));
     }
 }

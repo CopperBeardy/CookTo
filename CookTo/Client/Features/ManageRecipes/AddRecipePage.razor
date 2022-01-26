@@ -78,52 +78,55 @@ else if (_errorMessage is not null)
     <FormSection Title="Recipe parts"
                  HelpText="Define the various parts of the recipe and there ingredients">
         <FormFieldSet>
-          
-            @foreach (var recipePart in _recipe.RecipeParts)
+            @foreach (var part in _recipe.RecipeParts)
             {
-                <div class=row>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="recipePartTitle" class="font-weight-bold text-secondary">Part Title</label>
-                            <InputText @bind-Value="recipePart.PartTitle" class="form-control" id="recipePartTitle" />
-                            <ValidationMessage For="@(() => recipePart.PartTitle)" />
-                        </div>
-                    </div>
+                <div class="card card-brand mb-4 shadow">
+                    <div class="card-body">
+                        <div class="col mb-1">
+                            <div class="form-group">                             
+                                    <label for="partTitle" class="font-weight-bold text-secondary me-1">Part Title</label>
+                                    <InputText @bind-Value="part.PartTitle" class="form-control" id="partTitle" />
+                                    <ValidationMessage For="@(() => part.PartTitle)" />                        
 
-                    <div class="row">
-                    
-                        @foreach (var partIngredient in recipePart.Items)
-                        {
-                          <label >@partIngredient.ToString() </label>                        
-                        <button @onclick="@(() => recipePart.Items.Remove(partIngredient))" class="btn btn-link" type="button">
-                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-circle-fill text-danger" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
-                            </svg>
-                        </button>
-                
-                        }
-                        @*remove part button*@
+                            </div>
+                        </div>
+                        <div class="card card-brand mb-4 shadow">
+
+                            @foreach (var ingredient in part.Items)
+                            {
+                                
+                                <div class="card-body">
+                                    <div class="d-flex flex-row align-content-center">
+                                        <InputPartIngredient Value="ingredient" ValueExpression="(() => ingredient)" />
+                                        <div class="col-1 d-flex mt-3">
+                                            <button @onclick="@(() => part.Items.Remove(ingredient))" class="btn btn-link" type="button">
+                                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-circle-fill text-danger" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
                         <div class="row">
                             <div class="col">
-                                <button class="btn btn-outline-primary" type="button" @onclick="@(() => recipePart.Items.Add(new RecipeDto.RecipePart.PartIngredient()))">Add Part Ingredient</button>
-                                <ValidationMessage For="@(() => recipePart.Items)" />
+                                <button class="btn btn-outline-primary" type="button" @onclick="@(() => part.Items.Add(new PartIngredient()))">Add Part Ingredient </button>
+                                <ValidationMessage For="@(() => part.Items)" />
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-1 d-flex mt-3">
-                        <button @onclick="@(() => _recipe.RecipeParts.Remove(recipePart))" class="btn btn-link" type="button">
+                        <button @onclick="@(() => _recipe.RecipeParts.Remove(part))" class="btn btn-link" type="button">
                             <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-circle-fill text-danger" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
                             </svg>
                         </button>
-                    </div>
                 </div>
-
             }
             <div class="row">
                 <div class="col">
-                    <button class="btn btn-outline-primary" type="button" @onclick="@(() => _recipe.RecipeParts.Add(new RecipeDto.RecipePart()))">Add Recipe Part</button>
+                    <button class="btn btn-outline-primary" type="button" @onclick="@(() => _recipe.RecipeParts.Add(new RecipePart()))">Add RecipePart</button>
                     <ValidationMessage For="@(() => _recipe.RecipeParts)" />
                 </div>
             </div>
@@ -166,11 +169,10 @@ else if (_errorMessage is not null)
 
             <div class="row">
                 <div class="col">
-                    <button class="btn btn-outline-primary" type="button" @onclick="@(() => _recipe.CookingSteps.Add(new RecipeDto.CookingStep()))">Add CookingStep</button>
+                    <button class="btn btn-outline-primary" type="button" @onclick="@(() => _recipe.CookingSteps.Add(new CookingStep()))">Add CookingStep</button>
                     <ValidationMessage For="@(() => _recipe.CookingSteps)" />
                 </div>
             </div>
-
         </FormFieldSet>
     </FormSection>
 
@@ -182,7 +184,7 @@ else if (_errorMessage is not null)
     <div class="mt-4 mb-5">
         <div class="row">
             <div class="offset-4 col-8 text-right">
-                <button class="btn btn-outline-secondary" type="button" @onclick="@(() => _recipe = new RecipeDto())">Reset</button>
+                <button class="btn btn-outline-secondary" type="button" @onclick="@(() => _recipe = new AddRecipeDto())">Reset</button>
                 <button class="btn btn-primary" type="submit">Submit</button>
             </div>
         </div>
@@ -192,30 +194,26 @@ else if (_errorMessage is not null)
 
 @code {
 
-    private RecipeDto _recipe = new RecipeDto();
+    private AddRecipeDto _recipe = new AddRecipeDto();
     public IEnumerable<IngredientDto>? Ingredients { get; set; } = new List<IngredientDto>() { };
     public string newIngredient { get; set; } = "";
     private bool _submitSuccessful;
     private string? _errorMessage;
     private EditContext _editContext = default!;
 
+
+
     protected override void OnInitialized()
-    { _recipe.RecipeParts.Add(new RecipeDto.RecipePart()
-            {
-                PartTitle = "Filling",
-                Items = new List<RecipeDto.RecipePart.PartIngredient>()
-             {
-                 new RecipeDto.RecipePart.PartIngredient(){ Amount=3,Unit=MeasureUnit.g,Name="Flour",Description="White Bread Flour"},
-                 new RecipeDto.RecipePart.PartIngredient(){ Amount=3,Unit=MeasureUnit.g,Name="Flour",Description="White Bread Flour"}
-             }
-            });
+    {
         _editContext = new EditContext(_recipe);
         _editContext.SetFieldCssClassProvider(new BootstrapCssClassProvider());
     }
 
+
+
     private async Task SubmitForm()
     {
-       
+
         //todo : get current user name
         var response = await Mediator.Send(new AddRecipeRequest(_recipe));
         if (response.recipe == null)
@@ -224,7 +222,7 @@ else if (_errorMessage is not null)
             _submitSuccessful = false;
             return;
         }
-        _recipe = new RecipeDto();
+        _recipe = new AddRecipeDto();
         _errorMessage = null;
         _submitSuccessful = true;
     }

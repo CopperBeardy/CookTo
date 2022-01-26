@@ -1,6 +1,5 @@
 ﻿using CookTo.Shared.Features.ManageRecipes;
 
-
 namespace CookTo.Client.Features.ManageRecipes;
 
 public class AddRecipeHandler : IRequestHandler<AddRecipeRequest, AddRecipeRequest.Response>
@@ -14,7 +13,7 @@ public class AddRecipeHandler : IRequestHandler<AddRecipeRequest, AddRecipeReque
 
         if(response.IsSuccessStatusCode)
         {
-            var Recipe = await response.Content.ReadFromJsonAsync<RecipeDto>(cancellationToken: token);
+            var Recipe = await response.Content.ReadFromJsonAsync<RecipeResultDto>(cancellationToken: token);
             return new AddRecipeRequest.Response(Recipe);
         } else
         {
