@@ -12,11 +12,11 @@ public partial class Recipe
             [BsonElement("unit")]
             public MeasureUnit Unit { get; set; }
 
-            [BsonElement("partingredientname")]
-            public string PartIngredientName { get; set; }
+            [BsonElement(nameof(IngredientName))]
+            public string IngredientName { get; set; }
 
-            [BsonElement("partingredientdescription")]
-            public string? PartIngredientDescription { get; set; }
+            [BsonElement("additionalInformation")]
+            public string? AdditionalInformation { get; set; }
         }
     }
 }

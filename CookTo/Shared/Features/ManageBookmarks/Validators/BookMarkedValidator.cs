@@ -1,7 +1,7 @@
 ﻿
 namespace CookTo.Shared.Features.ManageBookmarks.Validators;
 
-public class BookMarkedValidator : AbstractValidator<BookmarksDto.BookMarked>
+public class BookMarkedValidator : AbstractValidator<BookMarked>
 {
     public BookMarkedValidator()
     {

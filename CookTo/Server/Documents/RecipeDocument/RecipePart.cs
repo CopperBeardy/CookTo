@@ -4,7 +4,7 @@ public partial class Recipe
 {
     public partial class RecipePart
     {
-        [BsonElement("parttitle")]
+        [BsonElement("partTitle")]
         public string PartTitle { get; set; }
 
         [BsonElement("items")]

@@ -1,4 +1,6 @@
-﻿namespace CookTo.Server.Documents.RecipeDocument;
+﻿using CookTo.Server.Documents.UtensilDocument;
+
+namespace CookTo.Server.Documents.RecipeDocument;
 
 public partial class Recipe : BaseEntity
 {
@@ -11,13 +13,13 @@ public partial class Recipe : BaseEntity
     [BsonElement("description")]
     public string Description { get; set; }
 
-    [BsonElement("imageurl")]
+    [BsonElement("imageUrl")]
     public string? ImageUrl { get; set; }
 
-    [BsonElement("preptime")]
+    [BsonElement("prepTime")]
     public int PreparationTime { get; set; }
 
-    [BsonElement("cookingtime")]
+    [BsonElement("cookingTime")]
     public int CookingTime { get; set; }
 
     [BsonElement("serves")]
@@ -26,10 +28,13 @@ public partial class Recipe : BaseEntity
     [BsonElement("author")]
     public string AuthorId { get; set; }
 
-    [BsonElement("recipeparts")]
+    [BsonElement("recipeParts")]
     public List<RecipePart> RecipeParts { get; set; }
 
-    [BsonElement("cookingsteps")]
+    [BsonElement("utensils")]
+    public List<Utensil> Utensils { get; set; }
+
+    [BsonElement("cookingSteps")]
     public List<CookingStep> CookingSteps { get; set; }
 
     [BsonElement("tips")]

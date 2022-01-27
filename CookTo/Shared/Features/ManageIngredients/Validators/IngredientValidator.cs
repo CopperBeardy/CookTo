@@ -1,6 +1,6 @@
 ﻿namespace CookTo.Shared.Features.ManageIngredients.Validators;
 
-public class IngredientValidator : AbstractValidator<IngredientDto>
+public class IngredientValidator : AbstractValidator<IngredientResultDto>
 {
     public IngredientValidator()
     {

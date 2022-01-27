@@ -16,6 +16,9 @@ public class AddRecipeDtoValidator : AbstractValidator<AddRecipeDto>
         RuleFor(x => x.CookingTime).NotEmpty().WithMessage("Please provide the cooking time");
         RuleFor(x => x.Serves).NotEmpty().WithMessage("Please provide the number of servings ");
         RuleFor(x => x.RecipeParts).NotEmpty().WithMessage("Please provide at least 1 part section ");
-        RuleFor(x => x.CookingSteps).NotEmpty().WithMessage("Please provide at least 1 cooking direction ");  
+        RuleFor(x => x.RecipeParts)
+            .NotEmpty()
+            .WithMessage("Please provide at least 1 Utensil required for making this recipe ");
+        RuleFor(x => x.CookingSteps).NotEmpty().WithMessage("Please provide at least 1 cooking direction ");
     }
 }

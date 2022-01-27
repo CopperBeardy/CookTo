@@ -9,11 +9,14 @@ public class PartIngredient
     public double Amount { get; set; } = 0;
     [JsonPropertyName("unit")]
     public MeasureUnit Unit { get; set; } = MeasureUnit._;
-    [JsonPropertyName("partingredientname")]
-    public IngredientDto Ingredient { get; set; } = new();
-    [JsonPropertyName("partingredientdescription")]
-    public string? Description { get; set; } = string.Empty;
+    [JsonPropertyName("ingredientName")]
+    public string IngredientName { get; set; } = string.Empty;
+    [JsonPropertyName("additionalInformation")]
+    public string? AdditionalInformation { get; set; }
 
-    public override string ToString() => $"{Amount}{Enum.GetName(Unit)} {Ingredient.Name} {Description}".TrimEnd();
+
+    //Todo: move to display
+    public override string ToString() => $"{Amount}{Enum.GetName(Unit)} {IngredientName} {AdditionalInformation}".TrimEnd(
+        );
 }
 

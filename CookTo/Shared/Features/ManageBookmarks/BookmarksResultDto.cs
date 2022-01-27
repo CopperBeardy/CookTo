@@ -1,13 +1,13 @@
 ﻿namespace CookTo.Shared.Features.ManageBookmarks;
 
-public partial class BookmarksDto
+public  class BookmarksResultDto
 {
     [JsonPropertyName("_id")]
     public string Id { get; set; }
 
-    [JsonPropertyName("userid")]
+    [JsonPropertyName("userId")]
     public string UserId { get; set; } = string.Empty;
 
-    [JsonPropertyName("bookmarkedrecipes")]
+    [JsonPropertyName("bookMarkedRecipes")]
     public List<BookMarked>? BookMarkedRecipes { get; set; }
 }

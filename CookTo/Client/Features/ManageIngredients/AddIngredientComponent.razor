@@ -10,9 +10,9 @@
 
 @code{
 	[Parameter]
-	public IngredientDto ingredient { get; set; } = new (){Id = ""};
+	public IngredientResultDto ingredient { get; set; } = new (){Id = ""};
 	[Parameter]
-	public EventCallback<IngredientDto> onAdd{ get; set; }
+	public EventCallback<IngredientResultDto> onAdd{ get; set; }
 
 	private async Task HandleValidSubmit()
 	{

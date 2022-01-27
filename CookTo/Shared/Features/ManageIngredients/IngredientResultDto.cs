@@ -1,6 +1,6 @@
 ﻿namespace CookTo.Shared.Features.ManageIngredients;
 
-public class IngredientDto
+public class IngredientResultDto
 {
     [JsonPropertyName("_id")]
     public string Id { get; set; }

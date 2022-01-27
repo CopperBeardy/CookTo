@@ -14,7 +14,7 @@ public class AddIngredientHandler : IRequestHandler<AddIngredientRequest, AddIng
 
         if(response.IsSuccessStatusCode)
         {
-            var ingredient = await response.Content.ReadFromJsonAsync<IngredientDto>(cancellationToken: token);
+            var ingredient = await response.Content.ReadFromJsonAsync<IngredientResultDto>(cancellationToken: token);
             return new AddIngredientRequest.Response(ingredient);
         } else
         {

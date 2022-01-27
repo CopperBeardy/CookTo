@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components.Forms;
 
 namespace CookTo.Client.Validation;
+//Code used here layout used here is the same as in the book - Blazor in Action by Chris Sainty
 
 public class BootstrapCssClassProvider : FieldCssClassProvider
 {

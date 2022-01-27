@@ -12,7 +12,7 @@ public class AddBookmarksHandler : IRequestHandler<AddBookmarksRequest, AddBookm
 
         if(response.IsSuccessStatusCode)
         {
-            var bookmarks = await response.Content.ReadFromJsonAsync<BookmarksDto>(cancellationToken: token);
+            var bookmarks = await response.Content.ReadFromJsonAsync<AddBookmarksDto>(cancellationToken: token);
             return new AddBookmarksRequest.Response(bookmarks);
         } else
         {

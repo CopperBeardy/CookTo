@@ -8,6 +8,7 @@ public class BookmarksProfile : Profile
 {
     public BookmarksProfile()
     {
-        CreateMap<Bookmarks, BookmarksDto>().ReverseMap();
+        CreateMap<Bookmarks, AddBookmarksDto>().ReverseMap();
+        CreateMap<List<Bookmarks>, List<BookmarksResultDto>>().ReverseMap();
     }
 }

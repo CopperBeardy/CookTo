@@ -1,4 +1,4 @@
-﻿@page "/add-recipe"
+@page "/add-recipe"
 
 @inject IMediator Mediator
 
@@ -83,30 +83,62 @@ else if (_errorMessage is not null)
                 <div class="card card-brand mb-4 shadow">
                     <div class="card-body">
                         <div class="col mb-1">
-                            <div class="form-group">                             
-                                    <label for="partTitle" class="font-weight-bold text-secondary me-1">Part Title</label>
-                                    <InputText @bind-Value="part.PartTitle" class="form-control" id="partTitle" />
-                                    <ValidationMessage For="@(() => part.PartTitle)" />                        
+                            <div class="form-group">
+                                <label for="partTitle" class="font-weight-bold text-secondary me-1">Part Title</label>
+                                <InputText @bind-Value="part.PartTitle" class="form-control" id="partTitle" />
+                                <ValidationMessage For="@(() => part.PartTitle)" />
 
                             </div>
                         </div>
                         <div class="card card-brand mb-4 shadow">
 
-                            @foreach (var ingredient in part.Items)
+                            @foreach (var ingred in part.Items)
                             {
-                                
                                 <div class="card-body">
                                     <div class="d-flex flex-row align-content-center">
-                                        <InputPartIngredient Value="ingredient" ValueExpression="(() => ingredient)" />
-                                        <div class="col-1 d-flex mt-3">
-                                            <button @onclick="@(() => part.Items.Remove(ingredient))" class="btn btn-link" type="button">
-                                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-circle-fill text-danger" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
-                                                </svg>
-                                            </button>
-                                        </div>
+                                        <div class="d-flex flex-row">
+                                            <div class="col-sm-2 me-1">
+                                                <label for="quantityInput" class="font-weight-bold text-secondary me-1">Quantity</label>
+                                                <InputNumber min=0 id="quantityInput" class="form-control " @bind-Value="ingred.Amount" />
+                                            </div>
+
+                                            <div class="col-sm-2 me-1">
+                                                <label for="measureUnitSelect" class="font-weight-bold text-secondary me-1">Unit</label>
+                                                <InputSelect id="measureUnitSelect" class="form-control "
+                                                     @bind-Value="ingred.Unit">
+                                                    @foreach (var unit in Enum.GetValues(typeof(MeasureUnit)))
+                                                    {
+                                                <option value="@unit">@unit</option>
+                                                    }
+                                        </InputSelect>
+                                    </div>
+
+                                    <div class="col-sm-2 me-1">
+                                        <label for="ingredientSelect" class="font-weight-bold text-secondary me-1">Ingredient</label>
+                                        <InputSelect id="ingredientSelect" class="form-control "
+                                                     @bind-Value="ingred.IngredientName">
+                                            @foreach (var ing in Ingredients)
+                                                    {
+                                                <option value="@ing.Name">@ing.Name</option>
+                                                    }
+                                        </InputSelect>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <label for="descriptionInput" class="font-weight-bold text-secondary me-1">Description</label>
+                                        <InputText id="decsriptionInput" class="form-control " placeholder="additional information"
+                                                   @bind-Value="ingred.AdditionalInformation" />
                                     </div>
                                 </div>
+                                <div class="col-1 d-flex mt-3">
+                                    <button @onclick="@(() => part.Items.Remove(ingred))" class="btn btn-link" type="button">
+                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-circle-fill text-danger" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                             }
 
                         </div>
@@ -117,11 +149,9 @@ else if (_errorMessage is not null)
                             </div>
                         </div>
                     </div>
-                        <button @onclick="@(() => _recipe.RecipeParts.Remove(part))" class="btn btn-link" type="button">
-                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-circle-fill text-danger" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
-                            </svg>
-                        </button>
+                    <button @onclick="@(() => _recipe.RecipeParts.Remove(part))" class="btn btn-link" type="button">
+                             <RemoveSvg/>
+                    </button>
                 </div>
             }
             <div class="row">
@@ -130,6 +160,49 @@ else if (_errorMessage is not null)
                     <ValidationMessage For="@(() => _recipe.RecipeParts)" />
                 </div>
             </div>
+        </FormFieldSet>
+    </FormSection>
+
+    <FormSection Title="Equipment, Utensils and Accessories"
+                 HelpText="Let people know what equipment they will need to make this recipe">
+        <FormFieldSet>
+
+                @foreach (var utensil in _recipe.Utensils)
+                {                    
+                        <div class="d-flex flex-row align-content-center mb-1">
+                             <div class="col-2 me-1">
+                                    <label for="utenRequiredAmount" class="font-weight-bold text-secondary me-1">Amount</label>
+                                    <InputNumber id="utenSelect" min=1 class="form-control " 
+                                             @bind-Value="utensil.RequiredAmount" /> 
+                                      <ValidationMessage For="@(() => utensil.RequiredAmount)"/>
+                             </div>
+                            <div class="col-5 me-1">
+                                    <label for="utenSelect" class="font-weight-bold text-secondary me-1">Item </label>
+                                    <InputSelect id="utenSelect" class="form-control " 
+                                             @bind-Value="utensil.UtensilName" >                                             
+                                        @foreach (var _utensil in Utensils)
+                                        {
+                                        <option value="@_utensil.UtensilName">@_utensil.UtensilName</option>
+                                        }
+                                </InputSelect>
+                                   <ValidationMessage For="@(() => utensil.UtensilName)"/>
+                               
+                             </div>
+                        <div class="col-1 d-flex mt-3">
+                            <button @onclick="@(() => _recipe.Utensils.Remove(utensil))" class="btn btn-link" type="button">                                
+                                <RemoveSvg/>
+                            </button>
+                        </div>
+                    </div>
+            
+                }
+                    <div class="row">
+                                <div class="col">
+                                    <button class="btn btn-outline-primary" type="button" @onclick="@(() => _recipe.Utensils.Add(new UtensilResultDto()))">Add  </button>
+                                    <ValidationMessage For="@(() => _recipe.Utensils)" />
+                                </div>
+                            </div>
+         
         </FormFieldSet>
     </FormSection>
 
@@ -159,9 +232,7 @@ else if (_errorMessage is not null)
                     </div>
                     <div class="col-1 d-flex mt-3">
                         <button @onclick="@(() => _recipe.CookingSteps.Remove(cookingStep))" class="btn btn-link" type="button">
-                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-circle-fill text-danger" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
-                            </svg>
+                                <RemoveSvg/>
                         </button>
                     </div>
                 </div>
@@ -195,21 +266,29 @@ else if (_errorMessage is not null)
 @code {
 
     private AddRecipeDto _recipe = new AddRecipeDto();
-    public IEnumerable<IngredientDto>? Ingredients { get; set; } = new List<IngredientDto>() { };
+    public IEnumerable<IngredientResultDto>? Ingredients { get; set; } = new List<IngredientResultDto>() { };
+    public IEnumerable<UtensilResultDto>? Utensils { get; set; } = new List<UtensilResultDto>();
     public string newIngredient { get; set; } = "";
     private bool _submitSuccessful;
     private string? _errorMessage;
     private EditContext _editContext = default!;
 
-
-
     protected override void OnInitialized()
     {
+        Utensils = new List<UtensilResultDto>()
+        {
+            new UtensilResultDto(){ Id="12321", UtensilName="Whisk"},
+            new UtensilResultDto(){ Id="45645", UtensilName="23cm flutted tart tin"}
+        };
+        Ingredients = new List<IngredientResultDto>()
+        {
+        new IngredientResultDto() { Id="34534501" , Name="White bread flour"},
+        new IngredientResultDto() { Id="34534501" , Name="Caster Sugar"},
+        };
+
         _editContext = new EditContext(_recipe);
         _editContext.SetFieldCssClassProvider(new BootstrapCssClassProvider());
     }
-
-
 
     private async Task SubmitForm()
     {
@@ -226,6 +305,4 @@ else if (_errorMessage is not null)
         _errorMessage = null;
         _submitSuccessful = true;
     }
-
-
 }

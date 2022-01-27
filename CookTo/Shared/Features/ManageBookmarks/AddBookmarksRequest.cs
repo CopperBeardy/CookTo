@@ -2,8 +2,8 @@
 
 namespace CookTo.Shared.Features.ManageBookmarks;
 
-public record AddBookmarksRequest(BookmarksDto bookmarks) : IRequest<AddBookmarksRequest.Response>
+public record AddBookmarksRequest(AddBookmarksDto bookmarks) : IRequest<AddBookmarksRequest.Response>
 {
     public const string RouteTemplate = "api/Bookmarks";
-    public record Response(BookmarksDto Bookmarks);
+    public record Response(AddBookmarksDto Bookmarks);
 }

@@ -6,7 +6,7 @@ using CookTo.Shared.Features.ManageBookmarks;
 
 namespace CookTo.Server.Features.ManageBookmarks;
 
-public class AddBookmarksEndpoint : EndpointBaseAsync.WithRequest<AddBookmarksRequest>.WithActionResult<BookmarksDto>
+public class AddBookmarksEndpoint : EndpointBaseAsync.WithRequest<AddBookmarksRequest>.WithActionResult<AddBookmarksDto>
 {
     readonly IMapper _mapper;
     readonly IBookmarksService _bookmarksService;
@@ -18,7 +18,7 @@ public class AddBookmarksEndpoint : EndpointBaseAsync.WithRequest<AddBookmarksRe
     }
 
     [HttpPost(AddBookmarksRequest.RouteTemplate)]
-    public override async Task<ActionResult<BookmarksDto>> HandleAsync(
+    public override async Task<ActionResult<AddBookmarksDto>> HandleAsync(
         AddBookmarksRequest request,
         CancellationToken cancellationToken = default)
     {

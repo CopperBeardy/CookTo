@@ -4,10 +4,10 @@ public partial class Bookmarks
 {
     public class BookMarked
     {
-        [BsonElement("bookmarkedrecipeid")]
+        [BsonElement("bookMarkedRecipeId")]
         public string BookMarkedRecipeId { get; set; }
 
-        [BsonElement("recipetitle")]
+        [BsonElement("recipeTitle")]
         public string RecipeTitle { get; set; }
     }
 }

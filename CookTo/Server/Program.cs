@@ -1,3 +1,4 @@
+using CookTo.Server.Documents.BookmarksDocument;
 using CookTo.Server.MappingProfiles;
 using CookTo.Server.Services;
 using CookTo.Server.Services.Interfaces;
@@ -21,6 +22,7 @@ builder.Services.AddScoped<ICookToDbContext, CookToDbContext>();
 builder.Services.AddScoped<IIngredientService, IngredientService>();
 builder.Services.AddScoped<IRecipeService, RecipeService>();
 builder.Services.AddScoped<IBookmarksService, BookmarksService>();
+builder.Services.AddScoped<IUtensilService, UtensilService>();
 builder.Services
     .AddCors(
         policy =>
@@ -28,7 +30,7 @@ builder.Services
             policy.AddPolicy(
                 "CorsPolicy",
                 opt => opt
-.AllowAnyOrigin()
+                .AllowAnyOrigin()
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .WithExposedHeaders("X-Pagination"));
@@ -38,12 +40,8 @@ builder.Services
     .AddControllers()
     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.Load("CookTo.Shared")));
 builder.Services
-    .AddAutoMapper(
-        typeof(RecipeProfile),
-        typeof(IngredientProfile),
-        typeof(CookTo.Server.Documents.BookmarksDocument.Bookmarks));
+    .AddAutoMapper(typeof(RecipeProfile), typeof(IngredientProfile), typeof(BookmarksProfile), typeof(UtensilProfile));
 builder.Services.AddRazorPages();
-
 
 var app = builder.Build();
 

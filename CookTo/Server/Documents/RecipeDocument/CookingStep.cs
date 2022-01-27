@@ -4,7 +4,7 @@ public partial class Recipe
 {
     public class CookingStep
     {
-        [BsonElement("stepordernumber")]
+        [BsonElement("stepOrderNumber")]
         public int OrderNumber { get; set; }
 
         [BsonElement("step")]

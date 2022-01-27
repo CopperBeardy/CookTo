@@ -2,5 +2,6 @@
 
 public class AddIngredientDto
 {
+    [JsonPropertyName("name")]
     public string Name { get; set; }
 }
