@@ -1,1 +1,1 @@
-﻿global using CookTo.Shared.Features.ManageBookmarks;
+﻿

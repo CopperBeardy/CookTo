@@ -1,0 +1,43 @@
+﻿ <FormSection Title="Details"
+                 HelpText="This information is for giving a breif overview of the recipe">
+        <FormFieldSet Width="col-6">
+            <label for="recipeTitle" class="font-weight-bold text-secondary">Title</label>
+            <InputText @bind-Value="Recipe.Title" class="form-control" id="recipeTitle" />
+            <ValidationMessage For="@(() => Recipe.Title)" />
+        </FormFieldSet>
+        <FormFieldSet Width="col-6">
+            <label for="category" class="font-weight-bold text-secondary">Category</label>
+            <InputSelect TValue="Category" @bind-Value="Recipe.Category" class="form-control" id="category">
+                @foreach (var category in Enum.GetValues(typeof(Category)))
+                {
+                    <option value="@category">@category</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => Recipe.Category)" />
+        </FormFieldSet>
+        <FormFieldSet>
+            <label for="recipeDescription" class="font-weight-bold text-secondary">Description</label>
+            <InputTextArea @bind-Value="Recipe.Description" rows="6" class="form-control" id="recipeDescription" />
+            <ValidationMessage For="@(() => Recipe.Description)" />
+        </FormFieldSet>
+      
+        <FormFieldSet Width="col-3">
+            <label for="preparationTime" class="font-weight-bold text-secondary">Preperation Time</label>
+            <InputNumber min=0 @bind-Value="Recipe.PreparationTime" class="form-control" id="preparationTime" />
+            <ValidationMessage For="@(() => Recipe.PreparationTime)" />
+        </FormFieldSet>
+        <FormFieldSet Width="col-3">
+            <label for="cookingTime" class="font-weight-bold text-secondary">Cooking Time</label>
+            <InputNumber min=0 @bind-Value="Recipe.CookingTime" class="form-control" id="cookingTime" />
+            <ValidationMessage For="@(() => Recipe.CookingTime)" />
+        </FormFieldSet>
+        <FormFieldSet Width="col-3">
+            <label for="serves" class="font-weight-bold text-secondary">Serves</label>
+            <InputNumber min=0 @bind-Value="Recipe.Serves" class="form-control" id="serves" />
+            <ValidationMessage For="@(() => Recipe.Serves)" />
+        </FormFieldSet>
+    </FormSection>
+@code {
+    [CascadingParameter] public RecipeDto Recipe { get; set; }
+   
+}

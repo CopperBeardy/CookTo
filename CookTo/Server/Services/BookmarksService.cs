@@ -9,6 +9,7 @@ public class BookmarksService : BaseService<Bookmarks>, IBookmarksService
     {
     }
 
-    public async Task<Bookmarks> GetByUserIdAsync(string id) => await dbCollection.Find(e => e.UserId.Equals(id))
+    public async Task<Bookmarks> GetByUserIdAsync(string id, CancellationToken token) => await dbCollection.Find(
+        e => e.UserId.Equals(id))
         .FirstOrDefaultAsync();
 }

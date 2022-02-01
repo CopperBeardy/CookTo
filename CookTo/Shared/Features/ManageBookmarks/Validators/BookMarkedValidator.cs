@@ -1,4 +1,5 @@
-﻿
+﻿using CookTo.Shared.Features.ManageBookmarks.Shared;
+
 namespace CookTo.Shared.Features.ManageBookmarks.Validators;
 
 public class BookMarkedValidator : AbstractValidator<BookMarked>

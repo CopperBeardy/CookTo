@@ -30,7 +30,20 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Features\ManageUtensils\" />
+	  <Folder Include="Features\ManageBookmarks\EditBookmarks\" />
+	  <Folder Include="Features\ManageBookmarks\DeleteBookmarks\" />
+	  <Folder Include="Features\ManageBookmarks\GetBookmarks\" />
+	  <Folder Include="Features\ManageBookmarks\Shared\" />
+	  <Folder Include="Features\ManageIngredients\EditIngredient\" />
+	  <Folder Include="Features\ManageIngredients\GetIngredient\" />
+	  <Folder Include="Features\ManageIngredients\DeleteIngredient\" />
+	  <Folder Include="Features\ManageIngredients\Shared\" />
+	  <Folder Include="Features\ManageRecipes\DeleteRecipe\" />
+	  <Folder Include="Features\ManageUtensils\AddUtensil\" />
+	  <Folder Include="Features\ManageUtensils\EditUtensil\" />
+	  <Folder Include="Features\ManageUtensils\DeleteUtensil\" />
+	  <Folder Include="Features\ManageUtensils\GetUtensil\" />
+	  <Folder Include="Features\ManageUtensils\Shared\" />
 	</ItemGroup>
 
 	<Target Name="CheckForNpm" BeforeTargets="RunNpmInstall">

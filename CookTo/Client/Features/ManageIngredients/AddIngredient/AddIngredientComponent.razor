@@ -1,0 +1,21 @@
+﻿@page "/add"
+@inject IMediator Mediator
+
+<EditForm Model="@ingredient" OnValidSubmit="@HandleValidSubmit">
+	<DataAnnotationsValidator/>
+	<ValidationSummary/>
+	<InputText id="name" @bind-Value="@ingredient.Name"/>
+	<button type="submit">Add</button>
+</EditForm>
+
+@code{
+	[Parameter]
+	public IngredientDto ingredient { get; set; } = new (){Id = ""};
+	[Parameter]
+	public EventCallback<IngredientDto> onAdd{ get; set; }
+
+	private async Task HandleValidSubmit()
+	{
+		var response = Mediator.Send(new AddIngredientRequest(ingredient));	
+	}
+}

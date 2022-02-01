@@ -9,10 +9,23 @@
 
 	<ItemGroup>
 		<PackageReference Include="FluentValidation" Version="10.3.6" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.1" />
 		<PackageReference Include="MongoDB.Bson" Version="2.14.1" />
 		<PackageReference Include="MediatR" Version="9.0.0" />
 	</ItemGroup>
   <ItemGroup>
 	<SupportedPlatform Include="browser" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Features\ManageBookmarks\EditBookmarks\" />
+    <Folder Include="Features\ManageBookmarks\DeleteBookmarks\" />
+    <Folder Include="Features\ManageBookmarks\GetBookmarks\" />
+    <Folder Include="Features\ManageIngredients\EditIngredient\" />
+    <Folder Include="Features\ManageIngredients\DeleteIngredient\" />
+    <Folder Include="Features\ManageIngredients\GetIngredients\" />
+    <Folder Include="Features\ManageRecipes\DeleteRecipe\" />
+    <Folder Include="Features\ManageUtensils\EditUtensil\" />
+    <Folder Include="Features\ManageUtensils\DeleteUtensil\" />
+    <Folder Include="Features\ManageUtensils\GetUtensils\" />
   </ItemGroup>
 </Project>

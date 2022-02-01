@@ -1,8 +1,6 @@
-﻿using CookTo.Server.Documents.UtensilDocument;
+﻿namespace CookTo.Server.Documents.RecipeDocument;
 
-namespace CookTo.Server.Documents.RecipeDocument;
-
-public partial class Recipe : BaseEntity
+public class Recipe : BaseEntity
 {
     [BsonElement("title")]
     public string Title { get; set; }
@@ -13,8 +11,8 @@ public partial class Recipe : BaseEntity
     [BsonElement("description")]
     public string Description { get; set; }
 
-    [BsonElement("imageUrl")]
-    public string? ImageUrl { get; set; }
+    [BsonElement("image")]
+    public string? Image { get; set; }
 
     [BsonElement("prepTime")]
     public int PreparationTime { get; set; }
@@ -29,13 +27,13 @@ public partial class Recipe : BaseEntity
     public string AuthorId { get; set; }
 
     [BsonElement("recipeParts")]
-    public List<RecipePart> RecipeParts { get; set; }
+    public List<SectionRecipePart> RecipeParts { get; set; }
 
     [BsonElement("utensils")]
-    public List<Utensil> Utensils { get; set; }
+    public List<SectionUtensilPart> Utensils { get; set; }
 
     [BsonElement("cookingSteps")]
-    public List<CookingStep> CookingSteps { get; set; }
+    public List<SectionCookingStep> CookingSteps { get; set; }
 
     [BsonElement("tips")]
     public List<string>? Tips { get; set; }

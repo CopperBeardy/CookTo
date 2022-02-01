@@ -1,9 +1,8 @@
-using CookTo.Server.Documents.BookmarksDocument;
-using CookTo.Server.MappingProfiles;
 using CookTo.Server.Services;
 using CookTo.Server.Services.Interfaces;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Identity.Web;
 using System.Reflection;
 
@@ -39,8 +38,17 @@ builder.Services
 builder.Services
     .AddControllers()
     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.Load("CookTo.Shared")));
-builder.Services
-    .AddAutoMapper(typeof(RecipeProfile), typeof(IngredientProfile), typeof(BookmarksProfile), typeof(UtensilProfile));
+//var mapperConfiguration = new MapperConfiguration(
+//    config =>
+//    {
+//        config.AddProfile(new RecipeProfile());
+//        config.AddProfile(new BookmarksProfile());
+//        config.AddProfile(new IngredientProfile());
+//        config.AddProfile(new UtensilProfile());
+//    });
+//var mapper = mapperConfiguration.CreateMapper();
+//builder.Services.AddSingleton(mapper);
+
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
@@ -60,6 +68,12 @@ app.UseHttpsRedirection();
 
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
+app.UseStaticFiles(
+    new StaticFileOptions()
+    {
+        FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Images")),
+        RequestPath = new Microsoft.AspNetCore.Http.PathString("/Images")
+    });
 
 app.UseRouting();
 

@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace CookTo.Server.Documents.UtensilDocument;
+﻿namespace CookTo.Server.Documents.UtensilDocument;
 
 public class Utensil : BaseEntity
 {
