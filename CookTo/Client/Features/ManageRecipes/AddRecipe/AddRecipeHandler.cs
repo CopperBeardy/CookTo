@@ -14,8 +14,8 @@ public class AddRecipeHandler : IRequestHandler<AddRecipeRequest, AddRecipeReque
 
         if(response.IsSuccessStatusCode)
         {
-            var Recipe = await response.Content.ReadFromJsonAsync<RecipeDto>(cancellationToken: token);
-            return new AddRecipeRequest.Response(Recipe);
+            var recipe = await response.Content.ReadFromJsonAsync<RecipeDto>(cancellationToken: token);
+            return new AddRecipeRequest.Response(recipe);
         } else
         {
             return new AddRecipeRequest.Response(null);

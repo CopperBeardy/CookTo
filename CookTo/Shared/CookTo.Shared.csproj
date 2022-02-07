@@ -17,6 +17,7 @@
 	<SupportedPlatform Include="browser" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Features\Home\" />
     <Folder Include="Features\ManageBookmarks\EditBookmarks\" />
     <Folder Include="Features\ManageBookmarks\DeleteBookmarks\" />
     <Folder Include="Features\ManageBookmarks\GetBookmarks\" />

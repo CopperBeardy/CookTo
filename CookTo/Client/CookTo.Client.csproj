@@ -30,12 +30,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="Features\Home\Shared\" />
 	  <Folder Include="Features\ManageBookmarks\EditBookmarks\" />
 	  <Folder Include="Features\ManageBookmarks\DeleteBookmarks\" />
 	  <Folder Include="Features\ManageBookmarks\GetBookmarks\" />
 	  <Folder Include="Features\ManageBookmarks\Shared\" />
 	  <Folder Include="Features\ManageIngredients\EditIngredient\" />
-	  <Folder Include="Features\ManageIngredients\GetIngredient\" />
 	  <Folder Include="Features\ManageIngredients\DeleteIngredient\" />
 	  <Folder Include="Features\ManageIngredients\Shared\" />
 	  <Folder Include="Features\ManageRecipes\DeleteRecipe\" />

@@ -5,6 +5,6 @@ namespace CookTo.Shared.Features.ManageRecipes.AddRecipe;
 
 public record AddRecipeRequest(RecipeDto recipe) : IRequest<AddRecipeRequest.Response>
 {
-    public const string RouteTemplate = "/api/Recipe";
+    public const string RouteTemplate = "api/recipe";
     public record Response(RecipeDto recipe);
 }

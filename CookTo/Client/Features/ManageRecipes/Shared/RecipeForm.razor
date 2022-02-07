@@ -8,7 +8,20 @@
                      HelpText="Image to show the what finsih recipe will look like">
             <FormFieldSet>
                 <label for="recipeImage" class="font-italic text-secondary">Image</label>
-                <InputFile OnChange="LoadRecipeImage" class="form-control-file" id="recipeImage" accept=".png, .jpg, .jpeg" />
+                @if (string.IsNullOrWhiteSpace(_recipe.Image))
+                {
+                    <InputFile OnChange="LoadRecipeImage" class="form-control-file" id="recipeImage" accept=".png, .jpg, .jpeg" />
+                }
+                else
+                {
+                     <div class="card bg-dark text-white">
+                    <img src="images/@_recipe.Image" />
+                    <div class="card-img-overlay">
+                        <button class="btn btn-primary btn-sm" @onclick="RemoveRecipeImage">Remove</button>
+                    </div>
+                </div>
+                }
+
             </FormFieldSet>
         </FormSection>
         <RecipePartsFormSection />

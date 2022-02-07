@@ -1,4 +1,5 @@
 ﻿using Ardalis.ApiEndpoints;
+using AutoMapper;
 using CookTo.Server.Documents.IngredientDocument;
 using CookTo.Server.Mappings;
 using CookTo.Server.Services.Interfaces;
@@ -10,16 +11,18 @@ namespace CookTo.Server.Features.ManageIngredients.AddIngredient;
 public class AddIngredientEndpoint : EndpointBaseAsync.WithRequest<AddIngredientRequest>.WithActionResult<IngredientDto>
 {
     readonly IIngredientService _ingredientService;
-
-    public AddIngredientEndpoint(IIngredientService ingredientService) { _ingredientService = ingredientService; }
+    readonly IMapper _mapper;
+    public AddIngredientEndpoint(IIngredientService ingredientService, IMapper mapper) { _ingredientService = ingredientService;
+         _mapper=mapper;
+    }
 
     [HttpPost(AddIngredientRequest.RouteTemplate)]
     public override async Task<ActionResult<IngredientDto>> HandleAsync(
         AddIngredientRequest request,
         CancellationToken cancellationToken = default)
     {
-        Ingredient ingredient = IngredientMapping.FromDtoToIngredient(request.ingredient);
+        Ingredient ingredient = _mapper.Map<Ingredient>(request.ingredient);
         await _ingredientService.CreateAsync(ingredient, cancellationToken);
-        return Ok(IngredientMapping.FromIngredientToDto(ingredient));
+        return Ok(_mapper.Map<IngredientDto>(ingredient));
     }
 }

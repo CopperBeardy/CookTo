@@ -10,7 +10,7 @@ public class AddIngredientHandler : IRequestHandler<AddIngredientRequest, AddIng
 
     public async Task<AddIngredientRequest.Response> Handle(AddIngredientRequest request, CancellationToken token)
     {
-        var response = await _httpClient.PostAsJsonAsync(AddIngredientRequest.RouteTemplate, request);
+        var response = await _httpClient.PostAsJsonAsync(AddIngredientRequest.RouteTemplate, request, token);
 
         if(response.IsSuccessStatusCode)
         {

@@ -1,0 +1,48 @@
+﻿@page "/"
+@using static CookTo.Shared.Features.ManageIngredients.GetIngredients.GetIngredientsRequest
+
+@inject IMediator Mediator
+
+<PageTitle>CookTo Recipes</PageTitle>
+
+@if (_ingredients == null)
+{
+    <p>Loading recipes...</p>
+}
+else
+{
+    @if (_ingredients.Any())
+    {
+        <div class="mb-4">
+            <p class="font-italic text-center">Have a recipe to share <a href="add-recipe">Add Recipe here</a>.</p>
+        </div>
+
+        
+    }
+    else
+    {
+        <div class="no-recipes">            
+            <h3 class="text-muted font-weight-light">We currently don't have any recipes, <a href="add-recipe">add recipe</a></h3>
+        </div>
+    }
+}
+
+@code {
+    private IEnumerable<IngredientDto>? _ingredients;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var response = await Mediator.Send(new GetIngredientsRequest());
+            _ingredients = response.Ingredients;
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"There was a problem loading Recipe data: {ex.Message}");
+        }
+    }
+
+ 
+}

@@ -6,7 +6,7 @@ namespace CookTo.Shared.Features.ManageRecipes.Shared;
 public class RecipeDto
 {
     [JsonPropertyName("_id")]
-    public string Id { get; set; }
+    public string? Id { get; set; }
 
     [JsonPropertyName("title")]
     public string Title { get; set; }
@@ -43,6 +43,7 @@ public class RecipeDto
 
     [JsonPropertyName("tips")]
     public List<string>? Tips { get; set; } = new List<string>();
+    [JsonPropertyName("imageAction")]
 
     public ImageAction ImageAction { get; set; }
 }

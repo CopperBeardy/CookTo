@@ -1,4 +1,5 @@
 ﻿using Ardalis.ApiEndpoints;
+using AutoMapper;
 using CookTo.Server.Documents.UtensilDocument;
 using CookTo.Server.Mappings;
 using CookTo.Server.Services.Interfaces;
@@ -10,16 +11,16 @@ namespace CookTo.Server.Features.ManageUtensils.AddUtensil;
 public class AddUtensilEndpoint : EndpointBaseAsync.WithRequest<AddUtensilRequest>.WithActionResult<UtensilDto>
 {
     readonly IUtensilService _utensilService;
-
-    public AddUtensilEndpoint(IUtensilService utensilService) { _utensilService = utensilService; }
+    readonly IMapper _mapper;
+    public AddUtensilEndpoint(IUtensilService utensilService, IMapper mapper) { _utensilService = utensilService;  _mapper = mapper; }
 
     [HttpPost(AddUtensilRequest.RouteTemplate)]
     public override async Task<ActionResult<UtensilDto>> HandleAsync(
         AddUtensilRequest request,
         CancellationToken cancellationToken = default)
     {
-        Utensil utensil = UtensilMapping.FromDtoToUtensil(request.utensil);
+        Utensil utensil = _mapper.Map<Utensil>(request.utensil);
         await _utensilService.CreateAsync(utensil, cancellationToken);
-        return Ok(UtensilMapping.FromUtensilToDto(utensil));
+        return Ok(_mapper.Map<UtensilDto>(utensil));
     }
 }

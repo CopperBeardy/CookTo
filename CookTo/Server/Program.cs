@@ -1,3 +1,5 @@
+using AutoMapper;
+using CookTo.Server.Mappings;
 using CookTo.Server.Services;
 using CookTo.Server.Services.Interfaces;
 using FluentValidation.AspNetCore;
@@ -38,16 +40,17 @@ builder.Services
 builder.Services
     .AddControllers()
     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.Load("CookTo.Shared")));
-//var mapperConfiguration = new MapperConfiguration(
-//    config =>
-//    {
-//        config.AddProfile(new RecipeProfile());
-//        config.AddProfile(new BookmarksProfile());
-//        config.AddProfile(new IngredientProfile());
-//        config.AddProfile(new UtensilProfile());
-//    });
-//var mapper = mapperConfiguration.CreateMapper();
-//builder.Services.AddSingleton(mapper);
+
+var mapperConfiguration = new MapperConfiguration(
+    config =>
+    {
+        config.AddProfile(new RecipeProfile());
+        config.AddProfile(new BookmarksProfile());
+        config.AddProfile(new IngredientProfile());
+        config.AddProfile(new UtensilProfile());
+    });
+var mapper = mapperConfiguration.CreateMapper();
+builder.Services.AddSingleton(mapper);
 
 builder.Services.AddRazorPages();
 
