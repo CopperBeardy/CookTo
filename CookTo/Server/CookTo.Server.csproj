@@ -34,16 +34,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Home\Shared\" />
-    <Folder Include="Features\ManageBookmarks\EditBookmarks\" />
-    <Folder Include="Features\ManageBookmarks\DeleteBookmarks\" />
-    <Folder Include="Features\ManageBookmarks\GetBookmarks\" />
-    <Folder Include="Features\ManageIngredients\EditIngredient\" />
-    <Folder Include="Features\ManageIngredients\DeleteIngredient\" />
-    <Folder Include="Features\ManageRecipes\DeleteRecipe\" />
-    <Folder Include="Features\ManageUtensils\EditUtensil\" />
-    <Folder Include="Features\ManageUtensils\DeleteUtensil\" />
-    <Folder Include="Features\ManageUtensils\GetUtensil\" />
     <Folder Include="Images\" />
   </ItemGroup>
 

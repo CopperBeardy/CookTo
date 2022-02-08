@@ -1,7 +1,4 @@
-﻿using MongoDB.Bson.Serialization.IdGenerators;
-using System.Text.Json.Serialization;
-
-namespace CookTo.Server.Documents.RecipeDocument;
+﻿namespace CookTo.Server.Documents.RecipeDocument;
 
 public class Recipe : BaseEntity
 {

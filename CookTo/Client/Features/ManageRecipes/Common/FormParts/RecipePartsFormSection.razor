@@ -1,0 +1,106 @@
+﻿ <FormSection Title="Recipe parts"
+                 HelpText="Define the various parts of the recipe and there ingredients">
+        <FormFieldSet>
+            @foreach (var part in Recipe.RecipeParts)
+            {
+                <div class="card card-brand mb-4 shadow">
+                    <div class="card-body">
+                        <div class="col mb-1">
+                            <div class="form-group">
+                                <label for="partTitle" class="font-weight-bold text-secondary me-1">Part Title</label>
+                                <InputText @bind-Value="part.PartTitle" class="form-control" id="partTitle" />
+                                <ValidationMessage For="@(() => part.PartTitle)" />
+
+                            </div>
+                        </div>
+                        <div class="card card-brand mb-4 shadow">
+
+                            @foreach (var ingred in part.Items)
+                            {
+                                <div class="card-body">
+                                    <div class="d-flex flex-row align-content-center">
+                                        <div class="d-flex flex-row">
+                                            <div class="col-sm-2 me-1">
+                                                <label for="quantityInput" class="font-weight-bold text-secondary me-1">Quantity</label>
+                                                <InputNumber min=0 id="quantityInput" class="form-control " @bind-Value="ingred.Amount" />
+                                                  <ValidationMessage For="@(() =>  ingred.Amount)"/>
+                                            </div>
+
+                                            <div class="col-sm-2 me-1">
+                                                <label for="measureUnitSelect" class="font-weight-bold text-secondary me-1">Unit</label>
+                                                <InputSelect id="measureUnitSelect" class="form-control "
+                                                     @bind-Value="ingred.Unit">
+                                                    @foreach (var unit in Enum.GetValues(typeof(MeasureUnit)))
+                                                    {
+                                                <option value="@unit">@unit</option>
+                                                    }
+                                        </InputSelect>
+                                          <ValidationMessage For="@(() =>  ingred.Unit)"/>
+                                    </div>
+
+                                    <div class="col-sm-2 me-1">
+                                        <label for="ingredientSelect" class="font-weight-bold text-secondary me-1">Ingredient</label>
+                                        <InputSelect id="ingredientSelect" class="form-control "
+                                                     @bind-Value="ingred.IngredientName">
+                                                   
+                                            @foreach (var ing in Ingredients)
+                                                    {
+                                                <option value="@ing.Name">@ing.Name</option>
+                                                    }
+                                        </InputSelect>
+                                          <ValidationMessage For="@(() =>  ingred.IngredientName)"/>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <label for="descriptionInput" class="font-weight-bold text-secondary me-1">Description</label>
+                                        <InputText id="decsriptionInput" class="form-control " placeholder="additional information"
+                                                   @bind-Value="ingred.AdditionalInformation" />
+                                  <ValidationMessage For="@(() =>  ingred.AdditionalInformation)"/>
+                                    </div>
+                                </div>
+                                <div class="col-1 d-flex mt-3">
+                                    <button @onclick="@(() => part.Items.Remove(ingred))" class="btn btn-link" type="button">
+                                      <RemoveSvg/>
+                                      
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                            }
+
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <button class="btn btn-outline-primary" type="button" @onclick="@(() => part.Items.Add(new PartIngredient()))">Add Part Ingredient </button>
+                                <ValidationMessage For="@(() => part.Items)" />
+                            </div>
+                        </div>
+                    </div>
+                    <button @onclick="@(() => Recipe.RecipeParts.Remove(part))" class="btn btn-link" type="button">
+                             <RemoveSvg/>
+                    </button>
+                </div>
+            }
+            <div class="row">
+                <div class="col">
+                    <button class="btn btn-outline-primary" type="button" @onclick="@(() => Recipe.RecipeParts.Add(new RecipePart()))">Add RecipePart</button>
+                    <ValidationMessage For="@(() => Recipe.RecipeParts)" />
+                </div>
+            </div>
+        </FormFieldSet>
+    </FormSection>
+
+@code {
+    [CascadingParameter] public RecipeDto Recipe { get; set; }
+    public IEnumerable<IngredientDto>? Ingredients { get; set; }
+
+    protected override void OnInitialized()
+    {
+           Ingredients = new List<IngredientDto>()
+        {
+        new IngredientDto() { Id="34534501" , Name="White bread flour"},
+        new IngredientDto() { Id="34534501" , Name="Caster Sugar"},
+        };
+    }
+
+}

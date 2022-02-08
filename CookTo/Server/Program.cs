@@ -1,4 +1,5 @@
 using AutoMapper;
+using CookTo.Server.Endpoints;
 using CookTo.Server.Mappings;
 using CookTo.Server.Services;
 using CookTo.Server.Services.Interfaces;
@@ -9,15 +10,13 @@ using Microsoft.Identity.Web;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
 builder.Services.Configure<MongoSettings>(builder.Configuration.GetSection(nameof(MongoSettings))).AddOptions();
-
-//var mongoSettings = builder.Configuration.GetSection(nameof(MongoSettings));
+builder.Services
+    .AddEndpointsApiExplorer()
+    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.Load("CookTo.Shared")));
 
 builder.Services.AddScoped<ICookToDbContext, CookToDbContext>();
 builder.Services.AddScoped<IIngredientService, IngredientService>();
@@ -37,9 +36,6 @@ builder.Services
                         .WithExposedHeaders("X-Pagination"));
         });
 
-builder.Services
-    .AddControllers()
-    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.Load("CookTo.Shared")));
 
 var mapperConfiguration = new MapperConfiguration(
     config =>
@@ -66,6 +62,8 @@ if(app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+app.IngredientEndpoints();
+app.UtensilEndpoints();
 
 app.UseHttpsRedirection();
 

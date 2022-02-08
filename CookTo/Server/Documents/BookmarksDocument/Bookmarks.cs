@@ -1,7 +1,4 @@
-﻿using MongoDB.Bson.Serialization.IdGenerators;
-using System.Text.Json.Serialization;
-
-namespace CookTo.Server.Documents.BookmarksDocument;
+﻿namespace CookTo.Server.Documents.BookmarksDocument;
 
 public partial class Bookmarks : BaseEntity
 {

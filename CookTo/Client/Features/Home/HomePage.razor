@@ -1,7 +1,6 @@
 ﻿@page "/"
-@using static CookTo.Shared.Features.ManageIngredients.GetIngredients.GetIngredientsRequest
+@inject IIngredientManager IngredientManager
 
-@inject IMediator Mediator
 
 <PageTitle>CookTo Recipes</PageTitle>
 
@@ -34,9 +33,8 @@ else
     protected override async Task OnInitializedAsync()
     {
         try
-        {
-            var response = await Mediator.Send(new GetIngredientsRequest());
-            _ingredients = response.Ingredients;
+        {       
+            _ingredients =  await IngredientManager.GetAll();
         }
         catch (HttpRequestException ex)
         {

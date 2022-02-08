@@ -28,6 +28,10 @@ builder.Services
         });
 
 
-builder.Services.AddMediatR(typeof(Program).Assembly);
+builder.Services.AddScoped<CookTo.Client.Managers.Interfaces.IIngredientManager, CookTo.Client.Managers.IngredientManager>();
+builder.Services.AddScoped<CookTo.Client.Managers.Interfaces.IUtensilManager, CookTo.Client.Managers.UtensilManager>();
+builder.Services.AddScoped<CookTo.Client.Managers.Interfaces.IRecipeManager, CookTo.Client.Managers.RecipeManager>();
+builder.Services.AddScoped<CookTo.Client.Managers.Interfaces.IBookmarksManager, CookTo.Client.Managers.BookmarksManager>();
+builder.Services.AddScoped<CookTo.Client.Managers.Interfaces.IUploadImageManager, CookTo.Client.Managers.UploadImageManager>();
 
 await builder.Build().RunAsync();
