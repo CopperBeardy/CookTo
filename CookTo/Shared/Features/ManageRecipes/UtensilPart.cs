@@ -2,9 +2,9 @@
 
 public class UtensilPart
 {
-    [JsonPropertyName("requiredAmount")]
+    [JsonPropertyName("required_amount")]
     public int RequiredAmount { get; set; } = 0;
 
-    [JsonPropertyName("utensilName")]
+    [JsonPropertyName("utensil_name")]
     public string UtensilName { get; set; } = string.Empty;
 }

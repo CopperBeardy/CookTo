@@ -3,9 +3,10 @@
 public class UtensilDto
 {
     [JsonPropertyName("_id")]
-    public string Id { get; set; }
+    public string? Id { get; set; } = string.Empty;
 
-    [JsonPropertyName("utensilName")]
+
+    [JsonPropertyName("utensil_name")]
     public string UtensilName { get; set; }
 }
 

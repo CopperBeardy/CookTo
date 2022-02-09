@@ -1,5 +1,6 @@
 ﻿using CookTo.Client.Managers.Interfaces;
 using Microsoft.AspNetCore.Components.Forms;
+using Newtonsoft.Json;
 
 namespace CookTo.Client.Managers;
 
@@ -17,9 +18,10 @@ public class UploadImageManager : IUploadImageManager
         {
             var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
 
-            var response = await httpClient.GetFromJsonAsync<IBrowserFile>(
-                $"{_url}/{recipeId}",
-                new CancellationToken());
+            var result = await httpClient.GetAsync($"{_url}/{recipeId}", new CancellationToken());
+            result.EnsureSuccessStatusCode();
+            var content = await result.Content.ReadAsStringAsync();
+            var response = JsonConvert.DeserializeObject<IBrowserFile>(content);
             return response;
         } catch(HttpRequestException)
         {
@@ -29,20 +31,22 @@ public class UploadImageManager : IUploadImageManager
 
     public async Task<string> UploadImage(string recipeId, IBrowserFile file)
     {
-        var fileContent = file.OpenReadStream(file.Size, new CancellationToken());
-        using var content = new MultipartFormDataContent();
-        content.Add(new StreamContent(fileContent), "image", file.Name);
-
-        var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Secure);
-
-        var response = await httpClient.PostAsync($"{_url}/{recipeId}", content, new CancellationToken());
-        if(response.IsSuccessStatusCode)
+        try
         {
-            var imageName = await response.Content.ReadFromJsonAsync<string>(cancellationToken: new CancellationToken());
-            return imageName;
-        } else
+            var fileContent = file.OpenReadStream(file.Size, new CancellationToken());
+            using var formContent = new MultipartFormDataContent();
+            formContent.Add(new StreamContent(fileContent), "image", file.Name);
+
+            var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Secure);
+
+            var result = await httpClient.PostAsync($"{_url}/{recipeId}", formContent, new CancellationToken());
+            result.EnsureSuccessStatusCode();
+            var content = await result.Content.ReadAsStringAsync();
+            var response = JsonConvert.DeserializeObject<IBrowserFile>(content);
+            return response.Name;
+        } catch(Exception)
         {
-            return null;
+            throw;
         }
     }
 }

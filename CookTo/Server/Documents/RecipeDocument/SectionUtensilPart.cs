@@ -2,9 +2,9 @@
 
 public class SectionUtensilPart
 {
-    [BsonElement("requiredAmount")]
+    [BsonElement("required_amount")]
     public int RequiredAmount { get; set; }
 
-    [BsonElement("utensilName")]
+    [BsonElement("utensil_name")]
     public string UtensilName { get; set; }
 }

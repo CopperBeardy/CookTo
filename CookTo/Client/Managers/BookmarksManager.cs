@@ -1,5 +1,6 @@
 ﻿using CookTo.Client.Managers.Interfaces;
 using CookTo.Shared.Features.ManageBookmarks;
+using Newtonsoft.Json;
 
 namespace CookTo.Client.Managers;
 
@@ -15,7 +16,10 @@ public class BookmarksManager : IBookmarksManager
         try
         {
             var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
-            var response = await httpClient.GetFromJsonAsync<BookmarksDto>($"{_url}/{userId}", new CancellationToken());
+            var result = await httpClient.GetAsync($"{_url}/{userId}", new CancellationToken());
+            result.EnsureSuccessStatusCode();
+            var content = await result.Content.ReadAsStringAsync();
+            var response = JsonConvert.DeserializeObject<BookmarksDto>(content);
             return response;
         } catch(HttpRequestException)
         {
@@ -28,31 +32,25 @@ public class BookmarksManager : IBookmarksManager
     {
         var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Secure);
 
-        var response = await httpClient.PostAsJsonAsync(_url, entity, new CancellationToken());
-
-        if(response.IsSuccessStatusCode)
-        {
-            return await response.Content.ReadFromJsonAsync<BookmarksDto>(cancellationToken: new CancellationToken());
-        } else
-        {
-            return null;
-        }
+        var result = await httpClient.PostAsJsonAsync(_url, entity, new CancellationToken());
+        result.EnsureSuccessStatusCode();
+        var content = await result.Content.ReadAsStringAsync();
+        var response = JsonConvert.DeserializeObject<BookmarksDto>(content);
+        return response;
     }
 
-    public async Task<BookmarksDto> Update(BookmarksDto entityToUpdate)
+    public async Task<bool> Update(BookmarksDto entityToUpdate)
     {
-        var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
-
-        var response = await httpClient.PutAsJsonAsync(_url, entityToUpdate);
-
-        if(response.IsSuccessStatusCode)
+        try
         {
-            var Bookmarks = await response.Content
-                .ReadFromJsonAsync<BookmarksDto>(cancellationToken: new CancellationToken());
-            return Bookmarks;
-        } else
+            var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
+
+            var result = await httpClient.PutAsJsonAsync(_url, entityToUpdate);
+            result.EnsureSuccessStatusCode();
+            return true;
+        } catch(Exception)
         {
-            return null;
+            throw;
         }
     }
 }

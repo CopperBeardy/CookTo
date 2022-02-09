@@ -8,8 +8,8 @@ public interface IIngredientManager
 
     Task<IngredientDto> GetById(string id);
 
-    Task<IngredientDto> Insert(IngredientDto entity);
+    Task<string> Insert(IngredientDto entity);
 
-    Task<IngredientDto> Update(IngredientDto entityToUpdate);
+    Task<string> Update(IngredientDto entityToUpdate);
 }
 

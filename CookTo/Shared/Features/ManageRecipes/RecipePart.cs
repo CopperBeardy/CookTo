@@ -3,7 +3,7 @@
 
 public class RecipePart
 {
-    [JsonPropertyName("partTitle")]
+    [JsonPropertyName("part_title")]
     public string PartTitle { get; set; } = string.Empty;
 
     [JsonPropertyName("items")]

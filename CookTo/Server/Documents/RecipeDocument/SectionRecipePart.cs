@@ -3,7 +3,7 @@
 
 public class SectionRecipePart
 {
-    [BsonElement("partTitle")]
+    [BsonElement("part_title")]
     public string PartTitle { get; set; }
 
     [BsonElement("items")]

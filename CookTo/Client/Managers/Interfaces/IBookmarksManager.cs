@@ -8,6 +8,6 @@ public interface IBookmarksManager
 
     Task<BookmarksDto> Insert(BookmarksDto entity);
 
-    Task<BookmarksDto> Update(BookmarksDto entityToUpdate);
+    Task<bool> Update(BookmarksDto entityToUpdate);
 }
 

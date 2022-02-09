@@ -3,7 +3,7 @@
 
 public class SectionCookingStep
 {
-    [BsonElement("stepOrderNumber")]
+    [BsonElement("step_order_number")]
     public int OrderNumber { get; set; }
 
     [BsonElement("step")]

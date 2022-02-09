@@ -1,5 +1,7 @@
 ﻿using CookTo.Client.Managers.Interfaces;
 using CookTo.Shared.Features.ManageUtensils;
+using Microsoft.AspNetCore.Components.Forms;
+using Newtonsoft.Json;
 
 namespace CookTo.Client.Managers;
 
@@ -16,7 +18,10 @@ public class UtensilManager : IUtensilManager
         {
             var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
 
-            var response = await httpClient.GetFromJsonAsync<List<UtensilDto>>(_url, new CancellationToken());
+            var result = await httpClient.GetAsync(_url, new CancellationToken());
+            result.EnsureSuccessStatusCode();
+            var content = await result.Content.ReadAsStringAsync();
+            var response = JsonConvert.DeserializeObject<List<UtensilDto>>(content);
             return response;
         } catch(HttpRequestException)
         {
@@ -27,17 +32,17 @@ public class UtensilManager : IUtensilManager
 
     public async Task<UtensilDto> Insert(UtensilDto entity)
     {
-        var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Secure);
-
-        var response = await httpClient.PostAsJsonAsync(_url, entity);
-
-        if(response.IsSuccessStatusCode)
+        try
         {
-            var t = await response.Content.ReadFromJsonAsync<UtensilDto>(cancellationToken: new CancellationToken());
-            return t;
-        } else
+            var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Secure);
+            var result = await httpClient.PostAsJsonAsync(_url, entity, new CancellationToken());
+            result.EnsureSuccessStatusCode();
+            var content = await result.Content.ReadAsStringAsync();
+            var response = JsonConvert.DeserializeObject<UtensilDto>(content);
+            return response;
+        } catch(Exception)
         {
-            return null;
+            throw;
         }
     }
 }

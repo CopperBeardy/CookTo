@@ -2,8 +2,9 @@
 
 public class IngredientDto
 {
-    [JsonPropertyName("_id")]
-    public string? Id { get; set; }
+    [JsonPropertyName("id")]
+    public string? Id { get; set; } = string.Empty;
+
 
     [JsonPropertyName("name")]
     public string Name { get; set; }

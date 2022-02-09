@@ -3,10 +3,10 @@
 
 public class SectionBookMarked
 {
-    [BsonElement("bookMarkedRecipeId")]
+    [BsonElement("bookmarked_recipe_id")]
     public string BookMarkedRecipeId { get; set; }
 
-    [BsonElement("recipeTitle")]
+    [BsonElement("recipe_title")]
     public string RecipeTitle { get; set; }
 }
 

@@ -1,6 +1,8 @@
 ﻿using CookTo.Client.Managers.Interfaces;
+using CookTo.Shared.Features.ManageBookmarks;
 using CookTo.Shared.Features.ManageIngredients;
 using CookTo.Shared.Features.ManageRecipes;
+using Newtonsoft.Json;
 
 namespace CookTo.Client.Managers;
 
@@ -16,7 +18,9 @@ public class IngredientManager : IIngredientManager
         try
         {
             var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
-            var response = await httpClient.GetFromJsonAsync<List<IngredientDto>>(_url, new CancellationToken());
+            var result = await httpClient.GetAsync(_url, new CancellationToken());
+            var content = await result.Content.ReadAsStringAsync();
+            var response = JsonConvert.DeserializeObject<List<IngredientDto>>(content);
             return response;
         } catch(HttpRequestException)
         {
@@ -29,7 +33,10 @@ public class IngredientManager : IIngredientManager
         try
         {
             var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
-            var response = await httpClient.GetFromJsonAsync<IngredientDto>($"{_url}/{id}", new CancellationToken());
+            var result = await httpClient.GetAsync($"{_url}/{id}", new CancellationToken());
+            result.EnsureSuccessStatusCode();
+            var content = await result.Content.ReadAsStringAsync();
+            var response = JsonConvert.DeserializeObject<IngredientDto>(content);
             return response;
         } catch(HttpRequestException)
         {
@@ -37,36 +44,37 @@ public class IngredientManager : IIngredientManager
         }
     }
 
-    public async Task<IngredientDto> Insert(IngredientDto entity)
+    public async Task<string> Insert(IngredientDto entity)
     {
-        var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Secure);
-
-        var response = await httpClient.PostAsJsonAsync(_url, entity, new CancellationToken());
-
-        if(response.IsSuccessStatusCode)
+        try
         {
-            var t = await response.Content.ReadFromJsonAsync<IngredientDto>(cancellationToken: new CancellationToken());
-            return t;
-        } else
+            var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Secure);
+
+            var result = await httpClient.PostAsJsonAsync(_url, entity, new CancellationToken());
+            result.EnsureSuccessStatusCode();
+            var content = await result.Content.ReadAsStringAsync();
+            var response = JsonConvert.DeserializeObject<string>(content);
+            return response;
+        } catch(Exception)
         {
-            return null;
+            throw;
         }
     }
 
-    public async Task<IngredientDto> Update(IngredientDto entityToUpdate)
+    public async Task<string> Update(IngredientDto entityToUpdate)
     {
-        var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Secure);
-
-        var response = await httpClient.PutAsJsonAsync(_url, entityToUpdate);
-
-        if(response.IsSuccessStatusCode)
+        try
         {
-            var Ingredient = await response.Content
-                .ReadFromJsonAsync<IngredientDto>(cancellationToken: new CancellationToken());
-            return Ingredient;
-        } else
+            var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Secure);
+
+            var result = await httpClient.PutAsJsonAsync(_url, entityToUpdate);
+            result.EnsureSuccessStatusCode();
+            var content = await result.Content.ReadAsStringAsync();
+            var response = JsonConvert.DeserializeObject<string>(content);
+            return response;
+        } catch(Exception)
         {
-            return null;
+            throw;
         }
     }
 }

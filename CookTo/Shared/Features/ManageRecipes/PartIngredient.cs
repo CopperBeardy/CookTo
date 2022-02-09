@@ -9,9 +9,9 @@ public class PartIngredient
 
     [JsonPropertyName("unit")]
     public MeasureUnit Unit { get; set; } = MeasureUnit._;
-    [JsonPropertyName("ingredientName")]
+    [JsonPropertyName("ingredient_name")]
     public string IngredientName { get; set; } = string.Empty;
-    [JsonPropertyName("additionalInformation")]
+    [JsonPropertyName("additional_information")]
     public string? AdditionalInformation { get; set; } = string.Empty;
 
 

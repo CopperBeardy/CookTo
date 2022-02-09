@@ -5,13 +5,9 @@ namespace CookTo.Server.Documents.UtensilDocument;
 
 public class Utensil : BaseEntity
 {
-    [BsonId(IdGenerator = typeof(StringObjectIdGenerator))]
-    [JsonPropertyName("id")]
-    public string Id { get; set; }
-
-    [BsonElement("requiredAmount")]
+    [BsonElement("required_amount")]
     public int RequiredAmount { get; set; }
 
-    [BsonElement("utensilName")]
+    [BsonElement("utensil_name")]
     public string UtensilName { get; set; }
 }

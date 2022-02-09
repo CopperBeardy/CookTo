@@ -2,10 +2,10 @@
 
 public partial class Bookmarks : BaseEntity
 {
-    [BsonElement("userId")]
+    [BsonElement("user_id")]
     public string UserId { get; set; }
 
-    [BsonElement("bookMarkedRecipes")]
+    [BsonElement("bookmarked_recipes")]
     public List<SectionBookMarked>? BookMarkedRecipes { get; set; }
 }
 

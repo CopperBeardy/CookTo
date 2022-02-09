@@ -1,4 +1,7 @@
-﻿namespace CookTo.Server.Documents.RecipeDocument;
+﻿using MongoDB.Bson.Serialization.IdGenerators;
+using System.Text.Json.Serialization;
+
+namespace CookTo.Server.Documents.RecipeDocument;
 
 public class Recipe : BaseEntity
 {
@@ -14,10 +17,10 @@ public class Recipe : BaseEntity
     [BsonElement("image")]
     public string? Image { get; set; }
 
-    [BsonElement("prepTime")]
+    [BsonElement("prep_time")]
     public int PreparationTime { get; set; }
 
-    [BsonElement("cookingTime")]
+    [BsonElement("cooking_time")]
     public int CookingTime { get; set; }
 
     [BsonElement("serves")]
@@ -26,13 +29,13 @@ public class Recipe : BaseEntity
     [BsonElement("author")]
     public string AuthorId { get; set; }
 
-    [BsonElement("recipeParts")]
+    [BsonElement("recipe_parts")]
     public List<SectionRecipePart> RecipeParts { get; set; }
 
     [BsonElement("utensils")]
     public List<SectionUtensilPart> Utensils { get; set; }
 
-    [BsonElement("cookingSteps")]
+    [BsonElement("cooking_steps")]
     public List<SectionCookingStep> CookingSteps { get; set; }
 
     [BsonElement("tips")]

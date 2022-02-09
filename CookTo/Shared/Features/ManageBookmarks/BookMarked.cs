@@ -2,7 +2,11 @@
 
 public class BookMarked
 {
-    [JsonPropertyName("bookMarkedRecipeId")]
+    [JsonPropertyName("_id")]
+    public string? Id { get; set; } = string.Empty;
+
+
+    [JsonPropertyName("bookmarked_recipe_id")]
     public string BookMarkedRecipeId { get; set; } = string.Empty;
 
     [JsonPropertyName("recipeTitle")]

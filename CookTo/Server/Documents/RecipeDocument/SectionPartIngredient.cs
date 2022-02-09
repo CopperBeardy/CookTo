@@ -9,9 +9,9 @@ public class SectionPartIngredient
     [BsonElement("unit")]
     public MeasureUnit Unit { get; set; }
 
-    [BsonElement(nameof(IngredientName))]
+    [BsonElement("ingredient_name")]
     public string IngredientName { get; set; }
 
-    [BsonElement("additionalInformation")]
+    [BsonElement("additional_information")]
     public string? AdditionalInformation { get; set; }
 }

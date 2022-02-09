@@ -10,5 +10,5 @@ public interface IRecipeManager
 
     Task<RecipeDto> Insert(RecipeDto entity);
 
-    Task<RecipeDto> Update(RecipeDto entityToUpdate);
+    Task<bool> Update(RecipeDto entityToUpdate);
 }

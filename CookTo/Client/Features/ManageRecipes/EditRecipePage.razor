@@ -50,7 +50,7 @@ else if (_errorMessage is not null)
     {
 
         var response = await RecipeManager.Update(recipe);
-        if (response is not null)
+        if (!response)
         {
             _errorMessage = "There was a problem saving your Recipe.";
             _submitSuccessful = false;

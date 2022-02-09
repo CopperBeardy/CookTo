@@ -19,10 +19,10 @@ public class RecipeDto
     [JsonPropertyName("image")]
     public string? Image { get; set; } = string.Empty;
 
-    [JsonPropertyName("prepTime")]
+    [JsonPropertyName("prep_time")]
     public int PreparationTime { get; set; }
 
-    [JsonPropertyName("cookingTime")]
+    [JsonPropertyName("cooking_time")]
     public int CookingTime { get; set; } = 0;
 
     [JsonPropertyName("serves")]
@@ -31,7 +31,7 @@ public class RecipeDto
     [JsonPropertyName("author")]
     public string AuthorId { get; set; } = string.Empty;
 
-    [JsonPropertyName("recipeParts")]
+    [JsonPropertyName("recipe_parts")]
     public List<RecipePart> RecipeParts { get; set; } = new List<RecipePart>();
 
     [JsonPropertyName("utensils")]
@@ -42,7 +42,7 @@ public class RecipeDto
 
     [JsonPropertyName("tips")]
     public List<string>? Tips { get; set; } = new List<string>();
-    [JsonPropertyName("imageAction")]
 
+    [JsonPropertyName("image_action")]
     public ImageAction ImageAction { get; set; }
 }

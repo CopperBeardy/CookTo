@@ -1,6 +1,8 @@
 ﻿using CookTo.Client.Managers.Interfaces;
 using CookTo.Shared.Features.ManageIngredients;
 using CookTo.Shared.Features.ManageRecipes;
+using CookTo.Shared.Features.ManageUtensils;
+using Newtonsoft.Json;
 using System.Text.Json;
 
 namespace CookTo.Client.Managers;
@@ -17,10 +19,12 @@ public class RecipeManager : IRecipeManager
         try
         {
             var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
-            var response = await httpClient.GetAsync($"{_url}/{id}", new CancellationToken());
-
-            return await JsonSerializer.DeserializeAsync<RecipeDto>(response.Content.ReadAsStream());
-        } catch(HttpRequestException)
+            var result = await httpClient.GetAsync($"{_url}/{id}", new CancellationToken());
+            result.EnsureSuccessStatusCode();
+            var content = await result.Content.ReadAsStringAsync();
+            var response = JsonConvert.DeserializeObject<RecipeDto>(content);
+            return response;
+        } catch(Exception)
         {
             return default!;
         }
@@ -31,9 +35,12 @@ public class RecipeManager : IRecipeManager
         try
         {
             var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
-            var response = await httpClient.GetFromJsonAsync<List<RecipeDto>>(_url, new CancellationToken());
+            var result = await httpClient.GetAsync(_url, new CancellationToken());
+            result.EnsureSuccessStatusCode();
+            var content = await result.Content.ReadAsStringAsync();
+            var response = JsonConvert.DeserializeObject<List<RecipeDto>>(content);
             return response;
-        } catch(HttpRequestException)
+        } catch(Exception)
         {
             return default!;
         }
@@ -41,31 +48,31 @@ public class RecipeManager : IRecipeManager
 
     public async Task<RecipeDto> Insert(RecipeDto entity)
     {
-        var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Secure);
-        var response = await httpClient.PostAsJsonAsync(_url, entity, new CancellationToken());
-
-        if(response.IsSuccessStatusCode)
+        try
         {
-            return await response.Content.ReadFromJsonAsync<RecipeDto>(cancellationToken: new CancellationToken());
-        } else
+            var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Secure);
+            var result = await httpClient.PostAsJsonAsync(_url, entity, new CancellationToken());
+            result.EnsureSuccessStatusCode();
+            var content = await result.Content.ReadAsStringAsync();
+            var response = JsonConvert.DeserializeObject<RecipeDto>(content);
+            return response;
+        } catch(Exception)
         {
-            return null;
+            throw;
         }
     }
 
-    public async Task<RecipeDto> Update(RecipeDto entityToUpdate)
+    public async Task<bool> Update(RecipeDto entityToUpdate)
     {
-        var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Secure);
-
-        var response = await httpClient.PutAsJsonAsync(_url, entityToUpdate, new CancellationToken());
-
-        if(response.IsSuccessStatusCode)
+        try
         {
-            var Recipe = await response.Content.ReadFromJsonAsync<RecipeDto>(cancellationToken: new CancellationToken());
-            return Recipe;
-        } else
+            var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Secure);
+            var result = await httpClient.PutAsJsonAsync(_url, entityToUpdate, new CancellationToken());
+            result.EnsureSuccessStatusCode();
+            return true;
+        } catch(Exception)
         {
-            return null;
+            throw;
         }
     }
 }
