@@ -1,4 +1,4 @@
-﻿namespace CookTo.Shared.Features.ManageIngredients.Shared;
+﻿namespace CookTo.Shared.Features.ManageIngredients;
 
 public class IngredientDto
 {

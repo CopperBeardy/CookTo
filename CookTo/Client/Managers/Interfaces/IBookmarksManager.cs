@@ -1,5 +1,4 @@
-﻿using CookTo.Shared.Features.ManageBookmarks.Shared;
-
+﻿using CookTo.Shared.Features.ManageBookmarks;
 
 namespace CookTo.Client.Managers.Interfaces;
 

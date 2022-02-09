@@ -1,4 +1,4 @@
-﻿using CookTo.Shared.Features.ManageRecipes.Shared;
+﻿using CookTo.Shared.Features.ManageRecipes;
 
 namespace CookTo.Client.Features.ManageRecipes.Common;
 

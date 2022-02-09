@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using CookTo.Server.Documents.RecipeDocument;
 using CookTo.Server.Services.Interfaces;
-using CookTo.Shared.Features.ManageRecipes.Shared;
+using CookTo.Shared.Features.ManageRecipes;
 
 namespace CookTo.Server.Endpoints;
 
@@ -25,10 +25,8 @@ public static class RecipeEndpointsExtensions
                 if(recipe is null)
                 {
                     return Results.BadRequest("Recipe was not found");
-                } else
-                {
-                    return Results.Ok(mapper.Map<RecipeDto>(recipe));
                 }
+                return Results.Ok(mapper.Map<RecipeDto>(recipe));
             });
         app.MapPut(
             "/api/recipe",

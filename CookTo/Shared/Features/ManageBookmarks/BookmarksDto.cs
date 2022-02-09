@@ -1,4 +1,4 @@
-﻿namespace CookTo.Shared.Features.ManageBookmarks.Shared;
+﻿namespace CookTo.Shared.Features.ManageBookmarks;
 
 public class BookmarksDto
 {

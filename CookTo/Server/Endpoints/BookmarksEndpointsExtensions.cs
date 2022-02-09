@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using CookTo.Server.Documents.BookmarksDocument;
 using CookTo.Server.Services.Interfaces;
-using CookTo.Shared.Features.ManageBookmarks.Shared;
+using CookTo.Shared.Features.ManageBookmarks;
 
 namespace CookTo.Server.Endpoints;
 

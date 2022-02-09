@@ -1,16 +1,16 @@
 ﻿@page "/"
-@inject IIngredientManager IngredientManager
+@inject IRecipeManager RecipeManager
 
 
 <PageTitle>CookTo Recipes</PageTitle>
 
-@if (_ingredients == null)
+@if (_recipes == null)
 {
     <p>Loading recipes...</p>
 }
 else
 {
-    @if (_ingredients.Any())
+    @if (_recipes.Any())
     {
         <div class="mb-4">
             <p class="font-italic text-center">Have a recipe to share <a href="add-recipe">Add Recipe here</a>.</p>
@@ -27,20 +27,18 @@ else
 }
 
 @code {
-    private IEnumerable<IngredientDto>? _ingredients;
+    private IEnumerable<RecipeDto>? _recipes;
 
 
     protected override async Task OnInitializedAsync()
     {
         try
         {       
-            _ingredients =  await IngredientManager.GetAll();
+            var recipe =  await RecipeManager.GetById("61fd0ccc501a98682fed3cbd");
         }
         catch (HttpRequestException ex)
         {
             Console.WriteLine($"There was a problem loading Recipe data: {ex.Message}");
         }
     }
-
- 
 }

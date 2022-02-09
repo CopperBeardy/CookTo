@@ -1,4 +1,4 @@
-﻿using CookTo.Shared.Features.ManageUtensils.Shared;
+﻿using CookTo.Shared.Features.ManageUtensils;
 
 namespace CookTo.Client.Managers.Interfaces;
 

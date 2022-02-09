@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using CookTo.Server.Documents.RecipeDocument;
-using CookTo.Shared.Features.ManageRecipes.Shared;
+using CookTo.Shared.Features.ManageRecipes;
 
 namespace CookTo.Server.Mappings;
 

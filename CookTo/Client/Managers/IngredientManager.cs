@@ -1,5 +1,6 @@
 ﻿using CookTo.Client.Managers.Interfaces;
-using CookTo.Shared.Features.ManageIngredients.Shared;
+using CookTo.Shared.Features.ManageIngredients;
+using CookTo.Shared.Features.ManageRecipes;
 
 namespace CookTo.Client.Managers;
 
@@ -23,6 +24,18 @@ public class IngredientManager : IIngredientManager
         }
     }
 
+    public async Task<IngredientDto> GetById(string id)
+    {
+        try
+        {
+            var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
+            var response = await httpClient.GetFromJsonAsync<IngredientDto>($"{_url}/{id}", new CancellationToken());
+            return response;
+        } catch(HttpRequestException)
+        {
+            return default!;
+        }
+    }
 
     public async Task<IngredientDto> Insert(IngredientDto entity)
     {

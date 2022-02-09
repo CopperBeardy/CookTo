@@ -1,5 +1,4 @@
-﻿using CookTo.Shared.Features.ManageRecipes.Shared;
-
+﻿
 namespace CookTo.Shared.Features.ManageRecipes.Validators;
 
 public class RecipeDtoValidator : AbstractValidator<RecipeDto>

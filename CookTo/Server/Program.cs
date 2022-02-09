@@ -64,6 +64,9 @@ if(app.Environment.IsDevelopment())
 }
 app.IngredientEndpoints();
 app.UtensilEndpoints();
+app.BookmarksEndpoints();
+app.RecipeEndpoints();
+app.UploadImageEndpoints();
 
 app.UseHttpsRedirection();
 

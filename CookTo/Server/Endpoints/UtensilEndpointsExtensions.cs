@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using CookTo.Server.Documents.UtensilDocument;
 using CookTo.Server.Services.Interfaces;
-using CookTo.Shared.Features.ManageUtensils.Shared;
+using CookTo.Shared.Features.ManageUtensils;
 
 namespace CookTo.Server.Endpoints;
 

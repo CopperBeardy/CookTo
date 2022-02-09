@@ -1,33 +1,32 @@
 ﻿using CookTo.Shared.Enums;
 
-
-namespace CookTo.Shared.Features.ManageRecipes.Shared;
+namespace CookTo.Shared.Features.ManageRecipes;
 
 public class RecipeDto
 {
     [JsonPropertyName("_id")]
-    public string? Id { get; set; }
+    public string? Id { get; set; } = string.Empty;
 
     [JsonPropertyName("title")]
-    public string Title { get; set; }
+    public string Title { get; set; } = string.Empty;
 
     [JsonPropertyName("category")]
-    public Category Category { get; set; }
+    public Category Category { get; set; } = Category.Baking;
 
     [JsonPropertyName("description")]
-    public string Description { get; set; }
+    public string Description { get; set; } = string.Empty;
 
     [JsonPropertyName("image")]
-    public string? Image { get; set; }
+    public string? Image { get; set; } = string.Empty;
 
     [JsonPropertyName("prepTime")]
     public int PreparationTime { get; set; }
 
     [JsonPropertyName("cookingTime")]
-    public int CookingTime { get; set; }
+    public int CookingTime { get; set; } = 0;
 
     [JsonPropertyName("serves")]
-    public int Serves { get; set; }
+    public int Serves { get; set; } = 0;
 
     [JsonPropertyName("author")]
     public string AuthorId { get; set; } = string.Empty;

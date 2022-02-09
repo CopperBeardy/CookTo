@@ -1,4 +1,4 @@
-﻿namespace CookTo.Shared.Features.ManageUtensils.Shared;
+﻿namespace CookTo.Shared.Features.ManageUtensils;
 
 public class UtensilDto
 {

@@ -41,15 +41,15 @@
 
 @code {
      [CascadingParameter] public RecipeDto Recipe { get; set; }
-     public IEnumerable<UtensilDto>? Utensils { get; set; } = new List<UtensilDto>();
+     public IEnumerable<UtensilDto>? Utensils { get; set; } = new List<CookTo.Shared.Features.ManageUtensils.UtensilDto>();
     
      
     protected override void OnInitialized()
     {
-        Utensils = new List<UtensilDto>()
+        Utensils = new List<CookTo.Shared.Features.ManageUtensils.UtensilDto>()
         {
-            new UtensilDto(){ Id="12321", UtensilName="Whisk"},
-            new UtensilDto(){ Id="45645", UtensilName="23cm flutted tart tin"}
+            new CookTo.Shared.Features.ManageUtensils.UtensilDto(){ Id="12321", UtensilName="Whisk"},
+            new CookTo.Shared.Features.ManageUtensils.UtensilDto(){ Id="45645", UtensilName="23cm flutted tart tin"}
         };
      
 }

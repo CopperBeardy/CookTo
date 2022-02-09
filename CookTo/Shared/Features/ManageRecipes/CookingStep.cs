@@ -1,12 +1,12 @@
-﻿namespace CookTo.Shared.Features.ManageRecipes.Shared;
+﻿namespace CookTo.Shared.Features.ManageRecipes;
 
 
 public class CookingStep
 {
     [JsonPropertyName("step_order_number")]
-    public int OrderNumber { get; set; }
+    public int OrderNumber { get; set; } = 0;
 
 
     [JsonPropertyName("step")]
-    public string StepDescription { get; set; }
+    public string StepDescription { get; set; } = string.Empty;
 }

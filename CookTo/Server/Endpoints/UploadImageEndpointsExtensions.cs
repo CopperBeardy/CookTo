@@ -10,10 +10,10 @@ public static class UploadImageEndpointsExtensions
     public static void UploadImageEndpoints(this WebApplication app)
     {
         app.MapPost(
-            "/api/uploadimage",
+            "/api/uploadimage/{recipeId}",
             async (
-                [FromRoute] string recipeId,
-                [FromBody] IFormFile uploadedFile,
+                string recipeId,
+                IFormFile uploadedFile,
                 IRecipeService service,
                 IMapper mapper,
                 CancellationToken token) =>

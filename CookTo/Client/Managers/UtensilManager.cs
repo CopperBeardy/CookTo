@@ -1,5 +1,5 @@
 ﻿using CookTo.Client.Managers.Interfaces;
-using CookTo.Shared.Features.ManageUtensils.Shared;
+using CookTo.Shared.Features.ManageUtensils;
 
 namespace CookTo.Client.Managers;
 

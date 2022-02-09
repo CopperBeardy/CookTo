@@ -1,6 +1,7 @@
 ﻿using CookTo.Client.Managers.Interfaces;
-using CookTo.Shared.Features.ManageRecipes.Shared;
-
+using CookTo.Shared.Features.ManageIngredients;
+using CookTo.Shared.Features.ManageRecipes;
+using System.Text.Json;
 
 namespace CookTo.Client.Managers;
 
@@ -16,8 +17,9 @@ public class RecipeManager : IRecipeManager
         try
         {
             var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
-            var response = await httpClient.GetFromJsonAsync<RecipeDto>($"{_url}/{id}", new CancellationToken());
-            return response;
+            var response = await httpClient.GetAsync($"{_url}/{id}", new CancellationToken());
+
+            return await JsonSerializer.DeserializeAsync<RecipeDto>(response.Content.ReadAsStream());
         } catch(HttpRequestException)
         {
             return default!;

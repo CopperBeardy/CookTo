@@ -1,4 +1,4 @@
-﻿namespace CookTo.Shared.Features.ManageRecipes.Shared;
+﻿namespace CookTo.Shared.Features.ManageRecipes;
 
 
 public class RecipePart
