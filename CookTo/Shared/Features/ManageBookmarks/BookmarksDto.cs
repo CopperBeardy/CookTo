@@ -2,9 +2,8 @@
 
 public class BookmarksDto
 {
-    [JsonPropertyName("user_id")]
-    public string UserId { get; set; } = string.Empty;
+    public string UserId { get; set; }
 
-    [JsonPropertyName("bookmarked_recipes")]
+
     public List<BookMarked>? BookMarkedRecipes { get; set; }
 }

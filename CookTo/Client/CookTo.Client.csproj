@@ -30,7 +30,6 @@
 
 	<ItemGroup>
 	  <Folder Include="Features\Home\Shared\" />
-	  <Folder Include="Features\ManageUtensils\" />
 	</ItemGroup>
 
 	<Target Name="CheckForNpm" BeforeTargets="RunNpmInstall">

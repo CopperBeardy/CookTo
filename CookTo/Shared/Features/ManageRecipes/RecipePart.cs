@@ -3,10 +3,9 @@
 
 public class RecipePart
 {
-    [JsonPropertyName("part_title")]
-    public string PartTitle { get; set; } = string.Empty;
+    public string PartTitle { get; set; }
 
-    [JsonPropertyName("items")]
-    public List<PartIngredient> Items { get; set; } = new List<PartIngredient>();
+
+    public List<PartIngredient> Items { get; set; }
 }
 

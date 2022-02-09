@@ -2,11 +2,11 @@
 
 public class UtensilDto
 {
-    [JsonPropertyName("_id")]
-    public string? Id { get; set; } = string.Empty;
+    [JsonProperty("_id")]
+    public string? Id { get; set; }
 
 
-    [JsonPropertyName("utensil_name")]
+    [JsonProperty("utensil_name")]
     public string UtensilName { get; set; }
 }
 
