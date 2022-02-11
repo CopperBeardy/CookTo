@@ -33,7 +33,7 @@
     <div class="mt-4 mb-5">
         <div class="row">
             <div class="offset-4 col-8 text-right">
-                <button class="btn btn-outline-secondary" type="button" @onclick="@(() => _recipe = new RecipeDto())">Reset</button>
+                <button class="btn btn-outline-secondary" type="button" @onclick="@(() => _recipe = new Recipe())">Reset</button>
                 <button class="btn btn-primary" type="submit">Submit</button>
             </div>
         </div>
@@ -41,12 +41,12 @@
 </EditForm>
 
 @code {
-    private RecipeDto _recipe = new RecipeDto();
+    private Recipe _recipe = new Recipe()  ;
     private EditContext _editContext = default!;
     private IBrowserFile? _recipeImage;
 
-    [Parameter, EditorRequired] public Func<RecipeDto, IBrowserFile?, Task> OnSubmit { get; set; } = default!;
-    [Parameter] public RecipeDto Recipe { get; set; }
+    [Parameter, EditorRequired] public Func<Recipe, IBrowserFile?, Task> OnSubmit { get; set; } = default!;
+    [Parameter] public Recipe Recipe { get; set; }
 
     protected override void OnParametersSet()
     {
@@ -55,13 +55,13 @@
 
         if (Recipe != null)
         {
-            _recipe = SetEditRecipeValues.SetValues(Recipe);
+            _recipe = Recipe;
         }
     }   
 
     public void ResetForm()
     {
-        _recipe = new RecipeDto();
+        _recipe = new Recipe();
         _editContext = new EditContext(_recipe);
         _editContext.SetFieldCssClassProvider(new BootstrapCssClassProvider());
         _recipeImage = null;

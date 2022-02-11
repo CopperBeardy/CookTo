@@ -1,4 +1,5 @@
-﻿using CookTo.Client.Managers.Interfaces;
+using CookTo.Client.Managers.Interfaces;
+using CookTo.Shared.Features.ManageRecipes;
 using Microsoft.AspNetCore.Components.Forms;
 using Newtonsoft.Json;
 
@@ -8,7 +9,7 @@ public class UploadImageManager : IUploadImageManager
 {
     private readonly IHttpClientFactory _factory;
 
-    private const string _url = $"/api/uploadimage";
+    private const string _url = "/api/upload";
 
     public UploadImageManager(IHttpClientFactory factory) => _factory = factory;
 
@@ -32,18 +33,17 @@ public class UploadImageManager : IUploadImageManager
     public async Task<string> UploadImage(string recipeId, IBrowserFile file)
     {
         try
-        {
-            var fileContent = file.OpenReadStream(file.Size, new CancellationToken());
-            using var formContent = new MultipartFormDataContent();
-            formContent.Add(new StreamContent(fileContent), "image", file.Name);
+        {         
+            MemoryStream ms = new MemoryStream();
+            await file.OpenReadStream(file.Size).CopyToAsync(ms);
+            var dto = new ImageUploadDto() { RecipeId = recipeId, Image = ms.ToArray() };
 
             var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Secure);
-
-            var result = await httpClient.PostAsync($"{_url}/{recipeId}", formContent, new CancellationToken());
+           
+            var result = await httpClient.PostAsJsonAsync(_url, dto, new CancellationToken());
             result.EnsureSuccessStatusCode();
-            var content = await result.Content.ReadAsStringAsync();
-            var response = JsonConvert.DeserializeObject<IBrowserFile>(content);
-            return response.Name;
+            var content = await result.Content.ReadAsStringAsync();    
+            return content;
         } catch(Exception)
         {
             throw;

@@ -1,7 +1,8 @@
-﻿using AutoMapper;
+using AutoMapper;
 using CookTo.Server.Documents.BookmarksDocument;
 using CookTo.Server.Services.Interfaces;
 using CookTo.Shared.Features.ManageBookmarks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CookTo.Server.Endpoints;
 

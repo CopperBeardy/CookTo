@@ -1,8 +1,8 @@
-﻿using AutoMapper;
+using AutoMapper;
 using CookTo.Server.Documents.IngredientDocument;
 using CookTo.Server.Services.Interfaces;
 using CookTo.Shared.Features.ManageIngredients;
-using CookTo.Shared.Features.ManageRecipes;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CookTo.Server.Endpoints;
 

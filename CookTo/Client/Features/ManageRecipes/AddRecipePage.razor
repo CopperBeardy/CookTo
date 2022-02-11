@@ -28,7 +28,7 @@ else if (_errorMessage is not null)
     private string? _errorMessage; 
     private RecipeForm _recipeForm;
 
-    private async Task SubmitNewRecipe(RecipeDto recipe,IBrowserFile image)
+    private async Task SubmitNewRecipe(Recipe recipe,IBrowserFile image)
     {       
         var recipeResponse = await RecipeManager.Insert(recipe);
         if (recipeResponse == null)

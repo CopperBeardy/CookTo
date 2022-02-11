@@ -32,7 +32,7 @@ else if (_errorMessage is not null)
     private bool _isLoading;   
     private bool _submitSuccessful;
     private string? _errorMessage;
-    private RecipeDto _recipe = new RecipeDto();
+    private Recipe _recipe = new Recipe();
 
     [Parameter] public string RecipeId { get; set; }
 
@@ -41,12 +41,9 @@ else if (_errorMessage is not null)
         _isLoading = true;
 
         var response = await RecipeManager.GetById(RecipeId);
-        if(response is not null)
-        {
-            _recipe = SetEditRecipeValues.SetValues(response);
-        }
+       
     }
-    private async Task SubmitEditRecipe(RecipeDto recipe,IBrowserFile image)
+    private async Task SubmitEditRecipe(Recipe recipe,IBrowserFile image)
     {
 
         var response = await RecipeManager.Update(recipe);
@@ -59,7 +56,7 @@ else if (_errorMessage is not null)
         }
         else
         {
-            _recipe = SetEditRecipeValues.SetValues(recipe);
+            _recipe = recipe;
 
             _submitSuccessful = true;
             if(recipe.ImageAction == ImageAction.Add)

@@ -1,4 +1,5 @@
-﻿using CookTo.Shared.Features.ManageRecipes;
+﻿using CookTo.Client.Features.ManageRecipes.ViewModel;
+using CookTo.Shared.Features.ManageRecipes;
 
 namespace CookTo.Client.Managers.Interfaces;
 
@@ -6,9 +7,9 @@ public interface IRecipeManager
 {
     Task<IEnumerable<RecipeDto>> GetAll();
 
-    Task<RecipeDto> GetById(string id);
+    Task<Recipe> GetById(string id);
 
-    Task<RecipeDto> Insert(RecipeDto entity);
+    Task<Recipe> Insert(Recipe entity);
 
-    Task<bool> Update(RecipeDto entityToUpdate);
+    Task<bool> Update(Recipe entityToUpdate);
 }

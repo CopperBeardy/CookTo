@@ -1,7 +1,8 @@
-﻿using AutoMapper;
+using AutoMapper;
 using CookTo.Server.Documents.RecipeDocument;
 using CookTo.Server.Services.Interfaces;
 using CookTo.Shared.Features.ManageRecipes;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CookTo.Server.Endpoints;
 
@@ -44,8 +45,10 @@ public static class RecipeEndpointsExtensions
             "/api/recipe",
             async (RecipeDto recipe, IRecipeService service, IMapper mapper, CancellationToken token) =>
             {
-                await service.CreateAsync(mapper.Map<Recipe>(recipe), token);
-                return Results.Created($"/api/recipe/{recipe.Id}", recipe);
+                var entity = mapper.Map<Recipe>(recipe);
+                await service.CreateAsync(entity, token);
+
+                return Results.Created($"/api/recipe/{entity.Id}", entity);
             });
 
         app.MapDelete(

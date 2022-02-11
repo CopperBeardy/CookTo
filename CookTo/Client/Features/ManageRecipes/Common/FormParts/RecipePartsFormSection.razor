@@ -38,7 +38,7 @@
                                           <ValidationMessage For="@(() =>  ingred.Unit)"/>
                                     </div>
 
-                                    <div class="col-sm-2 me-1">
+                                    <div class="col-sm-4 me-1">
                                         <label for="ingredientSelect" class="font-weight-bold text-secondary me-1">Ingredient</label>
                                         <InputSelect id="ingredientSelect" class="form-control "
                                                      @bind-Value="ingred.IngredientName">
@@ -71,7 +71,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <button class="btn btn-outline-primary" type="button" @onclick="@(() => part.Items.Add(new PartIngredient()))">Add Part Ingredient </button>
+                                <button class="btn btn-outline-primary" type="button" @onclick="@(() => part.Items.Add(new ViewModel.PartIngredient()))">Add Part Ingredient </button>
                                 <ValidationMessage For="@(() => part.Items)" />
                             </div>
                         </div>
@@ -83,7 +83,7 @@
             }
             <div class="row">
                 <div class="col">
-                    <button class="btn btn-outline-primary" type="button" @onclick="@(() => Recipe.RecipeParts.Add(new RecipePart()))">Add RecipePart</button>
+                    <button class="btn btn-outline-primary" type="button" @onclick="@(() => Recipe.RecipeParts.Add(new ViewModel.RecipePart()))">Add RecipePart</button>
                     <ValidationMessage For="@(() => Recipe.RecipeParts)" />
                 </div>
             </div>
@@ -91,7 +91,7 @@
     </FormSection>
 
 @code {
-    [CascadingParameter] public RecipeDto Recipe { get; set; }
+    [CascadingParameter] public Recipe Recipe { get; set; }
     public IEnumerable<IngredientDto>? Ingredients { get; set; }
 
     protected override void OnInitialized()

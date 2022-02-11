@@ -1,4 +1,4 @@
-﻿using CookTo.Client.Managers.Interfaces;
+using CookTo.Client.Managers.Interfaces;
 using CookTo.Shared.Features.ManageBookmarks;
 using Newtonsoft.Json;
 
