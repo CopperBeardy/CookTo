@@ -1,8 +1,6 @@
 ﻿<h3 class="mt-5 mb-4">Add a Recipe</h3>
 <EditForm OnValidSubmit="SubmitForm" EditContext="_editContext">
-    <FluentValidationValidator />
-
-    
+    <FluentValidationValidator />    
         <DetailsFormSection Recipe=" _recipe" />
         <FormSection Title="Image"
                      HelpText="Image to show the what finsih recipe will look like">
@@ -21,13 +19,12 @@
                     </div>
                 </div>
                 }
-
             </FormFieldSet>
         </FormSection>
         <RecipePartsFormSection Recipe=" _recipe"/>
         <UtensilsFormSection Recipe=" _recipe"/>
         <CookingStepsFormSection Recipe=" _recipe"/>
-        <TipsFormSection Recipe=" _recipe"/>
+        <TipsFormSection Recipe ="_recipe"/>
  
 
     <div class="mt-4 mb-5">
