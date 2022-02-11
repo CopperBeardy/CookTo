@@ -1,6 +1,4 @@
-using AutoMapper;
 using CookTo.Client;
-using CookTo.Client.Features.ManageRecipes.MappingProfile;
 using CookTo.Client.Managers;
 using CookTo.Client.Managers.Interfaces;
 using Microsoft.AspNetCore.Components.Web;
@@ -38,12 +36,5 @@ builder.Services.AddScoped<IRecipeManager, RecipeManager>();
 builder.Services.AddScoped<IBookmarksManager, BookmarksManager>();
 builder.Services.AddScoped<IUploadImageManager, UploadImageManager>();
 
-var mapperConfiguration = new MapperConfiguration(
-    config =>
-    {
-        config.AddProfile(new RecipeProfile());
-    });
-var mapper = mapperConfiguration.CreateMapper();
-builder.Services.AddSingleton(mapper);
 
 await builder.Build().RunAsync();

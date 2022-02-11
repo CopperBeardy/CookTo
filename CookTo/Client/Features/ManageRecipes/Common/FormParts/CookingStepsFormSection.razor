@@ -32,12 +32,16 @@
 
             <div class="row">
                 <div class="col">
-                    <button class="btn btn-outline-primary" type="button" @onclick="@(() => Recipe.CookingSteps.Add(new ViewModel.CookingStep()))">Add CookingStep</button>
+                    <button class="btn btn-outline-primary" type="button" @onclick="@(() => Recipe.CookingSteps.Add(new CookingStep()))">Add CookingStep</button>
                     <ValidationMessage For="@(() => Recipe.CookingSteps)" />
                 </div>
             </div>
         </FormFieldSet>
     </FormSection>
 @code {
-     [CascadingParameter] public Recipe Recipe { get; set; }
+    [Parameter] public RecipeDto Recipe { get; set; }
+    protected override void OnInitialized()
+    {
+       
+    }
 }

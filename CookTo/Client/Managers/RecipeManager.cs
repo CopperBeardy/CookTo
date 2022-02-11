@@ -1,27 +1,20 @@
 using AutoMapper;
-using CookTo.Client.Features.ManageRecipes.ViewModel;
 using CookTo.Client.Managers.Interfaces;
-using CookTo.Shared.Features.ManageIngredients;
 using CookTo.Shared.Features.ManageRecipes;
-using CookTo.Shared.Features.ManageUtensils;
 using Newtonsoft.Json;
-using System.Text.Json;
+
 
 namespace CookTo.Client.Managers;
 
 public class RecipeManager : IRecipeManager
 {
     private readonly IHttpClientFactory _factory;
-    private readonly IMapper _mapper;
+
     private const string _url = "/api/recipe";
 
-    public RecipeManager(IHttpClientFactory factory, IMapper mapper)
-    {
-        _factory = factory;
-        _mapper = mapper;
-    }
+    public RecipeManager(IHttpClientFactory factory) { _factory = factory; }
 
-    public async Task<Recipe> GetById(string id)
+    public async Task<RecipeDto> GetById(string id)
     {
         try
         {
@@ -30,8 +23,7 @@ public class RecipeManager : IRecipeManager
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<RecipeDto>(content);
-            var mapped = _mapper.Map<Recipe>(response);
-            return mapped;
+            return response;
         } catch(Exception)
         {
             return default!;
@@ -54,31 +46,28 @@ public class RecipeManager : IRecipeManager
         }
     }
 
-    public async Task<Recipe> Insert(Recipe entity)
+    public async Task<RecipeDto> Insert(RecipeDto recipe)
     {
         try
         {
             var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Secure);
-            var dto = _mapper.Map<Recipe>(entity);
-            var result = await httpClient.PostAsJsonAsync(_url, dto, new CancellationToken());
+            var result = await httpClient.PostAsJsonAsync(_url, recipe, new CancellationToken());
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<RecipeDto>(content);
-            var mapped = _mapper.Map<Recipe>(response);
-            return mapped;
+            return response;
         } catch(Exception)
         {
             throw;
         }
     }
 
-    public async Task<bool> Update(Recipe entityToUpdate)
+    public async Task<bool> Update(RecipeDto recipeToUpdate)
     {
         try
         {
             var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Secure);
-            var dto = _mapper.Map<Recipe>(entityToUpdate);
-            var result = await httpClient.PutAsJsonAsync(_url, dto, new CancellationToken());
+            var result = await httpClient.PutAsJsonAsync(_url, recipeToUpdate, new CancellationToken());
             result.EnsureSuccessStatusCode();
             return true;
         } catch(Exception)

@@ -1,4 +1,6 @@
-﻿ <FormSection Title="Recipe parts"
+﻿@inject IIngredientManager Manager 
+
+<FormSection Title="Recipe parts"
                  HelpText="Define the various parts of the recipe and there ingredients">
         <FormFieldSet>
             @foreach (var part in Recipe.RecipeParts)
@@ -42,13 +44,14 @@
                                         <label for="ingredientSelect" class="font-weight-bold text-secondary me-1">Ingredient</label>
                                         <InputSelect id="ingredientSelect" class="form-control "
                                                      @bind-Value="ingred.IngredientName">
-                                                   
+                                                   <option>Select Ingredient</option>
                                             @foreach (var ing in Ingredients)
                                                     {
                                                 <option value="@ing.Name">@ing.Name</option>
                                                     }
                                         </InputSelect>
                                           <ValidationMessage For="@(() =>  ingred.IngredientName)"/>
+                                             
                                     </div>
 
                                     <div class="col-4">
@@ -71,7 +74,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <button class="btn btn-outline-primary" type="button" @onclick="@(() => part.Items.Add(new ViewModel.PartIngredient()))">Add Part Ingredient </button>
+                                <button class="btn btn-outline-primary" type="button" @onclick="@(() => part.Items.Add(new PartIngredient()))">Add Part Ingredient </button>
                                 <ValidationMessage For="@(() => part.Items)" />
                             </div>
                         </div>
@@ -83,7 +86,7 @@
             }
             <div class="row">
                 <div class="col">
-                    <button class="btn btn-outline-primary" type="button" @onclick="@(() => Recipe.RecipeParts.Add(new ViewModel.RecipePart()))">Add RecipePart</button>
+                    <button class="btn btn-outline-primary" type="button" @onclick="@(() => Recipe.RecipeParts.Add(new RecipePart()))">Add RecipePart</button>
                     <ValidationMessage For="@(() => Recipe.RecipeParts)" />
                 </div>
             </div>
@@ -91,16 +94,13 @@
     </FormSection>
 
 @code {
-    [CascadingParameter] public Recipe Recipe { get; set; }
-    public IEnumerable<IngredientDto>? Ingredients { get; set; }
+    [Parameter] public RecipeDto Recipe { get; set; }
+    public IEnumerable<IngredientDto> Ingredients { get; set; } = new List<IngredientDto>();
 
-    protected override void OnInitialized()
-    {
-           Ingredients = new List<CookTo.Shared.Features.ManageIngredients.IngredientDto>()
-        {
-        new CookTo.Shared.Features.ManageIngredients.IngredientDto() { Id="34534501" , Name="White bread flour"},
-        new CookTo.Shared.Features.ManageIngredients.IngredientDto() { Id="34534501" , Name="Caster Sugar"},
-        };
+    protected override async Task OnInitializedAsync()
+    {        
+        Ingredients = await Manager.GetAll();
+        StateHasChanged();
     }
 
 }
