@@ -1,4 +1,5 @@
-﻿ <FormSection Title="Details"
+﻿
+<FormSection Title="Details"
                  HelpText="This information is for giving a breif overview of the recipe">
         <FormFieldSet Width="col-6">
             <label for="recipeTitle" class="font-weight-bold text-secondary">Title</label>
@@ -8,9 +9,10 @@
         <FormFieldSet Width="col-6">
             <label for="category" class="font-weight-bold text-secondary">Category</label>
             <InputSelect TValue="Category" @bind-Value="Recipe.Category" class="form-control" id="category">
+     
                 @foreach (var category in Enum.GetValues(typeof(Category)))
                 {
-                    <option value="@category">@category</option>
+                    <option value="@Enum.GetName(typeof(Category),category)">@category</option>
                 }
             </InputSelect>
             <ValidationMessage For="@(() => Recipe.Category)" />
@@ -35,9 +37,16 @@
             <label for="serves" class="font-weight-bold text-secondary">Serves</label>
             <InputNumber min=0 @bind-Value="Recipe.Serves" class="form-control" id="serves" />
             <ValidationMessage For="@(() => Recipe.Serves)" />
+        </FormFieldSet>    
+        <FormFieldSet Width="col-6">
+            <label for="cuisine" class="font-weight-bold text-secondary">Cuisine</label>
+            <InputText @bind-Value="Recipe.Cuisine" class="form-control" id="cuisine" />
+            <ValidationMessage For="@(() => Recipe.Cuisine)" />
         </FormFieldSet>
+       @*add dietary*@
     </FormSection>
+
+
 @code {
-    [Parameter] public RecipeDto Recipe { get; set; }
-   
+    [Parameter] public RecipeDto Recipe { get; set; } 
 }

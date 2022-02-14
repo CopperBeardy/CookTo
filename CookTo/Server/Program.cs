@@ -41,7 +41,7 @@ var mapperConfiguration = new MapperConfiguration(
     config =>
     {
         config.AddProfile(new RecipeProfile());
-        config.AddProfile(new BookmarksProfile());
+        config.AddProfile(new FavoritesProfile());
         config.AddProfile(new IngredientProfile());
         config.AddProfile(new UtensilProfile());
     });

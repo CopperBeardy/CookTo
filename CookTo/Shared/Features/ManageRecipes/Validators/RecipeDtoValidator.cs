@@ -7,7 +7,8 @@ public class RecipeDtoValidator : AbstractValidator<RecipeDto>
     {
         RuleFor(x => x.Title).NotEmpty().WithMessage("Please provide a title for this recipe");
         RuleFor(x => x.Title).MinimumLength(5).WithMessage("Please provide a title longer than 5 charcters");
-        RuleFor(x => x.Category).NotEmpty().WithMessage("Please select a catagory");
+        RuleFor(x => x.Category).NotEmpty().WithMessage("Please select a category");
+
         //  RuleFor(x => x.Description).NotEmpty().WithMessage("Please provide a description of the recipe");
         RuleFor(x => x.Description)
             .MinimumLength(40)

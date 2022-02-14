@@ -16,6 +16,7 @@
                                     <label for="utenSelect" class="font-weight-bold text-secondary me-1">Item </label>
                                     <InputSelect id="utenSelect" class="form-control " 
                                              @bind-Value="utensil.UtensilName" >  
+                                             <option>Select Utensil...</option>
                                        @foreach (var _utensil in Utensils)
                                         {
                                         <option value="@_utensil.UtensilName">@_utensil.UtensilName</option>

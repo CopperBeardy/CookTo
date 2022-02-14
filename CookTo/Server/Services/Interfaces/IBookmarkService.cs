@@ -1,8 +1,8 @@
-﻿using CookTo.Server.Documents.BookmarksDocument;
+﻿using CookTo.Server.Documents.FavoritesDocument;
 
 namespace CookTo.Server.Services.Interfaces;
 
-public interface IBookmarksService : IBaseService<Bookmarks>
+public interface IBookmarksService : IBaseService<FavoriteRecipes>
 {
-    Task<Bookmarks> GetByUserIdAsync(string id, CancellationToken token);
+    Task<FavoriteRecipes> GetByUserIdAsync(string id, CancellationToken token);
 }

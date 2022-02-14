@@ -1,0 +1,19 @@
+﻿@inject AppState AppState
+
+@if(AppState.FavoriteRecipesState.IsFavorite(Recipe))
+{
+    <button class="btn btn-outline-primary ml-1" title="Favorite" @onclick="@(() => AppState.FavoriteRecipesState.RemoveFavorite(Recipe))">
+        <i class="bi bi-heart-fill"></i>
+    </button>
+}
+else
+{
+    <button class= "btn btn-outline-primary ml-1" title = "Favorite" @onclick = "@(() => AppState.FavoriteRecipesState.AddFavorite(Recipe))" >    
+     <i class= "bi bi-heart" ></i>
+     </button >
+}
+
+@code
+{
+    [Parameter, EditorRequired] public RecipeDto Recipe { get; set; } = default!;
+}

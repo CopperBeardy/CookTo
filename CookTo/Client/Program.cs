@@ -1,6 +1,9 @@
+using Blazored.LocalStorage;
 using CookTo.Client;
+
 using CookTo.Client.Managers;
 using CookTo.Client.Managers.Interfaces;
+using CookTo.Client.State;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -36,5 +39,6 @@ builder.Services.AddScoped<IRecipeManager, RecipeManager>();
 builder.Services.AddScoped<IBookmarksManager, BookmarksManager>();
 builder.Services.AddScoped<IUploadImageManager, UploadImageManager>();
 
-
+builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddScoped<AppState>();
 await builder.Build().RunAsync();

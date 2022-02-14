@@ -1,0 +1,8 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 288px);
+  grid-column-gap: 35px;
+  grid-row-gap: 15px;
+}
+
+/*# sourceMappingURL=HomePage.razor.css.map */

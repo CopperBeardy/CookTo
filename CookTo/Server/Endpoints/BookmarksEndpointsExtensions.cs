@@ -1,8 +1,7 @@
 using AutoMapper;
-using CookTo.Server.Documents.BookmarksDocument;
+using CookTo.Server.Documents.FavoritesDocument;
 using CookTo.Server.Services.Interfaces;
-using CookTo.Shared.Features.ManageBookmarks;
-using Microsoft.AspNetCore.Authorization;
+using CookTo.Shared.Features.ManageFavorites;
 
 namespace CookTo.Server.Endpoints;
 
@@ -12,29 +11,35 @@ public static class BookmarksEndpointsExtensions
     {
         app.MapGet(
             "/api/bookmarks",
-            async (IBookmarksService service, IMapper mapper, CancellationToken token) =>
+            async (string username, IBookmarksService service, IMapper mapper, CancellationToken token) =>
             {
-                var bookmarks = await service.GetAllAsync(token);
-                return Results.Ok(mapper.Map<List<BookmarksDto>>(bookmarks));
+                var bookmarks = await service.GetByUserIdAsync(username, token);
+                return Results.Ok(mapper.Map<List<FavoritesDto>>(bookmarks));
             });
         app.MapPost(
             "/api/bookmarks",
-            async (BookmarksDto bookmarks, IBookmarksService service, IMapper mapper, CancellationToken token) =>
+            async (FavoriteDto dto, IBookmarksService service, IMapper mapper, CancellationToken token) =>
             {
-                await service.CreateAsync(mapper.Map<Bookmarks>(bookmarks), token);
-                return Results.Created($"/api/bookmarks", bookmarks);
+                var bookmarks = new FavoriteRecipes()
+                {
+                    Username = dto.Username,
+                    Favorites = new List<string>() { dto.RecipeId }
+                };
+                await service.CreateAsync(bookmarks, token);
+                return Results.Ok();
             });
         app.MapPut(
             "/api/Bookmarks",
-            async (BookmarksDto updateBookmarks, IBookmarksService service, IMapper mapper, CancellationToken token) =>
+            async (FavoriteDto updateBookmark, IBookmarksService service, CancellationToken token) =>
             {
-                var bookmarks = await service.GetByIdAsync(updateBookmarks.UserId, token);
+                var bookmarks = await service.GetByIdAsync(updateBookmark.Username, token);
                 if(bookmarks is null)
                 {
                     return Results.NotFound();
                 }
-                await service.UpdateAsync(mapper.Map<Bookmarks>(updateBookmarks), token);
-                return Results.NoContent();
+                bookmarks.Favorites.Add(updateBookmark.RecipeId);
+                await service.UpdateAsync(bookmarks, token);
+                return Results.Ok();
             });
     }
 }

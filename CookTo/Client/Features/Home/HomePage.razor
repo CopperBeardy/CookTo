@@ -1,7 +1,6 @@
 ﻿@page "/"
 @inject IRecipeManager RecipeManager
-@inject IIngredientManager IngredientManager
-
+@inject NavigationManager NavigationManager
 
 <PageTitle>CookTo Recipes</PageTitle>
 
@@ -13,6 +12,12 @@ else
 {
     @if (_recipes.Any())
     {
+        <div class="grid">
+        @foreach(var recipe in _recipes)
+        {
+            <RecipeCard Recipe=recipe OnSelected="@HandleRecipeSelected"/>
+        }
+        </div>
         <div class="mb-4">
             <p class="font-italic text-center">Have a recipe to share <a href="add-recipe">Add Recipe here</a>.</p>
         </div>
@@ -35,12 +40,19 @@ else
     {
         try
         {       
-            var recipe =  await RecipeManager.GetById("6203d8a6f82698f3fd022887");
-            var ing =  await IngredientManager.GetById("6203ca97db3abc337a98fe12");
+            _recipes =  await RecipeManager.GetAll();
+            await InvokeAsync(StateHasChanged);
+
         }
         catch (HttpRequestException ex)
         {
             Console.WriteLine($"There was a problem loading Recipe data: {ex.Message}");
         }
     }
+
+    private void HandleRecipeSelected(RecipeDto recipe)
+    {
+        
+    }
+    
 }

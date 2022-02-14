@@ -26,8 +26,14 @@ public class Recipe : BaseEntity
     [BsonElement("serves")]
     public int Serves { get; set; }
 
+    [BsonElement("cuisine")]
+    public string Cuisine { get; set; }
+
     [BsonElement("author")]
     public string AuthorId { get; set; }
+
+    [BsonElement("dietaries")]
+    public List<Dietary> Dietaries { get; set; }
 
     [BsonElement("recipe_parts")]
     public List<SectionRecipePart> RecipeParts { get; set; }

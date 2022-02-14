@@ -3,6 +3,7 @@ using CookTo.Server.Documents.RecipeDocument;
 using CookTo.Server.Services.Interfaces;
 using CookTo.Shared.Features.ManageRecipes;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Identity.Web;
 
 namespace CookTo.Server.Endpoints;
 
@@ -43,8 +44,14 @@ public static class RecipeEndpointsExtensions
             });
         app.MapPost(
             "/api/recipe",
-            async (RecipeDto recipe, IRecipeService service, IMapper mapper, CancellationToken token) =>
+            async (
+                RecipeDto recipe,
+                IRecipeService service,
+                IMapper mapper,
+                HttpContext context,
+                CancellationToken token) =>
             {
+                recipe.AuthorId = context.User.Claims.First(t => t.Type == ClaimConstants.Name).Value.ToString();
                 var entity = mapper.Map<Recipe>(recipe);
                 await service.CreateAsync(entity, token);
 

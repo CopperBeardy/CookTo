@@ -44,7 +44,7 @@
                                         <label for="ingredientSelect" class="font-weight-bold text-secondary me-1">Ingredient</label>
                                         <InputSelect id="ingredientSelect" class="form-control "
                                                      @bind-Value="ingred.IngredientName">
-                                                   <option>Select Ingredient</option>
+                                                   <option>Select Ingredient...</option>
                                             @foreach (var ing in Ingredients)
                                                     {
                                                 <option value="@ing.Name">@ing.Name</option>

@@ -1,5 +1,4 @@
 using CookTo.Client.Managers.Interfaces;
-using CookTo.Shared.Features.ManageBookmarks;
 using CookTo.Shared.Features.ManageIngredients;
 using CookTo.Shared.Features.ManageRecipes;
 using Newtonsoft.Json;

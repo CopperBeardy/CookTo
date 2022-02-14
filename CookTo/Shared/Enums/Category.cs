@@ -2,13 +2,14 @@
 
 public enum Category
 {
-    Cakes,
-    Baking,
-    Main,
-    Light_Meals,
-    Starters,
-    Nibbles,
-    Brunch,
-    Side_Dishes,
-    Dessertsprop
+    SelectCategory = 0 ,
+    Cakes = 1,
+    Baking = 2,
+    Main = 3,
+    LightMeals = 4,
+    Starters = 5,
+    Nibbles = 6,
+    Brunch = 7,
+    Side = 8,
+    Desserts = 9
 }

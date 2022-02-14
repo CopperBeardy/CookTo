@@ -1,4 +1,5 @@
 @page "/edit-recipe/{RecipeId}"
+@attribute [Authorize]
 @inject IUploadImageManager ImageManager
 @inject IRecipeManager RecipeManager
 
@@ -26,92 +27,28 @@ else if (_errorMessage is not null)
     <ErrorAlert Message="@_errorMessage" />
 }
 }
+<RecipeForm Recipe="_recipe" OnSubmit="SubmitEditRecipe"/>
 
-<EditForm OnValidSubmit="SubmitEditRecipe" EditContext="_editContext">
-    <FluentValidationValidator />    
-        <DetailsFormSection Recipe=" _recipe" />
-        <FormSection Title="Image"
-                     HelpText="Image to show the what finsih recipe will look like">
-            <FormFieldSet>
-                <label for="recipeImage" class="font-italic text-secondary">Image</label>
-                @if (string.IsNullOrWhiteSpace(_recipe.Image))
-                {
-                    <InputFile OnChange="LoadRecipeImage" class="form-control-file" id="recipeImage" accept=".png, .jpg, .jpeg" />
-                }
-                else
-                {
-                     <div class="card bg-dark text-white">
-                    <img src="images/@_recipe.Image" />
-                    <div class="card-img-overlay">
-                        <button class="btn btn-primary btn-sm" @onclick="RemoveRecipeImage">Remove</button>
-                    </div>
-                </div>
-                }
-            </FormFieldSet>
-        </FormSection>
-        <RecipePartsFormSection Recipe=" _recipe"/>
-        <UtensilsFormSection Recipe=" _recipe"/>
-        <CookingStepsFormSection Recipe=" _recipe"/>
-        <TipsFormSection Recipe ="_recipe"/>
- 
-
-    <div class="mt-4 mb-5">
-        <div class="row">
-            <div class="offset-4 col-8 text-right">
-                <button class="btn btn-outline-secondary" type="button" @onclick="@(() => _recipe = new RecipeDto())">Reset</button>
-                <button class="btn btn-primary" type="submit">Submit</button>
-            </div>
-        </div>
-    </div>
-</EditForm>
 @code {
     private bool _isLoading;   
     private bool _submitSuccessful;
     private string? _errorMessage;
-    private RecipeDto _recipe =new RecipeDto();
-    private EditContext _editContext = default!;
-    private IBrowserFile? _recipeImage;
+    private RecipeDto _recipe ;
+     
 
     [Parameter] public string RecipeId { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         _isLoading = true;
-        _editContext = new EditContext(_recipe);
-           
+       
         _recipe = await RecipeManager.GetById(RecipeId);   
     }
 
-    protected override void OnParametersSet()
-    {
-        _editContext = new EditContext(_recipe);
-        _editContext.SetFieldCssClassProvider(new BootstrapCssClassProvider());
-              
-    }   
-
-    public void ResetForm()
-    {
-        _recipe = new RecipeDto();
-        _editContext = new EditContext(_recipe);
-        _editContext.SetFieldCssClassProvider(new BootstrapCssClassProvider());
-        _recipeImage = null;
-    }
-    private void LoadRecipeImage(InputFileChangeEventArgs args)
-    {
-        _recipeImage = args.File;
-        _recipe.ImageAction = ImageAction.Add;
-    }
-
-    private void RemoveRecipeImage()
-    {
-        _recipeImage = null;
-        _recipe.ImageAction = ImageAction.Remove;
-    }
-
-    private async Task SubmitEditRecipe()
+    private async Task SubmitEditRecipe(RecipeDto recipe,IBrowserFile image)
     {
 
-        var response = await RecipeManager.Update(_recipe);
+        var response = await RecipeManager.Update(recipe);
         if (!response)
         {
             _errorMessage = "There was a problem saving your Recipe.";
@@ -121,14 +58,14 @@ else if (_errorMessage is not null)
         }
         else
         {
-           
+            _recipe = recipe;
 
             _submitSuccessful = true;
-            if(_recipe.ImageAction == ImageAction.Add)
+            if(recipe.ImageAction == ImageAction.Add)
             {
-                _submitSuccessful = await ProcessImage(_recipe.Id, _recipeImage);
+                _submitSuccessful = await ProcessImage(recipe.Id, image!);
             }
-            if (_recipe.ImageAction == ImageAction.Remove) 
+            if (recipe.ImageAction == ImageAction.Remove) 
             {
                 _recipe.Image = null;
             }

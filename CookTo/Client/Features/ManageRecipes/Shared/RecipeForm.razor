@@ -1,6 +1,8 @@
-﻿<h3 class="mt-5 mb-4">Add a Recipe</h3>
+﻿@inject AppState AppState
+<h3 class="mt-5 mb-4">Add a Recipe</h3>
 <EditForm OnValidSubmit="SubmitForm" EditContext="_editContext">
     <FluentValidationValidator />    
+    <FormStateTracker />
         <DetailsFormSection Recipe=" _recipe" />
         <FormSection Title="Image"
                      HelpText="Image to show the what finsih recipe will look like">
@@ -46,18 +48,24 @@
     [Parameter] public RecipeDto Recipe { get; set; }
 
     protected override void OnParametersSet()
-    {
-        _editContext = new EditContext(_recipe);
-        _editContext.SetFieldCssClassProvider(new BootstrapCssClassProvider());
-
-        if (Recipe != null)
+    { 
+        if (Recipe is not null)
         {
             _recipe = Recipe;
         }
+        else
+        {
+            _recipe = AppState.NewRecipeState.GetRecipe();
+        }
+        _editContext = new EditContext(_recipe);
+        _editContext.SetFieldCssClassProvider(new BootstrapCssClassProvider());
+
+
     }   
 
     public void ResetForm()
     {
+        AppState.NewRecipeState.ClearRecipe();
         _recipe = new RecipeDto();
         _editContext = new EditContext(_recipe);
         _editContext.SetFieldCssClassProvider(new BootstrapCssClassProvider());

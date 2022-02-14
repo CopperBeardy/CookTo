@@ -8,6 +8,8 @@ public class RecipeDto
 
     public string Title { get; set; }
 
+    public string Cuisine { get; set; }
+
     public Category Category { get; set; }
 
     public string Description { get; set; }
@@ -21,6 +23,8 @@ public class RecipeDto
     public int Serves { get; set; }
 
     public string AuthorId { get; set; }
+
+    public List<Dietary> Dietaries { get; set; }
 
     public List<RecipePart> RecipeParts { get; set; } = new List<RecipePart>();
 

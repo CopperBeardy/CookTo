@@ -1,5 +1,5 @@
 using CookTo.Client.Managers.Interfaces;
-using CookTo.Shared.Features.ManageBookmarks;
+using CookTo.Shared.Features.ManageFavorites;
 using Newtonsoft.Json;
 
 namespace CookTo.Client.Managers;
@@ -11,7 +11,7 @@ public class BookmarksManager : IBookmarksManager
     private const string _url = "/api/bookmarks";
     public BookmarksManager(IHttpClientFactory factory) => _factory = factory;
 
-    public async Task<BookmarksDto> GetById(string userId)
+    public async Task<FavoritesDto> GetById(string userId)
     {
         try
         {
@@ -19,7 +19,7 @@ public class BookmarksManager : IBookmarksManager
             var result = await httpClient.GetAsync($"{_url}/{userId}", new CancellationToken());
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
-            var response = JsonConvert.DeserializeObject<BookmarksDto>(content);
+            var response = JsonConvert.DeserializeObject<FavoritesDto>(content);
             return response;
         } catch(HttpRequestException)
         {
@@ -28,24 +28,27 @@ public class BookmarksManager : IBookmarksManager
     }
 
 
-    public async Task<BookmarksDto> Insert(BookmarksDto entity)
+    public async Task<bool> Insert(FavoriteDto dto)
     {
-        var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Secure);
-
-        var result = await httpClient.PostAsJsonAsync(_url, entity, new CancellationToken());
-        result.EnsureSuccessStatusCode();
-        var content = await result.Content.ReadAsStringAsync();
-        var response = JsonConvert.DeserializeObject<BookmarksDto>(content);
-        return response;
+        try
+        {
+            var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Secure);
+            var result = await httpClient.PostAsJsonAsync(_url, dto, new CancellationToken());
+            result.EnsureSuccessStatusCode();
+            return true;
+        } catch(Exception)
+        {
+            throw;
+        }
     }
 
-    public async Task<bool> Update(BookmarksDto entityToUpdate)
+    public async Task<bool> Update(FavoriteDto dto)
     {
         try
         {
             var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
 
-            var result = await httpClient.PutAsJsonAsync(_url, entityToUpdate);
+            var result = await httpClient.PutAsJsonAsync(_url, dto);
             result.EnsureSuccessStatusCode();
             return true;
         } catch(Exception)

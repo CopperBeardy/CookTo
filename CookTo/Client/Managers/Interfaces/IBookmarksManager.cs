@@ -1,13 +1,13 @@
-﻿using CookTo.Shared.Features.ManageBookmarks;
+﻿using CookTo.Shared.Features.ManageFavorites;
 
 namespace CookTo.Client.Managers.Interfaces;
 
 public interface IBookmarksManager
 {
-    Task<BookmarksDto> GetById(string userId);
+    Task<FavoritesDto> GetById(string userid);
 
-    Task<BookmarksDto> Insert(BookmarksDto entity);
+    Task<bool> Insert(FavoriteDto dto);
 
-    Task<bool> Update(BookmarksDto entityToUpdate);
+    Task<bool> Update(FavoriteDto dto);
 }
 
