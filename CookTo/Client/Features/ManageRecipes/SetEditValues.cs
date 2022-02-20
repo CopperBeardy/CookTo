@@ -8,15 +8,17 @@ public static class SetEditValues
     {
         var editRecipe = new RecipeDto();
 
-        if(recipe != null)
+        if (recipe != null)
         {
             editRecipe.Id = recipe.Id;
             editRecipe.Title = recipe.Title;
             editRecipe.Category = recipe.Category;
             editRecipe.Description = recipe.Description;
             editRecipe.Image = recipe.Image;
-            editRecipe.PreparationTime = recipe.PreparationTime;
-            editRecipe.CookingTime = recipe.CookingTime;
+            editRecipe.PrepTimeFrom = recipe.PrepTimeFrom;
+            editRecipe.PrepTimeTo = recipe.PrepTimeTo;
+            editRecipe.CookTimeFrom = recipe.CookTimeFrom;
+            editRecipe.CookTimeTo = recipe.CookTimeTo;
             editRecipe.Serves = recipe.Serves;
             editRecipe.AuthorId = recipe.AuthorId;
             editRecipe.RecipeParts.Clear();

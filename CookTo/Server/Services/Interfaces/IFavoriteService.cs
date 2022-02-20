@@ -2,7 +2,7 @@
 
 namespace CookTo.Server.Services.Interfaces;
 
-public interface IBookmarksService : IBaseService<FavoriteRecipes>
+public interface IFavoriteService : IBaseService<FavoriteRecipes>
 {
     Task<FavoriteRecipes> GetByUserIdAsync(string id, CancellationToken token);
 }

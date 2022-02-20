@@ -2,7 +2,7 @@
 
 public enum Category
 {
-    SelectCategory = 0 ,
+    SelectCategory = 0,
     Cakes = 1,
     Baking = 2,
     Main = 3,

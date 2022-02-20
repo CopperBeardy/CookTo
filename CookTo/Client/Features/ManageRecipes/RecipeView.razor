@@ -1,0 +1,36 @@
+﻿@page "/recipe/{RecipeId}"
+@inject IRecipeManager RecipeManager
+<PageTitle>@RecipeDto.Title</PageTitle>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@RecipeDto.Title</li>
+    </ol>
+</nav>
+
+@if(_isLoading)
+{
+       <p>Loading Recipe</p>
+}
+else
+{
+    <p>blah</p>
+}
+
+
+@code {
+    public RecipeDto RecipeDto=new();
+    private bool _isLoading = true;  
+    [Parameter] public string RecipeId { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await RecipeManager.GetById(RecipeId);
+        if(response is null)
+        {
+
+        }
+        _isLoading = false;
+        RecipeDto = response;
+    }
+}

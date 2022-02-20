@@ -1,6 +1,5 @@
 using CookTo.Client.Managers.Interfaces;
 using CookTo.Shared.Features.ManageIngredients;
-using CookTo.Shared.Features.ManageRecipes;
 using Newtonsoft.Json;
 
 namespace CookTo.Client.Managers;
@@ -21,7 +20,8 @@ public class IngredientManager : IIngredientManager
             var content = await result.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<List<IngredientDto>>(content);
             return response;
-        } catch(HttpRequestException)
+        }
+        catch (HttpRequestException)
         {
             return default!;
         }
@@ -37,7 +37,8 @@ public class IngredientManager : IIngredientManager
             var content = await result.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<IngredientDto>(content);
             return response;
-        } catch(HttpRequestException)
+        }
+        catch (HttpRequestException)
         {
             return default!;
         }
@@ -54,7 +55,8 @@ public class IngredientManager : IIngredientManager
             var content = await result.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<string>(content);
             return response;
-        } catch(Exception)
+        }
+        catch (Exception)
         {
             throw;
         }
@@ -71,7 +73,8 @@ public class IngredientManager : IIngredientManager
             var content = await result.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<string>(content);
             return response;
-        } catch(Exception)
+        }
+        catch (Exception)
         {
             throw;
         }

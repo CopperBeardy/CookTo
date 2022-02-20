@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace CookTo.Shared.Features.ManageRecipes;
+﻿namespace CookTo.Shared.Features.ManageRecipes;
 
 public class ImageUploadDto
 {

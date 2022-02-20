@@ -12,11 +12,15 @@
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="AutoMapper.Collection" Version="7.0.1" />
     <PackageReference Include="Blazored.LocalStorage" Version="4.2.0" />
+    <PackageReference Include="Blazored.Modal" Version="6.0.1" />
+    <PackageReference Include="Blazorise.Bootstrap" Version="0.9.5.5" />
+    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="0.9.5.5" />
     <PackageReference Include="Measurement.Converters.CSharp" Version="0.0.34" />
 	
 	  <PackageReference Include="Blazored.FluentValidation" Version="2.0.3" />
      <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.2" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Authentication.WebAssembly.Msal" Version="6.0.2" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.2-mauipre.1.22054.8" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />

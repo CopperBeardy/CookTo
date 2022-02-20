@@ -2,7 +2,6 @@ using AutoMapper;
 using CookTo.Server.Documents.RecipeDocument;
 using CookTo.Server.Services.Interfaces;
 using CookTo.Shared.Features.ManageRecipes;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web;
 
 namespace CookTo.Server.Endpoints;
@@ -16,7 +15,22 @@ public static class RecipeEndpointsExtensions
             async (IRecipeService service, IMapper mapper, CancellationToken token) =>
             {
                 var recipes = await service.GetAllAsync(token);
-                return Results.Ok(mapper.Map<List<RecipeDto>>(recipes));
+                List<RecipeSummaryDto> recipeSummaries = new List<RecipeSummaryDto>();
+                foreach(var recipe in recipes)
+                {
+                    recipeSummaries.Add(
+                        new RecipeSummaryDto(
+                            recipe.Id,
+                            recipe.Category,
+                            recipe.Title,
+                            recipe.PrepTimeFrom,
+                            recipe.PrepTimeTo,
+                            recipe.CookTimeFrom,
+                            recipe.CookTimeFrom,
+                            recipe.Image,
+                            recipe.AuthorId));
+                }
+                return Results.Ok(recipeSummaries);
             });
 
         app.MapGet(

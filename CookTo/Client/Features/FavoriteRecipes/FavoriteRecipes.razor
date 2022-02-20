@@ -1,4 +1,4 @@
-﻿@page "/favorite-Recipes"
+﻿@*@page "/favorite-recipes"
 @inject AppState AppState
 @implements IDisposable
 
@@ -15,12 +15,12 @@
 
 @if (AppState.FavoriteRecipesState.FavoriteRecipes.Any())
 {
-   @* <TrailDetails Trail="_selectedTrail" />*@
+    <TrailDetails Trail="_selectedTrail" />
 
     <div class="grid">
         @foreach (var recipe in AppState.FavoriteRecipesState.FavoriteRecipes)
         {
-           @* <TrailCard Trail="trail" OnSelected="HandleTrailSelected" />*@
+            <TrailCard Trail="trail" OnSelected="HandleTrailSelected" />
         }
     </div>
 }
@@ -29,17 +29,17 @@ else
     <NoRecipes>
         You don't have any favorite Recipes :(
     </NoRecipes>
-}
+}*@
 
 @code {
-    private RecipeDto? _selectedRecipe;
+    //private RecipeDto? _selectedRecipe;
 
-    protected override void OnInitialized()
-        => AppState.FavoriteRecipesState.OnChange += StateHasChanged;
+    //protected override void OnInitialized()
+    //    => AppState.FavoriteRecipesState.OnChange += StateHasChanged;
 
-    private void HandleRecipeSelected(RecipeDto recipe)
-        => _selectedRecipe = recipe;
+    //private void HandleRecipeSelected(RecipeDto recipe)
+    //    => _selectedRecipe = recipe;
 
-    void IDisposable.Dispose()
-        => AppState.FavoriteRecipesState.OnChange -= StateHasChanged;
+    //void IDisposable.Dispose()
+    //    => AppState.FavoriteRecipesState.OnChange -= StateHasChanged;
 }

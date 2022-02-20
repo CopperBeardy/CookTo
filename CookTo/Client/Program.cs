@@ -1,13 +1,11 @@
 using Blazored.LocalStorage;
 using CookTo.Client;
-
 using CookTo.Client.Managers;
 using CookTo.Client.Managers.Interfaces;
 using CookTo.Client.State;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -32,13 +30,14 @@ builder.Services
                 .Add("https://cookto.onmicrosoft.com/39f9835a-542c-4737-a4c2-05e68f4ecf18/CookToB2CServer.Access");
         });
 
+builder.Services.AddAuthorizationCore();
+
 
 builder.Services.AddScoped<IIngredientManager, IngredientManager>();
 builder.Services.AddScoped<IUtensilManager, UtensilManager>();
 builder.Services.AddScoped<IRecipeManager, RecipeManager>();
-builder.Services.AddScoped<IBookmarksManager, BookmarksManager>();
+builder.Services.AddScoped<IFavoritesManager, FavoritesManager>();
 builder.Services.AddScoped<IUploadImageManager, UploadImageManager>();
-
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddScoped<AppState>();
 await builder.Build().RunAsync();

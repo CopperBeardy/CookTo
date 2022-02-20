@@ -1,5 +1,6 @@
 ﻿@inject AppState AppState
 
+
 <CascadingAuthenticationState>
     <Router AppAssembly="@typeof(App).Assembly">
         <Found Context="routeData">
@@ -25,10 +26,12 @@
         </NotFound>
     </Router>
 </CascadingAuthenticationState>
+
 @code {
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        
         if (firstRender)
         {
             await AppState.Initialize();           

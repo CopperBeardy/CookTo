@@ -1,47 +1,39 @@
-﻿  <FormSection Title="Cooking steps"
-                 HelpText="Tell the steps that need to be taken to make this this recipe">
-        <FormFieldSet>
-            @{
-                var i = 0;
-            }
-            @foreach (var cookingStep in Recipe.CookingSteps)
-            {
-                i++;
-                cookingStep.OrderNumber = i;
-                <div class="row">
-                    <div class="col-2">
-                        <div class="form-group">
-                            <label class="font-weight-bold text-secondary">Order</label>
-                            <p>@cookingStep.OrderNumber</p>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="cookingStepDescription" class="font-weight-bold text-secondary">Description</label>
-                            <InputText @bind-Value="cookingStep.StepDescription" class="form-control" id="cookingStepDescription" />
-                            <ValidationMessage For="@(() => cookingStep.StepDescription)" />
-                        </div>
-                    </div>
-                    <div class="col-1 d-flex mt-3">
-                        <button @onclick="@(() => Recipe.CookingSteps.Remove(cookingStep))" class="btn btn-link" type="button">
-                                <RemoveSvg/>
-                        </button>
-                    </div>
-                </div>
-            }
+﻿<FormSection Title="Cooking steps"
+             HelpText="Tell the steps that need to be taken to make this this recipe">
+    <FormFieldSet>
+        @{
+            var i = 0;
+        }
+        @foreach (var cookingStep in Recipe.CookingSteps)
+        {
+            i++;
+            cookingStep.OrderNumber = i;
+            <div class="row gy-1 gx-1 align-items-center mb-2">
 
-            <div class="row">
-                <div class="col">
-                    <button class="btn btn-outline-primary" type="button" @onclick="@(() => Recipe.CookingSteps.Add(new CookingStep()))">Add CookingStep</button>
-                    <ValidationMessage For="@(() => Recipe.CookingSteps)" />
+                <FormInputGroup Id="orderNumber" Label="Order " Width="col-auto" Margins="mb-2 mr-3" >
+                    <label class="align-self-center ps-2 pe-2 "> @cookingStep.OrderNumber </label>
+                </FormInputGroup>
+
+                <FormInputGroup Id="cookingStepDescription" Label="Description" Width="col-8" Margins="mb-2" >
+                    <InputText @bind-Value="cookingStep.StepDescription" class="form-control" id="cookingStepDescription" />
+                    <ValidationMessage For="@(() => cookingStep.StepDescription)" />
+                </FormInputGroup>
+
+                  <div class="col-sm-1">
+                    <button class="btn link-danger "@onclick="@(() => Recipe.CookingSteps.Remove(cookingStep))" type="button"><i class="bi bi-dash-circle"></i></button>
                 </div>
+               
             </div>
-        </FormFieldSet>
-    </FormSection>
+        }
+
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-outline-primary" type="button" @onclick="@(() => Recipe.CookingSteps.Add(new CookingStep()))">Add CookingStep</button>
+                <ValidationMessage For="@(() => Recipe.CookingSteps)" />
+            </div>
+        </div>
+    </FormFieldSet>
+</FormSection>
 @code {
     [Parameter] public RecipeDto Recipe { get; set; }
-    protected override void OnInitialized()
-    {
-       
-    }
 }

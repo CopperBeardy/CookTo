@@ -3,14 +3,14 @@
 
 <EditForm Model="@utensil" OnValidSubmit="@HandleValidSubmit">
 	<DataAnnotationsValidator/>
-	<ValidationSummary/>
+
 	<InputText id="name" @bind-Value="@utensil.UtensilName"/>
 	<button type="submit">Add</button>
 </EditForm>
 
 @code{
-	[Parameter]
-	public UtensilDto utensil { get; set; } = new (){Id = ""};
+	[Parameter, EditorRequired]
+	public UtensilDto utensil { get; set; } = default!;
 	[Parameter]
 	public EventCallback<UtensilDto> onAdd{ get; set; }
 

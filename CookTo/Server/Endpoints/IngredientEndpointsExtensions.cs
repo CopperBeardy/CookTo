@@ -2,7 +2,6 @@ using AutoMapper;
 using CookTo.Server.Documents.IngredientDocument;
 using CookTo.Server.Services.Interfaces;
 using CookTo.Shared.Features.ManageIngredients;
-using Microsoft.AspNetCore.Authorization;
 
 namespace CookTo.Server.Endpoints;
 
@@ -23,7 +22,7 @@ public static class IngredientEndpointsExtensions
             async (string id, IIngredientService service, IMapper mapper, CancellationToken token) =>
             {
                 var ing = await service.GetByIdAsync(id, token);
-                if(ing is null)
+                if (ing is null)
                 {
                     return Results.BadRequest("Ingredient was not found");
                 }

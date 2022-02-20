@@ -3,9 +3,9 @@ using CookTo.Server.Services.Interfaces;
 
 namespace CookTo.Server.Services;
 
-public class BookmarksService : BaseService<FavoriteRecipes>, IBookmarksService
+public class FavoritesService : BaseService<FavoriteRecipes>, IFavoriteService
 {
-    public BookmarksService(ICookToDbContext dbContext) : base(dbContext)
+    public FavoritesService(ICookToDbContext dbContext) : base(dbContext)
     {
     }
 

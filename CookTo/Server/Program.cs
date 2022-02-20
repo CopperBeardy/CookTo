@@ -21,7 +21,7 @@ builder.Services
 builder.Services.AddScoped<ICookToDbContext, CookToDbContext>();
 builder.Services.AddScoped<IIngredientService, IngredientService>();
 builder.Services.AddScoped<IRecipeService, RecipeService>();
-builder.Services.AddScoped<IBookmarksService, BookmarksService>();
+builder.Services.AddScoped<IFavoriteService, FavoritesService>();
 builder.Services.AddScoped<IUtensilService, UtensilService>();
 builder.Services
     .AddCors(
@@ -64,7 +64,7 @@ if(app.Environment.IsDevelopment())
 }
 app.IngredientEndpoints();
 app.UtensilEndpoints();
-app.BookmarksEndpoints();
+app.FavoritesEndpoints();
 app.RecipeEndpoints();
 app.UploadImageEndpoints();
 

@@ -13,7 +13,7 @@ public class FormStateTracker : ComponentBase
 
     protected override void OnInitialized()
     {
-        if(CascadedEditContext is null)
+        if (CascadedEditContext is null)
         {
             throw new InvalidOperationException(
                 $"{nameof(FormStateTracker)} requires a cascading parameter of type {nameof(EditContext)}");
@@ -27,7 +27,7 @@ public class FormStateTracker : ComponentBase
         var property = sender.GetType().GetProperty("Model");
         var model = (RecipeDto)property.GetValue(sender, null);
 
-        if(string.IsNullOrWhiteSpace(model.Id))
+        if (string.IsNullOrWhiteSpace(model.Id))
         {
             AppState.NewRecipeState.SetRecipe(model);
         }

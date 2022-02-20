@@ -4,12 +4,12 @@ using Newtonsoft.Json;
 
 namespace CookTo.Client.Managers;
 
-public class BookmarksManager : IBookmarksManager
+public class FavoritesManager : IFavoritesManager
 {
     private readonly IHttpClientFactory _factory;
 
     private const string _url = "/api/bookmarks";
-    public BookmarksManager(IHttpClientFactory factory) => _factory = factory;
+    public FavoritesManager(IHttpClientFactory factory) => _factory = factory;
 
     public async Task<FavoritesDto> GetById(string userId)
     {

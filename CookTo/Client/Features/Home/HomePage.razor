@@ -4,18 +4,18 @@
 
 <PageTitle>CookTo Recipes</PageTitle>
 
-@if (_recipes == null)
+@if (_recipeSummaries == null)
 {
     <p>Loading recipes...</p>
 }
 else
 {
-    @if (_recipes.Any())
+    @if (_recipeSummaries.Any())
     {
         <div class="grid">
-        @foreach(var recipe in _recipes)
+        @foreach(var recipe in _recipeSummaries)
         {
-            <RecipeCard Recipe=recipe OnSelected="@HandleRecipeSelected"/>
+            <RecipeCard RecipeSummary =recipe OnSelected="@HandleRecipeSelected"/>
         }
         </div>
         <div class="mb-4">
@@ -33,14 +33,14 @@ else
 }
 
 @code {
-    private IEnumerable<RecipeDto>? _recipes;
+    private IEnumerable<RecipeSummaryDto>? _recipeSummaries;
 
 
     protected override async Task OnInitializedAsync()
     {
         try
         {       
-            _recipes =  await RecipeManager.GetAll();
+            _recipeSummaries =  await RecipeManager.GetAll();
             await InvokeAsync(StateHasChanged);
 
         }
@@ -50,7 +50,7 @@ else
         }
     }
 
-    private void HandleRecipeSelected(RecipeDto recipe)
+    private void HandleRecipeSelected(RecipeSummaryDto recipe)
     {
         
     }

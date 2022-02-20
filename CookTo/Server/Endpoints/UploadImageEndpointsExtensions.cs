@@ -1,7 +1,6 @@
 using AutoMapper;
 using CookTo.Server.Services.Interfaces;
 using CookTo.Shared.Features.ManageRecipes;
-using Microsoft.AspNetCore.Components.Forms;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 
@@ -16,13 +15,13 @@ public static class UploadImageEndpointsExtensions
             async (ImageUploadDto dto, IRecipeService service, IMapper mapper, CancellationToken token) =>
             {
                 var recipe = await service.GetByIdAsync(dto.RecipeId, token);
-                if(recipe is null)
+                if (recipe is null)
                 {
                     return Results.BadRequest("Recipe does not exist.");
                 }
 
 
-                if(dto.Image.Length == 0)
+                if (dto.Image.Length == 0)
                 {
                     return Results.BadRequest("No image found.");
                 }
@@ -36,7 +35,7 @@ public static class UploadImageEndpointsExtensions
                 image.Mutate(x => x.Resize(resizeOptions));
                 await image.SaveAsJpegAsync(saveLocation, cancellationToken: token);
 
-                if(!string.IsNullOrWhiteSpace(recipe.Image))
+                if (!string.IsNullOrWhiteSpace(recipe.Image))
                 {
                     System.IO.File.Delete(Path.Combine(Directory.GetCurrentDirectory(), "Images", recipe.Image));
                 }

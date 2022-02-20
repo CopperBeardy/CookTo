@@ -24,7 +24,8 @@ public class UploadImageManager : IUploadImageManager
             var content = await result.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<IBrowserFile>(content);
             return response;
-        } catch(HttpRequestException)
+        }
+        catch (HttpRequestException)
         {
             return default!;
         }
@@ -33,18 +34,19 @@ public class UploadImageManager : IUploadImageManager
     public async Task<string> UploadImage(string recipeId, IBrowserFile file)
     {
         try
-        {         
+        {
             MemoryStream ms = new MemoryStream();
             await file.OpenReadStream(file.Size).CopyToAsync(ms);
             var dto = new ImageUploadDto() { RecipeId = recipeId, Image = ms.ToArray() };
 
             var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Secure);
-           
+
             var result = await httpClient.PostAsJsonAsync(_url, dto, new CancellationToken());
             result.EnsureSuccessStatusCode();
-            var content = await result.Content.ReadAsStringAsync();    
+            var content = await result.Content.ReadAsStringAsync();
             return content;
-        } catch(Exception)
+        }
+        catch (Exception)
         {
             throw;
         }

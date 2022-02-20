@@ -6,8 +6,9 @@
         <DetailsFormSection Recipe=" _recipe" />
         <FormSection Title="Image"
                      HelpText="Image to show the what finsih recipe will look like">
-            <FormFieldSet>
-                <label for="recipeImage" class="font-italic text-secondary">Image</label>
+         
+                <FormInputGroup Id="recipeImage" Label="Image" Width="col-5" >   
+               
                 @if (string.IsNullOrWhiteSpace(_recipe.Image))
                 {
                     <InputFile OnChange="LoadRecipeImage" class="form-control-file" id="recipeImage" accept=".png, .jpg, .jpeg" />
@@ -21,7 +22,7 @@
                     </div>
                 </div>
                 }
-            </FormFieldSet>
+            </FormInputGroup>
         </FormSection>
         <RecipePartsFormSection Recipe=" _recipe"/>
         <UtensilsFormSection Recipe=" _recipe"/>
@@ -60,7 +61,6 @@
         _editContext = new EditContext(_recipe);
         _editContext.SetFieldCssClassProvider(new BootstrapCssClassProvider());
 
-
     }   
 
     public void ResetForm()
@@ -74,7 +74,8 @@
     private void LoadRecipeImage(InputFileChangeEventArgs args)
     {
         _recipeImage = args.File;
-        _recipe.ImageAction = ImageAction.Add;
+       _recipe.ImageAction = ImageAction.Add;
+     
     }
 
     private void RemoveRecipeImage()

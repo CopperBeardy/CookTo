@@ -1,4 +1,3 @@
-using AutoMapper;
 using CookTo.Client.Managers.Interfaces;
 using CookTo.Shared.Features.ManageRecipes;
 using Newtonsoft.Json;
@@ -24,13 +23,14 @@ public class RecipeManager : IRecipeManager
             var content = await result.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<RecipeDto>(content);
             return response;
-        } catch(Exception)
+        }
+        catch (Exception)
         {
             return default!;
         }
     }
 
-    public async Task<IEnumerable<RecipeDto>> GetAll()
+    public async Task<IEnumerable<RecipeSummaryDto>> GetAll()
     {
         try
         {
@@ -38,9 +38,10 @@ public class RecipeManager : IRecipeManager
             var result = await httpClient.GetAsync(_url, new CancellationToken());
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
-            var response = JsonConvert.DeserializeObject<List<RecipeDto>>(content);
+            var response = JsonConvert.DeserializeObject<List<RecipeSummaryDto>>(content);
             return response;
-        } catch(Exception)
+        }
+        catch (Exception)
         {
             return default!;
         }
@@ -56,7 +57,8 @@ public class RecipeManager : IRecipeManager
             var content = await result.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<RecipeDto>(content);
             return response;
-        } catch(Exception)
+        }
+        catch (Exception)
         {
             throw;
         }
@@ -70,7 +72,8 @@ public class RecipeManager : IRecipeManager
             var result = await httpClient.PutAsJsonAsync(_url, recipeToUpdate, new CancellationToken());
             result.EnsureSuccessStatusCode();
             return true;
-        } catch(Exception)
+        }
+        catch (Exception)
         {
             throw;
         }

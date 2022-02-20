@@ -5,7 +5,7 @@ namespace CookTo.Client.Managers.Interfaces;
 
 public interface IRecipeManager
 {
-    Task<IEnumerable<RecipeDto>> GetAll();
+    Task<IEnumerable<RecipeSummaryDto>> GetAll();
 
     Task<RecipeDto> GetById(string id);
 

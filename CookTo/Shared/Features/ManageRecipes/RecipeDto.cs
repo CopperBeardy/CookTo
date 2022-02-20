@@ -16,9 +16,13 @@ public class RecipeDto
 
     public string? Image { get; set; }
 
-    public int PreparationTime { get; set; }
+    public int PrepTimeFrom { get; set; }
 
-    public int CookingTime { get; set; }
+    public int PrepTimeTo { get; set; }
+
+    public int CookTimeFrom { get; set; }
+
+    public int CookTimeTo { get; set; }
 
     public int Serves { get; set; }
 

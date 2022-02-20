@@ -13,8 +13,15 @@ public class RecipeDtoValidator : AbstractValidator<RecipeDto>
         RuleFor(x => x.Description)
             .MinimumLength(40)
             .WithMessage("Please provide a description longer than 40 characters");
-        RuleFor(x => x.PreparationTime).GreaterThan(0).WithMessage("Please provide the preparation time");
-        RuleFor(x => x.CookingTime).GreaterThan(0).WithMessage("Please provide the cooking time");
+        RuleFor(x => x.PrepTimeFrom).GreaterThan(0).WithMessage("Please provide the estimated minimum preparation time");
+        RuleFor(x => x.PrepTimeTo)
+            .GreaterThan(x => x.PrepTimeFrom)
+            .WithMessage("Please provide the estimated maximum preparation time");
+        RuleFor(x => x.CookTimeFrom).GreaterThan(0).WithMessage("Please provide the estimated minimum cooking time");
+        RuleFor(x => x.CookTimeTo)
+            .GreaterThan(x => x.CookTimeFrom)
+            .WithMessage("Please provide the estimated maximum preparation time");
+
         RuleFor(x => x.Serves).GreaterThan(0).WithMessage("Please provide the number of servings ");
         RuleFor(x => x.RecipeParts).NotEmpty().WithMessage("Please provide at least 1 part section ");
         RuleFor(x => x.RecipeParts)

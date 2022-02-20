@@ -2,7 +2,7 @@
 
 namespace CookTo.Client.Managers.Interfaces;
 
-public interface IBookmarksManager
+public interface IFavoritesManager
 {
     Task<FavoritesDto> GetById(string userid);
 

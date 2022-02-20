@@ -9,7 +9,7 @@ public class BootstrapCssClassProvider : FieldCssClassProvider
     {
         var isValid = !editContext.GetValidationMessages(fieldIdentifier).Any();
 
-        if(editContext.IsModified(fieldIdentifier))
+        if (editContext.IsModified(fieldIdentifier))
         {
             return isValid ? "is-valid" : "is-invalid";
         }

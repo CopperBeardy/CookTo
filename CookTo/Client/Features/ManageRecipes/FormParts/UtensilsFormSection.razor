@@ -1,53 +1,51 @@
 ﻿@inject IUtensilManager Manager
-    <FormSection Title="Equipment, Utensils and Accessories"
-                 HelpText="Let people know what equipment they will need to make this recipe">
-        <FormFieldSet>
+<FormSection Title="Equipment, Utensils and Accessories"
+             HelpText="Let people know what equipment they will need to make this recipe">
+    <FormFieldSet>
+        @foreach (var utensil in Recipe.Utensils)
+        {
+              <div class="row gy-1 gx-1 align-items-center mb-2">
+                   <FormInputGroup Id="utenRequiredAmount" Label="Amount" Width="col-auto" Margins="mb-2" >                
+                    <input type="number" id="utenSelect" min=1 class="form-control "    @bind="utensil.RequiredAmount" />
+                    <ValidationMessage For="@(() => utensil.RequiredAmount)" />
+               </FormInputGroup>
 
-                @foreach (var utensil in Recipe.Utensils)
-                {                    
-                        <div class="d-flex flex-row align-content-center mb-1">
-                             <div class="col-2 me-1">
-                                    <label for="utenRequiredAmount" class="font-weight-bold text-secondary me-1">Amount</label>
-                                    <InputNumber id="utenSelect" min=1 class="form-control " 
-                                             @bind-Value="utensil.RequiredAmount" /> 
-                                      <ValidationMessage For="@(() => utensil.RequiredAmount)"/>
-                             </div>
-                            <div class="col-5 me-1">
-                                    <label for="utenSelect" class="font-weight-bold text-secondary me-1">Item </label>
-                                    <InputSelect id="utenSelect" class="form-control " 
-                                             @bind-Value="utensil.UtensilName" >  
-                                             <option>Select Utensil...</option>
-                                       @foreach (var _utensil in Utensils)
-                                        {
-                                        <option value="@_utensil.UtensilName">@_utensil.UtensilName</option>
-                                        }
-                                </InputSelect>
-                                   <ValidationMessage For="@(() => utensil.UtensilName)"/>                               
-                             </div>
-                        <div class="col-1 d-flex mt-3">
-                            <button @onclick="@(() => Recipe.Utensils.Remove(utensil))" class="btn btn-link" type="button">                                
-                                <RemoveSvg/>
-                            </button>
-                        </div>
-                    </div>                      
-                }
-                    <div class="row">
-                                <div class="col">
-                                    <button class="btn btn-outline-primary" type="button" @onclick="@(() => Recipe.Utensils.Add(new UtensilPart()))">Add  </button>
-                                    <ValidationMessage For="@(() => Recipe.Utensils)" />
-                                </div>
-                            </div>
-         
-        </FormFieldSet>
-    </FormSection>
+                <FormInputGroup Id="utenSelect" Label="Utensil" Width="col-auto" Margins="mb-2 " >   
+                    <InputSelect id="utenSelect" class="form-control "@bind-Value="utensil.UtensilName">
+                        <option>Select Utensil...</option>
+                        @foreach (var _utensil in Utensils)
+                        {
+                        <option value="@_utensil.UtensilName">@_utensil.UtensilName</option>
+                        }
+                </InputSelect>
+                <ValidationMessage For="@(() => utensil.UtensilName)" />
+                    </FormInputGroup>
+                 <div class="col-sm-1">
+                    <button class="btn link-danger " @onclick="@(() => Recipe.Utensils.Remove(utensil))" type="button"><i class="bi bi-dash-circle"></i></button>
+                </div>
+           
+            
+            </div>  
+        }
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-outline-primary" type="button" @onclick="@(() => Recipe.Utensils.Add(new UtensilPart()))">Add  </button>
+                <ValidationMessage For="@(() => Recipe.Utensils)" />
+            </div>
+        </div>
+
+    </FormFieldSet>
+</FormSection>
 
 @code {
     [Parameter] public RecipeDto Recipe { get; set; }
     public IEnumerable<UtensilDto>? Utensils { get; set; } = new List<UtensilDto>();
+
 
     protected override async Task OnInitializedAsync()
     {
         Utensils = await Manager.GetAll();
     }
 
+   
 }

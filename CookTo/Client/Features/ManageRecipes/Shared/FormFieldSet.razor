@@ -1,8 +1,9 @@
 ﻿@*Component layout used here is the same as  in the book - Blazor in Action by Chris Sainty*@
 <div class="row">
     <div class="@Width">
-        <div class="form-group">
-                 @ChildContent         
+        <div class="form-group">            
+                <label for="@Id" class="font-weight-bold text-secondary">@Label</label>          
+            @ChildContent         
         </div>
     </div>
 </div>
@@ -10,5 +11,6 @@
 @code {
     [Parameter, EditorRequired] public RenderFragment ChildContent { get; set; } = default!;
     [Parameter] public string Width { get; set; } = "col";
- 
+    [Parameter] public string? Id{ get; set; }
+    [Parameter] public string? Label{ get; set; }
 }
