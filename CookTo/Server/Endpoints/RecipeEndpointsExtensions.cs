@@ -1,6 +1,8 @@
 using AutoMapper;
 using CookTo.Server.Documents.RecipeDocument;
+using CookTo.Server.Helpers;
 using CookTo.Server.Services.Interfaces;
+using CookTo.Shared.Features.ManageCuisine;
 using CookTo.Shared.Features.ManageRecipes;
 using Microsoft.Identity.Web;
 
@@ -27,6 +29,7 @@ public static class RecipeEndpointsExtensions
                             recipe.PrepTimeTo,
                             recipe.CookTimeFrom,
                             recipe.CookTimeFrom,
+                            mapper.Map<CuisineDto>(recipe.Cuisine),
                             recipe.Image,
                             recipe.AuthorId));
                 }
@@ -44,6 +47,14 @@ public static class RecipeEndpointsExtensions
                 }
                 return Results.Ok(mapper.Map<RecipeDto>(recipe));
             });
+
+        app.MapGet(
+            "/api/search/{term}",
+            async (string term, IRecipeService service, IMapper mapper, CancellationToken token) =>
+            {
+                var recipes = string.Empty;
+            });
+
         app.MapPut(
             "/api/recipe",
             async (RecipeDto updateRecipe, IRecipeService service, IMapper mapper, CancellationToken token) =>
@@ -53,7 +64,8 @@ public static class RecipeEndpointsExtensions
                 {
                     return Results.NotFound();
                 }
-                await service.UpdateAsync(mapper.Map<Recipe>(updateRecipe), token);
+                var toUpdate = RecipeFormatter.Format(mapper.Map<Recipe>(updateRecipe));
+                await service.UpdateAsync(toUpdate, token);
                 return Results.NoContent();
             });
         app.MapPost(
@@ -66,7 +78,7 @@ public static class RecipeEndpointsExtensions
                 CancellationToken token) =>
             {
                 recipe.AuthorId = context.User.Claims.First(t => t.Type == ClaimConstants.Name).Value.ToString();
-                var entity = mapper.Map<Recipe>(recipe);
+                var entity = RecipeFormatter.Format(mapper.Map<Recipe>(recipe));
                 await service.CreateAsync(entity, token);
 
                 return Results.Created($"/api/recipe/{entity.Id}", entity);

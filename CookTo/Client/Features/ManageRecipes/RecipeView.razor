@@ -2,12 +2,7 @@
 @inject IRecipeManager RecipeManager
 <PageTitle>@RecipeDto.Title</PageTitle>
 
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">@RecipeDto.Title</li>
-    </ol>
-</nav>
+<BreadCrumb PageName="@RecipeDto.Title"/>
 
 @if(_isLoading)
 {

@@ -1,0 +1,43 @@
+﻿
+<div class="col-4">
+    <BlazoredTypeahead MaximumSuggestions=3 id="ingredientInput"
+                       SearchMethod="SearchIngredients"
+                       @bind-Value="Part.Ingredient"
+                       placeholder="Search for ingredient"
+                       EnableDropDown="false"
+                       AddItemOnEmptyResultMethod="HandleIngredientAdd">
+        <SelectedTemplate Context="ingredient">
+          @ingredient.Name
+        </SelectedTemplate>
+        <ResultTemplate Context="ingredient">
+            @ingredient.Name
+        </ResultTemplate>
+        <NotFoundTemplate Context="searchText">
+            Add "@searchText" as a new Ingredient <br />
+            new Ingredient will be selected after being added.
+        </NotFoundTemplate>
+    </BlazoredTypeahead>
+    <ValidationMessage For="@(() =>  Part.Ingredient)" />
+
+</div>
+@code {
+    [Parameter] public PartIngredient Part { get; set; }
+    [Parameter] public IIngredientManager IngredientManager { get; set; }
+    [Parameter] public IList<IngredientDto> Ingredients{ get; set; }
+    
+    private async Task<IEnumerable<IngredientDto>> SearchIngredients(string searchText)
+    {
+        return await Task.FromResult(Ingredients.Where(x => x.Name.ToLower().Contains(searchText.ToLower())).ToList());
+    }
+
+    private async Task<IngredientDto> HandleIngredientAdd(string searchAdd)
+    {
+        var result = await IngredientManager.Insert(new IngredientDto() { Name = searchAdd.ToLower() });
+        if (result is not null)
+        {
+            Ingredients.Add(result as IngredientDto);
+        }
+        return await Task.FromResult(result);
+    }
+
+}

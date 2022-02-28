@@ -4,13 +4,7 @@
 @inject IRecipeManager RecipeManager
 
 <PageTitle>Edit Recipe - CookTo</PageTitle>
-
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Edit Recipe</li>
-    </ol>
-</nav>
+<BreadCrumb PageName="Edit Recipe"/>
 @if(_isLoading)
 {
     <p>Loading Recipe</p>

@@ -1,4 +1,5 @@
 using Blazored.LocalStorage;
+using Blazored.Modal;
 using CookTo.Client;
 using CookTo.Client.Managers;
 using CookTo.Client.Managers.Interfaces;
@@ -31,13 +32,15 @@ builder.Services
         });
 
 builder.Services.AddAuthorizationCore();
-
+builder.Services.AddBlazoredModal();
 
 builder.Services.AddScoped<IIngredientManager, IngredientManager>();
 builder.Services.AddScoped<IUtensilManager, UtensilManager>();
 builder.Services.AddScoped<IRecipeManager, RecipeManager>();
 builder.Services.AddScoped<IFavoritesManager, FavoritesManager>();
 builder.Services.AddScoped<IUploadImageManager, UploadImageManager>();
+builder.Services.AddScoped<ICuisineManager, CuisineManager>();
+
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddScoped<AppState>();
 await builder.Build().RunAsync();

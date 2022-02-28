@@ -1,4 +1,5 @@
 ﻿using CookTo.Shared.Enums;
+using CookTo.Shared.Features.ManageCuisine;
 
 namespace CookTo.Shared.Features.ManageRecipes;
 
@@ -8,7 +9,7 @@ public class RecipeDto
 
     public string Title { get; set; }
 
-    public string Cuisine { get; set; }
+    public CuisineDto Cuisine { get; set; }
 
     public Category Category { get; set; }
 

@@ -5,26 +5,16 @@
         @foreach (var utensil in Recipe.Utensils)
         {
               <div class="row gy-1 gx-1 align-items-center mb-2">
-                   <FormInputGroup Id="utenRequiredAmount" Label="Amount" Width="col-auto" Margins="mb-2" >                
-                    <input type="number" id="utenSelect" min=1 class="form-control "    @bind="utensil.RequiredAmount" />
+                   <FormInputGroup Id="utenRequiredAmount" Label="Amount" Width="col-auto"  >                
+                    <input type="number" id="utenSelect" min=1 class="form-control "  @bind="utensil.RequiredAmount" />
                     <ValidationMessage For="@(() => utensil.RequiredAmount)" />
                </FormInputGroup>
 
-                <FormInputGroup Id="utenSelect" Label="Utensil" Width="col-auto" Margins="mb-2 " >   
-                    <InputSelect id="utenSelect" class="form-control "@bind-Value="utensil.UtensilName">
-                        <option>Select Utensil...</option>
-                        @foreach (var _utensil in Utensils)
-                        {
-                        <option value="@_utensil.UtensilName">@_utensil.UtensilName</option>
-                        }
-                </InputSelect>
-                <ValidationMessage For="@(() => utensil.UtensilName)" />
-                    </FormInputGroup>
-                 <div class="col-sm-1">
+              <UtensilTypeahead Part="utensil" UtensilManager="Manager" Utensils="Utensils" />
+               
+              <div class="col-sm-1">
                     <button class="btn link-danger " @onclick="@(() => Recipe.Utensils.Remove(utensil))" type="button"><i class="bi bi-dash-circle"></i></button>
                 </div>
-           
-            
             </div>  
         }
         <div class="row">
@@ -39,13 +29,13 @@
 
 @code {
     [Parameter] public RecipeDto Recipe { get; set; }
-    public IEnumerable<UtensilDto>? Utensils { get; set; } = new List<UtensilDto>();
-
+    public IList<UtensilDto>? Utensils { get; set; } = new List<UtensilDto>();
 
     protected override async Task OnInitializedAsync()
     {
         Utensils = await Manager.GetAll();
     }
+       
 
-   
+ 
 }

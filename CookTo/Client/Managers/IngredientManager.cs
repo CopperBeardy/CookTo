@@ -11,7 +11,7 @@ public class IngredientManager : IIngredientManager
 
     public IngredientManager(IHttpClientFactory factory) => _factory = factory;
 
-    public async Task<IEnumerable<IngredientDto>> GetAll()
+    public async Task<List<IngredientDto>> GetAll()
     {
         try
         {
@@ -20,8 +20,7 @@ public class IngredientManager : IIngredientManager
             var content = await result.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<List<IngredientDto>>(content);
             return response;
-        }
-        catch (HttpRequestException)
+        } catch(HttpRequestException)
         {
             return default!;
         }
@@ -37,14 +36,13 @@ public class IngredientManager : IIngredientManager
             var content = await result.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<IngredientDto>(content);
             return response;
-        }
-        catch (HttpRequestException)
+        } catch(HttpRequestException)
         {
             return default!;
         }
     }
 
-    public async Task<string> Insert(IngredientDto entity)
+    public async Task<IngredientDto> Insert(IngredientDto entity)
     {
         try
         {
@@ -53,10 +51,9 @@ public class IngredientManager : IIngredientManager
             var result = await httpClient.PostAsJsonAsync(_url, entity, new CancellationToken());
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
-            var response = JsonConvert.DeserializeObject<string>(content);
+            var response = JsonConvert.DeserializeObject<IngredientDto>(content);
             return response;
-        }
-        catch (Exception)
+        } catch(Exception)
         {
             throw;
         }
@@ -73,8 +70,7 @@ public class IngredientManager : IIngredientManager
             var content = await result.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<string>(content);
             return response;
-        }
-        catch (Exception)
+        } catch(Exception)
         {
             throw;
         }

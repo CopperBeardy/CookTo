@@ -1,0 +1,17 @@
+﻿@page "/search/{SearchTerm}"
+
+
+@code {
+    private IEnumerable<RecipeSummaryDto> _searchResults;
+
+    [Parameter]public string SearchTerm { get; set; }
+    [Parameter, SupplyParameterFromQuery]public int? MaxPrepTime{ get; set; }
+    [Parameter, SupplyParameterFromQuery]public int? MaxCookTime{ get; set; }
+    [Parameter, SupplyParameterFromQuery]public Category Category{ get; set; }
+    [Parameter, SupplyParameterFromQuery]public CuisineDto? Cuisine{ get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        var Recipes = 
+    }
+}

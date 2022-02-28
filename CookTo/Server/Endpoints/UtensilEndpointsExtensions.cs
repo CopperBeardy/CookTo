@@ -1,5 +1,6 @@
 using AutoMapper;
 using CookTo.Server.Documents.UtensilDocument;
+using CookTo.Server.Helpers;
 using CookTo.Server.Services.Interfaces;
 using CookTo.Shared.Features.ManageUtensils;
 
@@ -20,8 +21,9 @@ public static class UtensilEndpointsExtensions
             "/api/utensil",
             async (UtensilDto utensil, IUtensilService service, IMapper mapper, CancellationToken token) =>
             {
-                await service.CreateAsync(mapper.Map<Utensil>(utensil), token);
-                return Results.Ok(utensil.Id);
+                var   newUtensil = UtensilFormatter.Format(mapper.Map<Utensil>(utensil));
+                await service.CreateAsync(newUtensil, token);
+                return Results.Ok(mapper.Map<UtensilDto>(newUtensil));
             });
     }
 }

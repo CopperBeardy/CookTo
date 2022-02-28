@@ -4,13 +4,8 @@
 @inject IRecipeManager RecipeManager
 
 <PageTitle>Add Recipe - CookTo</PageTitle>
+<BreadCrumb PageName="Add Recipe"/>
 
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Add Recipe</li>
-    </ol>
-</nav>
 
 @if (_submitSuccessful)
 {
@@ -30,8 +25,7 @@ else if (_errorMessage is not null)
     private RecipeForm _recipeForm;
 
     private async Task SubmitNewRecipe(RecipeDto recipe,IBrowserFile image)
-    {       
-      
+    {    
         var recipeResponse = await RecipeManager.Insert(recipe);
         if (recipeResponse == null)
         {

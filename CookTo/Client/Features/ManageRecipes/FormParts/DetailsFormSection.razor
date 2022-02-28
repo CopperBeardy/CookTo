@@ -51,10 +51,9 @@
         <InputNumber min=0 @bind-Value="Recipe.Serves" class="form-control" id="serves" />
         <ValidationMessage For="@(() => Recipe.Serves)" />
     </FormInputGroup>
-    <FormInputGroup Width="col-6" Id="cuisine" Label="Cuisine" Margins="mb-2" >
-        <InputText @bind-Value="Recipe.Cuisine" class="form-control" id="cuisine" />
-        <ValidationMessage For="@(() => Recipe.Cuisine)" />
-    </FormInputGroup>
+    
+    <CuisineTypeahead Cuisine="Recipe.Cuisine" />
+
     @*add dietary*@
 </FormSection>
 

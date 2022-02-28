@@ -1,4 +1,5 @@
 ﻿using CookTo.Shared.Enums;
+using CookTo.Shared.Features.ManageIngredients;
 
 namespace CookTo.Shared.Features.ManageRecipes;
 
@@ -10,7 +11,7 @@ public class PartIngredient
     public MeasureUnit Unit { get; set; }
 
 
-    public string IngredientName { get; set; }
+    public IngredientDto Ingredient { get; set; }
 
 
     public string? AdditionalInformation { get; set; }

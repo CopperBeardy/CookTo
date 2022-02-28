@@ -1,0 +1,40 @@
+﻿@inject ICuisineManager CuisineManager
+<div class="col-4">
+    <BlazoredTypeahead MaximumSuggestions=3 id="cuisineInput"
+                       SearchMethod="SearchCuisines"
+                       @bind-Value="Cuisine"
+                       placeholder="Search for cuisine type"
+                       EnableDropDown="false"
+                       AddItemOnEmptyResultMethod="HandleCuisineAdd">
+        <SelectedTemplate Context="item">
+          @item.Name
+        </SelectedTemplate>
+        <ResultTemplate Context="item">
+            @item.Name
+        </ResultTemplate>
+        <NotFoundTemplate Context="searchText">
+            Add "@searchText" as a new Cuisine <br />
+            new Cuisine will be selected after being added.
+        </NotFoundTemplate>
+    </BlazoredTypeahead>
+    <ValidationMessage For="@(() =>  Cuisine)" />
+
+</div>
+@code {
+    [Parameter] public CuisineDto? Cuisine { get; set; }
+    public IList<CuisineDto> Cuisines { get; set; } = new List<CuisineDto>();
+
+    protected override async Task OnInitializedAsync() => Cuisines = await CuisineManager.GetAll();
+
+    private async Task<IEnumerable<CuisineDto>> SearchCuisines(string searchText) => await Task.FromResult(Cuisines.Where(x => x.Name.ToLower().Contains(searchText.ToLower())).ToList());
+
+    private async Task<CuisineDto> HandleCuisineAdd(string searchAdd)
+    {
+        var result = await CuisineManager.Insert(new CuisineDto() { Name = searchAdd.ToLower() });
+        if (result is not null)
+        {
+            Cuisines.Add(result as CuisineDto);
+        }
+        return await Task.FromResult(result);
+    }
+}

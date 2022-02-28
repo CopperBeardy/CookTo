@@ -1,9 +1,5 @@
 ﻿using CookTo.Shared.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CookTo.Shared.Features.ManageCuisine;
 
 namespace CookTo.Shared.Features.ManageRecipes;
 
@@ -16,6 +12,7 @@ public record RecipeSummaryDto
     int PrepTimeTo,
     int CookTimeFrom,
     int CookTimeTo,
+    CuisineDto Cuisine,
     string ImageFileName,
     string Author
 );

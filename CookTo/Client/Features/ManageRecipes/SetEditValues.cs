@@ -8,7 +8,7 @@ public static class SetEditValues
     {
         var editRecipe = new RecipeDto();
 
-        if (recipe != null)
+        if(recipe != null)
         {
             editRecipe.Id = recipe.Id;
             editRecipe.Title = recipe.Title;
@@ -37,7 +37,7 @@ public static class SetEditValues
         editRecipe.Utensils
             .AddRange(
                 recipe.Utensils
-                    .Select(ut => new UtensilPart { RequiredAmount = ut.RequiredAmount, UtensilName = ut.UtensilName }));
+                    .Select(ut => new UtensilPart { RequiredAmount = ut.RequiredAmount, Utensil = ut.Utensil }));
 
         editRecipe.Tips = recipe.Tips != null ? recipe.Tips : new List<string>();
         return editRecipe;
@@ -48,7 +48,7 @@ public static class SetEditValues
         {
             Amount = ing.Amount,
             Unit = ing.Unit,
-            IngredientName = ing.IngredientName,
+            Ingredient = ing.Ingredient,
             AdditionalInformation = ing.AdditionalInformation
         })
         .ToList();

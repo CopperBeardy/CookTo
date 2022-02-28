@@ -1,5 +1,6 @@
 ﻿@inject AppState AppState
 <h3 class="mt-5 mb-4">Add a Recipe</h3>
+<h7><span style="color: darkred">*</span>please use fractions (1/2) not decimal numbers (2.4) when part numbers are required</h7>
 <EditForm OnValidSubmit="SubmitForm" EditContext="_editContext">
     <FluentValidationValidator />    
     <FormStateTracker />
@@ -7,7 +8,7 @@
         <FormSection Title="Image"
                      HelpText="Image to show the what finsih recipe will look like">
          
-                <FormInputGroup Id="recipeImage" Label="Image" Width="col-5" >   
+                <div class="col-5" >   
                
                 @if (string.IsNullOrWhiteSpace(_recipe.Image))
                 {
@@ -22,7 +23,7 @@
                     </div>
                 </div>
                 }
-            </FormInputGroup>
+            </div>
         </FormSection>
         <RecipePartsFormSection Recipe=" _recipe"/>
         <UtensilsFormSection Recipe=" _recipe"/>

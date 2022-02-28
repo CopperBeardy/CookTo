@@ -19,33 +19,24 @@
                 @foreach (var ingred in part.Items)
                 {
                     <div class="row gy-1 gx-1 align-items-center mb-2">
-                        <FormInputGroup Id="quantityInput" Label="Quantity" Width="col-auto">
+                        <FormInputGroup Id="quantityInput" Label="Quantity" Width="col-2">
                             <input type="number" min=0 id="quantityInput" class="form-control  " @bind="ingred.Amount" />
                             <ValidationMessage For="@(() =>  ingred.Amount)" />
                         </FormInputGroup>
 
-                        <FormInputGroup Id="measureUnitSelect" Label="Unit" Width="col-auto">
+                        <FormInputGroup Id="measureUnitSelect" Label="Unit" Width="col-2">
                             <InputSelect id="measureUnitSelect" class="form-control " @bind-Value="ingred.Unit">
                                 @foreach (var unit in Enum.GetValues(typeof(MeasureUnit)))
                                 {
                             <option value="@unit">@unit</option>
                                 }
-                    </InputSelect>
-                    <ValidationMessage For="@(() =>  ingred.Unit)" />
-                </FormInputGroup>
-
-                <FormInputGroup Id="ingredientSelect" Label="Ingredient" Width="col-auto">
-                    <InputSelect id="ingredientSelect" class="form-control " @bind-Value="ingred.IngredientName">
-                        <option>Select Ingredient...</option>
-                        @foreach (var ing in Ingredients)
-                                {
-                            <option value="@ing.Name">@ing.Name</option>
-                                }
-                    </InputSelect>
-                    <ValidationMessage For="@(() =>  ingred.IngredientName)" />
-                </FormInputGroup>
-
-                <FormInputGroup Id="descriptionInput" Label="Description" Width="col-auto">
+                                </InputSelect>
+                                <ValidationMessage For="@(() =>  ingred.Unit)" />
+                          </FormInputGroup>
+                                          
+                     <IngredientTypeahead Part="ingred" IngredientManager="Manager" Ingredients="Ingredients" />
+             
+                     <FormInputGroup Id="descriptionInput" Label="Description" Width="col-auto">
                     <InputText id="decsriptionInput" class="form-control " placeholder="additional information" @bind-Value="ingred.AdditionalInformation" />
                     <ValidationMessage For="@(() =>  ingred.AdditionalInformation)" />
                 </FormInputGroup>
@@ -68,12 +59,12 @@
 
 @code {
     [Parameter] public RecipeDto Recipe { get; set; }
-    public IEnumerable<IngredientDto> Ingredients { get; set; } = new List<IngredientDto>();
+    public IList<IngredientDto> Ingredients { get; set; } = new List<IngredientDto>();
 
     protected override async Task OnInitializedAsync()
     {
         Ingredients = await Manager.GetAll();
         StateHasChanged();
     }
-
+    
 }

@@ -1,7 +1,10 @@
 ﻿    <div class="@Width @Margins">
-        <div class="@GroupSize">            
-                <label for="@Id" class="input-group-text">@Label</label>          
-            @ChildContent     
+        <div class="@GroupSize ">     
+        @if(!string.IsNullOrEmpty(Label))
+        {
+            <label for="@Id" class="input-group-text">@Label</label>
+        }
+        @ChildContent     
         
         </div>
     </div>

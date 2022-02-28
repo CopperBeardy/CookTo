@@ -11,7 +11,7 @@ public class UtensilManager : IUtensilManager
 
     public UtensilManager(IHttpClientFactory factory) => _factory = factory;
 
-    public async Task<IEnumerable<UtensilDto>> GetAll()
+    public async Task<IList<UtensilDto>> GetAll()
     {
         try
         {
@@ -22,8 +22,7 @@ public class UtensilManager : IUtensilManager
             var content = await result.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<List<UtensilDto>>(content);
             return response;
-        }
-        catch (HttpRequestException)
+        } catch(HttpRequestException)
         {
             return default!;
         }
@@ -40,8 +39,7 @@ public class UtensilManager : IUtensilManager
             var content = await result.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<UtensilDto>(content);
             return response;
-        }
-        catch (Exception)
+        } catch(Exception)
         {
             throw;
         }

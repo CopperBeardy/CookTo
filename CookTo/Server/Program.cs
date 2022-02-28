@@ -23,6 +23,7 @@ builder.Services.AddScoped<IIngredientService, IngredientService>();
 builder.Services.AddScoped<IRecipeService, RecipeService>();
 builder.Services.AddScoped<IFavoriteService, FavoritesService>();
 builder.Services.AddScoped<IUtensilService, UtensilService>();
+builder.Services.AddScoped<CookTo.Server.Services.Interfaces.ICuisineService, CuisineService>();
 builder.Services
     .AddCors(
         policy =>
@@ -44,6 +45,7 @@ var mapperConfiguration = new MapperConfiguration(
         config.AddProfile(new FavoritesProfile());
         config.AddProfile(new IngredientProfile());
         config.AddProfile(new UtensilProfile());
+        config.AddProfile(new CuisineProfile());
     });
 var mapper = mapperConfiguration.CreateMapper();
 builder.Services.AddSingleton(mapper);
@@ -67,6 +69,7 @@ app.UtensilEndpoints();
 app.FavoritesEndpoints();
 app.RecipeEndpoints();
 app.UploadImageEndpoints();
+app.CuisineEndpoints();
 
 app.UseHttpsRedirection();
 

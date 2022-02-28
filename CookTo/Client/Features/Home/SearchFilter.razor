@@ -1,0 +1,87 @@
+﻿@using CookTo.Shared.Features.ManageCuisine
+@inject NavigationManager NavManager
+
+<div class="filters">
+    <label for="maxPrepTime">Max Prep Time (mins)</label>
+    <input id="maxPrepTime"
+           type="number"
+           class="form-control"
+           @bind="_maxPrepTime" />
+    <label for="maxCookTime">Max Cook Time (mins)</label>
+    <input id="maxCookTime"
+           type="number"
+           class="form-control"
+           @bind="_maxCookTime" />
+    <label for="category">Category</label>
+    <select>
+         <InputSelect TValue="Category" @bind-Value="Recipe.Category" class="form-control" id="category">
+            @foreach (var category in Enum.GetValues(typeof(Category)))
+            {
+                <option value="@Enum.GetName(typeof(Category),category)">@category</option>
+            }
+        </InputSelect>
+    </select>
+
+    <label for="cuisines">Cuisine</label>
+    <select>
+         <InputSelect TValue="Category" @bind-Value="Recipe.Category" class="form-control" id="category">
+            @foreach (var category in Enum.GetValues(typeof(Category)))
+            {
+                <option value="@Enum.GetName(typeof(Category),category)">@category</option>
+            }
+        </InputSelect>
+    </select>
+
+    <button class="btn btn-outline-primary"
+            @onclick="FilterSearchResults">
+        Filter
+    </button>
+    <button class="btn btn-outline-secondary"
+            @onclick="ClearSearchFilter">
+        Clear
+    </button>
+</div>
+
+@code {
+    private int _maxPrepTime;
+    private int _maxCookTime;
+    private Category _category;
+    private CuisineDto _cuisine;
+
+    [Parameter, EditorRequired] public string SearchTerm { get; set; } = default!;
+    [Parameter] public int? MaxPrepTime { get; set; }
+    [Parameter] public int? MaxCookTime { get; set; }
+    [Parameter] public string Category { get; set; } 
+    [Parameter] public string Cuisine { get; set; } 
+
+    protected override void OnInitialized()
+    {
+        _maxPrepTime = MaxPrepTime ?? 0;
+        _maxCookTime =MaxCookTime ?? 0;
+        if(!string.IsNullOrEmpty(Category))
+        {
+            _category = (Category)Enum.Parse(typeof(Category),Category,true);
+        }
+        _category = Category ?? string.Empty;
+        _cuisine = Cuisine ?? string;
+    }
+
+    private void FilterSearchResults()
+    {
+        var uriWithQuerystring = NavManager.GetUriWithQueryParameters(new Dictionary<string, object?>()
+        {
+            [nameof(SearchPage.MaxLength)] = _maxLength == 0 ? null : _maxLength,
+            [nameof(SearchPage.MaxTime)] = _maxTime == 0 ? null : _maxTime
+        });
+
+        NavManager.NavigateTo(uriWithQuerystring);
+    }
+
+    private void ClearSearchFilter()
+    {
+        _maxLength = 0;
+        _maxTime = 0;
+
+        NavManager.NavigateTo($"/search/{SearchTerm}");
+    }
+}

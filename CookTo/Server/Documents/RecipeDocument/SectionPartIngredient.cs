@@ -1,4 +1,6 @@
-﻿namespace CookTo.Server.Documents.RecipeDocument;
+﻿using CookTo.Server.Documents.IngredientDocument;
+
+namespace CookTo.Server.Documents.RecipeDocument;
 
 
 public class SectionPartIngredient
@@ -9,8 +11,8 @@ public class SectionPartIngredient
     [BsonElement("unit")]
     public MeasureUnit Unit { get; set; }
 
-    [BsonElement("ingredient_name")]
-    public string IngredientName { get; set; }
+    [BsonElement("ingredient")]
+    public Ingredient Ingredient { get; set; }
 
     [BsonElement("additional_information")]
     public string? AdditionalInformation { get; set; }
