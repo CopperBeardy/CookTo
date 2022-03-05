@@ -15,6 +15,11 @@ public static class IngredientEndpointsExtensions
             async (IIngredientService service, IMapper mapper, CancellationToken token) =>
             {
                 var ingredients = await service.GetAllAsync(token);
+                if(!ingredients.Any())
+                {
+                    await service.Seed();
+                    ingredients = await service.GetAllAsync(token);
+                }
                 return Results.Ok(mapper.Map<List<IngredientDto>>(ingredients));
             });
 

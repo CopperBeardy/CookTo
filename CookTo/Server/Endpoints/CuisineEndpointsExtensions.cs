@@ -15,6 +15,11 @@ public static class CuisineEndpointsExtensions
             async (ICuisineService service, IMapper mapper, CancellationToken token) =>
             {
                 var cuisines = await service.GetAllAsync(token);
+                if(!cuisines.Any())
+                {
+                    service.Seed();
+                    cuisines = await service.GetAllAsync(token);
+                }
                 return Results.Ok(mapper.Map<List<CuisineDto>>(cuisines));
             });
 
@@ -25,7 +30,7 @@ public static class CuisineEndpointsExtensions
                 var cuisine = await service.GetByIdAsync(id, token);
                 if(cuisine is null)
                 {
-                    return Results.BadRequest("Ingredient was not found");
+                    return Results.BadRequest("Cuisine was not found");
                 }
 
                 var response = mapper.Map<CuisineDto>(cuisine);

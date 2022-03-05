@@ -20,7 +20,8 @@ public static class SetEditValues
             editRecipe.CookTimeFrom = recipe.CookTimeFrom;
             editRecipe.CookTimeTo = recipe.CookTimeTo;
             editRecipe.Serves = recipe.Serves;
-            editRecipe.AuthorId = recipe.AuthorId;
+            editRecipe.Creator = string.IsNullOrEmpty(recipe.Creator) ? string.Empty : recipe.Creator;
+            editRecipe.AddedBy = recipe.AddedBy;
             editRecipe.RecipeParts.Clear();
             editRecipe.RecipeParts
                 .AddRange(

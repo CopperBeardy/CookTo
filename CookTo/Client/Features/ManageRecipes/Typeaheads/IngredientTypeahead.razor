@@ -4,20 +4,25 @@
                        SearchMethod="SearchIngredients"
                        @bind-Value="Part.Ingredient"
                        placeholder="Search for ingredient"
+                        role="combobox"
+                       aria-required="true"
+                       aria-expanded="false"
+                       aria-controls="true"
+                       aria-haspopup="true" 
                        EnableDropDown="false"
                        AddItemOnEmptyResultMethod="HandleIngredientAdd">
         <SelectedTemplate Context="ingredient">
-          @ingredient.Name
+         <span role="menuitem"> @ingredient.Name</span>
         </SelectedTemplate>
-        <ResultTemplate Context="ingredient">
+        <ResultTemplate Context="ingredient">           
             @ingredient.Name
         </ResultTemplate>
         <NotFoundTemplate Context="searchText">
-            Add "@searchText" as a new Ingredient <br />
-            new Ingredient will be selected after being added.
+           <span role="menuitem">Add "@searchText" as a new Ingredient <br />
+            new Ingredient will be selected after being added.</span> 
         </NotFoundTemplate>
     </BlazoredTypeahead>
-    <ValidationMessage For="@(() =>  Part.Ingredient)" />
+    <ValidationMessage aria-alert="true" For="@(() =>  Part.Ingredient)" />
 
 </div>
 @code {

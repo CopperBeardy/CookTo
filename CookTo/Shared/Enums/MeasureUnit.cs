@@ -2,7 +2,8 @@
 
 public enum MeasureUnit
 {
-    _,
+    Select_Unit,
+    NoUnit,
     ml,
     l,
     g,

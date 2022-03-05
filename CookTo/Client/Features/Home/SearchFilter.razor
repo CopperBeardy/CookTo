@@ -1,87 +1,69 @@
-﻿@using CookTo.Shared.Features.ManageCuisine
-@inject NavigationManager NavManager
+﻿@inject ICuisineManager CuisineManager
+@inject ICategoryManager CategoryManager
 
 <div class="filters">
-    <label for="maxPrepTime">Max Prep Time (mins)</label>
-    <input id="maxPrepTime"
-           type="number"
-           class="form-control"
-           @bind="_maxPrepTime" />
-    <label for="maxCookTime">Max Cook Time (mins)</label>
-    <input id="maxCookTime"
-           type="number"
-           class="form-control"
-           @bind="_maxCookTime" />
+
     <label for="category">Category</label>
-    <select>
-         <InputSelect TValue="Category" @bind-Value="Recipe.Category" class="form-control" id="category">
-            @foreach (var category in Enum.GetValues(typeof(Category)))
-            {
-                <option value="@Enum.GetName(typeof(Category),category)">@category</option>
-            }
-        </InputSelect>
+    <select aria-menu="menu" @bind="Filter.Category" class="form-control" id="category">
+        @foreach (var category in _categories)
+        {
+            <option aria-role="menuitem" value="@category">@category</option>
+        }
     </select>
 
     <label for="cuisines">Cuisine</label>
-    <select>
-         <InputSelect TValue="Category" @bind-Value="Recipe.Category" class="form-control" id="category">
-            @foreach (var category in Enum.GetValues(typeof(Category)))
-            {
-                <option value="@Enum.GetName(typeof(Category),category)">@category</option>
-            }
-        </InputSelect>
+    <select aria-role="menu" @bind="Filter.Cuisine" class=form-control id="category">
+        @foreach (var cuisine in _cuisines)
+        {
+            <option aria-role="menuitem" value="@cuisine">@cuisine</option>
+        }
     </select>
 
-    <button class="btn btn-outline-primary"
+    <button aria-label="filterResults" class="btn btn-outline-primary"
             @onclick="FilterSearchResults">
         Filter
     </button>
-    <button class="btn btn-outline-secondary"
+    <button aria-label="clearFilters" class="btn btn-outline-secondary"
             @onclick="ClearSearchFilter">
         Clear
     </button>
+
 </div>
 
+
 @code {
-    private int _maxPrepTime;
-    private int _maxCookTime;
-    private Category _category;
-    private CuisineDto _cuisine;
+    private Filter Filter { get; set; } = new Filter();
+    private IList<string> _cuisines = new List<string>();
+    private IList<string> _categories = new List<string>();
 
-    [Parameter, EditorRequired] public string SearchTerm { get; set; } = default!;
-    [Parameter] public int? MaxPrepTime { get; set; }
-    [Parameter] public int? MaxCookTime { get; set; }
-    [Parameter] public string Category { get; set; } 
-    [Parameter] public string Cuisine { get; set; } 
+    [Parameter] public EventCallback<Filter> FilterChanged { get; set; }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        _maxPrepTime = MaxPrepTime ?? 0;
-        _maxCookTime =MaxCookTime ?? 0;
-        if(!string.IsNullOrEmpty(Category))
+        var categoryResonse = await CategoryManager.GetAll();
+        foreach (var cat in categoryResonse)
         {
-            _category = (Category)Enum.Parse(typeof(Category),Category,true);
+            _categories.Add(cat.Name);
         }
-        _category = Category ?? string.Empty;
-        _cuisine = Cuisine ?? string;
+
+        var cuisineResponse = await CuisineManager.GetAll();
+        foreach (var cuisine in cuisineResponse)
+        {
+            _cuisines.Add(cuisine.Name);
+        }
+
+        await InvokeAsync(StateHasChanged);
     }
 
     private void FilterSearchResults()
     {
-        var uriWithQuerystring = NavManager.GetUriWithQueryParameters(new Dictionary<string, object?>()
-        {
-            [nameof(SearchPage.MaxLength)] = _maxLength == 0 ? null : _maxLength,
-            [nameof(SearchPage.MaxTime)] = _maxTime == 0 ? null : _maxTime
-        });
-
-        NavManager.NavigateTo(uriWithQuerystring);
+        FilterChanged.InvokeAsync(Filter);
     }
 
     private void ClearSearchFilter()
     {
-        _maxLength = 0;
-        _maxTime = 0;
-
-        NavManager.NavigateTo($"/search/{SearchTerm}");
+        Filter.Category = null;
+        Filter.Cuisine = null;
+        FilterSearchResults();
     }
 }

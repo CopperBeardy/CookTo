@@ -1,11 +1,11 @@
 ﻿@*Component layout used here is the same as  in the book - Blazor in Action by Chris Sainty*@
 
-<div class="card card-brand mb-4 shadow">
+<div class="card card-brand mb-4 shadow" aria-label="formsection">
     <div class="card-body">
         <div class="row">
             <div class="col-4">
-                <h4>@Title</h4>
-                <p class="text-secondary">@HelpText</p>
+                <h4 aria-label="Form Section @Title">@Title</h4>
+                <p class="text-muted">@HelpText</p>
             </div>
             <div class="col-8">
                 @ChildContent

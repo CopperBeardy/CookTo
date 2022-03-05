@@ -1,58 +1,30 @@
-﻿
-<FormSection Title="Details"
-             HelpText="This information is for giving a breif overview of the recipe">
+﻿<FormSection Title="Details"
+             HelpText="This information is for giving a breif overview of the recipe" >    
 
-    <FormInputGroup Width="col-6" Id="recipeTitle" Label="Title" Margins="mb-2" >
-        <InputText @bind-Value="Recipe.Title" class="form-control" id="recipeTitle" />
-        <ValidationMessage For="@(() => Recipe.Title)" />
+    <FormInputGroup Width="col col-sm-8"  Id="recipeTitle" Label="Title" Margins="mb-2" >
+        <InputText @bind-Value="Recipe.Title" aria-required="true" class="form-control" id="recipeTitle" />
+        <ValidationMessage aria-alert="true"  For="@(() => Recipe.Title)" />
     </FormInputGroup>
-    <FormInputGroup Width="col-6" Id="category" Label="Category" Margins="mb-2" >
-        <InputSelect TValue="Category" @bind-Value="Recipe.Category" class="form-control" id="category">
-            @foreach (var category in Enum.GetValues(typeof(Category)))
-            {
-                <option value="@Enum.GetName(typeof(Category),category)">@category</option>
-            }
-        </InputSelect>
-        <ValidationMessage For="@(() => Recipe.Category)" />
-    </FormInputGroup>
-    <FormInputGroup Id="recipeDescription" Width="col-auto" Label="Description" Margins="mb-2" >
-        <InputTextArea @bind-Value="Recipe.Description" rows="6" class="form-control" id="recipeDescription" />
-        <ValidationMessage For="@(() => Recipe.Description)" />
-    </FormInputGroup>
-    <div class="mb-2 ml-3">
-        <h6>Preperation Times (mins)</h6>
-        <div class="row gy-1 gx-1 align-items-center">
-            <FormInputGroup Width="col-2" Id="prepTimeFrom" Label="From" Margins="mb-2" >
-                <InputNumber min=0 @bind-Value="Recipe.PrepTimeFrom" class="form-control" id="prepTimeFrom" />
-            </FormInputGroup>
-            <FormInputGroup Width="col-2" Id="prepTimeTo" Label="To" Margins="mb-2" >
-                <InputNumber min=0 @bind-Value="Recipe.PrepTimeTo" class="form-control" id="prepTimeTo" />
-            </FormInputGroup>
-        </div>
-        <ValidationMessage For="@(() => Recipe.PrepTimeFrom)" />
-        <ValidationMessage For="@(() => Recipe.PrepTimeTo)" />
-    </div>
-
-    <div class="mb-2 ml-3">
-        <h6>Cooking Times (mins)</h6>
-        <div class="row gy-1 gx-1 align-items-center ">
-            <FormInputGroup Width="col-2" Id="cookTimeFrom" Label="From" Margins="mb-2" >
-                <InputNumber min=0 @bind-Value="Recipe.CookTimeFrom" class="form-control" id="cookingTimeFrom" />
-            </FormInputGroup>
-            <FormInputGroup Width="col-2" Id="cookTimeTo" Label="To" Margins="mb-2" >
-                <InputNumber min=0 @bind-Value="Recipe.CookTimeTo" class="form-control" id="cookingTimeTo" />
-            </FormInputGroup>
-        </div>
-        <ValidationMessage For="@(() => Recipe.CookTimeFrom)" />
-        <ValidationMessage For="@(() => Recipe.CookTimeTo)" />
-    </div>
-
-    <FormInputGroup Width="col-4" Id="serves" Label="Serves" Margins="mb-2" >
-        <InputNumber min=0 @bind-Value="Recipe.Serves" class="form-control" id="serves" />
-        <ValidationMessage For="@(() => Recipe.Serves)" />
-    </FormInputGroup>
+   
+    <CategoryTypeahead Recipe="Recipe" />
     
-    <CuisineTypeahead Cuisine="Recipe.Cuisine" />
+
+    <FormInputGroup Width="col col-sm-12" Id="recipeDescription"  Label="Description" Margins="mb-2" >
+        <InputTextArea aria-multiline="true" aria-required="true" @bind-Value="Recipe.Description" rows="6" class="form-control" id="recipeDescription" />
+        <ValidationMessage aria-alert="true"  For="@(() => Recipe.Description)" />
+    </FormInputGroup>
+
+    <FormInputGroup Width="col col-sm-4" Id="serves" Label="Serves" Margins="mb-2" >
+        <InputNumber min=0 aria-required="true" @bind-Value="Recipe.Serves" class="form-control" id="serves" />
+        <ValidationMessage aria-alert="true" For="@(() => Recipe.Serves)" />
+    </FormInputGroup>
+
+    
+    <FormInputGroup Width="col col-sm-8"  Id="recipeCreator" Label="Creator" Margins="mb-2" >
+        <InputText @bind-Value="Recipe.Creator" class="form-control" id="recipeCreator" />      
+    </FormInputGroup>
+
+    <CuisineTypeahead Recipe="Recipe" />
 
     @*add dietary*@
 </FormSection>

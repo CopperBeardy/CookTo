@@ -14,8 +14,13 @@ public static class UtensilEndpointsExtensions
             "/api/utensil",
             async (IUtensilService service, IMapper mapper, CancellationToken token) =>
             {
-                var ingredients = await service.GetAllAsync(token);
-                return Results.Ok(mapper.Map<List<UtensilDto>>(ingredients));
+                var utensils = await service.GetAllAsync(token);
+                if(!utensils.Any())
+                {
+                    await service.Seed();
+                    utensils = await service.GetAllAsync(token);
+                }
+                return Results.Ok(mapper.Map<List<UtensilDto>>(utensils));
             });
         app.MapPost(
             "/api/utensil",

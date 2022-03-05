@@ -2,26 +2,31 @@
 <div class="col-4">
     <BlazoredTypeahead MaximumSuggestions=3 id="cuisineInput"
                        SearchMethod="SearchCuisines"
-                       @bind-Value="Cuisine"
+                       @bind-Value="Recipe.Cuisine"
                        placeholder="Search for cuisine type"
+                       role="combobox"
+                       aria-required="true"
+                       aria-expanded="false"
+                       aria-controls="true"
+                      aria-haspopup="true" 
                        EnableDropDown="false"
                        AddItemOnEmptyResultMethod="HandleCuisineAdd">
         <SelectedTemplate Context="item">
-          @item.Name
+         <span role="menuitem">@item.Name</span> 
         </SelectedTemplate>
         <ResultTemplate Context="item">
             @item.Name
         </ResultTemplate>
         <NotFoundTemplate Context="searchText">
-            Add "@searchText" as a new Cuisine <br />
-            new Cuisine will be selected after being added.
+            <span role="menuitem">Add "@searchText" as a new Cuisine <br />
+            new Cuisine will be selected after being added.</span>
         </NotFoundTemplate>
     </BlazoredTypeahead>
-    <ValidationMessage For="@(() =>  Cuisine)" />
+    <ValidationMessage aria-alert="true" For="@(() =>  Recipe.Cuisine)" />
 
 </div>
 @code {
-    [Parameter] public CuisineDto? Cuisine { get; set; }
+    [Parameter] public RecipeDto Recipe { get; set; }
     public IList<CuisineDto> Cuisines { get; set; } = new List<CuisineDto>();
 
     protected override async Task OnInitializedAsync() => Cuisines = await CuisineManager.GetAll();

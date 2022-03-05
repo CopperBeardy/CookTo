@@ -1,4 +1,5 @@
 ﻿using CookTo.Shared.Enums;
+using CookTo.Shared.Features.ManageCategory;
 using CookTo.Shared.Features.ManageCuisine;
 
 namespace CookTo.Shared.Features.ManageRecipes;
@@ -11,7 +12,7 @@ public class RecipeDto
 
     public CuisineDto Cuisine { get; set; }
 
-    public Category Category { get; set; }
+    public CategoryDto Category { get; set; }
 
     public string Description { get; set; }
 
@@ -27,7 +28,9 @@ public class RecipeDto
 
     public int Serves { get; set; }
 
-    public string AuthorId { get; set; }
+    public string? Creator { get; set; }
+
+    public string AddedBy { get; set; }
 
     public List<Dietary> Dietaries { get; set; }
 

@@ -1,58 +1,44 @@
 ﻿@page "/"
-@inject IRecipeManager RecipeManager
-@inject NavigationManager NavigationManager
-
+@inject IRecipeSummaryManager RecipeSummaryManager
 <PageTitle>CookTo Recipes</PageTitle>
 
-@if (_recipeSummaries == null)
+  
+
+@if (_recipeSummaries is null)
 {
-    <p>Loading recipes...</p>
+    <p>Recipes Loading</p>
 }
 else
 {
-    @if (_recipeSummaries.Any())
-    {
-        <div class="grid">
-        @foreach(var recipe in _recipeSummaries)
-        {
-            <RecipeCard RecipeSummary =recipe OnSelected="@HandleRecipeSelected"/>
-        }
-        </div>
+     <HighlightedRecipeJumbotron  />
+     <div class="row mt-5">
+         <div role="list" class="grid">
+             @foreach(var recipe in _recipeSummaries)
+             {       
+                 <RecipeCard RecipeSummary="@recipe" />
+             }
+             </div> 
+      </div>
+   
         <div class="mb-4 mt-4">
-            <p class="font-italic text-center">Have a recipe to share <a href="add-recipe">Add Recipe here</a>.</p>
+            <p class="font-italic text-center">Have a recipe to share <a aria-label="navAddRecipe" href="add-recipe">Add Recipe here</a>.</p>
         </div>
-
-        
-    }
-    else
-    {
-        <div class="no-recipes mt-4">            
-            <h3 class="text-muted font-weight-light">We currently don't have any recipes, <a href="add-recipe">add recipe</a></h3>
-        </div>
-    }
-}
+   }
 
 @code {
-    private IEnumerable<RecipeSummaryDto>? _recipeSummaries;
-
-
+    private IEnumerable<RecipeSummaryDto>? _recipeSummaries= new List<RecipeSummaryDto>();
+  
     protected override async Task OnInitializedAsync()
     {
         try
-        {       
-            _recipeSummaries =  await RecipeManager.GetAll();
+        {    
+            _recipeSummaries =  await RecipeSummaryManager.GetCount(10);
+           
             await InvokeAsync(StateHasChanged);
-
         }
         catch (HttpRequestException ex)
         {
             Console.WriteLine($"There was a problem loading Recipe data: {ex.Message}");
         }
     }
-
-    private void HandleRecipeSelected(RecipeSummaryDto recipe)
-    {
-        
-    }
-    
 }

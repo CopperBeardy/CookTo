@@ -1,4 +1,5 @@
-﻿using CookTo.Server.Documents.CuisineDocument;
+﻿using CookTo.Server.Documents.CategoryDocument;
+using CookTo.Server.Documents.CuisineDocument;
 
 namespace CookTo.Server.Documents.RecipeDocument;
 
@@ -34,8 +35,11 @@ public class Recipe : BaseEntity
     [BsonElement("cuisine")]
     public Cuisine Cuisine { get; set; }
 
-    [BsonElement("author")]
-    public string AuthorId { get; set; }
+    [BsonElement("creator")]
+    public string? Creator { get; set; }
+
+    [BsonElement("addedBy")]
+    public string AddedBy { get; set; }
 
     [BsonElement("dietaries")]
     public List<Dietary> Dietaries { get; set; }

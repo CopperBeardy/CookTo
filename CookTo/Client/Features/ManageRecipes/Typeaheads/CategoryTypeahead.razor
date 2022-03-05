@@ -1,0 +1,46 @@
+﻿@using CookTo.Shared.Features.ManageCategory
+@inject ICategoryManager CategoryManager
+<div class="col-4">
+    <BlazoredTypeahead MaximumSuggestions=3 id="categoryInput"
+                       SearchMethod="SearchCategories"
+                       @bind-Value="Recipe.Category"
+                       placeholder="Search for Category"
+                       role="combobox"
+                       aria-required="true"
+                       aria-expanded="false"
+                       aria-controls="true"
+                      aria-haspopup="true" 
+                       EnableDropDown="false"
+                       AddItemOnEmptyResultMethod="HandleCategoryAdd">
+        <SelectedTemplate Context="item">
+         <span role="menuitem">@item.Name</span> 
+        </SelectedTemplate>
+        <ResultTemplate Context="item">
+            @item.Name
+        </ResultTemplate>
+        <NotFoundTemplate Context="searchText">
+            <span role="menuitem">Add "@searchText" as a new Category <br />
+            new Category will be selected after being added.</span>
+        </NotFoundTemplate>
+    </BlazoredTypeahead>
+    <ValidationMessage aria-alert="true" For="@(() =>  Recipe.Category)" />
+
+</div>
+@code {
+    [Parameter] public RecipeDto Recipe { get; set; }
+    public IList<CategoryDto> Categories { get; set; } = new List<CategoryDto>();
+
+    protected override async Task OnInitializedAsync() => Categories = await CategoryManager.GetAll();
+
+    private async Task<IEnumerable<CategoryDto>> SearchCategories(string searchText) => await Task.FromResult(Categories.Where(x => x.Name.ToLower().Contains(searchText.ToLower())).ToList());
+
+    private async Task<CategoryDto> HandleCategoryAdd(string searchAdd)
+    {
+        var result = await CategoryManager.Insert(new CategoryDto() { Name = searchAdd.ToLower() });
+        if (result is not null)
+        {
+            Categories.Add(result as CategoryDto);
+        }
+        return await Task.FromResult(result);
+    }
+}

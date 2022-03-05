@@ -18,7 +18,7 @@ public static class RecipeFormatter
             sb.Append(". ");
         }
         recipe.Description = sb.ToString().TrimEnd();
-
+        recipe.Creator = string.IsNullOrEmpty(recipe.Creator) ? string.Empty : ParseText.TitleCapitalize(recipe.Creator);
         foreach(var part in recipe.RecipeParts)
         {
             part.PartTitle = ParseText.TitleCapitalize(part.PartTitle);

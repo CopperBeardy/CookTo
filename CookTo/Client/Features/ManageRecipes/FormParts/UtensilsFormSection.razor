@@ -5,22 +5,22 @@
         @foreach (var utensil in Recipe.Utensils)
         {
               <div class="row gy-1 gx-1 align-items-center mb-2">
-                   <FormInputGroup Id="utenRequiredAmount" Label="Amount" Width="col-auto"  >                
-                    <input type="number" id="utenSelect" min=1 class="form-control "  @bind="utensil.RequiredAmount" />
-                    <ValidationMessage For="@(() => utensil.RequiredAmount)" />
+                   <FormInputGroup Id="utenRequiredAmount" Label="Amount" Width="col-sm-3"  >                
+                    <InputNumber aria-required="true"  id="utensilRequiredAmount" min=1 class="form-control "  @bind-Value="utensil.RequiredAmount" />
+                    <ValidationMessage aria-alert="true" For="@(() => utensil.RequiredAmount)" />
                </FormInputGroup>
 
-              <UtensilTypeahead Part="utensil" UtensilManager="Manager" Utensils="Utensils" />
+              <UtensilTypeahead Part="utensil" UtensilManager="Manager"  Utensils="Utensils" />
                
               <div class="col-sm-1">
-                    <button class="btn link-danger " @onclick="@(() => Recipe.Utensils.Remove(utensil))" type="button"><i class="bi bi-dash-circle"></i></button>
+                    <button role="button" aria-label="removeUtensil" class="btn link-danger " @onclick="@(() => Recipe.Utensils.Remove(utensil))" type="button"><i class="bi bi-dash-circle"></i></button>
                 </div>
             </div>  
         }
         <div class="row">
             <div class="col">
-                <button class="btn btn-outline-primary" type="button" @onclick="@(() => Recipe.Utensils.Add(new UtensilPart()))">Add  </button>
-                <ValidationMessage For="@(() => Recipe.Utensils)" />
+                <button role="button" aria-label="addNewUtensil" class="btn btn-outline-primary" type="button" @onclick="@(() => Recipe.Utensils.Add(new UtensilPart()))">Add  </button>
+                <ValidationMessage aria-label="true" For="@(() => Recipe.Utensils)" />
             </div>
         </div>
 

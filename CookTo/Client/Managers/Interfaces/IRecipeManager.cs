@@ -5,8 +5,6 @@ namespace CookTo.Client.Managers.Interfaces;
 
 public interface IRecipeManager
 {
-    Task<IEnumerable<RecipeSummaryDto>> GetAll();
-
     Task<RecipeDto> GetById(string id);
 
     Task<RecipeDto> Insert(RecipeDto recipe);

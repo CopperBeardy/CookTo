@@ -3,20 +3,25 @@
                             SearchMethod="SearchUtensils"                                                                  
                                                                   @bind-Value="Part.Utensil"
                                                                   placeholder= "Search for utensil"
+                                                                   role="combobox"
+                                                                   aria-required="true"
+                                                                   aria-expanded="false"
+                                                                   aria-controls="true"
+                                                                   aria-haspopup="true" 
                                                                  EnableDropDown="false"
                                                                   AddItemOnEmptyResultMethod="HandleIngredientAdd" >
                                                                       <SelectedTemplate Context="utensil"  >
-                                                                       @utensil.UtensilName
+                                                                      <span role="menuitem"> @utensil.UtensilName</span>
                                                                       </SelectedTemplate>
                                                                   <ResultTemplate Context="utensil">
                                                                         @utensil.UtensilName                                                                
                                                                   </ResultTemplate>
                                                                   <NotFoundTemplate Context="searchText">
-                                                                        Add "@searchText" as a new utensil <br />
-                                                                         new utensil will be selected after being added.
+                                                                      <span role="menuitem" >  Add "@searchText" as a new utensil <br />
+                                                                         new utensil will be selected after being added.</span>
                                                                  </NotFoundTemplate>
                             </BlazoredTypeahead>               
-                            <ValidationMessage For="@(() =>  Part.Utensil)" />
+                            <ValidationMessage aria-alert="true" For="@(() =>  Part.Utensil)" />
 
                             </div>
         

@@ -2,6 +2,7 @@ using AutoMapper;
 using CookTo.Server.Documents.RecipeDocument;
 using CookTo.Server.Helpers;
 using CookTo.Server.Services.Interfaces;
+using CookTo.Shared.Features.ManageCategory;
 using CookTo.Shared.Features.ManageCuisine;
 using CookTo.Shared.Features.ManageRecipes;
 using Microsoft.Identity.Web;
@@ -13,30 +14,6 @@ public static class RecipeEndpointsExtensions
     public static void RecipeEndpoints(this WebApplication app)
     {
         app.MapGet(
-            "/api/recipe",
-            async (IRecipeService service, IMapper mapper, CancellationToken token) =>
-            {
-                var recipes = await service.GetAllAsync(token);
-                List<RecipeSummaryDto> recipeSummaries = new List<RecipeSummaryDto>();
-                foreach(var recipe in recipes)
-                {
-                    recipeSummaries.Add(
-                        new RecipeSummaryDto(
-                            recipe.Id,
-                            recipe.Category,
-                            recipe.Title,
-                            recipe.PrepTimeFrom,
-                            recipe.PrepTimeTo,
-                            recipe.CookTimeFrom,
-                            recipe.CookTimeFrom,
-                            mapper.Map<CuisineDto>(recipe.Cuisine),
-                            recipe.Image,
-                            recipe.AuthorId));
-                }
-                return Results.Ok(recipeSummaries);
-            });
-
-        app.MapGet(
             "/api/recipe/{id}",
             async (string id, IRecipeService service, IMapper mapper, CancellationToken token) =>
             {
@@ -46,13 +23,6 @@ public static class RecipeEndpointsExtensions
                     return Results.BadRequest("Recipe was not found");
                 }
                 return Results.Ok(mapper.Map<RecipeDto>(recipe));
-            });
-
-        app.MapGet(
-            "/api/search/{term}",
-            async (string term, IRecipeService service, IMapper mapper, CancellationToken token) =>
-            {
-                var recipes = string.Empty;
             });
 
         app.MapPut(
@@ -77,7 +47,7 @@ public static class RecipeEndpointsExtensions
                 HttpContext context,
                 CancellationToken token) =>
             {
-                recipe.AuthorId = context.User.Claims.First(t => t.Type == ClaimConstants.Name).Value.ToString();
+                recipe.AddedBy = context.User.Claims.First(t => t.Type == ClaimConstants.Name).Value.ToString();
                 var entity = RecipeFormatter.Format(mapper.Map<Recipe>(recipe));
                 await service.CreateAsync(entity, token);
 

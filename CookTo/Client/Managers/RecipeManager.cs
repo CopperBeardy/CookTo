@@ -23,29 +23,12 @@ public class RecipeManager : IRecipeManager
             var content = await result.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<RecipeDto>(content);
             return response;
-        }
-        catch (Exception)
+        } catch(Exception)
         {
             return default!;
         }
     }
 
-    public async Task<IEnumerable<RecipeSummaryDto>> GetAll()
-    {
-        try
-        {
-            var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
-            var result = await httpClient.GetAsync(_url, new CancellationToken());
-            result.EnsureSuccessStatusCode();
-            var content = await result.Content.ReadAsStringAsync();
-            var response = JsonConvert.DeserializeObject<List<RecipeSummaryDto>>(content);
-            return response;
-        }
-        catch (Exception)
-        {
-            return default!;
-        }
-    }
 
     public async Task<RecipeDto> Insert(RecipeDto recipe)
     {
@@ -57,8 +40,7 @@ public class RecipeManager : IRecipeManager
             var content = await result.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<RecipeDto>(content);
             return response;
-        }
-        catch (Exception)
+        } catch(Exception)
         {
             throw;
         }
@@ -72,8 +54,7 @@ public class RecipeManager : IRecipeManager
             var result = await httpClient.PutAsJsonAsync(_url, recipeToUpdate, new CancellationToken());
             result.EnsureSuccessStatusCode();
             return true;
-        }
-        catch (Exception)
+        } catch(Exception)
         {
             throw;
         }

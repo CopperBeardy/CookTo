@@ -1,10 +1,10 @@
-﻿
-using CookTo.Server.Documents.UtensilDocument;
+﻿using CookTo.Server.Documents.IngredientDocument;
 
 namespace CookTo.Server.Services.Interfaces;
 
-public interface IUtensilService : IBaseService<Utensil>
+public interface IIngredientService : IBaseService<Ingredient>
 {
+    Task Seed();
 }
 
 

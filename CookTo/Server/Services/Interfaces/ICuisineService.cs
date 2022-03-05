@@ -2,6 +2,7 @@
 
 namespace CookTo.Server.Services.Interfaces;
 
-public interface ICuisineService:IBaseService<Cuisine>
+public interface ICuisineService : IBaseService<Cuisine>
 {
+    Task Seed();
 }

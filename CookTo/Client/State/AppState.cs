@@ -9,6 +9,7 @@ public class AppState
 
     public NewRecipeState NewRecipeState { get; }
 
+
     public AppState(ILocalStorageService localStorageService, IFavoritesManager favoritesManager)
     { NewRecipeState = new NewRecipeState(); }
 
