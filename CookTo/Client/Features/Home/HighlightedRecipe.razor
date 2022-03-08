@@ -1,0 +1,51 @@
+﻿@using CookTo.Client.Managers.Interfaces
+@inject NavigationManager NavManager
+@inject IHighlightedRecipeManager HighlightedRecipeManager
+
+<div class="card shadow p-3">
+
+    <div class="row">
+        <div class="col col-sm-6">
+            <img alt="Image of @Highlighted.Title Recipe " src="@(!string.IsNullOrWhiteSpace(Highlighted.Image) ? $"images/{Highlighted.Image}" : "https://via.placeholder.com/286x190.jpg?text=No+Image+For+Trail")" class="card-img-top ">
+        </div>
+
+        <div class="col col-sm-6 d-flex flex-column">
+            <h3>@Highlighted.Title</h3>
+            <h6 class=" mb-3 text-muted"><span class="bi bi-grid mr-2"></span>  @Highlighted.Category.Name</h6>
+            <p> Approx Prep Time : @Highlighted.MaxPrepTime</p>
+            <p> Approx Cook Time : @Highlighted.MaxCookTime</p>
+            <p>@Highlighted.description</p>
+
+            @if (!string.IsNullOrEmpty(Highlighted.Creator))
+            {
+                <p><span class="bi bi-person-circle mr-2"></span> Created by: @Highlighted.Creator</p>
+            }
+            <p><span class="bi bi-person-circle mr-2"></span> Added by: @Highlighted.AddedBy </p>
+
+            <div class="d-flex flex-row-reverse gap-1">
+                <button aria-label="viewRecipe" class="btn btn-primary" title="View" @onclick="@(async () => NavManager.NavigateTo($"/recipe/{Highlighted.Id}"))">
+                    <i class="bi bi-file-earmark-text"></i>
+                </button>
+                @* <FavoriteButton RecipeId="@Highlighted.RecipeId"  />*@
+                <AuthorizeView>
+                    @if (Highlighted.AddedBy.Equals(context.User?.Identity?.Name, StringComparison.CurrentCultureIgnoreCase) || context.User.IsInRole("Administrator"))
+                    {
+                        <button aria-Label="editRecipe" class="btn btn-outline-secondary float-right" title="Edit" @onclick="@(() => NavManager.NavigateTo($"/edit-recipe/{Highlighted.Id}"))">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                    }
+                </AuthorizeView>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private HighlightedRecipeDto Highlighted = new HighlightedRecipeDto();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Highlighted = await HighlightedRecipeManager.GetHighlighted();
+       
+    }
+}

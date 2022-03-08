@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.31911.260
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookTo.Server", "CookTo\Server\CookTo.Server.csproj", "{9EA542D7-19B7-4969-A1D5-999CA0D76443}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookTo.Server", "CookTo\Server\CookTo.Server.csproj", "{9EA542D7-19B7-4969-A1D5-999CA0D76443}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookTo.Client", "CookTo\Client\CookTo.Client.csproj", "{4818DE6F-4918-432E-8942-740667E235ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookTo.Client", "CookTo\Client\CookTo.Client.csproj", "{4818DE6F-4918-432E-8942-740667E235ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookTo.Shared", "CookTo\Shared\CookTo.Shared.csproj", "{29832D91-600C-4F43-B05B-FB528E841DDF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookTo.Tests", "CookTo.Tests\CookTo.Tests.csproj", "{DDDDCEFF-37DB-4EBC-B778-D4E25CA534B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookTo.Shared", "CookTo\Shared\CookTo.Shared.csproj", "{29832D91-600C-4F43-B05B-FB528E841DDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +27,6 @@ Global
 		{29832D91-600C-4F43-B05B-FB528E841DDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29832D91-600C-4F43-B05B-FB528E841DDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29832D91-600C-4F43-B05B-FB528E841DDF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DDDDCEFF-37DB-4EBC-B778-D4E25CA534B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DDDDCEFF-37DB-4EBC-B778-D4E25CA534B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DDDDCEFF-37DB-4EBC-B778-D4E25CA534B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DDDDCEFF-37DB-4EBC-B778-D4E25CA534B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

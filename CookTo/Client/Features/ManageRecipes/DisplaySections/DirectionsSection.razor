@@ -1,0 +1,20 @@
+﻿
+<div>
+    <h4><strong>Recipe Method</strong></h4>
+  
+        @foreach (var step in CookingSteps)
+        {
+            <p><span>@step.OrderNumber</span><span>. @step.StepDescription</span></p>
+        }
+
+</div>
+
+@code {
+    [Parameter] public List<CookingStep> CookingSteps { get; set; }
+    public List<string> FormattedCookingSteps = new List<string>();
+    protected override void OnInitialized()
+    {
+        CookingSteps.OrderBy(c => c.OrderNumber);
+        StateHasChanged();
+    }
+}

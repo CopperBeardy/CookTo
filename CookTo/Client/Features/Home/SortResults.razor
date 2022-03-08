@@ -1,0 +1,23 @@
+﻿
+<div class="sort">    
+    <label for="sortoptions" >SORT</label>   
+    <select aria-role="menu"   class="form-control"  id="sortoptions" onchange="@HandleChange">       
+        <option aria-role="menuitem" value="@SortOptions.TitleAsc" >Title 🠕</option>
+        <option aria-role="menuitem" value="@SortOptions.TitleDesc"> Title 🠗 </option>
+        <option aria-role="menuitem" value="@SortOptions.CategoryAsc"> Category 🠕</option>
+        <option aria-role="menuitem" value="@SortOptions.CategoryDesc"> Category 🠗</option>
+        <option aria-role="menuitem" value="@SortOptions.CuisineAsc"> Cuisine 🠕</option>
+        <option aria-role="menuitem" value="@SortOptions.CuisineDesc"> Cuisine 🠗</option>
+    </select>
+</div>
+@code {
+    public SortOptions _selectedOption { get; set; } = SortOptions.TitleAsc;
+
+    [Parameter] public EventCallback<SortOptions> SortChanged { get; set; }
+
+    private async Task HandleChange(ChangeEventArgs e)
+    {
+        _selectedOption = (SortOptions)e.Value;
+        await SortChanged.InvokeAsync(_selectedOption);
+    }
+}

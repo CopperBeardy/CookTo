@@ -1,0 +1,69 @@
+﻿@inject CuisineManager CuisineManager
+@inject CategoryManager CategoryManager
+
+<div class="filters">
+
+    <label for="category">Category</label>
+    <select aria-menu="menu" @bind="Filter.Category" class="form-control" id="category">
+        @foreach (var category in _categories)
+        {
+            <option aria-role="menuitem" value="@category">@category</option>
+        }
+    </select>
+
+    <label for="cuisines">Cuisine</label>
+    <select aria-role="menu" @bind="Filter.Cuisine" class=form-control id="category">
+        @foreach (var cuisine in _cuisines)
+        {
+            <option aria-role="menuitem" value="@cuisine">@cuisine</option>
+        }
+    </select>
+
+    <button aria-label="filterResults" class="btn btn-outline-primary"
+            @onclick="FilterSearchResults">
+        Filter
+    </button>
+    <button aria-label="clearFilters" class="btn btn-outline-secondary"
+            @onclick="ClearSearchFilter">
+        Clear
+    </button>
+
+</div>
+
+
+@code {
+    private Filter Filter { get; set; } = new Filter();
+    private IList<string> _cuisines = new List<string>();
+    private IList<string> _categories = new List<string>();
+
+    [Parameter] public EventCallback<Filter> FilterChanged { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var categoryResonse = await CategoryManager.GetAll();
+        foreach (var cat in categoryResonse)
+        {
+            _categories.Add(cat.Name);
+        }
+
+        var cuisineResponse = await CuisineManager.GetAll();
+        foreach (var cuisine in cuisineResponse)
+        {
+            _cuisines.Add(cuisine.Name);
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private void FilterSearchResults()
+    {
+        FilterChanged.InvokeAsync(Filter);
+    }
+
+    private void ClearSearchFilter()
+    {
+        Filter.Category = null;
+        Filter.Cuisine = null;
+        FilterSearchResults();
+    }
+}

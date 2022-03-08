@@ -1,0 +1,20 @@
+﻿    <div class="@Width @Margins">
+        <div class="@GroupSize ">     
+        @if(!string.IsNullOrEmpty(Label))
+        {
+            <label for="@Id" class="input-group-text">@Label</label>
+        }
+        @ChildContent     
+        
+        </div>
+    </div>
+
+@code {
+    [Parameter, EditorRequired] public RenderFragment ChildContent { get; set; } = default!;
+    [Parameter] public string Width { get; set; } = "col";
+    [Parameter] public string Margins { get; set; } = "";
+    [Parameter] public string GroupSize { get; set; } = "input-group";
+    [Parameter] public string? Id{ get; set; }
+    [Parameter] public string? Label{ get; set; }
+}
+

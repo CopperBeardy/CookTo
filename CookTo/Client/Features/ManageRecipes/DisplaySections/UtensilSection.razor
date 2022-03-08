@@ -1,0 +1,16 @@
+﻿ <div class="col col-sm-4 justify-content-center">
+ <h5><strong>Utensils</strong></h5>
+  </div>
+<div>
+    <ul style="list-style-type:none">
+        @foreach (var utensil in UtensilParts)
+       {
+           <li>@utensil.ToString()</li>
+       }
+    </ul>
+</div>
+
+@code {
+    [Parameter]public List<UtensilPart> UtensilParts{get;set;}
+
+}

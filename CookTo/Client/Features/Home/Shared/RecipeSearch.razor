@@ -1,0 +1,19 @@
+﻿@inject NavigationManager NavManager
+<div class="col-3">
+        <input @onkeydown="SearchForRecipe"
+               @bind="_searchTerm"
+               @bind:event="oninput"
+               type="text"
+               placeholder="Search for a recipe"
+               class="form-control" /> 
+</div>
+@code {
+    private string _searchTerm = "";
+
+    private void SearchForRecipe(KeyboardEventArgs args)
+    {
+        if (args.Key != "Enter") return;
+
+        NavManager.NavigateTo($"/search/{_searchTerm}");
+    }
+}

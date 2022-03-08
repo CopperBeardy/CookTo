@@ -1,0 +1,69 @@
+﻿
+<div class="col-4">
+    <BlazoredTypeahead MaximumSuggestions=3 id="ingredientInput"
+                       SearchMethod="SearchIngredients"
+                       @bind-Value="Part.Ingredient"
+                       placeholder="Search for ingredient"
+                        role="combobox"
+                       aria-required="true"
+                          aria-expanded="false"
+                       aria-controls="true"
+                       aria-haspopup="true" 
+                       EnableDropDown="false"
+                       AddItemOnEmptyResultMethod="HandleIngredientAdd">
+        <SelectedTemplate Context="ingredient">
+         <span role="menuitem"> @ingredient.Name</span>
+        </SelectedTemplate>
+        <ResultTemplate Context="ingredient">
+             
+            @ingredient.Name
+        </ResultTemplate>
+        <NotFoundTemplate Context="searchText">
+           <span role="menuitem">Add "@searchText" as a new Ingredient <br />
+            new Ingredient will be selected after being added.</span> 
+        </NotFoundTemplate>       
+    </BlazoredTypeahead>
+    <ValidationMessage aria-alert="true" For="@(() =>  Part.Ingredient)" />
+
+</div>
+@code {
+    [Parameter] public PartIngredient Part { get; set; }
+    [Parameter] public IngredientManager IngredientManager { get; set; }
+    [Parameter] public IList<IngredientDto> Ingredients{ get; set; }
+
+    private  IList<string> results;
+    private string searchTerm = string.Empty;
+    private async Task<IEnumerable<IngredientDto>> SearchIngredients(string searchText)
+    {
+        results = new List<string>();
+        searchTerm = searchText;
+        var ingred = await Task.FromResult(Ingredients.Where(x => x.Name.ToLower().Contains(searchText.ToLower())).ToList());
+        foreach(var ing in ingred)
+        {
+            results.Add(ing.Name);
+        }
+       
+        return ingred;
+    }
+
+    //private bool ContainMatch()
+    //{
+    //    var r = 
+    //    @if (r.Any()) 
+    //    {
+    //        return true;
+    //    }
+    //    return false;
+    //}
+
+    private async Task<IngredientDto> HandleIngredientAdd(string searchAdd)
+    {
+        var result = await IngredientManager.Insert(new IngredientDto() { Name = searchAdd.ToLower() });
+        if (result is not null)
+        {
+            Ingredients.Add(result as IngredientDto);
+        }
+        return await Task.FromResult(result);
+    }
+
+}

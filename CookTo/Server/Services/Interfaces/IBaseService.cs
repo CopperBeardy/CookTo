@@ -1,10 +1,16 @@
-﻿namespace CookTo.Server.Services.Interfaces;
+﻿using CookTo.Server.Documents;
+
+namespace CookTo.Server.Services.Interfaces;
 
 public interface IBaseService<TEntity> where TEntity : BaseEntity
 {
-	Task<List<TEntity>> GetAllAsync();
-	Task<TEntity> GetByIdAsync(string id);
-	Task CreateAsync(TEntity obj);
-	Task UpdateAsync(TEntity obj);
-	Task DeleteAsync(string id);
+    Task<List<TEntity>> GetAllAsync(CancellationToken token);
+
+    Task<TEntity> GetByIdAsync(string id, CancellationToken token);
+
+    Task CreateAsync(TEntity obj, CancellationToken token);
+
+    Task UpdateAsync(TEntity obj, CancellationToken token);
+
+    Task DeleteAsync(string id, CancellationToken token);
 }

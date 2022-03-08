@@ -1,19 +1,16 @@
-﻿using System;
-using System.Linq;
-
-namespace CookTo.Shared.Enums;
+﻿namespace CookTo.Shared.Enums;
 
 public enum MeasureUnit
 {
-	ml,
-	l,
-	g,
-	kg,
-	pinch,
-	tsp,
-	tbsp,
-	floz,
-	oz,
-	pint,
-	lb
+    Select_Unit,
+    NoUnit,
+    ml,
+    l,
+    g, 
+    pinch,
+    tsp,
+    tbsp, 
+    oz,
+    pint,
+    lb
 }

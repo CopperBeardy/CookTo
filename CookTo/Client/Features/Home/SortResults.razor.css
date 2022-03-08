@@ -1,0 +1,16 @@
+.sort {
+  display: flex;
+  align-items: baseline;
+  padding-right: 5px;
+  justify-content: flex-end;
+}
+.sort label {
+  text-transform: uppercase;
+  margin-right: 10px;
+}
+.sort select {
+  margin-right: 20px;
+  width: 100px;
+}
+
+/*# sourceMappingURL=SortResults.razor.css.map */

@@ -62,3 +62,8 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+ul {
+    list-style-type: none;
+    padding-inline-start: 0px;
+}

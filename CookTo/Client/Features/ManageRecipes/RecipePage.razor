@@ -1,0 +1,61 @@
+﻿@page "/recipe/{RecipeId}"
+
+@inject RecipeManager RecipeManager
+<PageTitle>@RecipeDto.Title</PageTitle>
+
+<BreadCrumb PageName="@RecipeDto.Title" />
+
+@if (_isLoading)
+{
+    <p>Loading Recipe</p>
+}
+else
+{
+    <div class="grid">
+        <div class="row">
+            <h2>@RecipeDto.Title</h2>
+        </div>
+        <div class="row mb-3">
+            <HeaderSection RecipeDto="@RecipeDto" />
+        </div>
+        <div class="row mb-3">
+            <div class="card shadow p-3 mt-3">
+                <div class="d-flex flex-row">
+                    <div class="col-sm-7">
+                        <DirectionsSection CookingSteps="@RecipeDto.CookingSteps" />
+                    </div>
+                    <div class="d-flex ms-4 me-4">
+                        <div class="vr"></div>
+                    </div>
+                    <div class="col-sm-4">
+                        <RecipePartsSection Parts="@RecipeDto.RecipeParts"/>
+                        <hr class="mb-2"/>                      
+                        <UtensilSection UtensilParts="@RecipeDto.Utensils" />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        @if (RecipeDto.Tips is not null )
+        {
+            <TipsSection Tips="@RecipeDto.Tips"  />
+        }
+    </div>
+}
+
+
+@code {
+    public RecipeDto RecipeDto = new();
+    private bool _isLoading = true;
+    [Parameter] public string RecipeId { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await RecipeManager.GetById(RecipeId);
+        if (response is null)
+        {
+
+        }
+        _isLoading = false;
+        RecipeDto = response;
+    }
+}
