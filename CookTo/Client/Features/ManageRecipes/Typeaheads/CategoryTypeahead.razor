@@ -1,6 +1,6 @@
-﻿@using CookTo.Shared.Features.ManageCategory
-@inject ICategoryManager CategoryManager
-<div class="col-4">
+﻿@inject CategoryManager CategoryManager
+
+<div class="col-4 mb-2">
     <BlazoredTypeahead MaximumSuggestions=3 id="categoryInput"
                        SearchMethod="SearchCategories"
                        @bind-Value="Recipe.Category"

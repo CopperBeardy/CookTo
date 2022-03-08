@@ -1,18 +1,12 @@
-using CookTo.Client.Managers.Interfaces;
 using CookTo.Shared.Features.ManageRecipes;
 using Newtonsoft.Json;
-
 
 namespace CookTo.Client.Managers;
 
 public class RecipeSummaryManager : IRecipeSummaryManager
 {
     private readonly IHttpClientFactory _factory;
-
-    private const string _url = "/api/recipes";
-
     public RecipeSummaryManager(IHttpClientFactory factory) { _factory = factory; }
-
 
     public async Task<IEnumerable<RecipeSummaryDto>> GetByTerm(string term)
     {

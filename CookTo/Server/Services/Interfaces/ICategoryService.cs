@@ -4,5 +4,4 @@ namespace CookTo.Server.Services.Interfaces;
 
 public interface ICategoryService : IBaseService<Category>
 {
-    Task Seed();
 }

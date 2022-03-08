@@ -15,11 +15,6 @@ public static class CuisineEndpointsExtensions
             async (ICuisineService service, IMapper mapper, CancellationToken token) =>
             {
                 var cuisines = await service.GetAllAsync(token);
-                if(!cuisines.Any())
-                {
-                    service.Seed();
-                    cuisines = await service.GetAllAsync(token);
-                }
                 return Results.Ok(mapper.Map<List<CuisineDto>>(cuisines));
             });
 

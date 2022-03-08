@@ -1,0 +1,13 @@
+﻿<div class="mb-4">
+    <div class="col col-sm-4 justify-content-center">
+    <h5><strong>Ingredients</strong></h5>
+    </div>
+    @foreach (var part in Parts)
+    {
+        <IngredientSection RecipePart="@part" />
+    }
+ </div>
+
+@code {
+    [Parameter] public List<RecipePart> Parts { get; set; }
+}

@@ -1,5 +1,4 @@
 ﻿using Blazored.LocalStorage;
-using CookTo.Client.Managers.Interfaces;
 
 namespace CookTo.Client.State;
 

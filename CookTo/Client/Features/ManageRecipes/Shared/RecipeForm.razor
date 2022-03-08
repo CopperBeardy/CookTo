@@ -1,61 +1,47 @@
 ﻿@inject AppState AppState
 <h3 class="mt-5 mb-4">Add a Recipe</h3>
 <EditForm OnValidSubmit="SubmitForm" EditContext="_editContext" aria-label="form">
-    <FluentValidationValidator />    
+    <FluentValidationValidator />
     <FormStateTracker />
 
-        <DetailsFormSection Recipe=" _recipe" />
-        <FormSection Title="Image"  HelpText="Image to show the what finsih recipe will look like" >         
-                <div class="col-5" >                  
-                @if (string.IsNullOrWhiteSpace(_recipe.Image))
-                {
-                    <InputFile OnChange="LoadRecipeImage" aria-required="true" class="form-control-file" aria-label="recipeImage" accept=".png, .jpg, .jpeg" />
-                }
-                else
-                {
-                     <div class="card bg-dark text-white">
-                         <img src="images/@_recipe.Image" />
-                         <div class="card-img-overlay">
-                             <button aria-label="removeImage" class="btn btn-primary btn-sm" @onclick="RemoveRecipeImage">Remove</button>
+    <DetailsFormSection Recipe=" _recipe" />
+    <FormSection Title="Image" HelpText="Image to show the what finsih recipe will look like">
+        <div class="col-5">
+            @if (string.IsNullOrWhiteSpace(_recipe.Image))
+            {
+                <InputFile OnChange="LoadRecipeImage" aria-required="true" class="form-control-file" aria-label="recipeImage" accept=".png, .jpg, .jpeg" />
+            }
+            else
+            {
+                <div class="card bg-dark text-white">
+                    <img src="images/@_recipe.Image" />
+                    <div class="card-img-overlay">
+                        <button aria-label="removeImage" class="btn btn-primary btn-sm" @onclick="RemoveRecipeImage">Remove</button>
                     </div>
                 </div>
-                }
-            </div>
-        </FormSection>
+            }
+        </div>
+    </FormSection>
 
-        <FormSection Title="Times" HelpText="Estimated times for preperation and cooking in minutes" >
-                 <FormInputGroup Width="col col-sm-4" Id="prepTimeFromTo" Label="Prep From/To" Margins="mb-2" >
-                <InputNumber aria-required="true" aria-label="prepTimeFrom"  min=0 @bind-Value="_recipe.PrepTimeFrom" class="form-control"  />
-                <InputNumber aria-required="true" aria-label="prepTimeTo" placeholder="To" min=0 @bind-Value="_recipe.PrepTimeTo" class="form-control"/>
-                <ValidationMessage aria-alert="true"  For="@(() => _recipe.PrepTimeFrom)" />
-                   <ValidationMessage aria-alert="true"  For="@(() => _recipe.PrepTimeTo)" />  
-             </FormInputGroup> 
+   <TimesSection Recipe="_recipe"/>
+    <RecipePartsFormSection Recipe=" _recipe" />
+    <UtensilsFormSection Recipe=" _recipe" />
+    <CookingStepsFormSection Recipe=" _recipe" />
+    <TipsFormSection Recipe=_recipe />
 
-            <FormInputGroup Width="col col-sm-4" Id="cookTimeFromTo" Label="Cook From/To" Margins="mb-2" >
-                <InputNumber aria-required="true" aria-label="cookTimeFrom" min=0 @bind-Value="_recipe.CookTimeFrom" class="form-control"  />
-                <InputNumber aria-required="true" aria-label="cookTimeTo" min=0 @bind-Value=" _recipe.CookTimeTo" class="form-control" />
-                <ValidationMessage aria-alert="true"  For="@(() => _recipe.CookTimeFrom)" />
-                    <ValidationMessage aria-alert="true"  For="@(() => _recipe.CookTimeTo)" />
-            </FormInputGroup>
-        </FormSection>
-        <RecipePartsFormSection Recipe=" _recipe"/>
-        <UtensilsFormSection Recipe=" _recipe"/>
-        <CookingStepsFormSection Recipe=" _recipe"/>
-        <TipsFormSection Recipe ="_recipe"/>
- 
 
     <div class="mt-4 mb-5">
         <div class="row">
             <div class="offset-4 col-8 text-right">
                 <button aria-label="resetRecipe" class="btn btn-outline-secondary" type="button" @onclick="@(() => _recipe = new RecipeDto())">Reset</button>
-                <button  class="btn btn-primary" type="submit">Submit</button>
+                <button class="btn btn-primary" type="submit">Submit</button>
             </div>
         </div>
     </div>
 </EditForm>
 
 @code {
-    private RecipeDto _recipe = new RecipeDto()  ;
+    private RecipeDto _recipe = new RecipeDto();
     private EditContext _editContext = default!;
     private IBrowserFile? _recipeImage;
 
@@ -63,7 +49,7 @@
     [Parameter] public RecipeDto Recipe { get; set; }
 
     protected override void OnParametersSet()
-    { 
+    {
         if (Recipe is not null)
         {
             _recipe = Recipe;
@@ -75,7 +61,7 @@
         _editContext = new EditContext(_recipe);
         _editContext.SetFieldCssClassProvider(new BootstrapCssClassProvider());
 
-    }   
+    }
 
     public void ResetForm()
     {
@@ -88,8 +74,8 @@
     private void LoadRecipeImage(InputFileChangeEventArgs args)
     {
         _recipeImage = args.File;
-       _recipe.ImageAction = ImageAction.Add;
-     
+        _recipe.ImageAction = ImageAction.Add;
+
     }
 
     private void RemoveRecipeImage()

@@ -1,0 +1,57 @@
+﻿@using System.Text;
+
+<div class="mb-2">
+ 
+<h7><strong>@RecipePart.PartTitle</strong> </h7>
+ 
+<ul style="list-style-type:none; padding-inline-start: 0px;">
+        @foreach (var item in Items)
+         {                                  
+             <li>@item</li>
+          }
+</ul>
+ </div>
+
+@code {
+    [Parameter]public RecipePart RecipePart{get;set;}
+    private List<string> Items = new List<string>();
+
+    protected override void OnInitialized()
+    {
+        foreach (var item in RecipePart.Items)
+        {
+            Items.Add(CreateListItem(item));
+        }
+    }
+
+    public string CreateListItem(PartIngredient partIngredient)
+    {
+        StringBuilder sBuilder = new StringBuilder();
+        if(partIngredient.Amount > 0)
+        {
+            sBuilder.Append(partIngredient.Amount);    
+
+            if(!partIngredient.Unit.Equals(MeasureUnit.NoUnit))
+            {
+                if (partIngredient.Unit.Equals(MeasureUnit.pinch))
+                {
+                    sBuilder.Append(" ");
+                }
+                sBuilder.Append(partIngredient.Unit.ToString());   
+            }
+
+            if(partIngredient.Unit.Equals(MeasureUnit.pint) && partIngredient.Amount >1)
+            {
+                sBuilder.Append("s");
+            }
+            sBuilder.Append(" "); 
+        }
+
+        sBuilder.Append(partIngredient.Ingredient.Name);
+        if (string.IsNullOrEmpty(partIngredient.AdditionalInformation));
+        {
+            sBuilder.Append($" {partIngredient.AdditionalInformation}");
+        }
+        return sBuilder.ToString();
+    }
+}

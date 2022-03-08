@@ -10,12 +10,16 @@ public static class RecipeFormatter
     {
         recipe.Title = ParseText.TitleCapitalize(recipe.Title);
 
-        var descriptionSentences = recipe.Description.Split('.');
+        var descriptionSentences = recipe.Description.Trim().Split('.');
         StringBuilder sb = new StringBuilder();
         foreach(var sentence in descriptionSentences)
         {
+            if(string.IsNullOrWhiteSpace(sentence))
+            {
+                continue;
+            }
             sb.Append(ParseText.FormatText(sentence));
-            sb.Append(". ");
+            sb.Append(".");
         }
         recipe.Description = sb.ToString().TrimEnd();
         recipe.Creator = string.IsNullOrEmpty(recipe.Creator) ? string.Empty : ParseText.TitleCapitalize(recipe.Creator);

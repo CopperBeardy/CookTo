@@ -7,7 +7,7 @@ public static class ParseText
 {
     public static string RemoveSpecialCharacters(this string input) => Regex.Replace(
         input,
-        @"[^\w\.\/ 0 - 9]|([ \t]\/*[ \t])",
+        @"[^\w\. \,\-\/ 0 - 9]|([ \t]\/*[ \t])",
         " ")
         .Trim();
 

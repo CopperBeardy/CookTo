@@ -6,7 +6,7 @@ namespace CookTo.Shared.Features.ManageRecipes;
 
 public class HighlightedRecipeDto
 {
-    public string RecipeId { get; set; } = string.Empty;
+    public string Id { get; set; }
 
     public CategoryDto Category { get; set; } = new CategoryDto();
 

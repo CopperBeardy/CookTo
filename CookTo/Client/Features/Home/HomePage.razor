@@ -1,16 +1,14 @@
 ﻿@page "/"
 @inject IRecipeSummaryManager RecipeSummaryManager
+
 <PageTitle>CookTo Recipes</PageTitle>
-
-  
-
-@if (_recipeSummaries is null)
+@if (_recipeSummaries is null || !_recipeSummaries.Any())
 {
     <p>Recipes Loading</p>
 }
 else
 {
-     <HighlightedRecipeJumbotron  />
+     <HighlightedRecipe  />
      <div class="row mt-5">
          <div role="list" class="grid">
              @foreach(var recipe in _recipeSummaries)
@@ -32,8 +30,7 @@ else
     {
         try
         {    
-            _recipeSummaries =  await RecipeSummaryManager.GetCount(10);
-           
+            _recipeSummaries =  await RecipeSummaryManager.GetCount(10);           
             await InvokeAsync(StateHasChanged);
         }
         catch (HttpRequestException ex)

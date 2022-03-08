@@ -18,12 +18,9 @@
     <p>Search results loading....</p>
 }
 else
-{
-  
+{  
     if (_filteredResults.Any())
     {
-     
-
         foreach (var summary in _filteredResults)
         {
             <RecipeCard RecipeSummary="@summary" />
@@ -43,7 +40,7 @@ else
     private IEnumerable<RecipeSummaryDto>? _searchResults = new List<RecipeSummaryDto>();
     private List<RecipeSummaryDto>? _filteredResults = new List<RecipeSummaryDto>();
     public SortOptions SortOption { get; set; } = SortOptions.TitleAsc;
-    private bool isLoading { get; set;} = true;
+    private bool isLoading  = true;
     [Parameter] public string SearchTerm { get; set; }
 
     protected override async Task OnInitializedAsync()

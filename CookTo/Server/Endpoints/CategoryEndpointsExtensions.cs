@@ -14,12 +14,6 @@ public static class CategoryEndpointsExtensions
             async (ICategoryService service, IMapper mapper, CancellationToken token) =>
             {
                 var categories = await service.GetAllAsync(token);
-                if(!categories.Any())
-                {
-                    service.Seed();
-                    categories = await service.GetAllAsync(token);
-                }
-
                 return Results.Ok(mapper.Map<List<CategoryDto>>(categories));
             });
 

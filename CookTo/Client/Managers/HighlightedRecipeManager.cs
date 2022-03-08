@@ -1,9 +1,9 @@
-using CookTo.Client.Managers.Interfaces;
 using CookTo.Shared.Features.ManageRecipes;
 using Newtonsoft.Json;
 
+namespace CookTo.Client.Managers;
 
-namespace CookTo.Client.Managers; public class HighlightedRecipeManager : IHighlightedRecipeManager
+public class HighlightedRecipeManager : IHighlightedRecipeManager
 {
     private readonly IHttpClientFactory _factory;
 
@@ -22,8 +22,7 @@ namespace CookTo.Client.Managers; public class HighlightedRecipeManager : IHighl
             var content = await result.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<HighlightedRecipeDto>(content);
             return response;
-        }
-        catch (Exception)
+        } catch(Exception)
         {
             return default!;
         }

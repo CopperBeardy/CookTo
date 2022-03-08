@@ -1,7 +1,6 @@
 using Blazored.LocalStorage;
 using CookTo.Client;
 using CookTo.Client.Managers;
-using CookTo.Client.Managers.Interfaces;
 using CookTo.Client.State;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
@@ -32,17 +31,18 @@ builder.Services
 
 builder.Services.AddAuthorizationCore();
 
-builder.Services.AddScoped<ICategoryManager, CategoryManager>();
-builder.Services.AddScoped<IIngredientManager, IngredientManager>();
-builder.Services.AddScoped<IUtensilManager, UtensilManager>();
-builder.Services.AddScoped<IRecipeManager, RecipeManager>();
+builder.Services.AddScoped<CategoryManager>();
+builder.Services.AddScoped<IngredientManager>();
+builder.Services.AddScoped<UtensilManager>();
+builder.Services.AddScoped<RecipeManager>();
+builder.Services.AddScoped<CuisineManager>();
 builder.Services.AddScoped<IHighlightedRecipeManager, HighlightedRecipeManager>();
 builder.Services.AddScoped<IRecipeSummaryManager, RecipeSummaryManager>();
 builder.Services.AddScoped<IFavoritesManager, FavoritesManager>();
 builder.Services.AddScoped<IUploadImageManager, UploadImageManager>();
-builder.Services.AddScoped<ICuisineManager, CuisineManager>();
 
+builder.Services.AddScoped<AppState>();
 
 builder.Services.AddBlazoredLocalStorage();
-builder.Services.AddScoped<AppState>();
+
 await builder.Build().RunAsync();

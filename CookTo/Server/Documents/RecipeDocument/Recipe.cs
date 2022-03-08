@@ -1,5 +1,6 @@
 ﻿using CookTo.Server.Documents.CategoryDocument;
 using CookTo.Server.Documents.CuisineDocument;
+using CookTo.Shared.Features.ManageRecipes;
 
 namespace CookTo.Server.Documents.RecipeDocument;
 
@@ -54,6 +55,6 @@ public class Recipe : BaseEntity
     public List<SectionCookingStep> CookingSteps { get; set; }
 
     [BsonElement("tips")]
-    public List<string>? Tips { get; set; }
+    public List<Tip>? Tips { get; set; }
 }
 

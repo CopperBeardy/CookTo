@@ -1,4 +1,4 @@
-﻿namespace CookTo.Client.Managers;
+﻿namespace CookTo.Client.Managers.Shared;
 
 public enum HttpClientType
 {

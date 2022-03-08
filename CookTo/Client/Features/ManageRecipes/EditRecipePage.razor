@@ -1,7 +1,7 @@
 @page "/edit-recipe/{RecipeId}"
 @attribute [Authorize]
 @inject IUploadImageManager ImageManager
-@inject IRecipeManager RecipeManager
+@inject RecipeManager RecipeManager
 
 <PageTitle>Edit Recipe - CookTo</PageTitle>
 <BreadCrumb PageName="Edit Recipe"/>
@@ -14,7 +14,7 @@ else
        <h3 class="mt-5 mb-4">Editing Recipe: @_recipe.Title</h3>
 @if (_submitSuccessful)
 {
-    <SuccessAlert Message="Your trail has been added successfully!" />
+    <SuccessAlert Message="Your recipe has been updated successfully!" />
 }
 else if (_errorMessage is not null)
 {
@@ -28,15 +28,16 @@ else if (_errorMessage is not null)
     private bool _submitSuccessful;
     private string? _errorMessage;
     private RecipeDto _recipe ;
-     
+
 
     [Parameter] public string RecipeId { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         _isLoading = true;
-       
-        _recipe = await RecipeManager.GetById(RecipeId);   
+
+        _recipe = await RecipeManager.GetById(RecipeId);
+        _isLoading = false;
     }
 
     private async Task SubmitEditRecipe(RecipeDto recipe,IBrowserFile image)

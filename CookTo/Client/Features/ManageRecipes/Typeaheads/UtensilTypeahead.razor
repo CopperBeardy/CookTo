@@ -28,7 +28,7 @@
                             
 @code {
     [Parameter]public UtensilPart Part{get;set;}
-    [Parameter]public IUtensilManager UtensilManager{get;set;}
+    [Parameter]public UtensilManager UtensilManager{get;set;}
     [Parameter]public IList<UtensilDto> Utensils{get;set;}
 
     private async Task<IEnumerable<UtensilDto>> SearchUtensils(string searchText) => await Task.FromResult(Utensils.Where(x => x.UtensilName.ToLower().Contains(searchText.ToLower())).ToList());

@@ -1,4 +1,3 @@
-using CookTo.Client.Managers.Interfaces;
 using CookTo.Shared.Features.ManageFavorites;
 using Newtonsoft.Json;
 
