@@ -2,7 +2,7 @@
         @foreach (var tip in Recipe.Tips)
         {
             <FormInputGroup Id="tipDescription" Label="Tip" Width="col-8" Margins="mb-2">
-                <InputText aria-required="true" @bind-Value="tip.Description" class="form-control" id="tipDescription" />
+                <InputTextArea role="textbox" aria-required="true" @bind-Value="tip.Description" class="form-control" id="tipDescription" />
                 <ValidationMessage aria-alert="true" For="@(() => tip)" />
             </FormInputGroup>
 

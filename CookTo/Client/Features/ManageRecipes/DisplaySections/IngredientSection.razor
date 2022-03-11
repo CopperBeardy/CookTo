@@ -1,8 +1,8 @@
 ﻿@using System.Text;
 
-<div class="mb-2">
+<section>
  
-<h7><strong>@RecipePart.PartTitle</strong> </h7>
+<h6><strong>@RecipePart.PartTitle</strong> </h6>
  
 <ul style="list-style-type:none; padding-inline-start: 0px;">
         @foreach (var item in Items)
@@ -10,7 +10,7 @@
              <li>@item</li>
           }
 </ul>
- </div>
+ </section>
 
 @code {
     [Parameter]public RecipePart RecipePart{get;set;}

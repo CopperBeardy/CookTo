@@ -16,7 +16,7 @@
                 </FormInputGroup>
 
                 <FormInputGroup Id="cookingStepDescription" Label="Description" Width="col-8" Margins="mb-2" >
-                    <InputText aria-required="true" @bind-Value="cookingStep.StepDescription" class="form-control" id="cookingStepDescription" />
+                    <InputTextArea role="textbox" aria-required="true" @bind-Value="cookingStep.StepDescription" class="form-control" id="cookingStepDescription" />
                     <ValidationMessage aria-alert="true" For="@(() => cookingStep.StepDescription)" />
                 </FormInputGroup>
 

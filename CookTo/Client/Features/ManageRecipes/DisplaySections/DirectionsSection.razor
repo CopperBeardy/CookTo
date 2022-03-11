@@ -10,7 +10,7 @@
 </div>
 
 @code {
-    [Parameter] public List<CookingStep> CookingSteps { get; set; }
+    [Parameter] public IReadOnlyList<CookingStep> CookingSteps { get; set; }
     public List<string> FormattedCookingSteps = new List<string>();
     protected override void OnInitialized()
     {
