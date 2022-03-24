@@ -1,15 +1,17 @@
 ﻿@inject AppState AppState
+
 <h3 class="mt-5 mb-4">Add a Recipe</h3>
 <EditForm OnValidSubmit="SubmitForm" EditContext="_editContext" aria-label="form">
     <FluentValidationValidator />
     <FormStateTracker />
 
     <DetailsFormSection Recipe=" _recipe" />
-    <FormSection Title="Image" HelpText="Image to show the what finsih recipe will look like">
+    <FormSection Title="Image" >
+       
         <div class="col-5">
             @if (string.IsNullOrWhiteSpace(_recipe.Image))
             {
-                <InputFile OnChange="LoadRecipeImage" aria-required="true" class="form-control-file" aria-label="recipeImage" accept=".png, .jpg, .jpeg" />
+                <InputFile OnChange="@LoadRecipeImage" aria-required="true" class="form-control-file" aria-label="recipeImage" accept=".png, .jpg, .jpeg" />
             }
             else
             {

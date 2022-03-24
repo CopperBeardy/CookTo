@@ -34,7 +34,7 @@ public static class FavoritesEndpointsExtensions
             async (FavoriteDto updateFavorite, IFavoriteService service, CancellationToken token) =>
             {
                 var favorites = await service.GetByIdAsync(updateFavorite.Username, token);
-                if(favorites is null)
+                if (favorites is null)
                 {
                     return Results.NotFound();
                 }

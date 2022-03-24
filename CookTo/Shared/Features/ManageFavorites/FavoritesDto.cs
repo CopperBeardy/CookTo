@@ -1,6 +1,4 @@
-﻿using CookTo.Shared.Features.ManageRecipes;
-
-namespace CookTo.Shared.Features.ManageFavorites;
+﻿namespace CookTo.Shared.Features.ManageFavorites;
 
 public class FavoritesDto
 {

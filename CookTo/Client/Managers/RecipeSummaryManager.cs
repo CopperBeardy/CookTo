@@ -18,7 +18,8 @@ public class RecipeSummaryManager : IRecipeSummaryManager
             var content = await result.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<List<RecipeSummaryDto>>(content);
             return response;
-        } catch(Exception)
+        }
+        catch (Exception)
         {
             return default!;
         }
@@ -34,7 +35,8 @@ public class RecipeSummaryManager : IRecipeSummaryManager
             var content = await result.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<List<RecipeSummaryDto>>(content);
             return response;
-        } catch(Exception)
+        }
+        catch (Exception)
         {
             return default!;
         }

@@ -1,9 +1,6 @@
 using AutoMapper;
 using CookTo.Server.Documents.RecipeDocument;
-using CookTo.Server.Helpers;
 using CookTo.Server.Services.Interfaces;
-using CookTo.Shared.Features.ManageCategory;
-using CookTo.Shared.Features.ManageCuisine;
 using CookTo.Shared.Features.ManageRecipes;
 using Microsoft.Identity.Web;
 
@@ -18,7 +15,7 @@ public static class RecipeEndpointsExtensions
             async (string id, IRecipeService service, IMapper mapper, CancellationToken token) =>
             {
                 var recipe = await service.GetByIdAsync(id, token);
-                if(recipe is null)
+                if (recipe is null)
                 {
                     return Results.BadRequest("Recipe was not found");
                 }
@@ -30,11 +27,11 @@ public static class RecipeEndpointsExtensions
             async (RecipeDto updateRecipe, IRecipeService service, IMapper mapper, CancellationToken token) =>
             {
                 var recipe = await service.GetByIdAsync(updateRecipe.Id, token);
-                if(recipe is null)
+                if (recipe is null)
                 {
                     return Results.NotFound();
                 }
-                var toUpdate = RecipeFormatter.Format(mapper.Map<Recipe>(updateRecipe));
+                var toUpdate = mapper.Map<Recipe>(updateRecipe);
                 await service.UpdateAsync(toUpdate, token);
                 return Results.NoContent();
             });
@@ -48,7 +45,7 @@ public static class RecipeEndpointsExtensions
                 CancellationToken token) =>
             {
                 recipe.AddedBy = context.User.Claims.First(t => t.Type == ClaimConstants.Name).Value.ToString();
-                var entity = RecipeFormatter.Format(mapper.Map<Recipe>(recipe));
+                var entity = mapper.Map<Recipe>(recipe);
                 await service.CreateAsync(entity, token);
 
                 return Results.Created($"/api/recipe/{entity.Id}", entity);
@@ -59,7 +56,7 @@ public static class RecipeEndpointsExtensions
             async (string id, IRecipeService service, CancellationToken token) =>
             {
                 var recipe = service.GetByIdAsync(id, token);
-                if(recipe is null)
+                if (recipe is null)
                 {
                     return Results.NotFound();
                 }

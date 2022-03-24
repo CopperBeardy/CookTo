@@ -14,7 +14,7 @@ public class AppState
 
     public async Task Initialize()
     {
-        if(!_isInitialized)
+        if (!_isInitialized)
         {
             _isInitialized = true;
         }

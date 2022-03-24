@@ -42,6 +42,5 @@ public class RecipeDto
 
     public List<Tip>? Tips { get; set; } = new List<Tip>();
 
-
     public ImageAction ImageAction { get; set; }
 }

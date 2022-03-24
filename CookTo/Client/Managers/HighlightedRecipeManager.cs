@@ -22,7 +22,8 @@ public class HighlightedRecipeManager : IHighlightedRecipeManager
             var content = await result.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<HighlightedRecipeDto>(content);
             return response;
-        } catch(Exception)
+        }
+        catch (Exception)
         {
             return default!;
         }

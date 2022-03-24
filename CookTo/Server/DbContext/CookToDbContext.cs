@@ -24,7 +24,7 @@ public class CookToDbContext : ICookToDbContext
 
     private void Seed()
     {
-        if(!client.ListDatabaseNames().Any())
+        if (!client.ListDatabaseNames().Any())
         {
             SeedIngredientCollection();
             SeedCuisineCollection();

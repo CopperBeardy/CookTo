@@ -1,11 +1,9 @@
 using AutoMapper;
-using CookTo.Server.Documents.RecipeDocument;
-using CookTo.Server.Helpers;
 using CookTo.Server.Services.Interfaces;
 using CookTo.Shared.Features.ManageCategory;
 using CookTo.Shared.Features.ManageCuisine;
 using CookTo.Shared.Features.ManageRecipes;
-using Microsoft.Identity.Web;
+
 
 namespace CookTo.Server.Endpoints;
 
@@ -21,7 +19,7 @@ public static class RecipeSummaryEndpointsExtensions
             {
                 var recipes = await service.GetByLimit(int.Parse(amount), token);
                 List<RecipeSummaryDto> recipeSummaries = new List<RecipeSummaryDto>();
-                foreach(var recipe in recipes)
+                foreach (var recipe in recipes)
                 {
                     recipeSummaries.Add(
                         new RecipeSummaryDto(
@@ -42,7 +40,7 @@ public static class RecipeSummaryEndpointsExtensions
             {
                 var recipes = await service.GetAllByTerm(term, token);
                 List<RecipeSummaryDto> recipeSummaries = new List<RecipeSummaryDto>();
-                foreach(var recipe in recipes)
+                foreach (var recipe in recipes)
                 {
                     recipeSummaries.Add(
                         new RecipeSummaryDto(

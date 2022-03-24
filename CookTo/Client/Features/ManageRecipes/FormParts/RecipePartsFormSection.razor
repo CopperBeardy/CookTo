@@ -1,13 +1,10 @@
 ﻿@inject IngredientManager Manager
 
-<FormSection Title="Recipe parts"
-             HelpText="Define the various parts of the recipe and there ingredients">
-    <FormFieldSet>
-
+<FormSection Title="Recipe parts">
         @foreach (var part in Recipe.RecipeParts)
         {
             <div class="row">
-                <FormInputGroup Id="partTitle" Label="PartTitle" Width="col-8" Margins="mb-2">
+                <FormInputGroup Id="partTitle" Label="PartTitle" Width="col col-sm-11" Margins="mb-2">
                     <InputText role="textbox" @bind-Value="part.PartTitle" class="form-control" id="partTitle" />
                     <ValidationMessage aria-alert="true" For="@(() => part.PartTitle)" />
                 </FormInputGroup>
@@ -36,7 +33,7 @@
                                           
                      <IngredientTypeahead Part="ingred" IngredientManager="Manager" Ingredients="Ingredients" />
              
-                     <FormInputGroup Id="descriptionInput" Label="Description" Width="col-auto">
+                     <FormInputGroup Id="descriptionInput" Label="Description" Width="col col-sm-10">
                     <InputText  id="decsriptionInput" class="form-control " placeholder="additional information" @bind-Value="ingred.AdditionalInformation" />
                     <ValidationMessage aria-alert="true" For="@(() =>  ingred.AdditionalInformation)" />
                 </FormInputGroup>
@@ -54,7 +51,6 @@
                 <ValidationMessage aria-alert="true" For="@(() => Recipe.RecipeParts)" />
             </div>
         </div>
-    </FormFieldSet>
 </FormSection>
 
 @code {

@@ -7,12 +7,9 @@ public class PartIngredient
 {
     public double Amount { get; set; }
 
-
     public MeasureUnit Unit { get; set; }
 
-
     public IngredientDto Ingredient { get; set; }
-
 
     public string? AdditionalInformation { get; set; }
 }

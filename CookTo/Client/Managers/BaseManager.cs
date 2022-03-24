@@ -22,7 +22,8 @@ public abstract class BaseManager<T> : IBaseManager<T> where T : class
             var result = await httpClient.GetAsync(_url, new CancellationToken());
             var content = await result.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<List<T>>(content);
-        } catch(HttpRequestException)
+        }
+        catch (HttpRequestException)
         {
             return default!;
         }
@@ -37,7 +38,8 @@ public abstract class BaseManager<T> : IBaseManager<T> where T : class
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<T>(content);
-        } catch(HttpRequestException)
+        }
+        catch (HttpRequestException)
         {
             return default!;
         }
@@ -53,7 +55,8 @@ public abstract class BaseManager<T> : IBaseManager<T> where T : class
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<T>(content);
-        } catch(Exception)
+        }
+        catch (Exception)
         {
             throw;
         }
@@ -66,7 +69,8 @@ public abstract class BaseManager<T> : IBaseManager<T> where T : class
             var httpClient = HttpClientFactoryHelper.CreateClient(_httpClientFactory, HttpClientType.Secure);
             var result = await httpClient.PutAsJsonAsync(_url, entityToUpdate);
             return result.IsSuccessStatusCode;
-        } catch(Exception)
+        }
+        catch (Exception)
         {
             throw;
         }

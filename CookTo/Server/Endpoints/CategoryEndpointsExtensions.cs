@@ -22,7 +22,7 @@ public static class CategoryEndpointsExtensions
             async (string id, ICategoryService service, IMapper mapper, CancellationToken token) =>
             {
                 var category = await service.GetByIdAsync(id, token);
-                if(category is null)
+                if (category is null)
                 {
                     return Results.BadRequest("Category was not found");
                 }
@@ -36,7 +36,7 @@ public static class CategoryEndpointsExtensions
             "/api/category",
             async (CategoryDto category, ICategoryService service, IMapper mapper, CancellationToken token) =>
             {
-                var newcategory = CategoryFormatter.Format(mapper.Map<Category>(category));
+                var newcategory = mapper.Map<Category>(category);
                 await service.CreateAsync(newcategory, token);
                 return Results.Ok(mapper.Map<CategoryDto>(newcategory));
             });

@@ -1,6 +1,6 @@
 using AutoMapper;
 using CookTo.Server.Documents.IngredientDocument;
-using CookTo.Server.Helpers;
+
 using CookTo.Server.Services.Interfaces;
 using CookTo.Shared.Features.ManageIngredients;
 
@@ -23,7 +23,7 @@ public static class IngredientEndpointsExtensions
             async (string id, IIngredientService service, IMapper mapper, CancellationToken token) =>
             {
                 var ing = await service.GetByIdAsync(id, token);
-                if(ing is null)
+                if (ing is null)
                 {
                     return Results.BadRequest("Ingredient was not found");
                 }
@@ -37,7 +37,7 @@ public static class IngredientEndpointsExtensions
             "/api/ingredient",
             async (IngredientDto ingredient, IIngredientService service, IMapper mapper, CancellationToken token) =>
             {
-                var newIngredient = IngredientFormatter.Format(mapper.Map<Ingredient>(ingredient));
+                var newIngredient = mapper.Map<Ingredient>(ingredient);
                 await service.CreateAsync(newIngredient, token);
                 return Results.Ok(mapper.Map<IngredientDto>(newIngredient));
             });

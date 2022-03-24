@@ -20,7 +20,8 @@ public class FavoritesManager : IFavoritesManager
             var content = await result.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<FavoritesDto>(content);
             return response;
-        } catch(HttpRequestException)
+        }
+        catch (HttpRequestException)
         {
             return default!;
         }
@@ -35,7 +36,8 @@ public class FavoritesManager : IFavoritesManager
             var result = await httpClient.PostAsJsonAsync(_url, dto, new CancellationToken());
             result.EnsureSuccessStatusCode();
             return true;
-        } catch(Exception)
+        }
+        catch (Exception)
         {
             throw;
         }
@@ -50,7 +52,8 @@ public class FavoritesManager : IFavoritesManager
             var result = await httpClient.PutAsJsonAsync(_url, dto);
             result.EnsureSuccessStatusCode();
             return true;
-        } catch(Exception)
+        }
+        catch (Exception)
         {
             throw;
         }

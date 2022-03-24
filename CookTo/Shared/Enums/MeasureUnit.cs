@@ -6,10 +6,10 @@ public enum MeasureUnit
     NoUnit,
     ml,
     l,
-    g, 
+    g,
     pinch,
     tsp,
-    tbsp, 
+    tbsp,
     oz,
     pint,
     lb

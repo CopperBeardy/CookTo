@@ -1,11 +1,6 @@
 using AutoMapper;
-using CookTo.Server.Documents.RecipeDocument;
-using CookTo.Server.Helpers;
 using CookTo.Server.Services.Interfaces;
-using CookTo.Shared.Features.ManageCategory;
-using CookTo.Shared.Features.ManageCuisine;
 using CookTo.Shared.Features.ManageRecipes;
-using Microsoft.Identity.Web;
 
 namespace CookTo.Server.Endpoints;
 

@@ -1,7 +1,4 @@
-﻿<FormSection Title="Cooking steps"
-             HelpText="Tell the steps that need to be taken to make this this recipe">
-    <h7><span style="color: darkred">*</span>please use fractions (1/2) not decimal numbers (2.4) when part numbers are required</h7>
-
+﻿<FormSection Title="Cooking steps" >
         @{
             var i = 0;
         }
@@ -9,13 +6,12 @@
         {
             i++;
             cookingStep.OrderNumber = i;
-            <div class="row gy-1 gx-1 align-items-center mb-2">
+            <div class="d-flex row gy-1 gx-1 align-items-center ms-2 mb-2">
 
-                <FormInputGroup Id="orderNumber" Label="Order " Width="col-auto" Margins="mb-2 mr-3" >
-                    <span id="orderNumber" class="align-self-center ps-2 pe-2 "> @cookingStep.OrderNumber </span>
-                </FormInputGroup>
-
-                <FormInputGroup Id="cookingStepDescription" Label="Description" Width="col-8" Margins="mb-2" >
+                
+                <label id="orderNumber" class="col col-auto" > @cookingStep.OrderNumber </label>
+           
+                <FormInputGroup Id="cookingStepDescription" Label="Description" Width="col-sm-10" Margins="mb-2" >
                     <InputTextArea role="textbox" aria-required="true" @bind-Value="cookingStep.StepDescription" class="form-control" id="cookingStepDescription" />
                     <ValidationMessage aria-alert="true" For="@(() => cookingStep.StepDescription)" />
                 </FormInputGroup>

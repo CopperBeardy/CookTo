@@ -1,12 +1,9 @@
-﻿<FormSection Title="Details"
-             HelpText="This information is for giving a breif overview of the recipe" >    
-
-    <FormInputGroup Width="col col-sm-8"  Id="recipeTitle" Label="Title" Margins="mb-2" >
+﻿<FormSection Title="Details" >    
+    <FormInputGroup Width="col col-sm-12"  Id="recipeTitle" Label="Title" Margins="mb-2" >
         <InputText @bind-Value="Recipe.Title" aria-required="true" class="form-control" id="recipeTitle" />
         <ValidationMessage aria-alert="true"  For="@(() => Recipe.Title)" />
     </FormInputGroup>
    
-    <CategoryTypeahead Recipe="Recipe" />
     
 
     <FormInputGroup Width="col col-sm-12" Id="recipeDescription"  Label="Description" Margins="mb-2" >
@@ -14,18 +11,17 @@
         <ValidationMessage aria-alert="true"  For="@(() => Recipe.Description)" />
     </FormInputGroup>
 
-    <FormInputGroup Width="col col-sm-4" Id="serves" Label="Serves" Margins="mb-2" >
+    <FormInputGroup Width="col col-sm-6" Id="serves" Label="Serves" Margins="mb-2" >
         <InputNumber min=0 aria-required="true" @bind-Value="Recipe.Serves" class="form-control" id="serves" />
         <ValidationMessage aria-alert="true" For="@(() => Recipe.Serves)" />
     </FormInputGroup>
-
-    
-    <FormInputGroup Width="col col-sm-8"  Id="recipeCreator" Label="Creator" Margins="mb-2" >
+        
+    <FormInputGroup Width="col col-sm-6"  Id="recipeCreator" Label="Creator" Margins="mb-2" >
         <InputText @bind-Value="Recipe.Creator" class="form-control" id="recipeCreator" />      
     </FormInputGroup>
 
     <CuisineTypeahead Recipe="Recipe" />
-
+    <CategoryTypeahead Recipe="Recipe" />    
     @*add dietary*@
 </FormSection>
 

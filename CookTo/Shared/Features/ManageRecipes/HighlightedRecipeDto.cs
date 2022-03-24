@@ -1,5 +1,4 @@
-﻿using CookTo.Shared.Enums;
-using CookTo.Shared.Features.ManageCategory;
+﻿using CookTo.Shared.Features.ManageCategory;
 using CookTo.Shared.Features.ManageCuisine;
 
 namespace CookTo.Shared.Features.ManageRecipes;

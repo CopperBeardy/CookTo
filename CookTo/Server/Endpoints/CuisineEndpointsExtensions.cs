@@ -1,6 +1,6 @@
 using AutoMapper;
 using CookTo.Server.Documents.CuisineDocument;
-using CookTo.Server.Helpers;
+
 using CookTo.Server.Services.Interfaces;
 using CookTo.Shared.Features.ManageCuisine;
 
@@ -23,7 +23,7 @@ public static class CuisineEndpointsExtensions
             async (string id, ICuisineService service, IMapper mapper, CancellationToken token) =>
             {
                 var cuisine = await service.GetByIdAsync(id, token);
-                if(cuisine is null)
+                if (cuisine is null)
                 {
                     return Results.BadRequest("Cuisine was not found");
                 }
@@ -37,7 +37,7 @@ public static class CuisineEndpointsExtensions
             "/api/cuisine",
             async (CuisineDto cuisine, ICuisineService service, IMapper mapper, CancellationToken token) =>
             {
-                var newCuisine = CuisineFormatter.Format(mapper.Map<Cuisine>(cuisine));
+                var newCuisine = mapper.Map<Cuisine>(cuisine);
                 await service.CreateAsync(newCuisine, token);
                 return Results.Ok(mapper.Map<CuisineDto>(newCuisine));
             });
