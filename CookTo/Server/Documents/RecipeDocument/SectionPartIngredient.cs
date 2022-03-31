@@ -6,7 +6,7 @@ namespace CookTo.Server.Documents.RecipeDocument;
 public class SectionPartIngredient
 {
     [BsonElement("amount")]
-    public double? Amount { get; set; }
+    public double Amount { get; set; }
 
     [BsonElement("unit")]
     public MeasureUnit Unit { get; set; }

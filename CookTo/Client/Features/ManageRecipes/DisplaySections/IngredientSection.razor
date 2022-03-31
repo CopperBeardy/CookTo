@@ -31,7 +31,7 @@
         {
             sBuilder.Append(partIngredient.Amount);    
 
-            if(!partIngredient.Unit.Equals(MeasureUnit.NoUnit))
+            if(!partIngredient.Unit.Equals(MeasureUnit.None))
             {
                 if (partIngredient.Unit.Equals(MeasureUnit.pinch))
                 {
@@ -39,11 +39,7 @@
                 }
                 sBuilder.Append(partIngredient.Unit.ToString());   
             }
-
-            if(partIngredient.Unit.Equals(MeasureUnit.pint) && partIngredient.Amount >1)
-            {
-                sBuilder.Append("s");
-            }
+            
             sBuilder.Append(" "); 
         }
 

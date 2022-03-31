@@ -2,15 +2,12 @@
 
 public enum MeasureUnit
 {
-    Select_Unit,
-    NoUnit,
+    None,
     ml,
-    l,
     g,
     pinch,
-    tsp,
-    tbsp,
-    oz,
-    pint,
-    lb
+    tsp_dry,
+    tbsp_dry,
+    tsp_liquid,
+    tbsp_liquid,
 }

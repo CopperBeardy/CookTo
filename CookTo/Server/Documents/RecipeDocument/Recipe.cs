@@ -54,6 +54,9 @@ public class Recipe : BaseEntity
     [BsonElement("cooking_steps")]
     public List<SectionCookingStep> CookingSteps { get; set; }
 
+    [BsonElement("shopping_list")]
+    public List<string> ShoppingList { get; set; }
+
     [BsonElement("tips")]
     public List<Tip>? Tips { get; set; }
 }
