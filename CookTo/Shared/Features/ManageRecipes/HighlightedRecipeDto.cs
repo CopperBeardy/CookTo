@@ -23,5 +23,5 @@ public class HighlightedRecipeDto
 
     public int MaxCookTime { get; set; } = 0;
 
-    public string description { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
 }

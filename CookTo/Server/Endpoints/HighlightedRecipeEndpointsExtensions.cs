@@ -15,7 +15,10 @@ public static class HighlightedEndpointsExtensions
                 //Todo: this is a code smell
                 // the hightlight recipe will be set by admin when fully implemented
                 // admin area not ready so taking the first recipe all the time
-                var recipe = await service.GetByIdAsync("622224f121307568e8720d59", token);
+
+                var recipes = await service.GetAllAsync(token);
+                var recipe = recipes.FirstOrDefault();
+                //    var recipe = await service.GetByIdAsync("622224f121307568e8720d59", token);
 
                 return Results.Ok(mapper.Map<HighlightedRecipeDto>(recipe));
             });

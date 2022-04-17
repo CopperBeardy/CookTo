@@ -15,13 +15,13 @@ public static class UploadImageEndpointsExtensions
             async (ImageUploadDto dto, IRecipeService service, IMapper mapper, CancellationToken token) =>
             {
                 var recipe = await service.GetByIdAsync(dto.RecipeId, token);
-                if (recipe is null)
+                if(recipe is null)
                 {
                     return Results.BadRequest("Recipe does not exist.");
                 }
 
 
-                if (dto.Image.Length == 0)
+                if(dto.Image.Length == 0)
                 {
                     return Results.BadRequest("No image found.");
                 }
@@ -29,15 +29,15 @@ public static class UploadImageEndpointsExtensions
                 var filename = $"{Guid.NewGuid()}.jpg";
                 var saveLocation = Path.Combine(Directory.GetCurrentDirectory(), "Images", filename);
 
-                var resizeOptions = new ResizeOptions { Mode = ResizeMode.Pad, Size = new Size(640, 426) };
+                var resizeOptions = new ResizeOptions { Mode = ResizeMode.Stretch, Size = new Size(640, 426) };
 
                 using var image = Image.Load(dto.Image);
                 image.Mutate(x => x.Resize(resizeOptions));
                 await image.SaveAsJpegAsync(saveLocation, cancellationToken: token);
 
-                if (!string.IsNullOrWhiteSpace(recipe.Image))
+                if(!string.IsNullOrWhiteSpace(recipe.Image))
                 {
-                    System.IO.File.Delete(Path.Combine(Directory.GetCurrentDirectory(), "Images", recipe.Image));
+                    File.Delete(Path.Combine(Directory.GetCurrentDirectory(), "Images", recipe.Image));
                 }
                 recipe.Image = filename;
                 await service.UpdateAsync(recipe, token);
