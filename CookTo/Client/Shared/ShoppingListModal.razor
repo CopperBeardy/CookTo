@@ -1,0 +1,24 @@
+﻿<div class="card">
+    <div class="card-body">     
+        <ol style="list-style-type:none">           
+            @foreach (var item in ShoppingList)
+            {            
+              <li>@item </li>            
+            }         
+        </ol>       
+    </div>  
+      <button @onclick="Close" class="btn btn-secondary">Close</button>
+</div>
+
+@code {
+
+    [CascadingParameter] BlazoredModalInstance ModalInstance{ get; set; }
+   
+    [Parameter]
+    public List<string> ShoppingList { get; set; }
+      
+    void Close()
+    {
+        ModalInstance.CloseAsync();
+    }
+}

@@ -46,8 +46,8 @@ public static class RecipeEndpointsExtensions
                 HttpContext context,
                 CancellationToken token) =>
             {
-                recipe.AddedBy = context.User.Claims.First(t => t.Type == ClaimConstants.Name).Value.ToString();
                 var entity = mapper.Map<Recipe>(recipe);
+                entity.AddedBy = context.User.Claims.First(t => t.Type == ClaimConstants.Name).Value.ToString();
                 entity.ShoppingList = ShoppingList.Generate(entity);
                 await service.CreateAsync(entity, token);
 

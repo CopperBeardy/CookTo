@@ -23,6 +23,7 @@
             <p><span class="bi bi-person-circle mr-2"></span> Added by: @Highlighted.AddedBy </p>
 
             <div class="d-flex flex-row-reverse gap-1">
+                <ShoppingListButton Title="@Highlighted.Title" ShoppingList="@Highlighted.ShoppingList"></ShoppingListButton>
                 <button aria-label="viewRecipe" class="btn btn-primary" title="View" @onclick="@(async () => NavManager.NavigateTo($"/recipe/{Highlighted.Id}"))">
                     <i class="bi bi-file-earmark-text"></i>
                 </button>

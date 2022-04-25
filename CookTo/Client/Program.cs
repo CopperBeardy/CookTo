@@ -1,4 +1,5 @@
 using Blazored.LocalStorage;
+using Blazored.Modal;
 using CookTo.Client;
 using CookTo.Client.Managers;
 using CookTo.Client.State;
@@ -44,5 +45,5 @@ builder.Services.AddScoped<IUploadImageManager, UploadImageManager>();
 builder.Services.AddScoped<AppState>();
 
 builder.Services.AddBlazoredLocalStorage();
-
+builder.Services.AddBlazoredModal();
 await builder.Build().RunAsync();
