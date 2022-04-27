@@ -1,4 +1,7 @@
-﻿<div class="card">
+﻿@using System.Text
+@inject IJSRuntime JSRuntime
+
+<div class="card">
     <div class="card-body">     
         <ol style="list-style-type:none">           
             @foreach (var item in ShoppingList)
@@ -7,18 +10,25 @@
             }         
         </ol>       
     </div>  
+       <button @onclick="Copy" class="btn btn-primary">Copy</button>
       <button @onclick="Close" class="btn btn-secondary">Close</button>
 </div>
 
 @code {
 
     [CascadingParameter] BlazoredModalInstance ModalInstance{ get; set; }
-   
+
     [Parameter]
     public List<string> ShoppingList { get; set; }
-      
+
     void Close()
     {
         ModalInstance.CloseAsync();
+    }
+
+    private async Task Copy()
+    {        
+        var listString = String.Join("\n", ShoppingList);
+        await JSRuntime.InvokeVoidAsync("clipboardCopy.copyText", listString);
     }
 }
