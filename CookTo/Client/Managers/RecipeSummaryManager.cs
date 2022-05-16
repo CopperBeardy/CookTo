@@ -12,14 +12,13 @@ public class RecipeSummaryManager : IRecipeSummaryManager
     {
         try
         {
-            var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
+            var httpClient = HttpNamedClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
             var result = await httpClient.GetAsync($"/api/searchrecipes/{term}", new CancellationToken());
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<List<RecipeSummaryDto>>(content);
             return response;
-        }
-        catch (Exception)
+        } catch(Exception)
         {
             return default!;
         }
@@ -29,14 +28,13 @@ public class RecipeSummaryManager : IRecipeSummaryManager
     {
         try
         {
-            var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
+            var httpClient = HttpNamedClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
             var result = await httpClient.GetAsync($"/api/recipes/{amount}", new CancellationToken());
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<List<RecipeSummaryDto>>(content);
             return response;
-        }
-        catch (Exception)
+        } catch(Exception)
         {
             return default!;
         }

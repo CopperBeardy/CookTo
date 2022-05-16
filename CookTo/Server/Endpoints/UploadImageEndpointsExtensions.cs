@@ -20,7 +20,6 @@ public static class UploadImageEndpointsExtensions
                     return Results.BadRequest("Recipe does not exist.");
                 }
 
-
                 if(dto.Image.Length == 0)
                 {
                     return Results.BadRequest("No image found.");

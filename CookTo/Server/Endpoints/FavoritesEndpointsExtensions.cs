@@ -17,6 +17,7 @@ public static class FavoritesEndpointsExtensions
 
                 return Results.Ok(mapper.Map<List<FavoritesDto>>(favorites));
             });
+
         app.MapPost(
             "/api/favorites",
             async (FavoriteDto dto, IFavoriteService service, IMapper mapper, CancellationToken token) =>
@@ -29,12 +30,13 @@ public static class FavoritesEndpointsExtensions
                 await service.CreateAsync(favorites, token);
                 return Results.Ok();
             });
+
         app.MapPut(
             "/api/favorites",
             async (FavoriteDto updateFavorite, IFavoriteService service, CancellationToken token) =>
             {
                 var favorites = await service.GetByIdAsync(updateFavorite.Username, token);
-                if (favorites is null)
+                if(favorites is null)
                 {
                     return Results.NotFound();
                 }

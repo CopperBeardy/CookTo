@@ -8,13 +8,12 @@ public class AppState
 
     public NewRecipeState NewRecipeState { get; }
 
-
     public AppState(ILocalStorageService localStorageService, IFavoritesManager favoritesManager)
     { NewRecipeState = new NewRecipeState(); }
 
     public async Task Initialize()
     {
-        if (!_isInitialized)
+        if(!_isInitialized)
         {
             _isInitialized = true;
         }

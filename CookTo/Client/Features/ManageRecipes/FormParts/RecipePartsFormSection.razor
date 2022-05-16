@@ -1,50 +1,57 @@
 ﻿@inject IngredientManager Manager
 
 <FormSection Title="Recipe parts">
-        @foreach (var part in Recipe.RecipeParts)
+         @foreach (var part in Recipe.RecipeParts)
         {
-            <div class="row">
-                <FormInputGroup Id="partTitle" Label="PartTitle" Width="col col-sm-11" Margins="mb-2">
-                    <InputText role="textbox" @bind-Value="part.PartTitle" class="form-control" id="partTitle" />
-                    <ValidationMessage aria-alert="true" For="@(() => part.PartTitle)" />
-                </FormInputGroup>
-                <div class="col-sm-1">
-                    <button class="btn link-danger " @onclick="@(() => Recipe.RecipeParts.Remove(part))" type="button"><i class="bi bi-dash-circle"></i></button>
-                </div>
-            </div>
-            <div class="ml-3">
-                @foreach (var ingred in part.Items)
-                {
-                    <div class="row gy-1 gx-1 align-items-center mb-2">
-                        <FormInputGroup Id="quantityInput" Label="Quantity" Width="col-sm-3">
-                            <InputNumber aria-required="true" min=0 id="quantityInput" class="form-control  " @bind-Value="ingred.Amount" />
-                            <ValidationMessage aria-alert="true" For="@(() =>  ingred.Amount)" />
-                        </FormInputGroup>
-
-                        <FormInputGroup Id="measureUnitSelect" Label="Unit" Width="col-sm-3">
-                            <InputSelect aria-required="true" role="menu" id="measureUnitSelect" class="form-control " @bind-Value="ingred.Unit">
-                                @foreach (var unit in Enum.GetValues(typeof(MeasureUnit)))
+        
+                        <div class="row">
+                            <FormInputGroup Id="partTitle" Label="PartTitle" Width="col col-sm-11" Margins="mb-2">
+                                <InputText role="textbox" @bind-Value="part.PartTitle" class="form-control" id="partTitle" />
+                                <ValidationMessage aria-alert="true" For="@(() => part.PartTitle)" />
+                            </FormInputGroup>
+                            <div class="col-sm-1">
+                                <button class="btn link-danger " @onclick="@(() => Recipe.RecipeParts.Remove(part))" type="button"><i class="bi bi-dash-circle"></i></button>
+                            </div>
+                        </div>
+                        <div class="ml-3">
+                            @{
+                                
+                                var ingredientIndex = 0;
+                                @foreach (var ingred in part.Items)
                                 {
-                                    <option role="menuitem" value="@unit">@unit</option>
-                                }
-                                </InputSelect>
-                                <ValidationMessage aria-alert="true" For="@(() =>  ingred.Unit)" />
-                          </FormInputGroup>
-                                          
-                     <IngredientTypeahead Part="ingred" IngredientManager="Manager" Ingredients="Ingredients" />
-             
-                     <FormInputGroup Id="descriptionInput" Label="Description" Width="col col-sm-10">
-                    <InputText  id="decsriptionInput" class="form-control " placeholder="additional information" @bind-Value="ingred.AdditionalInformation" />
-                    <ValidationMessage aria-alert="true" For="@(() =>  ingred.AdditionalInformation)" />
-                </FormInputGroup>
+                                    ingredientIndex++;
+                                    ingred.ReferenceIndex = ingredientIndex;
+                                    <div class="row gy-1 gx-1 align-items-center mb-2">
+                                        <FormInputGroup Id="quantityInput" Label="Quantity" Width="col-sm-3">
+                                            <InputNumber aria-required="true" min=0 id="quantityInput" class="form-control  " @bind-Value="ingred.Amount" />
+                                            <ValidationMessage aria-alert="true" For="@(() =>  ingred.Amount)" />
+                                        </FormInputGroup>
 
-                <button role="button" aria-label="removeIngredient" @onclick="@(() => part.Items.Remove(ingred))" class="btn link-danger col-auto ml-3" type="button"><i class="bi bi-dash-circle"></i></button>
-            </div>
-                }
-                <button role="button" aria-label="newPartIngredient" class="btn btn-outline-primary col-2 mb-2" type="button" @onclick="@(() => part.Items.Add(new PartIngredient()))">Add Ingredient </button>
-                <ValidationMessage aria-alert="true" For="@(() => part.Items)" />
-            </div>
+                                        <FormInputGroup Id="measureUnitSelect" Label="Unit" Width="col-sm-3">
+                                            <InputSelect aria-required="true" role="menu" id="measureUnitSelect" class="form-control " @bind-Value="ingred.Unit">
+                                                @foreach (var unit in Enum.GetValues(typeof(MeasureUnit)))
+                                {
+                                                    <option role="menuitem" value="@unit">@unit</option>
+                                }
+                                                </InputSelect>
+                                                <ValidationMessage aria-alert="true" For="@(() =>  ingred.Unit)" />
+                                          </FormInputGroup>
+                                                          
+                                     <IngredientTypeahead Part="ingred" IngredientManager="Manager" Ingredients="Ingredients" />
+                             
+                                     <FormInputGroup Id="descriptionInput" Label="Description" Width="col col-sm-10">
+                                    <InputText  id="decsriptionInput" class="form-control " placeholder="additional information" @bind-Value="ingred.AdditionalInformation" />
+                                    <ValidationMessage aria-alert="true" For="@(() =>  ingred.AdditionalInformation)" />
+                                </FormInputGroup>
+
+                                <button role="button" aria-label="removeIngredient" @onclick="@(() => part.Items.Remove(ingred))" class="btn link-danger col-auto ml-3" type="button"><i class="bi bi-dash-circle"></i></button>
+                            </div>
+                }}
+                            <button role="button" aria-label="newPartIngredient" class="btn btn-outline-primary col-2 mb-2" type="button" @onclick="@(() => part.Items.Add(new PartIngredient()))">Add Ingredient </button>
+                            <ValidationMessage aria-alert="true" For="@(() => part.Items)" />
+                        </div>
         }
+        
         <div class="row">
             <div class="col">
                 <button role="button" aria-label="newRecipePart" class="btn btn-outline-primary" type="button" @onclick="@(() => Recipe.RecipeParts.Add(new RecipePart()))">Add RecipePart</button>
@@ -56,11 +63,16 @@
 @code {
     [Parameter] public RecipeDto Recipe { get; set; }
     public IList<IngredientDto> Ingredients { get; set; } = new List<IngredientDto>();
-
+    public int ingredientRefIndex { get; set; } = 0;
     protected override async Task OnInitializedAsync()
     {
         Ingredients = await Manager.GetAll();
+        GetCurrentIngredientIndex();
         StateHasChanged();
     }
-    
-}
+
+    private void GetCurrentIngredientIndex()
+    {
+        
+    }
+    }

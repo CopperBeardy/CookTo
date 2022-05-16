@@ -14,14 +14,13 @@ public class FavoritesManager : IFavoritesManager
     {
         try
         {
-            var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
+            var httpClient = HttpNamedClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
             var result = await httpClient.GetAsync($"{_url}/{userId}", new CancellationToken());
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<FavoritesDto>(content);
             return response;
-        }
-        catch (HttpRequestException)
+        } catch(HttpRequestException)
         {
             return default!;
         }
@@ -32,12 +31,11 @@ public class FavoritesManager : IFavoritesManager
     {
         try
         {
-            var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Secure);
+            var httpClient = HttpNamedClientFactoryHelper.CreateClient(_factory, HttpClientType.Secure);
             var result = await httpClient.PostAsJsonAsync(_url, dto, new CancellationToken());
             result.EnsureSuccessStatusCode();
             return true;
-        }
-        catch (Exception)
+        } catch(Exception)
         {
             throw;
         }
@@ -47,13 +45,12 @@ public class FavoritesManager : IFavoritesManager
     {
         try
         {
-            var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
+            var httpClient = HttpNamedClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
 
             var result = await httpClient.PutAsJsonAsync(_url, dto);
             result.EnsureSuccessStatusCode();
             return true;
-        }
-        catch (Exception)
+        } catch(Exception)
         {
             throw;
         }

@@ -37,6 +37,7 @@ public static class RecipeEndpointsExtensions
                 await service.UpdateAsync(toUpdate, token);
                 return Results.NoContent();
             });
+
         app.MapPost(
             "/api/recipe",
             async (

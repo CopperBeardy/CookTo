@@ -8,15 +8,15 @@ public class RecipeDto
 {
     public string? Id { get; set; }
 
-    public string Title { get; set; }
+    public string Title { get; set; } = string.Empty;
 
-    public CuisineDto Cuisine { get; set; }
+    public CuisineDto Cuisine { get; set; } = new CuisineDto();
 
-    public CategoryDto Category { get; set; }
+    public CategoryDto Category { get; set; } = new CategoryDto();
 
-    public string Description { get; set; }
+    public string Description { get; set; } = string.Empty;
 
-    public string? Image { get; set; }
+    public string? Image { get; set; } = string.Empty;
 
     public int PrepTimeFrom { get; set; }
 
@@ -30,9 +30,9 @@ public class RecipeDto
 
     public string? Creator { get; set; }
 
-    public string AddedBy { get; set; }
+    public string? AddedBy { get; set; }
 
-    public List<Dietary> Dietaries { get; set; }
+    public List<Dietary> Dietaries { get; set; } = new List<Dietary>();
 
     public List<RecipePart> RecipeParts { get; set; } = new List<RecipePart>();
 

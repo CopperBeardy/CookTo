@@ -17,12 +17,11 @@ public abstract class BaseManager<T> : IBaseManager<T> where T : class
     {
         try
         {
-            var httpClient = HttpClientFactoryHelper.CreateClient(_httpClientFactory, HttpClientType.Anon);
+            var httpClient = HttpNamedClientFactoryHelper.CreateClient(_httpClientFactory, HttpClientType.Anon);
             var result = await httpClient.GetAsync(_url, new CancellationToken());
             var content = await result.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<List<T>>(content);
-        }
-        catch (HttpRequestException)
+        } catch(HttpRequestException)
         {
             return default!;
         }
@@ -32,13 +31,12 @@ public abstract class BaseManager<T> : IBaseManager<T> where T : class
     {
         try
         {
-            var httpClient = HttpClientFactoryHelper.CreateClient(_httpClientFactory, HttpClientType.Anon);
+            var httpClient = HttpNamedClientFactoryHelper.CreateClient(_httpClientFactory, HttpClientType.Anon);
             var result = await httpClient.GetAsync($"{_url}/{id}", new CancellationToken());
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<T>(content);
-        }
-        catch (HttpRequestException)
+        } catch(HttpRequestException)
         {
             return default!;
         }
@@ -48,14 +46,13 @@ public abstract class BaseManager<T> : IBaseManager<T> where T : class
     {
         try
         {
-            var httpClient = HttpClientFactoryHelper.CreateClient(_httpClientFactory, HttpClientType.Secure);
+            var httpClient = HttpNamedClientFactoryHelper.CreateClient(_httpClientFactory, HttpClientType.Secure);
 
             var result = await httpClient.PostAsJsonAsync(_url, entity, new CancellationToken());
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<T>(content);
-        }
-        catch (Exception)
+        } catch(Exception)
         {
             throw;
         }
@@ -65,11 +62,10 @@ public abstract class BaseManager<T> : IBaseManager<T> where T : class
     {
         try
         {
-            var httpClient = HttpClientFactoryHelper.CreateClient(_httpClientFactory, HttpClientType.Secure);
+            var httpClient = HttpNamedClientFactoryHelper.CreateClient(_httpClientFactory, HttpClientType.Secure);
             var result = await httpClient.PutAsJsonAsync(_url, entityToUpdate);
             return result.IsSuccessStatusCode;
-        }
-        catch (Exception)
+        } catch(Exception)
         {
             throw;
         }

@@ -40,8 +40,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var categoryResonse = await CategoryManager.GetAll();
-        foreach (var cat in categoryResonse)
+        var categoryResponse = await CategoryManager.GetAll();
+        foreach (var cat in categoryResponse)
         {
             _categories.Add(cat.Name);
         }

@@ -1,6 +1,6 @@
 ﻿namespace CookTo.Client.Managers.Shared;
 
-public static class HttpClientFactoryHelper
+public static class HttpNamedClientFactoryHelper
 {
     public static HttpClient CreateClient(IHttpClientFactory factory, HttpClientType type)
     {

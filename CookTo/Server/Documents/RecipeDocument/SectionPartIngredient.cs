@@ -8,6 +8,9 @@ public class SectionPartIngredient
     [BsonElement("amount")]
     public double Amount { get; set; }
 
+    [BsonElement("ReferenceCode")]
+    public string? PartIngredientReferenceCode { get; set; }
+
     [BsonElement("unit")]
     public MeasureUnit Unit { get; set; }
 

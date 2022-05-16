@@ -16,14 +16,13 @@ public class HighlightedRecipeManager : IHighlightedRecipeManager
     {
         try
         {
-            var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
+            var httpClient = HttpNamedClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
             var result = await httpClient.GetAsync(_url, new CancellationToken());
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<HighlightedRecipeDto>(content);
             return response;
-        }
-        catch (Exception)
+        } catch(Exception)
         {
             return default!;
         }

@@ -16,15 +16,14 @@ public class UploadImageManager : IUploadImageManager
     {
         try
         {
-            var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
+            var httpClient = HttpNamedClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
 
             var result = await httpClient.GetAsync($"{_url}/{recipeId}", new CancellationToken());
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<IBrowserFile>(content);
             return response;
-        }
-        catch (HttpRequestException)
+        } catch(HttpRequestException)
         {
             return default!;
         }
@@ -38,14 +37,13 @@ public class UploadImageManager : IUploadImageManager
             await file.OpenReadStream(file.Size).CopyToAsync(ms);
             var dto = new ImageUploadDto() { RecipeId = recipeId, Image = ms.ToArray() };
 
-            var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Secure);
+            var httpClient = HttpNamedClientFactoryHelper.CreateClient(_factory, HttpClientType.Secure);
 
             var result = await httpClient.PostAsJsonAsync(_url, dto, new CancellationToken());
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
             return content;
-        }
-        catch (Exception)
+        } catch(Exception)
         {
             throw;
         }
