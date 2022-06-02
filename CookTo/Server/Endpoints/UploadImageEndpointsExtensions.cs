@@ -12,7 +12,7 @@ public static class UploadImageEndpointsExtensions
     {
         app.MapPost(
             "/api/upload",
-            async (ImageUploadDto dto, IRecipeService service, IMapper mapper, CancellationToken token) =>
+            async (ImageUpload dto, IRecipeService service, IMapper mapper, CancellationToken token) =>
             {
                 var recipe = await service.GetByIdAsync(dto.RecipeId, token);
                 if(recipe is null)

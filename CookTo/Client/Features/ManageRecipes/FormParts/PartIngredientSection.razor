@@ -1,0 +1,63 @@
+﻿@inject IngredientManager IngredientManager
+<div class="row gy-1 gx-1 align-items-center mb-2">
+    @foreach(var ing in PartIngredients)
+            {
+
+                    <FormInputGroup Id="quantityInput" Label="Quantity" Width="col-sm-3">
+                        <InputNumber aria-required="true" min=0 id="quantityInput" class="form-control  " @bind-Value="CurrentPartIngredient.Amount" />
+                        <ValidationMessage aria-alert="true" For="@(() =>  CurrentPartIngredient.Amount)" />
+                    </FormInputGroup>
+
+                    <FormInputGroup Id="measureUnitSelect" Label="Unit" Width="col-sm-3">
+                        <InputSelect aria-required="true" role="menu" id="measureUnitSelect" class="form-control " @bind-Value="CurrentPartIngredient.Unit">
+                            @foreach (var unit in Enum.GetValues(typeof(MeasureUnit)))
+                            {
+                        <option role="menuitem" value="@unit">@unit</option>
+                            }
+                </InputSelect>
+                <ValidationMessage aria-alert="true" For="@(() =>  CurrentPartIngredient.Unit)" />
+            </FormInputGroup>
+
+            <Typeahead CurrentValue="CurrentPartIngredient.Ingredient" T="Ingredient"  AddIngredient="AddNewIngredient" />
+
+            <FormInputGroup Id="descriptionInput" Label="Description" Width="col col-sm-10">
+                <InputText id="decsriptionInput" class="form-control " placeholder="additional information" @bind-Value="CurrentPartIngredient.AdditionalInformation" />
+                <ValidationMessage aria-alert="true" For="@(() =>  CurrentPartIngredient.AdditionalInformation)" />
+            </FormInputGroup>
+ 
+            <button role="button" aria-label="removeIngredient" @onclick="@RemoveIngredient" class="btn link-danger col-auto ml-3" type="button"><i class="bi bi-dash-circle"></i></button>
+           }
+        </div>
+  
+@code {
+
+    [Parameter]public EventCallback<PartIngredient> RemoveIngredient { get; set; }
+    [Parameter]public List<PartIngredient> PartIngredients{ get; set; }
+    [Parameter] public IList<Ingredient> Ingredients { get; set; } = new;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = (List<Item>)await IngredientManager.GetAll();
+        foreach (var item in result)
+        {
+            Ingredients.Add(ConvertItemToIngredient(result));
+        }
+    }
+
+    private async Task AddNewIngredient(string ingredientName)
+    {
+        var result = await IngredientManager.Insert(new Item(ingredientName) );
+        if (result is null) return;
+        var ingredient = ConvertItemToIngredient(result);
+        Ingredients.Add(ingredient);
+        CurrentPartIngredient.Ingredient = ingredient;
+    }
+
+    private Ingredient ConvertItemToIngredient(Item item) => new Ingredient(item.Id,item.Text);
+    
+
+    public async Task RemoveIngredient ()
+    {
+        await RemoveIngredient.InvokeAsync(CurrentPartIngredient);
+    }
+}

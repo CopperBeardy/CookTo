@@ -1,9 +1,9 @@
 ﻿
-using CookTo.Server.Documents.UtensilDocument;
+using CookTo.Server.Documents;
 
 namespace CookTo.Server.Services.Interfaces;
 
-public interface IUtensilService : IBaseService<Utensil>
+public interface IUtensilService : IBaseService<UtensilDocument>
 {
 }
 

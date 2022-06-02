@@ -1,10 +1,10 @@
-﻿using CookTo.Server.Documents.RecipeDocument;
+﻿using CookTo.Server.Documents;
 
 namespace CookTo.Server.Services.Interfaces;
 
-public interface IRecipeService : IBaseService<Recipe>
+public interface IRecipeService : IBaseService<RecipeDocument>
 {
-    Task<List<Recipe>> GetAllByTerm(string term, CancellationToken token);
+    Task<List<RecipeDocument>> GetAllByTerm(string term, CancellationToken token);
 
-    Task<List<Recipe>> GetByLimit(int limit, CancellationToken token);
+    Task<List<RecipeDocument>> GetByLimit(int limit, CancellationToken token);
 }

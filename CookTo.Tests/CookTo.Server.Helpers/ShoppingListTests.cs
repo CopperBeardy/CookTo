@@ -1,5 +1,4 @@
-﻿using CookTo.Server.Documents.IngredientDocument;
-using CookTo.Server.Documents.RecipeDocument;
+﻿using CookTo.Server.Documents;
 using CookTo.Server.Helpers;
 using CookTo.Shared.Enums;
 using System;
@@ -16,18 +15,18 @@ public class ShoppingListTests
     [Fact]
     public void ConvertToMilliliters_MeasureUnit_tsp_liquid_Valid_SectionPartIngredient_Success()
     {
-        var partIngredient = new SectionPartIngredient()
+        var partIngredient = new PartIngredientDocument()
         {
             AdditionalInformation = string.Empty,
             Unit = MeasureUnit.tsp_liquid,
             Amount = 1,
-            Ingredient = new Ingredient() { Id = "aaa", Name = "test1" }
+            Ingredient = new IngredientDocument() { Id = "aaa", Name = "test1" }
         };
 
         var response = ShoppingList.ConvertToMilliliters(partIngredient);
 
         Assert.NotNull(response);
-        var result = Assert.IsAssignableFrom<SectionPartIngredient>(response);
+        var result = Assert.IsAssignableFrom<PartIngredientDocument>(response);
 
         Assert.Equal(5, result.Amount);
         Assert.Equal(MeasureUnit.ml, result.Unit);
@@ -36,18 +35,18 @@ public class ShoppingListTests
     [Fact]
     public void ConvertToMilliliters_MeasureUnit_tbsp_liquid_Valid_SectionPartIngredient_Success()
     {
-        var partIngredient = new SectionPartIngredient()
+        var partIngredient = new PartIngredientDocument()
         {
             AdditionalInformation = string.Empty,
             Unit = MeasureUnit.tbsp_liquid,
             Amount = 1,
-            Ingredient = new Ingredient() { Id = "aaa", Name = "test1" }
+            Ingredient = new IngredientDocument() { Id = "aaa", Name = "test1" }
         };
 
         var response = ShoppingList.ConvertToMilliliters(partIngredient);
 
         Assert.NotNull(response);
-        var result = Assert.IsAssignableFrom<SectionPartIngredient>(response);
+        var result = Assert.IsAssignableFrom<PartIngredientDocument>(response);
 
         Assert.Equal(15, result.Amount);
         Assert.Equal(MeasureUnit.ml, result.Unit);
@@ -56,18 +55,18 @@ public class ShoppingListTests
     [Fact]
     public void ConvertToGrams_MeasureUnit_tsp_dry_Valid_SectionPartIngredient_Success()
     {
-        var partIngredient = new SectionPartIngredient()
+        var partIngredient = new PartIngredientDocument()
         {
             AdditionalInformation = string.Empty,
             Unit = MeasureUnit.tsp_dry,
             Amount = 1,
-            Ingredient = new Ingredient() { Id = "aaa", Name = "test1" }
+            Ingredient = new IngredientDocument() { Id = "aaa", Name = "test1" }
         };
 
         var response = ShoppingList.ConvertToGrams(partIngredient);
 
         Assert.NotNull(response);
-        var result = Assert.IsAssignableFrom<SectionPartIngredient>(response);
+        var result = Assert.IsAssignableFrom<PartIngredientDocument>(response);
 
         Assert.Equal(6, result.Amount);
         Assert.Equal(MeasureUnit.g, result.Unit);
@@ -76,18 +75,18 @@ public class ShoppingListTests
     [Fact]
     public void ConvertToGrams_MeasureUnit_tbsp_dry_Valid_SectionPartIngredient_Success()
     {
-        var partIngredient = new SectionPartIngredient()
+        var partIngredient = new PartIngredientDocument()
         {
             AdditionalInformation = string.Empty,
             Unit = MeasureUnit.tbsp_dry,
             Amount = 1,
-            Ingredient = new Ingredient() { Id = "aaa", Name = "test1" }
+            Ingredient = new IngredientDocument() { Id = "aaa", Name = "test1" }
         };
 
         var response = ShoppingList.ConvertToGrams(partIngredient);
 
         Assert.NotNull(response);
-        var result = Assert.IsAssignableFrom<SectionPartIngredient>(response);
+        var result = Assert.IsAssignableFrom<PartIngredientDocument>(response);
 
         Assert.Equal(15, result.Amount);
         Assert.Equal(MeasureUnit.g, result.Unit);
@@ -96,18 +95,18 @@ public class ShoppingListTests
     [Fact]
     public void ConvertToGrams_MeasureUnit_pinch_Valid_SectionPartIngredient_Success()
     {
-        var partIngredient = new SectionPartIngredient()
+        var partIngredient = new PartIngredientDocument()
         {
             AdditionalInformation = string.Empty,
             Unit = MeasureUnit.pinch,
             Amount = 1,
-            Ingredient = new Ingredient() { Id = "aaa", Name = "test1" }
+            Ingredient = new IngredientDocument() { Id = "aaa", Name = "test1" }
         };
 
         var response = ShoppingList.ConvertToGrams(partIngredient);
 
         Assert.NotNull(response);
-        var result = Assert.IsAssignableFrom<SectionPartIngredient>(response);
+        var result = Assert.IsAssignableFrom<PartIngredientDocument>(response);
 
         Assert.Equal(2, result.Amount);
         Assert.Equal(MeasureUnit.g, result.Unit);
@@ -116,34 +115,34 @@ public class ShoppingListTests
     [Fact]
     public void GroupByIngredientName_Valid_Success()
     {
-        var items = new List<SectionPartIngredient>()
+        var items = new List<PartIngredientDocument>()
         {
-            new SectionPartIngredient()
+            new PartIngredientDocument()
             {
                 AdditionalInformation = string.Empty,
                 Unit = MeasureUnit.g,
                 Amount = 1,
-                Ingredient = new Ingredient() { Id = "aaa", Name = "test1" }
+                Ingredient = new IngredientDocument() { Id = "aaa", Name = "test1" }
             },
-            new SectionPartIngredient()
+            new PartIngredientDocument()
             {
                 AdditionalInformation = string.Empty,
                 Unit = MeasureUnit.g,
                 Amount = 1,
-                Ingredient = new Ingredient() { Id = "aaa", Name = "test1" }
+                Ingredient = new IngredientDocument() { Id = "aaa", Name = "test1" }
             },
-            new SectionPartIngredient()
+            new PartIngredientDocument()
             {
                 AdditionalInformation = string.Empty,
                 Unit = MeasureUnit.ml,
                 Amount = 1,
-                Ingredient = new Ingredient() { Id = "aaa", Name = "test2" }
+                Ingredient = new IngredientDocument() { Id = "aaa", Name = "test2" }
             }
         };
 
         var response = ShoppingList.GroupByIngredientName(items);
         Assert.NotNull(response);
-        var result = Assert.IsAssignableFrom<List<SectionPartIngredient>>(response);
+        var result = Assert.IsAssignableFrom<List<PartIngredientDocument>>(response);
         Assert.Equal(2, result.Count);
         Assert.Equal("test1", result[0].Ingredient.Name);
         Assert.Equal(2, result[0].Amount);
@@ -152,14 +151,14 @@ public class ShoppingListTests
     [Fact]
     public void CreateShoppingListValues_Has_Measure_Unit_Valid_Success()
     {
-        var items = new List<SectionPartIngredient>()
+        var items = new List<PartIngredientDocument>()
         {
-            new SectionPartIngredient()
+            new PartIngredientDocument()
             {
                 AdditionalInformation = string.Empty,
                 Unit = MeasureUnit.g,
                 Amount = 100,
-                Ingredient = new Ingredient() { Id = "aaa", Name = "sugar" }
+                Ingredient = new IngredientDocument() { Id = "aaa", Name = "sugar" }
             }
         };
 
@@ -173,14 +172,14 @@ public class ShoppingListTests
     [Fact]
     public void CreateShoppingListValues_Has_No_Measure_unit_And_Single_Amount_Valid_Success()
     {
-        var items = new List<SectionPartIngredient>()
+        var items = new List<PartIngredientDocument>()
         {
-            new SectionPartIngredient()
+            new PartIngredientDocument()
             {
                 AdditionalInformation = string.Empty,
                 Unit = MeasureUnit.None,
                 Amount = 1,
-                Ingredient = new Ingredient() { Id = "aaa", Name = "egg" }
+                Ingredient = new IngredientDocument() { Id = "aaa", Name = "egg" }
             }
         };
 
@@ -194,14 +193,14 @@ public class ShoppingListTests
     [Fact]
     public void CreateShoppingListValues_Has_No_Measure_unit_And_Greater_Than_One_Amount_Valid_Success()
     {
-        var items = new List<SectionPartIngredient>()
+        var items = new List<PartIngredientDocument>()
         {
-            new SectionPartIngredient()
+            new PartIngredientDocument()
             {
                 AdditionalInformation = string.Empty,
                 Unit = MeasureUnit.None,
                 Amount = 2,
-                Ingredient = new Ingredient() { Id = "aaa", Name = "egg" }
+                Ingredient = new IngredientDocument() { Id = "aaa", Name = "egg" }
             }
         };
 
@@ -215,39 +214,39 @@ public class ShoppingListTests
     [Fact]
     public void Generate_Valid_Recipe_Model_Values_Returns_List_string_Success()
     {
-        var recipe = new Recipe()
+        var recipe = new RecipeDocument()
         {
             RecipeParts =
-                new List<SectionRecipePart>()
+                new List<RecipePartDocument>()
                 {
-                    new SectionRecipePart()
+                    new RecipePartDocument()
                     {
                         Items =
-                            new List<SectionPartIngredient>()
+                            new List<PartIngredientDocument>()
                                 {
-                                    new SectionPartIngredient()
+                                    new PartIngredientDocument()
                                     {
                                         Amount = 100,
-                                        Ingredient = new Ingredient() { Name = "Sugar" },
+                                        Ingredient = new IngredientDocument() { Name = "Sugar" },
                                         Unit = MeasureUnit.g
                                     },
-                                    new SectionPartIngredient()
+                                    new PartIngredientDocument()
                                     {
                                         Amount = 1,
-                                        Ingredient = new Ingredient() { Name = "Salt" },
+                                        Ingredient = new IngredientDocument() { Name = "Salt" },
                                         Unit = MeasureUnit.pinch
                                     }
                                 }
                     },
-                    new SectionRecipePart()
+                    new RecipePartDocument()
                     {
                         Items =
-                            new List<SectionPartIngredient>()
+                            new List<PartIngredientDocument>()
                                 {
-                                    new SectionPartIngredient()
+                                    new PartIngredientDocument()
                                     {
                                         Amount = 2,
-                                        Ingredient = new Ingredient() { Name = "Sugar" },
+                                        Ingredient = new IngredientDocument() { Name = "Sugar" },
                                         Unit = MeasureUnit.tsp_dry
                                     }
                                 }

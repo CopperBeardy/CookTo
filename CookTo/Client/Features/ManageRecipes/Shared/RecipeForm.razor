@@ -26,7 +26,7 @@
     </FormSection>
 
    <TimesSection Recipe="_recipe"/>
-    <RecipePartsFormSection Recipe=" _recipe" />
+    <RecipePartsFormSection Recipe=" _recipe" />    
     <UtensilsFormSection Recipe=" _recipe" />
     <CookingStepsFormSection Recipe=" _recipe" />
     <TipsFormSection Recipe=_recipe />
@@ -35,7 +35,7 @@
     <div class="mt-4 mb-5">
         <div class="row">
             <div class="offset-4 col-8 text-right">
-                <button aria-label="resetRecipe" class="btn btn-outline-secondary" type="button" @onclick="@(() => _recipe = new RecipeDto())">Reset</button>
+                <button aria-label="resetRecipe" class="btn btn-outline-secondary" type="button" @onclick="@(() => _recipe = new FullRecipe())">Reset</button>
                 <button class="btn btn-primary" type="submit">Submit</button>
             </div>
         </div>
@@ -43,12 +43,12 @@
 </EditForm>
 
 @code {
-    private RecipeDto _recipe = new RecipeDto();
+    private FullRecipe _recipe = new FullRecipe();
     private EditContext _editContext = default!;
     private IBrowserFile? _recipeImage;
 
-    [Parameter, EditorRequired] public Func<RecipeDto, IBrowserFile?, Task> OnSubmit { get; set; } = default!;
-    [Parameter] public RecipeDto Recipe { get; set; }
+    [Parameter, EditorRequired] public Func<FullRecipe, IBrowserFile?, Task> OnSubmit { get; set; } = default!;
+    [Parameter] public FullRecipe Recipe { get; set; }
 
     protected override void OnParametersSet()
     {
@@ -68,7 +68,7 @@
     public void ResetForm()
     {
         AppState.NewRecipeState.ClearRecipe();
-        _recipe = new RecipeDto();
+        _recipe = new FullRecipe();
         _editContext = new EditContext(_recipe);
         _editContext.SetFieldCssClassProvider(new BootstrapCssClassProvider());
         _recipeImage = null;

@@ -1,7 +1,7 @@
 ﻿
 namespace CookTo.Shared.Features.ManageRecipes.Validators;
 
-public class RecipeDtoValidator : AbstractValidator<RecipeDto>
+public class RecipeDtoValidator : AbstractValidator<FullRecipe>
 {
     public RecipeDtoValidator()
     {
@@ -27,8 +27,7 @@ public class RecipeDtoValidator : AbstractValidator<RecipeDto>
         RuleFor(x => x.RecipeParts)
             .NotEmpty()
             .WithMessage("Please provide at least 1 Utensil required for making this recipe ");
-        RuleFor(x => x.CookingSteps).NotEmpty().WithMessage("Please provide at least 1 cooking direction ");
-        RuleForEach(x => x.CookingSteps).SetValidator(new CookingStepValidator());
+  
         RuleForEach(x => x.RecipeParts).SetValidator(new RecipePartValidator());
         RuleForEach(x => x.Utensils).SetValidator(new UtensilPartValidator());
     }

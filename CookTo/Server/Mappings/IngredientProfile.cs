@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using CookTo.Server.Documents.IngredientDocument;
-using CookTo.Shared.Features.ManageIngredients;
+using CookTo.Server.Documents;
+using CookTo.Shared.Models;
 
 namespace CookTo.Server.Mappings;
 
 public class IngredientProfile : Profile
 {
-    public IngredientProfile() { CreateMap<IngredientDto, Ingredient>().ReverseMap(); }
+    public IngredientProfile() { CreateMap<Ingredient, IngredientDocument>().ReverseMap(); }
 }

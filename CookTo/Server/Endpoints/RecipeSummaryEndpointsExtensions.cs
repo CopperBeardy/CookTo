@@ -1,9 +1,8 @@
 using AutoMapper;
 using CookTo.Server.Services.Interfaces;
-using CookTo.Shared.Features.ManageCategory;
-using CookTo.Shared.Features.ManageCuisine;
+using CookTo.Shared.Features;
 using CookTo.Shared.Features.ManageRecipes;
-
+using CookTo.Shared.Models;
 
 namespace CookTo.Server.Endpoints;
 
@@ -18,15 +17,15 @@ public static class RecipeSummaryEndpointsExtensions
             async (string amount, IRecipeService service, IMapper mapper, CancellationToken token) =>
             {
                 var recipes = await service.GetByLimit(int.Parse(amount), token);
-                List<RecipeSummaryDto> recipeSummaries = new List<RecipeSummaryDto>();
+                List<RecipeSummary> recipeSummaries = new List<RecipeSummary>();
                 foreach (var recipe in recipes)
                 {
                     recipeSummaries.Add(
-                        new RecipeSummaryDto(
+                        new RecipeSummary(
                             recipe.Id,
-                            mapper.Map<CategoryDto>(recipe.Category),
+                            mapper.Map<Category>(recipe.Category),
                             recipe.Title,
-                            mapper.Map<CuisineDto>(recipe.Cuisine),
+                            mapper.Map<Cuisine>(recipe.Cuisine),
                             recipe.Image,
                             string.IsNullOrEmpty(recipe.Creator) ? string.Empty : recipe.Creator,
                             recipe.AddedBy));
@@ -39,15 +38,15 @@ public static class RecipeSummaryEndpointsExtensions
             async (string term, IRecipeService service, IMapper mapper, CancellationToken token) =>
             {
                 var recipes = await service.GetAllByTerm(term, token);
-                List<RecipeSummaryDto> recipeSummaries = new List<RecipeSummaryDto>();
+                List<RecipeSummary> recipeSummaries = new List<RecipeSummary>();
                 foreach (var recipe in recipes)
                 {
                     recipeSummaries.Add(
-                        new RecipeSummaryDto(
+                        new RecipeSummary(
                             recipe.Id,
-                            mapper.Map<CategoryDto>(recipe.Category),
+                            mapper.Map<Category>(recipe.Category),
                             recipe.Title,
-                            mapper.Map<CuisineDto>(recipe.Cuisine),
+                            mapper.Map<Cuisine>(recipe.Cuisine),
                             recipe.Image,
                             string.IsNullOrEmpty(recipe.Creator) ? string.Empty : recipe.Creator,
                             recipe.AddedBy));

@@ -1,8 +1,9 @@
 using AutoMapper;
-using CookTo.Server.Documents.CuisineDocument;
+using CookTo.Server.Documents;
 
 using CookTo.Server.Services.Interfaces;
-using CookTo.Shared.Features.ManageCuisine;
+using CookTo.Shared.Features;
+using CookTo.Shared.Models;
 
 namespace CookTo.Server.Endpoints;
 
@@ -15,7 +16,7 @@ public static class CuisineEndpointsExtensions
             async (ICuisineService service, IMapper mapper, CancellationToken token) =>
             {
                 var cuisines = await service.GetAllAsync(token);
-                return Results.Ok(mapper.Map<List<CuisineDto>>(cuisines));
+                return Results.Ok(mapper.Map<List<Cuisine>>(cuisines));
             });
 
         app.MapGet(
@@ -28,18 +29,18 @@ public static class CuisineEndpointsExtensions
                     return Results.BadRequest("Cuisine was not found");
                 }
 
-                var response = mapper.Map<CuisineDto>(cuisine);
+                var response = mapper.Map<Cuisine>(cuisine);
                 return Results.Ok(response);
             });
 
 
         app.MapPost(
             "/api/cuisine",
-            async (CuisineDto cuisine, ICuisineService service, IMapper mapper, CancellationToken token) =>
+            async (Cuisine cuisine, ICuisineService service, IMapper mapper, CancellationToken token) =>
             {
-                var newCuisine = mapper.Map<Cuisine>(cuisine);
+                var newCuisine = mapper.Map<CuisineDocument>(cuisine);
                 await service.CreateAsync(newCuisine, token);
-                return Results.Ok(mapper.Map<CuisineDto>(newCuisine));
+                return Results.Ok(mapper.Map<Cuisine>(newCuisine));
             });
     }
 }

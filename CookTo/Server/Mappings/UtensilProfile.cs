@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
-using CookTo.Server.Documents.UtensilDocument;
-using CookTo.Shared.Features.ManageUtensils;
+using CookTo.Server.Documents;
+using CookTo.Shared.Features;
+using CookTo.Shared.Models;
 
 namespace CookTo.Server.Mappings;
 
 public class UtensilProfile : Profile
 {
-    public UtensilProfile() { CreateMap<UtensilDto, Utensil>().ReverseMap(); }
+    public UtensilProfile() { CreateMap<Utensil, UtensilDocument>().ReverseMap(); }
 }

@@ -8,7 +8,7 @@ public class RecipeSummaryManager : IRecipeSummaryManager
     private readonly IHttpClientFactory _factory;
     public RecipeSummaryManager(IHttpClientFactory factory) { _factory = factory; }
 
-    public async Task<IEnumerable<RecipeSummaryDto>> GetByTerm(string term)
+    public async Task<IEnumerable<RecipeSummary>> GetByTerm(string term)
     {
         try
         {
@@ -16,7 +16,7 @@ public class RecipeSummaryManager : IRecipeSummaryManager
             var result = await httpClient.GetAsync($"/api/searchrecipes/{term}", new CancellationToken());
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
-            var response = JsonConvert.DeserializeObject<List<RecipeSummaryDto>>(content);
+            var response = JsonConvert.DeserializeObject<List<RecipeSummary>>(content);
             return response;
         } catch(Exception)
         {
@@ -24,7 +24,7 @@ public class RecipeSummaryManager : IRecipeSummaryManager
         }
     }
 
-    public async Task<IEnumerable<RecipeSummaryDto>> GetCount(int amount)
+    public async Task<IEnumerable<RecipeSummary>> GetCount(int amount)
     {
         try
         {
@@ -32,7 +32,7 @@ public class RecipeSummaryManager : IRecipeSummaryManager
             var result = await httpClient.GetAsync($"/api/recipes/{amount}", new CancellationToken());
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
-            var response = JsonConvert.DeserializeObject<List<RecipeSummaryDto>>(content);
+            var response = JsonConvert.DeserializeObject<List<RecipeSummary>>(content);
             return response;
         } catch(Exception)
         {

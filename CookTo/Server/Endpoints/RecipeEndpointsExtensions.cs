@@ -1,5 +1,4 @@
 using AutoMapper;
-using CookTo.Server.Documents.RecipeDocument;
 using CookTo.Server.Helpers;
 using CookTo.Server.Services.Interfaces;
 using CookTo.Shared.Features.ManageRecipes;
@@ -20,19 +19,19 @@ public static class RecipeEndpointsExtensions
                 {
                     return Results.BadRequest("Recipe was not found");
                 }
-                return Results.Ok(mapper.Map<RecipeDto>(recipe));
+                return Results.Ok(mapper.Map<Shared.Features.ManageRecipes.FullRecipe>(recipe));
             });
 
         app.MapPut(
             "/api/recipe",
-            async (RecipeDto updateRecipe, IRecipeService service, IMapper mapper, CancellationToken token) =>
+            async (Shared.Features.ManageRecipes.FullRecipe updateRecipe, IRecipeService service, IMapper mapper, CancellationToken token) =>
             {
                 var recipe = await service.GetByIdAsync(updateRecipe.Id, token);
                 if(recipe is null)
                 {
                     return Results.NotFound();
                 }
-                var toUpdate = mapper.Map<Recipe>(updateRecipe);
+                var toUpdate = mapper.Map<Documents.RecipeDocument>(updateRecipe);
                 toUpdate.ShoppingList = ShoppingList.Generate(toUpdate);
                 await service.UpdateAsync(toUpdate, token);
                 return Results.NoContent();
@@ -41,14 +40,14 @@ public static class RecipeEndpointsExtensions
         app.MapPost(
             "/api/recipe",
             async (
-                RecipeDto recipe,
+                Shared.Features.ManageRecipes.FullRecipe recipe,
                 IRecipeService service,
                 IMapper mapper,
                 HttpContext context,
                 CancellationToken token) =>
             {
-                var entity = mapper.Map<Recipe>(recipe);
-                entity.AddedBy = context.User.Claims.First(t => t.Type == ClaimConstants.Name).Value.ToString();
+                var entity = mapper.Map<Documents.RecipeDocument>(recipe);
+                entity.AddedBy = context.User.Claims.First<System.Security.Claims.Claim>(t => t.Type == ClaimConstants.Name).Value.ToString();
                 entity.ShoppingList = ShoppingList.Generate(entity);
                 await service.CreateAsync(entity, token);
 

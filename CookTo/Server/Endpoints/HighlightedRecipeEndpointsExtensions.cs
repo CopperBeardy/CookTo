@@ -20,7 +20,7 @@ public static class HighlightedEndpointsExtensions
                 var recipe = recipes.FirstOrDefault();
                 //    var recipe = await service.GetByIdAsync("622224f121307568e8720d59", token);
 
-                return Results.Ok(mapper.Map<HighlightedRecipeDto>(recipe));
+                return Results.Ok(mapper.Map<HighlightedRecipe>(recipe));
             });
     }
 }

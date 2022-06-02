@@ -1,7 +1,4 @@
-﻿using CookTo.Server.Documents.CategoryDocument;
-using CookTo.Server.Documents.CuisineDocument;
-using CookTo.Server.Documents.IngredientDocument;
-using CookTo.Server.Documents.UtensilDocument;
+﻿using CookTo.Server.Documents;
 using Microsoft.Extensions.Options;
 
 namespace CookTo.Server.DbContext;
@@ -35,62 +32,62 @@ public class CookToDbContext : ICookToDbContext
 
     private async void SeedIngredientCollection()
     {
-        var ingredients = new List<Ingredient>()
+        var ingredients = new List<IngredientDocument>()
         {
-            new Ingredient() { Name = "Strong White Bread Flour" },
-            new Ingredient() { Name = "Lemon" },
-            new Ingredient() { Name = "Fast Acting Yeast" },
-            new Ingredient() { Name = "Caster Sugar" }
+            new IngredientDocument() { Name = "Strong White Bread Flour" },
+            new IngredientDocument() { Name = "Lemon" },
+            new IngredientDocument() { Name = "Fast Acting Yeast" },
+            new IngredientDocument() { Name = "Caster Sugar" }
         };
 
-        var collection = db.GetCollection<Ingredient>(nameof(Ingredient));
+        var collection = db.GetCollection<IngredientDocument>(nameof(IngredientDocument));
         await collection.InsertManyAsync(ingredients);
     }
 
     private async void SeedCuisineCollection()
     {
-        var cuisines = new List<Cuisine>()
+        var cuisines = new List<CuisineDocument>()
         {
-            new Cuisine() { Name = "British" },
-            new Cuisine() { Name = "French" },
-            new Cuisine() { Name = "Chinese" },
-            new Cuisine() { Name = "Italian" }
+            new CuisineDocument() { Name = "British" },
+            new CuisineDocument() { Name = "French" },
+            new CuisineDocument() { Name = "Chinese" },
+            new CuisineDocument() { Name = "Italian" }
         };
 
-        var collection = db.GetCollection<Cuisine>(nameof(Cuisine));
+        var collection = db.GetCollection<CuisineDocument>(nameof(CuisineDocument));
         await collection.InsertManyAsync(cuisines);
     }
 
     private async void SeedCategoryCollection()
     {
-        var categories = new List<Category>()
+        var categories = new List<CategoryDocument>()
         {
-            new Category() { Name = "Cake" },
-            new Category() { Name = "Baking" },
-            new Category() { Name = "Main" },
-            new Category() { Name = "Light Meal" },
-            new Category() { Name = "Starter" },
-            new Category() { Name = "Nibbles" },
-            new Category() { Name = "Brunch" },
-            new Category() { Name = "Side" },
-            new Category() { Name = "Dessert" }
+            new CategoryDocument() { Name = "Cake" },
+            new CategoryDocument() { Name = "Baking" },
+            new CategoryDocument() { Name = "Main" },
+            new CategoryDocument() { Name = "Light Meal" },
+            new CategoryDocument() { Name = "Starter" },
+            new CategoryDocument() { Name = "Nibbles" },
+            new CategoryDocument() { Name = "Brunch" },
+            new CategoryDocument() { Name = "Side" },
+            new CategoryDocument() { Name = "Dessert" }
         };
 
-        var collection = db.GetCollection<Category>(nameof(Category));
+        var collection = db.GetCollection<CategoryDocument>(nameof(CategoryDocument));
         await collection.InsertManyAsync(categories);
     }
 
     private async void SeedUtensilCollection()
     {
-        var utensils = new List<Utensil>()
+        var utensils = new List<UtensilDocument>()
         {
-            new Utensil() { UtensilName = "Muffin Moulds" },
-            new Utensil() { UtensilName = "20cm loose fitting Cake Tin" },
-            new Utensil() { UtensilName = "Whisk" },
-            new Utensil() { UtensilName = "Electric Whisk" },
+            new UtensilDocument() { UtensilName = "Muffin Moulds" },
+            new UtensilDocument() { UtensilName = "20cm loose fitting Cake Tin" },
+            new UtensilDocument() { UtensilName = "Whisk" },
+            new UtensilDocument() { UtensilName = "Electric Whisk" },
         };
 
-        var collection = db.GetCollection<Utensil>(nameof(Utensil));
+        var collection = db.GetCollection<UtensilDocument>(nameof(UtensilDocument));
         await collection.InsertManyAsync(utensils);
     }
 }

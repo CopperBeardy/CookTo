@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using CookTo.Server.Documents.CategoryDocument;
-using CookTo.Shared.Features.ManageCategory;
+using CookTo.Server.Documents;
+using CookTo.Shared.Features;
 
 namespace CookTo.Server.Mappings;
 
 public class CategoryProfile : Profile
 {
-    public CategoryProfile() { CreateMap<CategoryDto, Category>().ReverseMap(); }
+    public CategoryProfile() { CreateMap<CategoryDocument, CategoryDocument>().ReverseMap(); }
 }

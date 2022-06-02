@@ -1,0 +1,38 @@
+﻿
+        <div class="row">
+            <FormInputGroup Id="partTitle" Label="PartTitle" Width="col col-sm-11" Margins="mb-2">
+                <InputText role="textbox" @bind-Value="part.PartTitle" class="form-control" id="partTitle" />
+                <ValidationMessage aria-alert="true" For="@(() => part.PartTitle)" />
+            </FormInputGroup>
+            <div class="col-sm-1">
+                <button class="btn link-danger " @onclick="@RemovePart()" type="button"><i class="bi bi-dash-circle"></i></button>
+            </div>
+        </div>
+        <div class="row">
+            @{
+                var i = 0;
+            }
+          @foreach (var cookingStep in part.CookingSteps)
+          {     
+              i++;
+              cookingStep.OrderNumber = i;
+               <CookingStepsFormSection CookingStep="cookingStep" Ingredients="Ingredients" IngredientManager="IngredientManager"/>
+           }
+           </div>
+           <div class="row">
+            <div class="col">
+                <button aria-label="addNewCookingStep" class="btn btn-outline-primary" type="button" @onclick="@(() => FullRecipe.CookingSteps.Add(new CookingStep()))">Add CookingStep</button>
+                <ValidationMessage aria-alert="true" For="@(() => CookingSteps)" />
+            </div>
+        </div>
+@code {
+    [Parameter]public RecipePart RecipePart { get; set; }
+
+    [Parameter]public EventCallback<RecipePart> RemoveCurrentPart { get;set }
+
+    private async Task RemovePart()
+    {
+        await RemoveCurrentPart.InvokeAsync.(RecipePart);
+    }
+
+}

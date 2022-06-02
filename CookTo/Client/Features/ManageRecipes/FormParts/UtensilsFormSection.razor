@@ -9,7 +9,7 @@
                     <ValidationMessage aria-alert="true" For="@(() => utensil.RequiredAmount)" />
                </FormInputGroup>
 
-              <UtensilTypeahead Part="utensil" UtensilManager="Manager"  Utensils="Utensils" />
+              <Typeahead T="Category" UtensilManager="Manager"  Utensils="Utensils" />
                
               <div class="col-sm-1">
                     <button role="button" aria-label="removeUtensil" class="btn link-danger " @onclick="@(() => Recipe.Utensils.Remove(utensil))" type="button"><i class="bi bi-dash-circle"></i></button>
@@ -27,7 +27,7 @@
 </FormSection>
 
 @code {
-    [Parameter] public RecipeDto Recipe { get; set; }
+    [Parameter] public FullRecipe Recipe { get; set; }
     public IList<UtensilDto>? Utensils { get; set; } = new List<UtensilDto>();
 
     protected override async Task OnInitializedAsync()

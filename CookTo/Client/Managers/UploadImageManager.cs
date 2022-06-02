@@ -35,7 +35,7 @@ public class UploadImageManager : IUploadImageManager
         {
             MemoryStream ms = new MemoryStream();
             await file.OpenReadStream(file.Size).CopyToAsync(ms);
-            var dto = new ImageUploadDto() { RecipeId = recipeId, Image = ms.ToArray() };
+            var dto = new ImageUpload() { RecipeId = recipeId, Image = ms.ToArray() };
 
             var httpClient = HttpNamedClientFactoryHelper.CreateClient(_factory, HttpClientType.Secure);
 

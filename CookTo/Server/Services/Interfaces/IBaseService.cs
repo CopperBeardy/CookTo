@@ -2,7 +2,7 @@
 
 namespace CookTo.Server.Services.Interfaces;
 
-public interface IBaseService<TEntity> where TEntity : BaseEntity
+public interface IBaseService<TEntity> where TEntity : BaseDocument
 {
     Task<List<TEntity>> GetAllAsync(CancellationToken token);
 

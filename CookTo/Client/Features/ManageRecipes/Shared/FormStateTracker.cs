@@ -25,7 +25,7 @@ public class FormStateTracker : ComponentBase
     private void CascadedEditContext_OnFieldChanged(object? sender, FieldChangedEventArgs e)
     {
         var property = sender.GetType().GetProperty("Model");
-        var model = (RecipeDto)property.GetValue(sender, null);
+        var model = (FullRecipe)property.GetValue(sender, null);
 
         if (string.IsNullOrWhiteSpace(model.Id))
         {

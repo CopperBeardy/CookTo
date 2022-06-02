@@ -18,9 +18,16 @@
 
     protected override void OnInitialized()
     {
-        foreach (var item in RecipePart.Items)
+        foreach (var step in RecipePart.CookingSteps)
         {
-            Items.Add(CreateListItem(item));
+            if (step.PartIngredients is not null || step.PartIngredients.Count > 0)
+            {
+                foreach (var item in step.PartIngredients)
+                {
+                     Items.Add(CreateListItem(item));
+                }
+               
+            }
         }
     }
 

@@ -1,5 +1,5 @@
 using AutoMapper;
-using CookTo.Server.Documents.FavoritesDocument;
+using CookTo.Server.Documents;
 using CookTo.Server.Services.Interfaces;
 using CookTo.Shared.Features.ManageFavorites;
 
@@ -22,7 +22,7 @@ public static class FavoritesEndpointsExtensions
             "/api/favorites",
             async (FavoriteDto dto, IFavoriteService service, IMapper mapper, CancellationToken token) =>
             {
-                var favorites = new FavoriteRecipes()
+                var favorites = new FavoriteRecipeDocument()
                 {
                     Username = dto.Username,
                     Favorites = new List<string>() { dto.recipeId }

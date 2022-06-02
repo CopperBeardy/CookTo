@@ -4,10 +4,10 @@ namespace CookTo.Client.State;
 
 public class NewRecipeState
 {
-    private RecipeDto _unsavedNewRecipe = new();
-    public RecipeDto GetRecipe() => _unsavedNewRecipe;
+    private FullRecipe _unsavedNewRecipe = new();
+    public FullRecipe GetRecipe() => _unsavedNewRecipe;
 
-    public void SetRecipe(RecipeDto recipeDto) => _unsavedNewRecipe = recipeDto;
+    public void SetRecipe(FullRecipe recipeDto) => _unsavedNewRecipe = recipeDto;
 
     public void ClearRecipe() => _unsavedNewRecipe = new();
 }

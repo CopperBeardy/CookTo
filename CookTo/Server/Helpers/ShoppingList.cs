@@ -1,13 +1,13 @@
-﻿using CookTo.Server.Documents.RecipeDocument;
+﻿using CookTo.Server.Documents;
 using System.Text;
 
 namespace CookTo.Server.Helpers;
 
 public static class ShoppingList
 {
-    public static List<string> Generate(Recipe recipe)
+    public static List<string> Generate(RecipeDocument recipe)
     {
-        List<SectionPartIngredient> ingredients = GatherIngredients(recipe);
+        List<PartIngredientDocument> ingredients = GatherIngredients(recipe);
         ingredients = NormalizeIngredients(ingredients);
         ingredients = GroupByIngredientName(ingredients);
         List<string> shoppingList = CreateShoppingListValues(ingredients);
@@ -15,7 +15,7 @@ public static class ShoppingList
         return shoppingList;
     }
 
-    private static List<SectionPartIngredient> NormalizeIngredients(this List<SectionPartIngredient> ingredients)
+    private static List<PartIngredientDocument> NormalizeIngredients(this List<PartIngredientDocument> ingredients)
     {
         for(int i = 0; i < ingredients.Count; i++)
         {
@@ -37,9 +37,9 @@ public static class ShoppingList
         return ingredients;
     }
 
-    private static List<SectionPartIngredient> GatherIngredients(Recipe recipe)
+    private static List<PartIngredientDocument> GatherIngredients(RecipeDocument recipe)
     {
-        var ingredients = new List<SectionPartIngredient>();
+        var ingredients = new List<PartIngredientDocument>();
         foreach(var part in recipe.RecipeParts)
         {
             ingredients.AddRange(part.Items);
@@ -47,7 +47,7 @@ public static class ShoppingList
         return ingredients;
     }
 
-    public static List<string> CreateShoppingListValues(this List<SectionPartIngredient> ingredients)
+    public static List<string> CreateShoppingListValues(this List<PartIngredientDocument> ingredients)
     {
         var shoppingList = new List<string>();
         foreach(var ingredient in ingredients)
@@ -79,11 +79,11 @@ public static class ShoppingList
         return shoppingList;
     }
 
-    public static List<SectionPartIngredient> GroupByIngredientName(this List<SectionPartIngredient> ingredients)
+    public static List<PartIngredientDocument> GroupByIngredientName(this List<PartIngredientDocument> ingredients)
     {
         return ingredients.GroupBy(n => n.Ingredient.Name)
             .Select(
-                i => new SectionPartIngredient
+                i => new PartIngredientDocument
                 {
                     Amount = i.Sum(a => a.Amount),
                     AdditionalInformation = i.First().AdditionalInformation,
@@ -93,7 +93,7 @@ public static class ShoppingList
             .ToList();
     }
 
-    public static SectionPartIngredient ConvertToGrams(SectionPartIngredient ingredient)
+    public static PartIngredientDocument ConvertToGrams(PartIngredientDocument ingredient)
     {
         switch(ingredient.Unit)
         {
@@ -111,7 +111,7 @@ public static class ShoppingList
         return ingredient;
     }
 
-    public static SectionPartIngredient ConvertToMilliliters(SectionPartIngredient ingredient)
+    public static PartIngredientDocument ConvertToMilliliters(PartIngredientDocument ingredient)
     {
         switch(ingredient.Unit)
         {

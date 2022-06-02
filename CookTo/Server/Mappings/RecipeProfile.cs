@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CookTo.Server.Documents.RecipeDocument;
+using CookTo.Server.Documents;
 using CookTo.Shared.Features.ManageRecipes;
 
 namespace CookTo.Server.Mappings;
@@ -8,11 +8,11 @@ public class RecipeProfile : Profile
 {
     public RecipeProfile()
     {
-        CreateMap<RecipeDto, Recipe>().ReverseMap();
-        CreateMap<CookingStep, SectionCookingStep>().ReverseMap();
-        CreateMap<RecipePart, SectionRecipePart>().ReverseMap();
-        CreateMap<UtensilPart, SectionUtensilPart>().ReverseMap();
-        CreateMap<PartIngredient, SectionPartIngredient>().ReverseMap();
-        CreateMap<Recipe, HighlightedRecipeDto>();
+        CreateMap<FullRecipe, RecipeDocument>().ReverseMap();
+        CreateMap<CookingStep, CookingStepDocument>().ReverseMap();
+        CreateMap<RecipePart, RecipePartDocument>().ReverseMap();
+        CreateMap<UtensilPart, UtensilPartDocument>().ReverseMap();
+        CreateMap<PartIngredient, PartIngredientDocument>().ReverseMap();
+        CreateMap<RecipeDocument, HighlightedRecipe>();
     }
 }

@@ -5,7 +5,7 @@ namespace CookTo.Client.Managers.Interfaces;
 
 public interface IRecipeSummaryManager
 {
-    Task<IEnumerable<RecipeSummaryDto>> GetCount(int amount);
+    Task<IEnumerable<RecipeSummary>> GetCount(int amount);
 
-    Task<IEnumerable<RecipeSummaryDto>> GetByTerm(string id);
+    Task<IEnumerable<RecipeSummary>> GetByTerm(string id);
 }

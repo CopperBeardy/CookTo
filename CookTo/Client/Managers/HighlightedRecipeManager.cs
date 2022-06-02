@@ -12,7 +12,7 @@ public class HighlightedRecipeManager : IHighlightedRecipeManager
 
     public HighlightedRecipeManager(IHttpClientFactory factory) { _factory = factory; }
 
-    public async Task<HighlightedRecipeDto> GetHighlighted()
+    public async Task<HighlightedRecipe> GetHighlighted()
     {
         try
         {
@@ -20,7 +20,7 @@ public class HighlightedRecipeManager : IHighlightedRecipeManager
             var result = await httpClient.GetAsync(_url, new CancellationToken());
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
-            var response = JsonConvert.DeserializeObject<HighlightedRecipeDto>(content);
+            var response = JsonConvert.DeserializeObject<HighlightedRecipe>(content);
             return response;
         } catch(Exception)
         {

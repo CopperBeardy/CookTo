@@ -37,8 +37,8 @@ else
 
 
 @code {
-    private IEnumerable<RecipeSummaryDto>? _searchResults = new List<RecipeSummaryDto>();
-    private List<RecipeSummaryDto>? _filteredResults = new List<RecipeSummaryDto>();
+    private IEnumerable<RecipeSummary>? _searchResults = new List<RecipeSummary>();
+    private List<RecipeSummary>? _filteredResults = new List<RecipeSummary>();
     public SortOptions SortOption { get; set; } = SortOptions.TitleAsc;
     private bool isLoading  = true;
     [Parameter] public string SearchTerm { get; set; }

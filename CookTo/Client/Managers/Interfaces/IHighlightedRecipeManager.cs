@@ -5,5 +5,5 @@ namespace CookTo.Client.Managers.Interfaces;
 
 public interface IHighlightedRecipeManager
 {
-    Task<HighlightedRecipeDto> GetHighlighted();
+    Task<HighlightedRecipe> GetHighlighted();
 }

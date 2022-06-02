@@ -3,7 +3,7 @@ using CookTo.Server.Services.Interfaces;
 
 namespace CookTo.Server.Services;
 
-public abstract class BaseService<TEntity> : IBaseService<TEntity> where TEntity : BaseEntity
+public abstract class BaseService<TEntity> : IBaseService<TEntity> where TEntity : BaseDocument
 {
     protected readonly ICookToDbContext dbContext;
 
