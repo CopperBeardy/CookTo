@@ -1,0 +1,20 @@
+﻿
+<li class="mb-1">
+    <div class="row">
+        <p>@CookingStep.StepDescription</p>
+    </div>
+    <div class="row">
+        @foreach (var ing in CookingStep.StepIngredients)
+        {
+          <span class="badge rounded-pill bg-light text-dark">
+              @ing.ToString();
+          </span>
+        }
+           
+      
+    </div>
+</li>
+
+@code {
+    [Parameter]public CookingStep CookingStep { get; set; }
+}

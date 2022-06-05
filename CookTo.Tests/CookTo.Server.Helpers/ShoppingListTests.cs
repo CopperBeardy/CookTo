@@ -15,7 +15,7 @@ public class ShoppingListTests
     [Fact]
     public void ConvertToMilliliters_MeasureUnit_tsp_liquid_Valid_SectionPartIngredient_Success()
     {
-        var partIngredient = new PartIngredientDocument()
+        var partIngredient = new StepIngredientDocument()
         {
             AdditionalInformation = string.Empty,
             Unit = MeasureUnit.tsp_liquid,
@@ -26,7 +26,7 @@ public class ShoppingListTests
         var response = ShoppingList.ConvertToMilliliters(partIngredient);
 
         Assert.NotNull(response);
-        var result = Assert.IsAssignableFrom<PartIngredientDocument>(response);
+        var result = Assert.IsAssignableFrom<StepIngredientDocument>(response);
 
         Assert.Equal(5, result.Amount);
         Assert.Equal(MeasureUnit.ml, result.Unit);
@@ -35,7 +35,7 @@ public class ShoppingListTests
     [Fact]
     public void ConvertToMilliliters_MeasureUnit_tbsp_liquid_Valid_SectionPartIngredient_Success()
     {
-        var partIngredient = new PartIngredientDocument()
+        var partIngredient = new StepIngredientDocument()
         {
             AdditionalInformation = string.Empty,
             Unit = MeasureUnit.tbsp_liquid,
@@ -46,7 +46,7 @@ public class ShoppingListTests
         var response = ShoppingList.ConvertToMilliliters(partIngredient);
 
         Assert.NotNull(response);
-        var result = Assert.IsAssignableFrom<PartIngredientDocument>(response);
+        var result = Assert.IsAssignableFrom<StepIngredientDocument>(response);
 
         Assert.Equal(15, result.Amount);
         Assert.Equal(MeasureUnit.ml, result.Unit);
@@ -55,7 +55,7 @@ public class ShoppingListTests
     [Fact]
     public void ConvertToGrams_MeasureUnit_tsp_dry_Valid_SectionPartIngredient_Success()
     {
-        var partIngredient = new PartIngredientDocument()
+        var partIngredient = new StepIngredientDocument()
         {
             AdditionalInformation = string.Empty,
             Unit = MeasureUnit.tsp_dry,
@@ -66,7 +66,7 @@ public class ShoppingListTests
         var response = ShoppingList.ConvertToGrams(partIngredient);
 
         Assert.NotNull(response);
-        var result = Assert.IsAssignableFrom<PartIngredientDocument>(response);
+        var result = Assert.IsAssignableFrom<StepIngredientDocument>(response);
 
         Assert.Equal(6, result.Amount);
         Assert.Equal(MeasureUnit.g, result.Unit);
@@ -75,7 +75,7 @@ public class ShoppingListTests
     [Fact]
     public void ConvertToGrams_MeasureUnit_tbsp_dry_Valid_SectionPartIngredient_Success()
     {
-        var partIngredient = new PartIngredientDocument()
+        var partIngredient = new StepIngredientDocument()
         {
             AdditionalInformation = string.Empty,
             Unit = MeasureUnit.tbsp_dry,
@@ -86,7 +86,7 @@ public class ShoppingListTests
         var response = ShoppingList.ConvertToGrams(partIngredient);
 
         Assert.NotNull(response);
-        var result = Assert.IsAssignableFrom<PartIngredientDocument>(response);
+        var result = Assert.IsAssignableFrom<StepIngredientDocument>(response);
 
         Assert.Equal(15, result.Amount);
         Assert.Equal(MeasureUnit.g, result.Unit);
@@ -95,7 +95,7 @@ public class ShoppingListTests
     [Fact]
     public void ConvertToGrams_MeasureUnit_pinch_Valid_SectionPartIngredient_Success()
     {
-        var partIngredient = new PartIngredientDocument()
+        var partIngredient = new StepIngredientDocument()
         {
             AdditionalInformation = string.Empty,
             Unit = MeasureUnit.pinch,
@@ -106,7 +106,7 @@ public class ShoppingListTests
         var response = ShoppingList.ConvertToGrams(partIngredient);
 
         Assert.NotNull(response);
-        var result = Assert.IsAssignableFrom<PartIngredientDocument>(response);
+        var result = Assert.IsAssignableFrom<StepIngredientDocument>(response);
 
         Assert.Equal(2, result.Amount);
         Assert.Equal(MeasureUnit.g, result.Unit);
@@ -115,23 +115,23 @@ public class ShoppingListTests
     [Fact]
     public void GroupByIngredientName_Valid_Success()
     {
-        var items = new List<PartIngredientDocument>()
+        var items = new List<StepIngredientDocument>()
         {
-            new PartIngredientDocument()
+            new StepIngredientDocument()
             {
                 AdditionalInformation = string.Empty,
                 Unit = MeasureUnit.g,
                 Amount = 1,
                 Ingredient = new IngredientDocument() { Id = "aaa", Name = "test1" }
             },
-            new PartIngredientDocument()
+            new StepIngredientDocument()
             {
                 AdditionalInformation = string.Empty,
                 Unit = MeasureUnit.g,
                 Amount = 1,
                 Ingredient = new IngredientDocument() { Id = "aaa", Name = "test1" }
             },
-            new PartIngredientDocument()
+            new StepIngredientDocument()
             {
                 AdditionalInformation = string.Empty,
                 Unit = MeasureUnit.ml,
@@ -142,7 +142,7 @@ public class ShoppingListTests
 
         var response = ShoppingList.GroupByIngredientName(items);
         Assert.NotNull(response);
-        var result = Assert.IsAssignableFrom<List<PartIngredientDocument>>(response);
+        var result = Assert.IsAssignableFrom<List<StepIngredientDocument>>(response);
         Assert.Equal(2, result.Count);
         Assert.Equal("test1", result[0].Ingredient.Name);
         Assert.Equal(2, result[0].Amount);
@@ -151,9 +151,9 @@ public class ShoppingListTests
     [Fact]
     public void CreateShoppingListValues_Has_Measure_Unit_Valid_Success()
     {
-        var items = new List<PartIngredientDocument>()
+        var items = new List<StepIngredientDocument>()
         {
-            new PartIngredientDocument()
+            new StepIngredientDocument()
             {
                 AdditionalInformation = string.Empty,
                 Unit = MeasureUnit.g,
@@ -172,9 +172,9 @@ public class ShoppingListTests
     [Fact]
     public void CreateShoppingListValues_Has_No_Measure_unit_And_Single_Amount_Valid_Success()
     {
-        var items = new List<PartIngredientDocument>()
+        var items = new List<StepIngredientDocument>()
         {
-            new PartIngredientDocument()
+            new StepIngredientDocument()
             {
                 AdditionalInformation = string.Empty,
                 Unit = MeasureUnit.None,
@@ -193,9 +193,9 @@ public class ShoppingListTests
     [Fact]
     public void CreateShoppingListValues_Has_No_Measure_unit_And_Greater_Than_One_Amount_Valid_Success()
     {
-        var items = new List<PartIngredientDocument>()
+        var items = new List<StepIngredientDocument>()
         {
-            new PartIngredientDocument()
+            new StepIngredientDocument()
             {
                 AdditionalInformation = string.Empty,
                 Unit = MeasureUnit.None,
@@ -216,21 +216,22 @@ public class ShoppingListTests
     {
         var recipe = new RecipeDocument()
         {
-            RecipeParts =
-                new List<RecipePartDocument>()
-                {
-                    new RecipePartDocument()
-                    {
-                        Items =
-                            new List<PartIngredientDocument>()
-                                {
-                                    new PartIngredientDocument()
+            CookingSteps = new List<CookingStepDocument>()
+            {
+
+            new CookingStepDocument()
+            {
+                        OrderNumber =1,
+                        StepDescription="do stuff",
+                       StepIngredients =  new List<StepIngredientDocument>()
+                       {
+                                    new StepIngredientDocument()
                                     {
                                         Amount = 100,
                                         Ingredient = new IngredientDocument() { Name = "Sugar" },
                                         Unit = MeasureUnit.g
                                     },
-                                    new PartIngredientDocument()
+                                    new StepIngredientDocument()
                                     {
                                         Amount = 1,
                                         Ingredient = new IngredientDocument() { Name = "Salt" },
@@ -238,20 +239,23 @@ public class ShoppingListTests
                                     }
                                 }
                     },
-                    new RecipePartDocument()
+                    new CookingStepDocument()
                     {
-                        Items =
-                            new List<PartIngredientDocument>()
+                        OrderNumber =2,
+                        StepDescription="do some other stuff",
+                        StepIngredients =
+                            new List<StepIngredientDocument>()
                                 {
-                                    new PartIngredientDocument()
+                                    new StepIngredientDocument()
                                     {
                                         Amount = 2,
                                         Ingredient = new IngredientDocument() { Name = "Sugar" },
                                         Unit = MeasureUnit.tsp_dry
                                     }
                                 }
-                    }
+
                 }
+        }
         };
 
         var response = ShoppingList.Generate(recipe);

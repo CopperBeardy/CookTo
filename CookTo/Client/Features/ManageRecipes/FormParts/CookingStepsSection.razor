@@ -12,10 +12,10 @@
             <div>
                 <div>
         
-                <PartIngredientSection PartIngredients="@cookingStep.PartIngredients" />
+                <StepIngredientSection StepIngredients="@cookingStep.StepIngredients" />
             
-              <button role="button" aria-label="newPartIngredient" class="btn btn-outline-primary col-2 mb-2" type="button" @onclick="@(() => cookingStep.PartIngredients.Add(new PartIngredient()))">Add Ingredient </button>
-            <ValidationMessage aria-alert="true" For="@(() => cookingStep.PartIngredients)" />
+              <button role="button" aria-label="newPartIngredient" class="btn btn-outline-primary col-2 mb-2" type="button" @onclick="@(() => cookingStep.StepIngredients.Add(new StepIngredient()))">Add Ingredient </button>
+            <ValidationMessage aria-alert="true" For="@(() => cookingStep.StepIngredients)" />
                </div>
     </div>
 
@@ -27,11 +27,4 @@
 </FormSection>
 @code {
     [Parameter] public List<CookingStep> CookingSteps { get; set; }
-
-    public async Task RemovePartIngredient(PartIngredient partIngredient)
-    {
-        CookingStep.PartIngredients.Remove(partIngredient);
-    }
-
-
 }

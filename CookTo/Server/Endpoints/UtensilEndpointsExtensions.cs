@@ -3,6 +3,7 @@ using CookTo.Server.Documents;
 
 using CookTo.Server.Services.Interfaces;
 using CookTo.Shared.Features;
+using CookTo.Shared.Models;
 
 namespace CookTo.Server.Endpoints;
 
@@ -15,15 +16,15 @@ public static class UtensilEndpointsExtensions
             async (IUtensilService service, IMapper mapper, CancellationToken token) =>
             {
                 var utensils = await service.GetAllAsync(token);
-                return Results.Ok(mapper.Map<List<Item>>(utensils));
+                return Results.Ok(mapper.Map<List<Utensil>>(utensils));
             });
         app.MapPost(
             "/api/utensil",
-            async (Item utensil, IUtensilService service, IMapper mapper, CancellationToken token) =>
+            async (Utensil utensil, IUtensilService service, IMapper mapper, CancellationToken token) =>
             {
                 var newUtensil = mapper.Map<UtensilDocument>(utensil);
                 await service.CreateAsync(newUtensil, token);
-                return Results.Ok(mapper.Map<Item>(newUtensil));
+                return Results.Ok(mapper.Map<Utensil>(newUtensil));
             });
     }
 }

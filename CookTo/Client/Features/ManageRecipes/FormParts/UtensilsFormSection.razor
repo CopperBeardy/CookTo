@@ -1,25 +1,25 @@
-﻿@inject UtensilManager Manager
+﻿
 <FormSection Title="Equipment, Utensils and Accessories">
   
-        @foreach (var utensil in Recipe.Utensils)
+        @foreach (var utensilPart in Utensils)
         {
               <div class="d-flex row gy-1 gx-1 align-items-center ms-2 mb-1">
                    <FormInputGroup Id="utenRequiredAmount" Label="Amount" Width="col-sm-2"  >                
-                    <InputNumber aria-required="true"  id="utensilRequiredAmount" min=1 class="form-control "  @bind-Value="utensil.RequiredAmount" />
-                    <ValidationMessage aria-alert="true" For="@(() => utensil.RequiredAmount)" />
+                    <InputNumber aria-required="true"  id="utensilRequiredAmount" min=1 class="form-control "  @bind-Value="utensilPart.RequiredAmount" />
+                    <ValidationMessage aria-alert="true" For="@(() => utensilPart.RequiredAmount)" />
                </FormInputGroup>
 
-              <Typeahead T="Category" UtensilManager="Manager"  Utensils="Utensils" />
+              <UtensilTypeahead  Utensil="utensilPart.Utensil" />
                
               <div class="col-sm-1">
-                    <button role="button" aria-label="removeUtensil" class="btn link-danger " @onclick="@(() => Recipe.Utensils.Remove(utensil))" type="button"><i class="bi bi-dash-circle"></i></button>
+                    <button role="button" aria-label="removeUtensil" class="btn link-danger " @onclick="@(() => Utensils.Remove(utensilPart))" type="button"><i class="bi bi-dash-circle"></i></button>
                 </div>
             </div>  
         }
         <div class="row">
             <div class="col">
-                <button role="button" aria-label="addNewUtensil" class="btn btn-outline-primary" type="button" @onclick="@(() => Recipe.Utensils.Add(new UtensilPart()))">Add  </button>
-                <ValidationMessage aria-label="true" For="@(() => Recipe.Utensils)" />
+                <button role="button" aria-label="addNewUtensil" class="btn btn-outline-primary" type="button" @onclick="@(() => Utensils.Add(new UtensilPart()))">Add  </button>
+                <ValidationMessage aria-label="true" For="@(() => Utensils)" />
             </div>
         </div>
 
@@ -27,13 +27,8 @@
 </FormSection>
 
 @code {
-    [Parameter] public FullRecipe Recipe { get; set; }
-    public IList<UtensilDto>? Utensils { get; set; } = new List<UtensilDto>();
+    [Parameter] public List<UtensilPart> Utensils { get; set; }
 
-    protected override async Task OnInitializedAsync()
-    {
-        Utensils = await Manager.GetAll();
-    }
        
 
  

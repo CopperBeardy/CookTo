@@ -17,13 +17,7 @@ public class FullRecipe
 
     public string? Image { get; set; } = string.Empty;
 
-    public int PrepTimeFrom { get; set; }
-
-    public int PrepTimeTo { get; set; }
-
-    public int CookTimeFrom { get; set; }
-
-    public int CookTimeTo { get; set; }
+    public Timings Timings { get; set; } = new Timings();
 
     public int Serves { get; set; }
 
@@ -33,7 +27,7 @@ public class FullRecipe
 
     public List<Dietary> Dietaries { get; set; } = new List<Dietary>();
 
-    public List<RecipePart> RecipeParts { get; set; } = new List<RecipePart>();
+    public List<CookingStep> CookingSteps { get; set; } = new List<CookingStep>();
 
     public List<UtensilPart> Utensils { get; set; } = new List<UtensilPart>();
 

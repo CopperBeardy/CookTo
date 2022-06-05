@@ -6,11 +6,11 @@
                     </div>
                     <div class="col col-sm-9 d-flex flex-column">
                         
-                        <h6 class=" mb-3 text-muted"><span class="bi bi-grid mr-2"></span>  @RecipeDto.Category.Name</h6>
+                        <h6 class=" mb-3 text-muted"><span class="bi bi-grid mr-2"></span>  @RecipeDto.Category.Text</h6>
                         <div class="d-flex flex-row gap-5 mb-2">
                         <span>Serves: @RecipeDto.Serves</span>
-                        <span> Prep Time: <strong>@RecipeDto.PrepTimeFrom</strong> to <strong>@RecipeDto.PrepTimeTo</strong> mins</span>
-                        <span>Cook Time: <strong>@RecipeDto.CookTimeFrom</strong> to <strong>@RecipeDto.CookTimeTo</strong> mins</span>
+                        <span> Prep Time: <strong>@RecipeDto.Timings.PrepTimeFrom</strong> to <strong>@RecipeDto.Timings.PrepTimeTo</strong> mins</span>
+                        <span>Cook Time: <strong>@RecipeDto.Timings.CookTimeFrom</strong> to <strong>@RecipeDto.Timings.CookTimeTo</strong> mins</span>
                         </div>
                         <p>@RecipeDto.Description</p>
 

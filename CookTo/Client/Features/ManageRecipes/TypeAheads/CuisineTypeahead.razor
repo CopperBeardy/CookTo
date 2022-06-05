@@ -1,0 +1,44 @@
+﻿@inject CuisineManager Manager
+<div class="col col-sm-6">
+    <BlazoredTypeahead MaximumSuggestions=3 id="typeaheadInput"
+                       SearchMethod="SearchItems"
+                       @bind-Value="Cuisine"
+                       placeholder="Search"
+                       role="combobox"
+                       aria-required="true"
+                       aria-expanded="false"
+                       aria-controls="true"
+                      aria-haspopup="true" 
+                       EnableDropDown="false"
+                       AddItemOnEmptyResultMethod="HandleAdd">
+        <SelectedTemplate Context="cuisine">
+         <span role="menuitem">@cuisine.Text</span> 
+        </SelectedTemplate>
+        <ResultTemplate Context="cuisine">
+            @cuisine.Text
+        </ResultTemplate>
+        <NotFoundTemplate Context="searchText">
+            <span role="menuitem">Add "@searchText" as a new Cuisine <br />
+            new Cuisine will be selected after being added.</span>
+        </NotFoundTemplate>
+    </BlazoredTypeahead>
+    <ValidationMessage aria-alert="true" For="@(() => Cuisine)" />
+
+</div>
+@code {
+
+        [Parameter] public Cuisine Cuisine{ get; set; } = new Cuisine();   
+       public IList<Cuisine> Cuisines { get; set; } = new List<Cuisine>();
+
+        private async Task<IEnumerable<Cuisine>> SearchItems(string searchText) => await Task.FromResult(Cuisines.Where(x => x.Text.ToLower().Contains(searchText.ToLower())).ToList());
+
+        private async Task<Cuisine> HandleAdd(string searchAdd)
+        {
+            var result = await Manager.Insert(new Cuisine() { Text = searchAdd.ToLower() });
+            if (result is null) return null;
+
+        Cuisines.Add(result);
+        return await Task.FromResult(result);
+      
+    }
+}

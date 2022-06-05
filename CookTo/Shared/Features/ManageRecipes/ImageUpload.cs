@@ -2,7 +2,7 @@
 
 public class ImageUpload
 {
-    public string RecipeId { get; set; }
+    public string RecipeId { get; set; } = string.Empty;
 
-    public byte[] Image { get; set; }
+    public byte[] Image { get; set; }   =  new byte[0];
 }

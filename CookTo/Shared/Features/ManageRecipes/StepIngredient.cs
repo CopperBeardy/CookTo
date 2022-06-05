@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CookTo.Shared.Features.ManageRecipes;
 
-public class PartIngredient
+public class StepIngredient
 {
     public double Amount { get; set; }
     public MeasureUnit Unit { get; set; }

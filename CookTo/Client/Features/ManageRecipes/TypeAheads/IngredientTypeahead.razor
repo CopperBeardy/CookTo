@@ -2,7 +2,7 @@
 <div class="col col-sm-6">
     <BlazoredTypeahead MaximumSuggestions=3 id="typeaheadInput"
                        SearchMethod="SearchItems"
-                       @bind-Value="CurrentValue"
+                       @bind-Value="Ingredient"
                        placeholder="Search"
                        role="combobox"
                        aria-required="true"
@@ -11,24 +11,24 @@
                       aria-haspopup="true" 
                        EnableDropDown="false"
                        AddItemOnEmptyResultMethod="HandleAdd">
-        <SelectedTemplate Context="item">
-         <span role="menuitem">@item.Text</span> 
+        <SelectedTemplate Context="ingredient">
+         <span role="menuitem">@ingredient.Text</span> 
         </SelectedTemplate>
-        <ResultTemplate Context="item">
-            @item.Text
+        <ResultTemplate Context="ingredient">
+            @ingredient.Text
         </ResultTemplate>
         <NotFoundTemplate Context="searchText">
             <span role="menuitem">Add "@searchText" as a new Ingredient <br />
             new Ingredient will be selected after being added.</span>
         </NotFoundTemplate>
     </BlazoredTypeahead>
-    <ValidationMessage aria-alert="true" For="@(() => CurrentPartIngredient.Ingredient)" />
+    <ValidationMessage aria-alert="true" For="@(() => Ingredient)" />
 
 </div>
 @code {
 
-        [Parameter]public PartIngredient CurrentPartIngredient{ get; set; }   
-        [Parameter]  public IList<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
+        [Parameter] public Ingredient Ingredient{ get; set; } = new Ingredient();   
+       public IList<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
 
         private async Task<IEnumerable<Ingredient>> SearchItems(string searchText) => await Task.FromResult(Ingredients.Where(x => x.Text.ToLower().Contains(searchText.ToLower())).ToList());
 

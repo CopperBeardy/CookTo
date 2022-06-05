@@ -3,8 +3,6 @@
         <InputText @bind-Value="Recipe.Title" aria-required="true" class="form-control" id="recipeTitle" />
         <ValidationMessage aria-alert="true"  For="@(() => Recipe.Title)" />
     </FormInputGroup>
-   
-    
 
     <FormInputGroup Width="col col-sm-12" Id="recipeDescription"  Label="Description" Margins="mb-2" >
         <InputTextArea aria-multiline="true" aria-required="true" @bind-Value="Recipe.Description" rows="6" class="form-control" id="recipeDescription" />
@@ -20,9 +18,12 @@
         <InputText @bind-Value="Recipe.Creator" class="form-control" id="recipeCreator" />      
     </FormInputGroup>
 
-    <CuisineTypeahead Recipe="Recipe" />
-    <CategoryTypeahead Recipe="Recipe" />    
+    <CuisineTypeahead Cuisine="Recipe.Cuisine" />
+
+    <CategoryTypeahead Category="Recipe.Category" />    
+
     @*add dietary*@
+
 </FormSection>
 
 

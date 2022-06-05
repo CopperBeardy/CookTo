@@ -17,17 +17,8 @@ public class RecipeDocument : BaseDocument
     [BsonElement("image")]
     public string? Image { get; set; }
 
-    [BsonElement("prep_time_from")]
-    public int PrepTimeFrom { get; set; }
-
-    [BsonElement("prep_time_to")]
-    public int PrepTimeTo { get; set; }
-
-    [BsonElement("cooking_time_from")]
-    public int CookTimeFrom { get; set; }
-
-    [BsonElement("cooking_time_to")]
-    public int CookTimeTo { get; set; }
+    [BsonElement("Timings")]
+    public TimingsDocument Timings { get; set; }
 
     [BsonElement("serves")]
     public int Serves { get; set; }
@@ -43,9 +34,6 @@ public class RecipeDocument : BaseDocument
 
     [BsonElement("dietaries")]
     public List<Dietary> Dietaries { get; set; }
-
-    [BsonElement("recipe_parts")]
-    public List<RecipePartDocument> RecipeParts { get; set; }
 
     [BsonElement("utensils")]
     public List<UtensilPartDocument> Utensils { get; set; }

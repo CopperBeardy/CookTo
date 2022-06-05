@@ -10,9 +10,9 @@ public class RecipeProfile : Profile
     {
         CreateMap<FullRecipe, RecipeDocument>().ReverseMap();
         CreateMap<CookingStep, CookingStepDocument>().ReverseMap();
-        CreateMap<RecipePart, RecipePartDocument>().ReverseMap();
+        CreateMap<Timings, TimingsDocument>().ReverseMap();
         CreateMap<UtensilPart, UtensilPartDocument>().ReverseMap();
-        CreateMap<PartIngredient, PartIngredientDocument>().ReverseMap();
+        CreateMap<StepIngredient, StepIngredientDocument>().ReverseMap();
         CreateMap<RecipeDocument, HighlightedRecipe>();
     }
 }

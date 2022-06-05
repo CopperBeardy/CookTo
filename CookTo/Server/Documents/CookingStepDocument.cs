@@ -9,7 +9,7 @@ public class CookingStepDocument
     [BsonElement("step")]
     public string StepDescription { get; set; }
 
-    [BsonElement("method_ingredients")]
-    public List<PartIngredientDocument> MethodIngredients { get; set; }
+    [BsonElement("part_ingredients")]
+    public List<StepIngredientDocument> StepIngredients { get; set; }
 }
 

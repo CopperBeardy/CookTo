@@ -7,7 +7,7 @@ public static class ShoppingList
 {
     public static List<string> Generate(RecipeDocument recipe)
     {
-        List<PartIngredientDocument> ingredients = GatherIngredients(recipe);
+        List<StepIngredientDocument> ingredients = GatherIngredients(recipe);
         ingredients = NormalizeIngredients(ingredients);
         ingredients = GroupByIngredientName(ingredients);
         List<string> shoppingList = CreateShoppingListValues(ingredients);
@@ -15,7 +15,7 @@ public static class ShoppingList
         return shoppingList;
     }
 
-    private static List<PartIngredientDocument> NormalizeIngredients(this List<PartIngredientDocument> ingredients)
+    private static List<StepIngredientDocument> NormalizeIngredients(this List<StepIngredientDocument> ingredients)
     {
         for(int i = 0; i < ingredients.Count; i++)
         {
@@ -37,17 +37,17 @@ public static class ShoppingList
         return ingredients;
     }
 
-    private static List<PartIngredientDocument> GatherIngredients(RecipeDocument recipe)
+    private static List<StepIngredientDocument> GatherIngredients(RecipeDocument recipe)
     {
-        var ingredients = new List<PartIngredientDocument>();
-        foreach(var part in recipe.RecipeParts)
+        var ingredients = new List<StepIngredientDocument>();
+        foreach(var step in recipe.CookingSteps)
         {
-            ingredients.AddRange(part.Items);
+            ingredients.AddRange(step.StepIngredients);
         }
         return ingredients;
     }
 
-    public static List<string> CreateShoppingListValues(this List<PartIngredientDocument> ingredients)
+    public static List<string> CreateShoppingListValues(this List<StepIngredientDocument> ingredients)
     {
         var shoppingList = new List<string>();
         foreach(var ingredient in ingredients)
@@ -79,11 +79,11 @@ public static class ShoppingList
         return shoppingList;
     }
 
-    public static List<PartIngredientDocument> GroupByIngredientName(this List<PartIngredientDocument> ingredients)
+    public static List<StepIngredientDocument> GroupByIngredientName(this List<StepIngredientDocument> ingredients)
     {
         return ingredients.GroupBy(n => n.Ingredient.Name)
             .Select(
-                i => new PartIngredientDocument
+                i => new StepIngredientDocument
                 {
                     Amount = i.Sum(a => a.Amount),
                     AdditionalInformation = i.First().AdditionalInformation,
@@ -93,7 +93,7 @@ public static class ShoppingList
             .ToList();
     }
 
-    public static PartIngredientDocument ConvertToGrams(PartIngredientDocument ingredient)
+    public static StepIngredientDocument ConvertToGrams(StepIngredientDocument ingredient)
     {
         switch(ingredient.Unit)
         {
@@ -111,7 +111,7 @@ public static class ShoppingList
         return ingredient;
     }
 
-    public static PartIngredientDocument ConvertToMilliliters(PartIngredientDocument ingredient)
+    public static StepIngredientDocument ConvertToMilliliters(StepIngredientDocument ingredient)
     {
         switch(ingredient.Unit)
         {

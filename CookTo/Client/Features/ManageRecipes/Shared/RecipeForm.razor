@@ -25,11 +25,10 @@
         </div>
     </FormSection>
 
-   <TimesSection Recipe="_recipe"/>
-    <RecipePartsFormSection Recipe=" _recipe" />    
-    <UtensilsFormSection Recipe=" _recipe" />
-    <CookingStepsFormSection Recipe=" _recipe" />
-    <TipsFormSection Recipe=_recipe />
+   <TimesSection Timings="_recipe.Timings"/>
+   <CookingStepsSection CookingSteps="_recipe.CookingSteps" />
+    <UtensilsFormSection Utensils=" _recipe.Utensils" />   
+    <TipsFormSection Tips=_recipe.Tips />
 
 
     <div class="mt-4 mb-5">

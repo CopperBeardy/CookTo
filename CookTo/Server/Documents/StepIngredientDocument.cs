@@ -1,6 +1,6 @@
 ﻿namespace CookTo.Server.Documents;
 
-public class PartIngredientDocument
+public class StepIngredientDocument
 {
     [BsonElement("amount")]
     public double Amount { get; set; }
