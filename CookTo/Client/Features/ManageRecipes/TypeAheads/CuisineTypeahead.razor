@@ -1,9 +1,9 @@
 ﻿@inject CuisineManager Manager
-<div class="col col-sm-6">
+<div class="col col-sm-10">
     <BlazoredTypeahead MaximumSuggestions=3 id="typeaheadInput"
                        SearchMethod="SearchItems"
-                       @bind-Value="Cuisine"
-                       placeholder="Search"
+                       @bind-Value="Recipe.Cuisine"
+                       placeholder="Search for Cuisine"
                        role="combobox"
                        aria-required="true"
                        aria-expanded="false"
@@ -22,13 +22,18 @@
             new Cuisine will be selected after being added.</span>
         </NotFoundTemplate>
     </BlazoredTypeahead>
-    <ValidationMessage aria-alert="true" For="@(() => Cuisine)" />
+    <ValidationMessage aria-alert="true" For="@(() => Recipe.Cuisine)" />
 
 </div>
 @code {
 
-        [Parameter] public Cuisine Cuisine{ get; set; } = new Cuisine();   
-       public IList<Cuisine> Cuisines { get; set; } = new List<Cuisine>();
+    [Parameter] public FullRecipe Recipe{ get; set; } = new FullRecipe();   
+    public IList<Cuisine> Cuisines { get; set; } = new List<Cuisine>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Cuisines = await Manager.GetAll();
+    }
 
         private async Task<IEnumerable<Cuisine>> SearchItems(string searchText) => await Task.FromResult(Cuisines.Where(x => x.Text.ToLower().Contains(searchText.ToLower())).ToList());
 

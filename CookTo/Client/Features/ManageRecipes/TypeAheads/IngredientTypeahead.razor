@@ -1,8 +1,8 @@
 ﻿@inject IngredientManager Manager
-<div class="col col-sm-6">
+<div class="col col-sm-6 m-0">
     <BlazoredTypeahead MaximumSuggestions=3 id="typeaheadInput"
                        SearchMethod="SearchItems"
-                       @bind-Value="Ingredient"
+                       @bind-Value="StepIngredient.Ingredient"
                        placeholder="Search"
                        role="combobox"
                        aria-required="true"
@@ -22,13 +22,17 @@
             new Ingredient will be selected after being added.</span>
         </NotFoundTemplate>
     </BlazoredTypeahead>
-    <ValidationMessage aria-alert="true" For="@(() => Ingredient)" />
+    <ValidationMessage aria-alert="true" For="@(() => StepIngredient.Ingredient)" />
 
 </div>
 @code {
 
-        [Parameter] public Ingredient Ingredient{ get; set; } = new Ingredient();   
+        [Parameter] public StepIngredient StepIngredient{ get; set; } = new StepIngredient();   
        public IList<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
+           protected override async Task OnInitializedAsync()
+    {
+        Ingredients = await Manager.GetAll();
+    }
 
         private async Task<IEnumerable<Ingredient>> SearchItems(string searchText) => await Task.FromResult(Ingredients.Where(x => x.Text.ToLower().Contains(searchText.ToLower())).ToList());
 

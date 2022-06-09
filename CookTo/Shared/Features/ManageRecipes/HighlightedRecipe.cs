@@ -18,9 +18,9 @@ public class HighlightedRecipe
 
     public string AddedBy { get; set; } = string.Empty;
 
-    public int MaxPrepTime { get; set; } = 0;
+    public int PrepTime { get; set; } = 0;
 
-    public int MaxCookTime { get; set; } = 0;
+    public int CookTime { get; set; } = 0;
 
     public string Description { get; set; } = string.Empty;
 

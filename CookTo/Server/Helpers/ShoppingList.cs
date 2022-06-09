@@ -1,21 +1,23 @@
 ﻿using CookTo.Server.Documents;
+using CookTo.Shared.Features.ManageRecipes;
 using System.Text;
 
 namespace CookTo.Server.Helpers;
 
 public static class ShoppingList
 {
-    public static List<string> Generate(RecipeDocument recipe)
+    public static List<string> Generate(List<CookingStep> steps)
     {
-        List<StepIngredientDocument> ingredients = GatherIngredients(recipe);
-        ingredients = NormalizeIngredients(ingredients);
-        ingredients = GroupByIngredientName(ingredients);
-        List<string> shoppingList = CreateShoppingListValues(ingredients);
+       
+        var ingredients = GatherIngredients(steps);
+        var normalizedIngredients = NormalizeIngredients(ingredients);
+        var groupedIngredients = GroupByIngredientName(normalizedIngredients);
+        List<string> shoppingList = CreateShoppingListValues(groupedIngredients);
 
         return shoppingList;
     }
 
-    private static List<StepIngredientDocument> NormalizeIngredients(this List<StepIngredientDocument> ingredients)
+    private static List<StepIngredient> NormalizeIngredients(this List<StepIngredient> ingredients)
     {
         for(int i = 0; i < ingredients.Count; i++)
         {
@@ -37,17 +39,17 @@ public static class ShoppingList
         return ingredients;
     }
 
-    private static List<StepIngredientDocument> GatherIngredients(RecipeDocument recipe)
+    public static List<StepIngredient> GatherIngredients(List<CookingStep> steps)
     {
-        var ingredients = new List<StepIngredientDocument>();
-        foreach(var step in recipe.CookingSteps)
+        var ingredients = new List<StepIngredient>();
+        foreach(var step in steps)
         {
             ingredients.AddRange(step.StepIngredients);
         }
         return ingredients;
     }
 
-    public static List<string> CreateShoppingListValues(this List<StepIngredientDocument> ingredients)
+    public static List<string> CreateShoppingListValues(this List<StepIngredient> ingredients)
     {
         var shoppingList = new List<string>();
         foreach(var ingredient in ingredients)
@@ -62,7 +64,7 @@ public static class ShoppingList
                         break;
                     default:
                         sb.Append($"{ingredient.Amount} ");
-                        sb.Append($"{ingredient.Ingredient.Name}'s");
+                        sb.Append($"{ingredient.Ingredient.Text}'s");
                         shoppingList.Add(sb.ToString());
                         continue;
                 }
@@ -72,18 +74,18 @@ public static class ShoppingList
                 sb.Append($"{Enum.GetName(typeof(MeasureUnit),ingredient.Unit)}");
                 sb.Append(" ");
             }
-            sb.Append($"{ingredient.Ingredient.Name}");
+            sb.Append($"{ingredient.Ingredient.Text}");
             shoppingList.Add(sb.ToString());
         }
 
         return shoppingList;
     }
 
-    public static List<StepIngredientDocument> GroupByIngredientName(this List<StepIngredientDocument> ingredients)
+    public static List<StepIngredient> GroupByIngredientName(this List<StepIngredient> ingredients)
     {
-        return ingredients.GroupBy(n => n.Ingredient.Name)
+        return ingredients.GroupBy(n => n.Ingredient.Text)
             .Select(
-                i => new StepIngredientDocument
+                i => new StepIngredient
                 {
                     Amount = i.Sum(a => a.Amount),
                     AdditionalInformation = i.First().AdditionalInformation,
@@ -93,7 +95,7 @@ public static class ShoppingList
             .ToList();
     }
 
-    public static StepIngredientDocument ConvertToGrams(StepIngredientDocument ingredient)
+    public static StepIngredient ConvertToGrams(StepIngredient ingredient)
     {
         switch(ingredient.Unit)
         {
@@ -111,7 +113,7 @@ public static class ShoppingList
         return ingredient;
     }
 
-    public static StepIngredientDocument ConvertToMilliliters(StepIngredientDocument ingredient)
+    public static StepIngredient ConvertToMilliliters(StepIngredient ingredient)
     {
         switch(ingredient.Unit)
         {

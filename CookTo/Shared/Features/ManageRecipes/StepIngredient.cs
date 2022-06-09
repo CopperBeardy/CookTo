@@ -17,7 +17,18 @@ public class StepIngredient
     {
         var stringBuilder = new StringBuilder();
         stringBuilder.Append(Amount);
-        stringBuilder.Append(Enum.GetName(typeof(MeasureUnit), Unit));
+        if (Unit != MeasureUnit.None)
+        {
+            var unit = Enum.GetName(typeof(MeasureUnit), Unit);
+            if(unit.StartsWith("tsp"))
+            {
+                unit = "tsp";
+            }else if (unit.StartsWith("tbsp"))
+            {
+                unit = "tbsp";
+            }
+            stringBuilder.Append(unit);
+        }
         stringBuilder.Append($" {Ingredient.Text}");
         return stringBuilder.ToString();
     }

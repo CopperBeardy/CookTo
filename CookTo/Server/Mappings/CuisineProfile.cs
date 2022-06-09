@@ -7,5 +7,5 @@ namespace CookTo.Server.Mappings;
 
 public class CuisineProfile : Profile
 {
-    public CuisineProfile() { CreateMap<CuisineDocument, CuisineDocument>().ReverseMap(); }
+    public CuisineProfile() { CreateMap<Cuisine, CuisineDocument>().ReverseMap(); }
 }

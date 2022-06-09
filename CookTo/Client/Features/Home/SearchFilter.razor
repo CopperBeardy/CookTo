@@ -43,13 +43,13 @@
         var categoryResponse = await CategoryManager.GetAll();
         foreach (var cat in categoryResponse)
         {
-            _categories.Add(cat.Name);
+            _categories.Add(cat.Text);
         }
 
         var cuisineResponse = await CuisineManager.GetAll();
         foreach (var cuisine in cuisineResponse)
         {
-            _cuisines.Add(cuisine.Name);
+            _cuisines.Add(cuisine.Text);
         }
 
         await InvokeAsync(StateHasChanged);

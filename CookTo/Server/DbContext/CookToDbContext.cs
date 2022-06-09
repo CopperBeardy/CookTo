@@ -12,7 +12,10 @@ public class CookToDbContext : ICookToDbContext
 
     public CookToDbContext(IOptions<MongoSettings> configuration)
     {
-        client = new MongoClient(configuration.Value.Connection);
+        //client = new MongoClient(configuration.Value.Connection);
+        //db = client.GetDatabase(configuration.Value.Database);
+       client = new MongoClient(configuration.Value.Connection);
+       
         db = client.GetDatabase(configuration.Value.Database);
         Seed();
     }
@@ -21,23 +24,25 @@ public class CookToDbContext : ICookToDbContext
 
     private void Seed()
     {
-        if (!client.ListDatabaseNames().Any())
+        var result = db.ListCollections().Any();
+        if (!result)
         {
             SeedIngredientCollection();
             SeedCuisineCollection();
             SeedCategoryCollection();
             SeedUtensilCollection();
         }
+    
     }
 
     private async void SeedIngredientCollection()
     {
         var ingredients = new List<IngredientDocument>()
         {
-            new IngredientDocument() { Name = "Strong White Bread Flour" },
-            new IngredientDocument() { Name = "Lemon" },
-            new IngredientDocument() { Name = "Fast Acting Yeast" },
-            new IngredientDocument() { Name = "Caster Sugar" }
+            new IngredientDocument() { Text = "Strong White Bread Flour" },
+            new IngredientDocument() { Text = "Lemon" },
+            new IngredientDocument() { Text = "Fast Acting Yeast" },
+            new IngredientDocument() { Text = "Caster Sugar" }
         };
 
         var collection = db.GetCollection<IngredientDocument>(nameof(IngredientDocument));
@@ -48,10 +53,10 @@ public class CookToDbContext : ICookToDbContext
     {
         var cuisines = new List<CuisineDocument>()
         {
-            new CuisineDocument() { Name = "British" },
-            new CuisineDocument() { Name = "French" },
-            new CuisineDocument() { Name = "Chinese" },
-            new CuisineDocument() { Name = "Italian" }
+            new CuisineDocument() { Text = "British" },
+            new CuisineDocument() { Text = "French" },
+            new CuisineDocument() { Text = "Chinese" },
+            new CuisineDocument() { Text = "Italian" }
         };
 
         var collection = db.GetCollection<CuisineDocument>(nameof(CuisineDocument));
@@ -62,15 +67,15 @@ public class CookToDbContext : ICookToDbContext
     {
         var categories = new List<CategoryDocument>()
         {
-            new CategoryDocument() { Name = "Cake" },
-            new CategoryDocument() { Name = "Baking" },
-            new CategoryDocument() { Name = "Main" },
-            new CategoryDocument() { Name = "Light Meal" },
-            new CategoryDocument() { Name = "Starter" },
-            new CategoryDocument() { Name = "Nibbles" },
-            new CategoryDocument() { Name = "Brunch" },
-            new CategoryDocument() { Name = "Side" },
-            new CategoryDocument() { Name = "Dessert" }
+            new CategoryDocument() { Text = "Cake" },
+            new CategoryDocument() { Text = "Baking" },
+            new CategoryDocument() { Text = "Main" },
+            new CategoryDocument() { Text = "Light Meal" },
+            new CategoryDocument() { Text = "Starter" },
+            new CategoryDocument() { Text = "Nibbles" },
+            new CategoryDocument() { Text = "Brunch" },
+            new CategoryDocument() { Text = "Side" },
+            new CategoryDocument() { Text = "Dessert" }
         };
 
         var collection = db.GetCollection<CategoryDocument>(nameof(CategoryDocument));
@@ -81,10 +86,10 @@ public class CookToDbContext : ICookToDbContext
     {
         var utensils = new List<UtensilDocument>()
         {
-            new UtensilDocument() { UtensilName = "Muffin Moulds" },
-            new UtensilDocument() { UtensilName = "20cm loose fitting Cake Tin" },
-            new UtensilDocument() { UtensilName = "Whisk" },
-            new UtensilDocument() { UtensilName = "Electric Whisk" },
+            new UtensilDocument() { Text = "Muffin Moulds" },
+            new UtensilDocument() { Text = "20cm loose fitting Cake Tin" },
+            new UtensilDocument() { Text = "Whisk" },
+            new UtensilDocument() { Text = "Electric Whisk" },
         };
 
         var collection = db.GetCollection<UtensilDocument>(nameof(UtensilDocument));

@@ -1,17 +1,16 @@
 ﻿
-<li class="mb-1">
-    <div class="row">
-        <p>@CookingStep.StepDescription</p>
+<li class="mb-2">
+        <div class="d-flex row gy-1 gx-1 align-items-top ms-2 ">
+        <label class="col col-auto me-sm-2">@CookingStep.OrderNumber </label>
+        <span class="col col-sm-10">@CookingStep.StepDescription</span>
     </div>
-    <div class="row">
+    <div  class="d-flex justify-content-center">
         @foreach (var ing in CookingStep.StepIngredients)
         {
           <span class="badge rounded-pill bg-light text-dark">
-              @ing.ToString();
+              @ing.ToString()
           </span>
         }
-           
-      
     </div>
 </li>
 

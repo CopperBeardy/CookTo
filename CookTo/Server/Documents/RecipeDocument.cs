@@ -17,8 +17,11 @@ public class RecipeDocument : BaseDocument
     [BsonElement("image")]
     public string? Image { get; set; }
 
-    [BsonElement("Timings")]
-    public TimingsDocument Timings { get; set; }
+    [BsonElement("prepTime")]
+    public int PrepTime { get; set; }
+
+    [BsonElement("cookTime")]
+    public int cookTime { get; set; }
 
     [BsonElement("serves")]
     public int Serves { get; set; }

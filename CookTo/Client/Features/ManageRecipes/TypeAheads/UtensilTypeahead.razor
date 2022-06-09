@@ -2,7 +2,7 @@
 <div class="col col-sm-6">
     <BlazoredTypeahead MaximumSuggestions=3 id="typeaheadInput"
                        SearchMethod="SearchItems"
-                       @bind-Value="Utensil"
+                       @bind-Value="UtensilPart.Utensil"
                        placeholder="Search"
                        role="combobox"
                        aria-required="true"
@@ -24,14 +24,18 @@
             </span>
         </NotFoundTemplate>
     </BlazoredTypeahead>
-    <ValidationMessage aria-alert="true" For="@(() => Utensil)" />
+    <ValidationMessage aria-alert="true" For="@(() => UtensilPart.Utensil)" />
 
 </div>
 @code {
 
-    [Parameter] public Utensil Utensil { get; set; } = new Utensil();
+     [Parameter] public UtensilPart UtensilPart{ get; set; } = new UtensilPart();   
     public IList<Utensil> Utensils { get; set; } = new List<Utensil>();
 
+        protected override async Task OnInitializedAsync()
+    {
+        Utensils = await Manager.GetAll();
+    }
     private async Task<IEnumerable<Utensil>> SearchItems(string searchText) => await Task.FromResult(Utensils.Where(x => x.Text.ToLower().Contains(searchText.ToLower())).ToList());
 
     private async Task<Utensil> HandleAdd(string searchAdd)

@@ -2,10 +2,10 @@
 
 <h3 class="mt-5 mb-4">Add a Recipe</h3>
 <EditForm OnValidSubmit="SubmitForm" EditContext="_editContext" aria-label="form">
-    <FluentValidationValidator />
+    <FluentValidationValidator/>
     <FormStateTracker />
-
-    <DetailsFormSection Recipe=" _recipe" />
+ 
+    <DetailsFormSection  Recipe="_recipe"/>
     <FormSection Title="Image" >
        
         <div class="col-5">
@@ -22,13 +22,13 @@
                     </div>
                 </div>
             }
-        </div>
+        </div>    
     </FormSection>
+   
 
-   <TimesSection Timings="_recipe.Timings"/>
-   <CookingStepsSection CookingSteps="_recipe.CookingSteps" />
-    <UtensilsFormSection Utensils=" _recipe.Utensils" />   
-    <TipsFormSection Tips=_recipe.Tips />
+   <CookingStepsSection Recipe="_recipe"/>
+    <UtensilsFormSection Recipe="_recipe"/>   
+    <TipsFormSection  Recipe="_recipe"/>
 
 
     <div class="mt-4 mb-5">
@@ -44,7 +44,7 @@
 @code {
     private FullRecipe _recipe = new FullRecipe();
     private EditContext _editContext = default!;
-    private IBrowserFile? _recipeImage;
+    private IBrowserFile? _recipeImage;    
 
     [Parameter, EditorRequired] public Func<FullRecipe, IBrowserFile?, Task> OnSubmit { get; set; } = default!;
     [Parameter] public FullRecipe Recipe { get; set; }
@@ -64,6 +64,7 @@
 
     }
 
+   
     public void ResetForm()
     {
         AppState.NewRecipeState.ClearRecipe();

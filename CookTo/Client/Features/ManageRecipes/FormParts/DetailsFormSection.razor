@@ -18,9 +18,24 @@
         <InputText @bind-Value="Recipe.Creator" class="form-control" id="recipeCreator" />      
     </FormInputGroup>
 
-    <CuisineTypeahead Cuisine="Recipe.Cuisine" />
+    <FormInputGroup Width="col col-sm-6"  Id="recipeCuisine" Label="Cuisine" Margins="mb-2" >
+           <CuisineTypeahead Recipe="@Recipe" />
+    </FormInputGroup>
+  
+     <FormInputGroup Width="col col-sm-6"  Id="recipeCategory" Label="Category" Margins="mb-2" >
+              <CategoryTypeahead  Recipe="@Recipe"/>   
+    </FormInputGroup>
+ 
+          <FormInputGroup Width="col col-sm-6" Id="prepTime" Label="Prep Time" Margins="mb-2">
+            <InputNumber aria-required="true" aria-label="prepTime" min=0 @bind-Value="Recipe.PrepTime" class="form-control"  />
+           <ValidationMessage aria-alert="true" For="@(() => Recipe.PrepTime)" />
+         </FormInputGroup>
 
-    <CategoryTypeahead Category="Recipe.Category" />    
+        <FormInputGroup Width="col col-sm-6" Id="cookTime" Label="Cook Time" Margins="mb-2">
+            <InputNumber aria-required="true" aria-label="cookTime" min=0 @bind-Value="Recipe.CookTime" class="form-control" />
+           <ValidationMessage aria-alert="true" For="@(() => Recipe.CookTime)" />
+
+        </FormInputGroup>
 
     @*add dietary*@
 
@@ -28,5 +43,5 @@
 
 
 @code {
-    [Parameter] public FullRecipe Recipe { get; set; }
+    [Parameter] public FullRecipe Recipe { get; set; } = new FullRecipe();
 }

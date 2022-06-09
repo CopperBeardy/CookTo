@@ -17,7 +17,8 @@ public class FullRecipe
 
     public string? Image { get; set; } = string.Empty;
 
-    public Timings Timings { get; set; } = new Timings();
+    public int PrepTime { get; set; }
+    public int CookTime { get; set; }
 
     public int Serves { get; set; }
 

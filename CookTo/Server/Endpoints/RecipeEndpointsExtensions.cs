@@ -19,12 +19,12 @@ public static class RecipeEndpointsExtensions
                 {
                     return Results.BadRequest("Recipe was not found");
                 }
-                return Results.Ok(mapper.Map<Shared.Features.ManageRecipes.FullRecipe>(recipe));
+                return Results.Ok(mapper.Map<FullRecipe>(recipe));
             });
 
         app.MapPut(
             "/api/recipe",
-            async (Shared.Features.ManageRecipes.FullRecipe updateRecipe, IRecipeService service, IMapper mapper, CancellationToken token) =>
+            async (FullRecipe updateRecipe, IRecipeService service, IMapper mapper, CancellationToken token) =>
             {
                 var recipe = await service.GetByIdAsync(updateRecipe.Id, token);
                 if(recipe is null)
@@ -32,7 +32,7 @@ public static class RecipeEndpointsExtensions
                     return Results.NotFound();
                 }
                 var toUpdate = mapper.Map<Documents.RecipeDocument>(updateRecipe);
-                toUpdate.ShoppingList = ShoppingList.Generate(toUpdate);
+               toUpdate.ShoppingList = ShoppingList.Generate(updateRecipe.CookingSteps);
                 await service.UpdateAsync(toUpdate, token);
                 return Results.NoContent();
             });
@@ -40,15 +40,15 @@ public static class RecipeEndpointsExtensions
         app.MapPost(
             "/api/recipe",
             async (
-                Shared.Features.ManageRecipes.FullRecipe recipe,
+                FullRecipe recipe,
                 IRecipeService service,
                 IMapper mapper,
                 HttpContext context,
                 CancellationToken token) =>
             {
                 var entity = mapper.Map<Documents.RecipeDocument>(recipe);
-                entity.AddedBy = context.User.Claims.First<System.Security.Claims.Claim>(t => t.Type == ClaimConstants.Name).Value.ToString();
-                entity.ShoppingList = ShoppingList.Generate(entity);
+                entity.AddedBy = context.User.Claims.First(t => t.Type == ClaimConstants.Name).Value.ToString();
+                entity.ShoppingList = ShoppingList.Generate(recipe.CookingSteps);
                 await service.CreateAsync(entity, token);
 
                 return Results.Created($"/api/recipe/{entity.Id}", entity);
