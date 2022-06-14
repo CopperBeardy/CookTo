@@ -1,5 +1,4 @@
-using CookTo.Shared.Features;
-using CookTo.Shared.Models;
+using CookTo.Shared.Modules.ManageCategories;
 
 namespace CookTo.Client.Managers;
 

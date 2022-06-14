@@ -20,14 +20,22 @@ public abstract class BaseManager<T> : IBaseManager<T> where T : class
             var httpClient = HttpNamedClientFactoryHelper.CreateClient(_httpClientFactory, HttpClientType.Anon);
             var result = await httpClient.GetAsync(_url, new CancellationToken());
             var content = await result.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<List<T>>(content);
+            var deserializedObject = JsonConvert.DeserializeObject<IList<T>>(content);
+            if (deserializedObject != null)
+            {
+                return deserializedObject;
+            }
+            else
+            {
+                return new List<T>();
+            }
         } catch(HttpRequestException)
         {
             return default!;
         }
     }
 
-    public async Task<T> GetById(string id)
+    public async Task<T?> GetById(string id)
     {
         try
         {
@@ -35,14 +43,22 @@ public abstract class BaseManager<T> : IBaseManager<T> where T : class
             var result = await httpClient.GetAsync($"{_url}/{id}", new CancellationToken());
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<T>(content);
+            var deserializedObject = JsonConvert.DeserializeObject<T>(content);
+            if (deserializedObject != null)
+            {
+                return deserializedObject;
+            }
+            else
+            {
+                return null;
+            }
         } catch(HttpRequestException)
         {
             return default!;
         }
     }
 
-    public async Task<T> Insert(T entity)
+    public async Task<T?> Insert(T entity)
     {
         try
         {
@@ -51,7 +67,16 @@ public abstract class BaseManager<T> : IBaseManager<T> where T : class
             var result = await httpClient.PostAsJsonAsync(_url, entity, new CancellationToken());
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<T>(content);
+           var deserializedObject = JsonConvert.DeserializeObject<T>(content);
+            if (deserializedObject != null)
+            {
+                return deserializedObject;
+            }
+            else
+            {
+                return null;
+            }
+        
         } catch(Exception)
         {
             throw;

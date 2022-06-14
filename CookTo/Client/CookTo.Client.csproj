@@ -27,6 +27,10 @@
     <ProjectReference Include="..\Shared\CookTo.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Modules\ManageRecipes\Managers\" />
+  </ItemGroup>
+
 
 	
 	</Project>

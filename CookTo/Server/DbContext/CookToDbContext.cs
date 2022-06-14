@@ -1,4 +1,7 @@
-﻿using CookTo.Server.Documents;
+﻿using CookTo.Server.Modules.Categories.Core;
+using CookTo.Server.Modules.Cuisines.Core;
+using CookTo.Server.Modules.Ingredients.Core;
+using CookTo.Server.Modules.Utensils.Core;
 using Microsoft.Extensions.Options;
 
 namespace CookTo.Server.DbContext;

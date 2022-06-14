@@ -11,7 +11,7 @@ public class ErrorModel : PageModel
 
     public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 
-    private readonly ILogger<ErrorModel> logger;
+    public ILogger<ErrorModel> logger { get; private set; }
 
     public ErrorModel(ILogger<ErrorModel> logger) { this.logger = logger; }
 

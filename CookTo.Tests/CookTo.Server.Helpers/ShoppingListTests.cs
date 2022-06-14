@@ -1,7 +1,7 @@
-﻿using CookTo.Server.Helpers;
+﻿using CookTo.Server.Modules.Recipes.Helpers;
 using CookTo.Shared.Enums;
-using CookTo.Shared.Features.ManageRecipes;
-using CookTo.Shared.Models;
+using CookTo.Shared.Modules.ManageIngredients;
+using CookTo.Shared.Modules.ManageRecipes;
 using System.Collections.Generic;
 using Xunit;
 
@@ -64,7 +64,7 @@ public class ShoppingListTests
 
         Assert.NotNull(response);
         var result = Assert.IsAssignableFrom<StepIngredient>(response);
-
+       
         Assert.Equal(6, result.Amount);
         Assert.Equal(MeasureUnit.g, result.Unit);
     }
@@ -140,6 +140,7 @@ public class ShoppingListTests
         var response = ShoppingList.GroupByIngredientName(items);
         Assert.NotNull(response);
         var result = Assert.IsAssignableFrom<List<StepIngredient>>(response);
+
         Assert.Equal(2, result.Count);
         Assert.Equal("test1", result[0].Ingredient.Text);
         Assert.Equal(2, result[0].Amount);
@@ -162,7 +163,7 @@ public class ShoppingListTests
         var response = ShoppingList.CreateShoppingListValues(items);
         Assert.NotNull(response);
         var result = Assert.IsAssignableFrom<List<string>>(response);
-        Assert.Equal(1, result.Count);
+        Assert.Single(result);
         Assert.Equal("100g sugar", result[0]);
     }
 
@@ -183,7 +184,7 @@ public class ShoppingListTests
         var response = ShoppingList.CreateShoppingListValues(items);
         Assert.NotNull(response);
         var result = Assert.IsAssignableFrom<List<string>>(response);
-        Assert.Equal(1, result.Count);
+        Assert.Single(result);
         Assert.Equal("A egg", result[0]);
     }
 
@@ -204,7 +205,7 @@ public class ShoppingListTests
         var response = ShoppingList.CreateShoppingListValues(items);
         Assert.NotNull(response);
         var result = Assert.IsAssignableFrom<List<string>>(response);
-        Assert.Equal(1, result.Count);
+        Assert.Single(result);
         Assert.Equal("2 egg's", result[0]);
     }
 

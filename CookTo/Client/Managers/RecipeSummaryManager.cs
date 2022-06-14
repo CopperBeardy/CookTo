@@ -1,4 +1,4 @@
-using CookTo.Shared.Features.ManageRecipes;
+using CookTo.Shared.Modules.ManageRecipes;
 using Newtonsoft.Json;
 
 namespace CookTo.Client.Managers;
@@ -16,8 +16,16 @@ public class RecipeSummaryManager : IRecipeSummaryManager
             var result = await httpClient.GetAsync($"/api/searchrecipes/{term}", new CancellationToken());
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
-            var response = JsonConvert.DeserializeObject<List<RecipeSummary>>(content);
-            return response;
+            var deserializedObject = JsonConvert.DeserializeObject<List<RecipeSummary>>(content);
+        if(deserializedObject != null)
+            {
+                return deserializedObject;
+            }
+            else
+            {
+                return new List<RecipeSummary>();
+            }
+           
         } catch(Exception)
         {
             return default!;
@@ -32,8 +40,15 @@ public class RecipeSummaryManager : IRecipeSummaryManager
             var result = await httpClient.GetAsync($"/api/recipes/{amount}", new CancellationToken());
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
-            var response = JsonConvert.DeserializeObject<List<RecipeSummary>>(content);
-            return response;
+            var deserializedObject = JsonConvert.DeserializeObject<List<RecipeSummary>>(content);
+            if (deserializedObject != null)
+            {
+                return deserializedObject;
+            }
+            else
+            {
+                return new List<RecipeSummary>();
+            }
         } catch(Exception)
         {
             return default!;

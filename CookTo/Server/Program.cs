@@ -1,8 +1,20 @@
 using AutoMapper;
-using CookTo.Server.Endpoints;
-using CookTo.Server.Mappings;
-using CookTo.Server.Services;
-using CookTo.Server.Services.Interfaces;
+using CookTo.Server.Modules.Categories;
+using CookTo.Server.Modules.Categories.MapperProfile;
+using CookTo.Server.Modules.Categories.Services;
+using CookTo.Server.Modules.Cuisines;
+using CookTo.Server.Modules.Cuisines.MapperProfile;
+using CookTo.Server.Modules.Cuisines.Services;
+using CookTo.Server.Modules.Images;
+using CookTo.Server.Modules.Ingredients;
+using CookTo.Server.Modules.Ingredients.MapperProfile;
+using CookTo.Server.Modules.Ingredients.Services;
+using CookTo.Server.Modules.Recipes;
+using CookTo.Server.Modules.Recipes.MapperProfile;
+using CookTo.Server.Modules.Recipes.Services;
+using CookTo.Server.Modules.Utensils;
+using CookTo.Server.Modules.Utensils.MapperProfile;
+using CookTo.Server.Modules.Utensils.Services;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.FileProviders;
@@ -22,7 +34,6 @@ builder.Services
 builder.Services.AddScoped<ICookToDbContext, CookToDbContext>();
 builder.Services.AddScoped<IIngredientService, IngredientService>();
 builder.Services.AddScoped<IRecipeService, RecipeService>();
-builder.Services.AddScoped<IFavoriteService, FavoritesService>();
 builder.Services.AddScoped<IUtensilService, UtensilService>();
 builder.Services.AddScoped<ICuisineService, CuisineService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
@@ -44,7 +55,6 @@ var mapperConfiguration = new MapperConfiguration(
     config =>
     {
         config.AddProfile(new RecipeProfile());
-        config.AddProfile(new FavoritesProfile());
         config.AddProfile(new IngredientProfile());
         config.AddProfile(new UtensilProfile());
         config.AddProfile(new CuisineProfile());
@@ -70,7 +80,6 @@ else
 }
 app.IngredientEndpoints();
 app.UtensilEndpoints();
-app.FavoritesEndpoints();
 app.RecipeEndpoints();
 app.HighlightedRecipeEndpoints();
 app.UploadImageEndpoints();

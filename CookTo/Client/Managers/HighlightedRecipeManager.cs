@@ -1,4 +1,4 @@
-using CookTo.Shared.Features.ManageRecipes;
+using CookTo.Shared.Modules.ManageRecipes;
 using Newtonsoft.Json;
 
 namespace CookTo.Client.Managers;
@@ -12,7 +12,7 @@ public class HighlightedRecipeManager : IHighlightedRecipeManager
 
     public HighlightedRecipeManager(IHttpClientFactory factory) { _factory = factory; }
 
-    public async Task<HighlightedRecipe> GetHighlighted()
+    public async Task<HighlightedRecipe?> GetHighlighted()
     {
         try
         {
@@ -20,8 +20,15 @@ public class HighlightedRecipeManager : IHighlightedRecipeManager
             var result = await httpClient.GetAsync(_url, new CancellationToken());
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
-            var response = JsonConvert.DeserializeObject<HighlightedRecipe>(content);
-            return response;
+            var deserializedObject = JsonConvert.DeserializeObject<HighlightedRecipe>(content);
+            if (deserializedObject != null)
+            {
+                return deserializedObject;
+            }
+            else
+            {
+                return null;
+            }
         } catch(Exception)
         {
             return default!;

@@ -1,4 +1,4 @@
-﻿using CookTo.Shared.Features.ManageRecipes;
+﻿using CookTo.Shared.Modules.ManageRecipes;
 
 namespace CookTo.Client.State;
 

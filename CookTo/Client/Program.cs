@@ -39,7 +39,6 @@ builder.Services.AddScoped<RecipeManager>();
 builder.Services.AddScoped<CuisineManager>();
 builder.Services.AddScoped<IHighlightedRecipeManager, HighlightedRecipeManager>();
 builder.Services.AddScoped<IRecipeSummaryManager, RecipeSummaryManager>();
-builder.Services.AddScoped<IFavoritesManager, FavoritesManager>();
 builder.Services.AddScoped<IUploadImageManager, UploadImageManager>();
 
 builder.Services.AddScoped<AppState>();
