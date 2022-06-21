@@ -51,17 +51,13 @@ builder.Services
         });
 
 
-var mapperConfiguration = new MapperConfiguration(
-    config =>
-    {
-        config.AddProfile(new RecipeProfile());
-        config.AddProfile(new IngredientProfile());
-        config.AddProfile(new UtensilProfile());
-        config.AddProfile(new CuisineProfile());
-        config.AddProfile(new CategoryProfile());
-    });
-var mapper = mapperConfiguration.CreateMapper();
-builder.Services.AddSingleton(mapper);
+builder.Services.AddAutoMapper(
+       typeof(RecipeProfile),
+       typeof(IngredientProfile),
+       typeof(UtensilProfile),
+       typeof(CuisineProfile),
+       typeof(CategoryProfile)
+    );
 
 builder.Services.AddRazorPages();
 
@@ -78,6 +74,7 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
 app.IngredientEndpoints();
 app.UtensilEndpoints();
 app.RecipeEndpoints();

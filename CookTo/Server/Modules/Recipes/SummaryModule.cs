@@ -19,9 +19,7 @@ public static class SummaryModule
                 var recipes = await service.GetByLimit(int.Parse(amount), token);
                 List<RecipeSummary> recipeSummaries = new();
                 foreach (var recipe in recipes)
-                {
-                    
-
+                {                   
                     recipeSummaries.Add(
                         new RecipeSummary(
                             recipe.Id,
@@ -31,7 +29,6 @@ public static class SummaryModule
                             recipe.Image,
                             string.IsNullOrEmpty(recipe.Creator) ? string.Empty : recipe.Creator,
                             recipe.AddedBy));
-
                 }
                 return Results.Ok(recipeSummaries);
             });

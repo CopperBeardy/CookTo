@@ -18,7 +18,7 @@ public class HighlightedRecipeManager : IHighlightedRecipeManager
         {
             var httpClient = HttpNamedClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
             var result = await httpClient.GetAsync(_url, new CancellationToken());
-            result.EnsureSuccessStatusCode();
+                result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
             var deserializedObject = JsonConvert.DeserializeObject<HighlightedRecipe>(content);
             if (deserializedObject != null)
