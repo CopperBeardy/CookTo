@@ -1,20 +1,4 @@
-using AutoMapper;
-using CookTo.Server.Modules.Categories;
-using CookTo.Server.Modules.Categories.MapperProfile;
-using CookTo.Server.Modules.Categories.Services;
-using CookTo.Server.Modules.Cuisines;
-using CookTo.Server.Modules.Cuisines.MapperProfile;
-using CookTo.Server.Modules.Cuisines.Services;
-using CookTo.Server.Modules.Images;
-using CookTo.Server.Modules.Ingredients;
-using CookTo.Server.Modules.Ingredients.MapperProfile;
-using CookTo.Server.Modules.Ingredients.Services;
-using CookTo.Server.Modules.Recipes;
-using CookTo.Server.Modules.Recipes.MapperProfile;
-using CookTo.Server.Modules.Recipes.Services;
-using CookTo.Server.Modules.Utensils;
-using CookTo.Server.Modules.Utensils.MapperProfile;
-using CookTo.Server.Modules.Utensils.Services;
+using CookTo.Server.Modules;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.FileProviders;
@@ -32,17 +16,11 @@ builder.Services
     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.Load("CookTo.Shared")));
 
 builder.Services.AddScoped<ICookToDbContext, CookToDbContext>();
-builder.Services.AddScoped<IIngredientService, IngredientService>();
-builder.Services.AddScoped<IRecipeService, RecipeService>();
-builder.Services.AddScoped<IUtensilService, UtensilService>();
-builder.Services.AddScoped<ICuisineService, CuisineService>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
+
 builder.Services
     .AddCors(
-        policy =>
-        {
-            policy.AddPolicy(
-                "CorsPolicy",
+        policy => {
+            policy.AddPolicy(   "CorsPolicy",
                 opt => opt
                 .AllowAnyOrigin()
                         .AllowAnyHeader()
@@ -50,14 +28,9 @@ builder.Services
                         .WithExposedHeaders("X-Pagination"));
         });
 
+builder.Services.RegisterModules();
 
-builder.Services.AddAutoMapper(
-       typeof(RecipeProfile),
-       typeof(IngredientProfile),
-       typeof(UtensilProfile),
-       typeof(CuisineProfile),
-       typeof(CategoryProfile)
-    );
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddRazorPages();
 
@@ -75,14 +48,7 @@ else
     app.UseHsts();
 }
 
-app.IngredientEndpoints();
-app.UtensilEndpoints();
-app.RecipeEndpoints();
-app.HighlightedRecipeEndpoints();
-app.UploadImageEndpoints();
-app.CuisineEndpoints();
-app.CategoryEndpoints();
-app.RecipeSummaryEndpoints();
+app.MapEndpoints();
 
 app.UseHttpsRedirection();
 
@@ -92,7 +58,7 @@ app.UseStaticFiles(
     new StaticFileOptions()
     {
         FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Images")),
-        RequestPath = new Microsoft.AspNetCore.Http.PathString("/Images")
+        RequestPath = new PathString("/Images")
     });
 
 app.UseRouting();

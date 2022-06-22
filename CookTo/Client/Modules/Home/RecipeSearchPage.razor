@@ -80,10 +80,10 @@ else
             switch (SortOption)
             {
                 case SortOptions.TitleAsc:
-                    _filteredResults = _filteredResults.OrderBy(summary => summary.RecipeTitle).ToList();
+                    _filteredResults = _filteredResults.OrderBy(summary => summary.Title).ToList();
                     break;
                 case SortOptions.TitleDesc:
-                    _filteredResults = _filteredResults.OrderByDescending(summary => summary.RecipeTitle).ToList();
+                    _filteredResults = _filteredResults.OrderByDescending(summary => summary.Title).ToList();
                     break;
                 case SortOptions.CuisineAsc:
                     _filteredResults = _filteredResults.OrderBy(summary => summary.Cuisine.Text).ToList();

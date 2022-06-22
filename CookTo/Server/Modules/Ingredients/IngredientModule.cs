@@ -5,11 +5,11 @@ using CookTo.Shared.Modules.ManageIngredients;
 
 namespace CookTo.Server.Modules.Ingredients;
 
-public static class IngredientModule
+public  class IngredientModule :IModule
 {
-    public static void IngredientEndpoints(this WebApplication app)
+    public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
     {
-        app.MapGet(
+        endpoints.MapGet(
             "/api/ingredient",
             async (IIngredientService service, IMapper mapper, CancellationToken token) =>
             {
@@ -17,7 +17,7 @@ public static class IngredientModule
                 return Results.Ok(mapper.Map<List<Ingredient>>(ingredients));
             });
 
-        app.MapGet(
+        endpoints.MapGet(
             "/api/ingredient/{id}",
             async (string id, IIngredientService service, IMapper mapper, CancellationToken token) =>
             {
@@ -32,13 +32,23 @@ public static class IngredientModule
             });
 
 
-        app.MapPost(
+        endpoints.MapPost(
             "/api/ingredient",
             async (Ingredient ingredient, IIngredientService service, IMapper mapper, CancellationToken token) =>
             {
                 var newIngredient = mapper.Map<IngredientDocument>(ingredient);
                 await service.CreateAsync(newIngredient, token);
                 return Results.Ok(mapper.Map<Ingredient>(newIngredient));
-            });
+            }).RequireAuthorization();
+        return endpoints;
+    }
+
+
+   
+
+    public IServiceCollection RegisterModule(IServiceCollection services)
+    {
+        services.AddScoped<IIngredientService, IngredientService>();
+        return services;
     }
 }

@@ -4,12 +4,12 @@ using CookTo.Shared.Modules.ManageCuisines;
 namespace CookTo.Shared.Modules.ManageRecipes;
 
 public record RecipeSummary
-(
-    string RecipeId,
-    Category Category,
-    string RecipeTitle,
-    Cuisine Cuisine,
-    string ImageFileName,
-    string Creator,
-    string AddedBy
-);
+{
+    public string Id { get; set; }
+    public Category Category { get; set; }
+    public string Title { get; set; }
+    public Cuisine Cuisine { get; set; }
+    public string Image { get; set; }
+    public string Creator { get; set; }
+    public string AddedBy { get; set; }
+}

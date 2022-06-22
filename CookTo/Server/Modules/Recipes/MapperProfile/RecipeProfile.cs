@@ -13,5 +13,6 @@ public class RecipeProfile : Profile
         CreateMap<UtensilPart, UtensilPartDocument>().ReverseMap();
         CreateMap<StepIngredient, StepIngredientDocument>().ReverseMap();
         CreateMap<RecipeDocument, HighlightedRecipe>();
+        CreateMap<RecipeDocument, RecipeSummary>();
     }
 }
