@@ -1,0 +1,20 @@
+﻿@*Component layout used here is the same as  in the book - Blazor in Action by Chris Sainty*@
+
+<div class="card card-brand mb-4 shadow" aria-label="formsection">
+    <div class="card-body">
+        <div class="d-flex flex-row">
+                <h4 aria-label="Form Section @Title">@Title</h4>
+         </div>
+        <div class="row">
+         @ChildContent
+      </div>
+
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public String Title { get; set; } = default!;   
+    [Parameter, EditorRequired]
+    public RenderFragment ChildContent { get; set; } = default!;
+}

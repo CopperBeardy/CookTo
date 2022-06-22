@@ -1,0 +1,22 @@
+﻿<FormSection Title="Tips">
+    @foreach (var tip in Recipe.Tips)
+        {
+            <FormInputGroup Id="tipDescription" Label="Tip" Width="col col-sm-10" Margins="mb-2">
+                <InputTextArea role="textbox" aria-required="true" @bind-Value="tip.Description" class="form-control" id="tipDescription" />
+                <ValidationMessage aria-alert="true" For="@(() => tip.Description)" />
+            </FormInputGroup>
+
+            <div class="col-sm-1">
+                <button aria-label="removeTip" class="btn link-danger " @onclick="@(() => Recipe.Tips.Remove(tip))" type="button"><i class="bi bi-dash-circle"></i></button>
+            </div>
+        }
+        <div class="row">
+            <div class="col">
+                <button aria-label="addNewTip" class="btn btn-outline-primary" type="button" @onclick="@(() => Recipe.Tips.Add(new Tip()))">Add Tip</button>
+                <ValidationMessage aria-alert="true" For="@(() => Recipe.Tips)" />
+            </div>
+        </div>
+    </FormSection>
+@code {
+    [Parameter] public FullRecipe Recipe { get; set; } = new FullRecipe();
+}

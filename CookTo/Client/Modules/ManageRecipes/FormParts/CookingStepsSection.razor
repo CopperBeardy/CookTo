@@ -1,0 +1,41 @@
+﻿
+<FormSection Title="Cooking steps">
+    @{
+        var i = 0;
+    }
+    @foreach (var cookingStep in Recipe.CookingSteps)
+    {
+        i++;
+        cookingStep.OrderNumber = i;
+        <div class="d-flex row gy-1 gx-1 align-items-center ms-2 mb-2">
+            <label id="orderNumber" class="col col-auto"> @cookingStep.OrderNumber </label>
+            <FormInputGroup Id="cookingStepDescription" Label="Description" Width="col-sm-10" Margins="mb-2">
+                <InputTextArea role="textbox" aria-required="true" @bind-Value="cookingStep.StepDescription" class="form-control" id="CookingStepDescription" />
+                <ValidationMessage aria-alert="true" For="@(() => cookingStep.StepDescription)" />
+            </FormInputGroup>
+
+            <div>
+                <div>
+                    <div class="ms-4">
+                        <StepIngredientSection CookingStep="@cookingStep" />
+                    </div>
+                    <button role="button" aria-label="newPartIngredient" class="btn btn-outline-primary col-2 mb-2" type="button" @onclick="@(() => cookingStep.StepIngredients.Add(new StepIngredient()))">Add Ingredient used in this step </button>
+                    <ValidationMessage aria-alert="true" For="@(() => cookingStep.StepIngredients)" />
+                </div>
+            </div>
+
+            <div class="col-sm-1">
+                <button aria-label="removeStep" class="btn link-danger " @onclick="@(() => Recipe.CookingSteps.Remove(cookingStep))" type="button"><i class="bi bi-dash-circle"></i></button>
+            </div>
+        </div>
+    }
+    <div class="row">
+        <div class="col">
+            <button aria-label="addNewCookingStep" class="btn btn-outline-primary" type="button" @onclick="@(() => Recipe.CookingSteps.Add(new CookingStep()))">Add CookingStep</button>
+            <ValidationMessage aria-alert="true" For="@(() => Recipe.CookingSteps)" />
+        </div>
+    </div>
+</FormSection>
+@code {
+    [Parameter] public FullRecipe Recipe { get; set; } = new FullRecipe();
+}

@@ -1,0 +1,90 @@
+﻿@inject AppState AppState
+
+<h3 class="mt-5 mb-4">Add a Recipe</h3>
+<EditForm OnValidSubmit="SubmitForm" EditContext="_editContext" aria-label="form">
+    <FluentValidationValidator/>
+    <FormStateTracker />
+ 
+    <DetailsFormSection  Recipe="_recipe"/>
+    <FormSection Title="Image" >
+       
+        <div class="col-5">
+            @if (string.IsNullOrWhiteSpace(_recipe.Image))
+            {
+                <InputFile OnChange="@LoadRecipeImage" aria-required="true" class="form-control-file" aria-label="recipeImage" accept=".png, .jpg, .jpeg" />
+            }
+            else
+            {
+                <div class="card bg-dark text-white">
+                    <img src="images/@_recipe.Image" />
+                    <div class="card-img-overlay">
+                        <button aria-label="removeImage" class="btn btn-primary btn-sm" @onclick="RemoveRecipeImage">Remove</button>
+                    </div>
+                </div>
+            }
+        </div>    
+    </FormSection>
+   
+
+   <CookingStepsSection Recipe="_recipe"/>
+    <UtensilsFormSection Recipe="_recipe"/>   
+    <TipsFormSection  Recipe="_recipe"/>
+
+
+    <div class="mt-4 mb-5">
+        <div class="row">
+            <div class="offset-4 col-8 text-right">
+                <button aria-label="resetRecipe" class="btn btn-outline-secondary" type="button" @onclick="@(() => _recipe = new FullRecipe())">Reset</button>
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    private FullRecipe _recipe = new FullRecipe();
+    private EditContext _editContext = default!;
+    private IBrowserFile? _recipeImage;    
+
+    [Parameter, EditorRequired] public Func<FullRecipe, IBrowserFile?, Task> OnSubmit { get; set; } = default!;
+    [Parameter] public FullRecipe Recipe { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (Recipe is not null)
+        {
+            _recipe = Recipe;
+        }
+        else
+        {
+            _recipe = AppState.NewRecipeState.GetRecipe();
+        }
+        _editContext = new EditContext(_recipe);
+        _editContext.SetFieldCssClassProvider(new BootstrapCssClassProvider());
+
+    }
+
+   
+    public void ResetForm()
+    {
+        AppState.NewRecipeState.ClearRecipe();
+        _recipe = new FullRecipe();
+        _editContext = new EditContext(_recipe);
+        _editContext.SetFieldCssClassProvider(new BootstrapCssClassProvider());
+        _recipeImage = null;
+    }
+    private void LoadRecipeImage(InputFileChangeEventArgs args)
+    {
+        _recipeImage = args.File;
+        _recipe.ImageAction = ImageAction.Add;
+
+    }
+
+    private void RemoveRecipeImage()
+    {
+        _recipeImage = null;
+        _recipe.ImageAction = ImageAction.Remove;
+    }
+
+    private async Task SubmitForm() => await OnSubmit(_recipe, _recipeImage);
+}

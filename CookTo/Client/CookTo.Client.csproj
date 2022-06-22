@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>3c01f41c-1da7-4409-a20c-a6d870ae533c</UserSecretsId>
@@ -9,51 +9,28 @@
   </PropertyGroup>
 
   <ItemGroup>  
-    <PackageReference Include="Blazored.LocalStorage" Version="4.2.0" />
-    <PackageReference Include="Blazored.Modal" Version="6.0.1" />
+    <PackageReference Include="Blazored.LocalStorage" Version="4.3.0-preview.1" />
+    <PackageReference Include="Blazored.Modal" Version="7.0.0-preiew.2" />
     <PackageReference Include="Blazored.Typeahead" Version="4.6.0" />    
     <PackageReference Include="Measurement.Converters.CSharp" Version="0.0.34" />
 	
-	  <PackageReference Include="Blazored.FluentValidation" Version="2.0.3" />
-     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.2" PrivateAssets="all" />
+	  <PackageReference Include="Blazored.FluentValidation" Version="2.1.0-preview.1" />
+     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.0-preview.4.22251.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.0-preview.4.22251.1" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Authentication.WebAssembly.Msal" Version="6.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.2-mauipre.1.22054.8" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Microsoft.Authentication.WebAssembly.Msal" Version="7.0.0-preview.4.22251.1" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0-preview.4.22229.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2-beta1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Shared\CookTo.Shared.csproj" />
   </ItemGroup>
 
-	<ItemGroup>
-		<Watch Include="**/*.scss" />
-		<Watch Remove="Features\Home\HomePage.razor.scss" />
-		<Watch Remove="Features\Home\SearchFilter.razor.scss" />
-		<Watch Remove="Features\Home\SortResults.razor.scss" />
-		<Watch Remove="Features\ManageRecipes\Typeaheads\BlazoredTypeaaheadOverwrite.scss" />
-		<None Update="**/*.css" Watch="false" />
-	</ItemGroup>
+  <ItemGroup>
+    <Folder Include="Modules\ManageRecipes\Managers\" />
+  </ItemGroup>
 
-	<Target Name="CheckForNpm" BeforeTargets="RunNpmInstall">
-		<Exec Command="npm --version" ContinueOnError="true">
-			<Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
-		</Exec>
-		<Error Condition="'$(ErrorCode)' != '0'" Text="NPM is required to build this project." />
-	</Target>
 
-	<Target Name="RunNpmInstall" BeforeTargets="CompileScopedScss" Inputs="package.json" Outputs="$(NpmLastInstall)">
-		<Exec Command="npm install" />
-		<Touch Files="$(NpmLastInstall)" AlwaysCreate="true" />
-	</Target>
-
-	<Target Name="CompileScopedScss" BeforeTargets="Compile">
-		<ItemGroup>
-			<ScopedScssFiles Include="Features/**/*.razor.scss" />
-		</ItemGroup>
-
-		<Exec Command="npm run sass -- %(ScopedScssFiles.Identity) %(relativedir)%(filename).css" />
-	</Target>
 	
 	</Project>

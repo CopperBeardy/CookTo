@@ -1,4 +1,4 @@
-using CookTo.Shared.Features.ManageRecipes;
+using CookTo.Shared.Modules.ManageRecipes;
 using Newtonsoft.Json;
 
 namespace CookTo.Client.Managers;
@@ -8,32 +8,47 @@ public class RecipeSummaryManager : IRecipeSummaryManager
     private readonly IHttpClientFactory _factory;
     public RecipeSummaryManager(IHttpClientFactory factory) { _factory = factory; }
 
-    public async Task<IEnumerable<RecipeSummaryDto>> GetByTerm(string term)
+    public async Task<IEnumerable<RecipeSummary>> GetByTerm(string term)
     {
         try
         {
-            var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
+            var httpClient = HttpNamedClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
             var result = await httpClient.GetAsync($"/api/searchrecipes/{term}", new CancellationToken());
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
-            var response = JsonConvert.DeserializeObject<List<RecipeSummaryDto>>(content);
-            return response;
+            var deserializedObject = JsonConvert.DeserializeObject<List<RecipeSummary>>(content);
+        if(deserializedObject != null)
+            {
+                return deserializedObject;
+            }
+            else
+            {
+                return new List<RecipeSummary>();
+            }
+           
         } catch(Exception)
         {
             return default!;
         }
     }
 
-    public async Task<IEnumerable<RecipeSummaryDto>> GetCount(int amount)
+    public async Task<IEnumerable<RecipeSummary>> GetCount(int amount)
     {
         try
         {
-            var httpClient = HttpClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
+            var httpClient = HttpNamedClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
             var result = await httpClient.GetAsync($"/api/recipes/{amount}", new CancellationToken());
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
-            var response = JsonConvert.DeserializeObject<List<RecipeSummaryDto>>(content);
-            return response;
+            var deserializedObject = JsonConvert.DeserializeObject<List<RecipeSummary>>(content);
+            if (deserializedObject != null)
+            {
+                return deserializedObject;
+            }
+            else
+            {
+                return new List<RecipeSummary>();
+            }
         } catch(Exception)
         {
             return default!;

@@ -1,8 +1,4 @@
-using AutoMapper;
-using CookTo.Server.Endpoints;
-using CookTo.Server.Mappings;
-using CookTo.Server.Services;
-using CookTo.Server.Services.Interfaces;
+using CookTo.Server.Modules;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.FileProviders;
@@ -14,23 +10,17 @@ builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
 builder.Services.Configure<MongoSettings>(builder.Configuration.GetSection(nameof(MongoSettings))).AddOptions();
+
 builder.Services
     .AddEndpointsApiExplorer()
     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.Load("CookTo.Shared")));
 
 builder.Services.AddScoped<ICookToDbContext, CookToDbContext>();
-builder.Services.AddScoped<IIngredientService, IngredientService>();
-builder.Services.AddScoped<IRecipeService, RecipeService>();
-builder.Services.AddScoped<IFavoriteService, FavoritesService>();
-builder.Services.AddScoped<IUtensilService, UtensilService>();
-builder.Services.AddScoped<ICuisineService, CuisineService>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
+
 builder.Services
     .AddCors(
-        policy =>
-        {
-            policy.AddPolicy(
-                "CorsPolicy",
+        policy => {
+            policy.AddPolicy(   "CorsPolicy",
                 opt => opt
                 .AllowAnyOrigin()
                         .AllowAnyHeader()
@@ -38,43 +28,27 @@ builder.Services
                         .WithExposedHeaders("X-Pagination"));
         });
 
+builder.Services.RegisterModules();
 
-var mapperConfiguration = new MapperConfiguration(
-    config =>
-    {
-        config.AddProfile(new RecipeProfile());
-        config.AddProfile(new FavoritesProfile());
-        config.AddProfile(new IngredientProfile());
-        config.AddProfile(new UtensilProfile());
-        config.AddProfile(new CuisineProfile());
-        config.AddProfile(new CategoryProfile());
-    });
-var mapper = mapperConfiguration.CreateMapper();
-builder.Services.AddSingleton(mapper);
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if(app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
-} else
+}
+else
 {
     app.UseExceptionHandler("/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-app.IngredientEndpoints();
-app.UtensilEndpoints();
-app.FavoritesEndpoints();
-app.RecipeEndpoints();
-app.HighlightedRecipeEndpoints();
-app.UploadImageEndpoints();
-app.CuisineEndpoints();
-app.CategoryEndpoints();
-app.RecipeSummaryEndpoints();
+
+app.MapEndpoints();
 
 app.UseHttpsRedirection();
 
@@ -84,7 +58,7 @@ app.UseStaticFiles(
     new StaticFileOptions()
     {
         FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Images")),
-        RequestPath = new Microsoft.AspNetCore.Http.PathString("/Images")
+        RequestPath = new PathString("/Images")
     });
 
 app.UseRouting();

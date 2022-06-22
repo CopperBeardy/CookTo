@@ -1,7 +1,7 @@
-﻿using CookTo.Server.Documents.CategoryDocument;
-using CookTo.Server.Documents.CuisineDocument;
-using CookTo.Server.Documents.IngredientDocument;
-using CookTo.Server.Documents.UtensilDocument;
+﻿using CookTo.Server.Modules.Categories.Core;
+using CookTo.Server.Modules.Cuisines.Core;
+using CookTo.Server.Modules.Ingredients.Core;
+using CookTo.Server.Modules.Utensils.Core;
 using Microsoft.Extensions.Options;
 
 namespace CookTo.Server.DbContext;
@@ -15,7 +15,10 @@ public class CookToDbContext : ICookToDbContext
 
     public CookToDbContext(IOptions<MongoSettings> configuration)
     {
-        client = new MongoClient(configuration.Value.Connection);
+        //client = new MongoClient(configuration.Value.Connection);
+        //db = client.GetDatabase(configuration.Value.Database);
+       client = new MongoClient(configuration.Value.Connection);
+       
         db = client.GetDatabase(configuration.Value.Database);
         Seed();
     }
@@ -24,73 +27,75 @@ public class CookToDbContext : ICookToDbContext
 
     private void Seed()
     {
-        if(!client.ListDatabaseNames().Any())
+        var result = db.ListCollections().Any();
+        if (!result)
         {
             SeedIngredientCollection();
             SeedCuisineCollection();
             SeedCategoryCollection();
             SeedUtensilCollection();
         }
+    
     }
 
     private async void SeedIngredientCollection()
     {
-        var ingredients = new List<Ingredient>()
+        var ingredients = new List<IngredientDocument>()
         {
-            new Ingredient() { Name = "Strong White Bread Flour" },
-            new Ingredient() { Name = "Lemon" },
-            new Ingredient() { Name = "Fast Acting Yeast" },
-            new Ingredient() { Name = "Caster Sugar" }
+            new IngredientDocument() { Text = "Strong White Bread Flour" },
+            new IngredientDocument() { Text = "Lemon" },
+            new IngredientDocument() { Text = "Fast Acting Yeast" },
+            new IngredientDocument() { Text = "Caster Sugar" }
         };
 
-        var collection = db.GetCollection<Ingredient>(nameof(Ingredient));
+        var collection = db.GetCollection<IngredientDocument>(nameof(IngredientDocument));
         await collection.InsertManyAsync(ingredients);
     }
 
     private async void SeedCuisineCollection()
     {
-        var cuisines = new List<Cuisine>()
+        var cuisines = new List<CuisineDocument>()
         {
-            new Cuisine() { Name = "British" },
-            new Cuisine() { Name = "French" },
-            new Cuisine() { Name = "Chinese" },
-            new Cuisine() { Name = "Italian" }
+            new CuisineDocument() { Text = "British" },
+            new CuisineDocument() { Text = "French" },
+            new CuisineDocument() { Text = "Chinese" },
+            new CuisineDocument() { Text = "Italian" }
         };
 
-        var collection = db.GetCollection<Cuisine>(nameof(Cuisine));
+        var collection = db.GetCollection<CuisineDocument>(nameof(CuisineDocument));
         await collection.InsertManyAsync(cuisines);
     }
 
     private async void SeedCategoryCollection()
     {
-        var categories = new List<Category>()
+        var categories = new List<CategoryDocument>()
         {
-            new Category() { Name = "Cake" },
-            new Category() { Name = "Baking" },
-            new Category() { Name = "Main" },
-            new Category() { Name = "Light Meal" },
-            new Category() { Name = "Starter" },
-            new Category() { Name = "Nibbles" },
-            new Category() { Name = "Brunch" },
-            new Category() { Name = "Side" },
-            new Category() { Name = "Dessert" }
+            new CategoryDocument() { Text = "Cake" },
+            new CategoryDocument() { Text = "Baking" },
+            new CategoryDocument() { Text = "Main" },
+            new CategoryDocument() { Text = "Light Meal" },
+            new CategoryDocument() { Text = "Starter" },
+            new CategoryDocument() { Text = "Nibbles" },
+            new CategoryDocument() { Text = "Brunch" },
+            new CategoryDocument() { Text = "Side" },
+            new CategoryDocument() { Text = "Dessert" }
         };
 
-        var collection = db.GetCollection<Category>(nameof(Category));
+        var collection = db.GetCollection<CategoryDocument>(nameof(CategoryDocument));
         await collection.InsertManyAsync(categories);
     }
 
     private async void SeedUtensilCollection()
     {
-        var utensils = new List<Utensil>()
+        var utensils = new List<UtensilDocument>()
         {
-            new Utensil() { UtensilName = "Muffin Moulds" },
-            new Utensil() { UtensilName = "20cm loose fitting Cake Tin" },
-            new Utensil() { UtensilName = "Whisk" },
-            new Utensil() { UtensilName = "Electric Whisk" },
+            new UtensilDocument() { Text = "Muffin Moulds" },
+            new UtensilDocument() { Text = "20cm loose fitting Cake Tin" },
+            new UtensilDocument() { Text = "Whisk" },
+            new UtensilDocument() { Text = "Electric Whisk" },
         };
 
-        var collection = db.GetCollection<Utensil>(nameof(Utensil));
+        var collection = db.GetCollection<UtensilDocument>(nameof(UtensilDocument));
         await collection.InsertManyAsync(utensils);
     }
 }
