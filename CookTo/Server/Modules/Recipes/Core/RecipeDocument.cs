@@ -26,7 +26,7 @@ public class RecipeDocument : BaseDocument
     public int CookTime { get; set; }
 
     [BsonElement("serves")]
-    public int Serves { get; set; }
+    public string Serves { get; set; }
 
     [BsonElement("cuisine")]
     public CuisineDocument? Cuisine { get; set; }

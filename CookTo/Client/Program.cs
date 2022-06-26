@@ -2,7 +2,6 @@ using Blazored.LocalStorage;
 using Blazored.Modal;
 using CookTo.Client;
 using CookTo.Client.HttpManagers;
-using CookTo.Client.HttpManagers.Interfaces;
 using CookTo.Client.State;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;

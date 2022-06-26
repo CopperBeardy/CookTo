@@ -1,14 +1,17 @@
-﻿  <div class="row mb-3">
+﻿  <div class="row">
                 <h5><strong>Tips</strong></h5>
+
                 <div class="card shadow p-3 mt-3">
+                    <div class="d-flex flex-row mb-2">
                     @foreach (var tip in Tips)
                     {                     
-                        <div class="card col col-sm-3">
+                        <div class="card col col-sm-3 me-2">
                             <div class="p-3">
                             @tip.Description
                             </div>
                          </div>
                     }
+                    </div>
                 </div>
         </div>
 

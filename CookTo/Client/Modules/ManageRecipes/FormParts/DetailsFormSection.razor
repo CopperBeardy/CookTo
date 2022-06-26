@@ -10,7 +10,7 @@
     </FormInputGroup>
 
     <FormInputGroup Width="col col-sm-6" Id="serves" Label="Serves" Margins="mb-2" >
-        <InputNumber min=0 aria-required="true" @bind-Value="Recipe.Serves" class="form-control" id="serves" />
+        <InputText aria-required="true" @bind-Value="Recipe.Serves" class="form-control" id="serves" />
         <ValidationMessage aria-alert="true" For="@(() => Recipe.Serves)" />
     </FormInputGroup>
         

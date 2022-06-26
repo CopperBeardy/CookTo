@@ -13,7 +13,7 @@ public static class TagHelper
         tags.Add(GetCategory(recipe.Category));
         tags.Add(GetCuisine(recipe.Cuisine));
         tags.AddRange(GetIngredients(recipe.CookingSteps));
-        var tagstring = tags.Aggregate(string.Empty, (accumulator, t) => accumulator += $"{t},");
+        var tagstring = tags.Aggregate(string.Empty, (accumulator, t) => accumulator += $"{t},").TrimEnd(',');
 
         return tagstring;
     }

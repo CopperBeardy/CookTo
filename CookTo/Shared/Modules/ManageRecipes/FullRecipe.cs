@@ -23,7 +23,7 @@ public class FullRecipe
 
     public int CookTime { get; set; }
 
-    public int Serves { get; set; }
+    public string Serves { get; set; }
 
     public string? Creator { get; set; }
 

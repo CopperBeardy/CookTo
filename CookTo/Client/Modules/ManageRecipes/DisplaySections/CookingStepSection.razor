@@ -4,10 +4,10 @@
         <label class="col col-auto me-sm-2">@CookingStep.OrderNumber </label>
         <span class="col col-sm-10">@CookingStep.StepDescription</span>
     </div>
-    <div  class="d-flex justify-content-center">
+    <div  class="d-flex flex-row flex-wrap justify-content-center">
         @foreach (var ing in CookingStep.StepIngredients)
         {
-          <span class="badge rounded-pill bg-light text-dark">
+          <span class="badge rounded-pill bg-light text-dark me-1 mb-1">
               @ing.ToString()
           </span>
         }
