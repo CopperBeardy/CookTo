@@ -1,6 +1,8 @@
+
 using CookTo.Shared.Modules.ManageRecipes;
 
-namespace CookTo.Client.Managers;
+
+namespace CookTo.Client.HttpManagers;
 
 public class RecipeManager : BaseManager<FullRecipe>
 {

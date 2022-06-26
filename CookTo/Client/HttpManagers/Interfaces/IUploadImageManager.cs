@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components.Forms;
 
-namespace CookTo.Client.Managers.Interfaces;
+namespace CookTo.Client.HttpManagers.Interfaces;
 
 public interface IUploadImageManager
 {

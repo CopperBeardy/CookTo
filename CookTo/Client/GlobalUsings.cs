@@ -1,2 +1,2 @@
-﻿global using System.Net.Http.Json;
-global using CookTo.Client.Managers.Interfaces;
+﻿global using CookTo.Client.HttpManagers.Interfaces;
+global using System.Net.Http.Json;

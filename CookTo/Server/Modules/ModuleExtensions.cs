@@ -1,5 +1,5 @@
 ﻿namespace CookTo.Server.Modules;
-
+//based of https://timdeschryver.dev/blog/maybe-its-time-to-rethink-our-project-structure-with-dot-net-6#a-single-file-api
 public static class ModuleExtensions
 {
     static readonly List<IModule> registeredModules = new List<IModule>();

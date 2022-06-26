@@ -1,8 +1,10 @@
+using CookTo.Client.HttpHelpers;
+using CookTo.Client.HttpManagers.Interfaces;
 using CookTo.Shared.Modules.ManageRecipes;
 using Microsoft.AspNetCore.Components.Forms;
 using Newtonsoft.Json;
 
-namespace CookTo.Client.Managers;
+namespace CookTo.Client.HttpManagers;
 
 public class UploadImageManager : IUploadImageManager
 {
@@ -12,9 +14,7 @@ public class UploadImageManager : IUploadImageManager
 
     public UploadImageManager(IHttpClientFactory factory) => _factory = factory;
 
-#pragma warning disable CS8613 // Nullability of reference types in return type doesn't match implicitly implemented member.
     public async Task<IBrowserFile?> GetImage(string recipeId)
-#pragma warning restore CS8613 // Nullability of reference types in return type doesn't match implicitly implemented member.
     {
         try
         {
@@ -24,8 +24,7 @@ public class UploadImageManager : IUploadImageManager
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
             var deserializedObject = JsonConvert.DeserializeObject<IBrowserFile>(content);
-            return deserializedObject;       
-            
+            return deserializedObject;
         } catch(HttpRequestException)
         {
             return default!;

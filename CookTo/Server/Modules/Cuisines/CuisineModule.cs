@@ -5,26 +5,25 @@ using CookTo.Shared.Modules.ManageCuisines;
 
 namespace CookTo.Server.Modules.Cuisines;
 
-public class CuisineModule :IModule
+public class CuisineModule : IModule
 {
-    
-
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapGet(
-          "/api/cuisine",
-          async (ICuisineService service, IMapper mapper, CancellationToken token) =>
-          {
-              var cuisines = await service.GetAllAsync(token);
-              return Results.Ok(mapper.Map<List<Cuisine>>(cuisines));
-          });
+        var api = endpoints.MapGroup("/api");
+        api.MapGet(
+            "/cuisine",
+            async (ICuisineService service, IMapper mapper, CancellationToken token) =>
+            {
+                var cuisines = await service.GetAllAsync(token);
+                return Results.Ok(mapper.Map<List<Cuisine>>(cuisines));
+            });
 
-        endpoints.MapGet(
-            "/api/cuisine/{id}",
+        api.MapGet(
+            "/cuisine/{id}",
             async (string id, ICuisineService service, IMapper mapper, CancellationToken token) =>
             {
                 var cuisine = await service.GetByIdAsync(id, token);
-                if (cuisine is null)
+                if(cuisine is null)
                 {
                     return Results.BadRequest("Cuisine was not found");
                 }
@@ -34,15 +33,16 @@ public class CuisineModule :IModule
             });
 
 
-        endpoints.MapPost(
-            "/api/cuisine",
+        api.MapPost(
+            "/cuisine",
             async (Cuisine cuisine, ICuisineService service, IMapper mapper, CancellationToken token) =>
             {
                 var newCuisine = mapper.Map<CuisineDocument>(cuisine);
                 await service.CreateAsync(newCuisine, token);
                 return Results.Ok(mapper.Map<Cuisine>(newCuisine));
-            }).RequireAuthorization();
-        return endpoints;
+            })
+            .RequireAuthorization();
+        return api;
     }
 
     public IServiceCollection RegisterModule(IServiceCollection services)

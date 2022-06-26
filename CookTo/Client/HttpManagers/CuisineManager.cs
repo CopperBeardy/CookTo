@@ -1,6 +1,6 @@
 using CookTo.Shared.Modules.ManageCuisines;
 
-namespace CookTo.Client.Managers;
+namespace CookTo.Client.HttpManagers;
 
 public class CuisineManager : BaseManager<Cuisine>
 {

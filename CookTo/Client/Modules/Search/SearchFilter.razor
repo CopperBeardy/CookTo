@@ -41,12 +41,14 @@
     protected override async Task OnInitializedAsync()
     {
         var categoryResponse = await CategoryManager.GetAll();
+        _categories.Add("All");
         foreach (var cat in categoryResponse)
         {
             _categories.Add(cat.Text);
         }
 
         var cuisineResponse = await CuisineManager.GetAll();
+        _cuisines.Add("All");
         foreach (var cuisine in cuisineResponse)
         {
             _cuisines.Add(cuisine.Text);

@@ -51,5 +51,8 @@ public class RecipeDocument : BaseDocument
 
     [BsonElement("tips")]
     public List<Tip>? Tips { get; set; }
+
+    [BsonElement("tags")]
+    public string Tags { get; set; }
 }
 

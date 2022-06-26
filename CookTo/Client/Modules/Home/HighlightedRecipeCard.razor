@@ -1,5 +1,5 @@
 ﻿@inject NavigationManager NavManager
-@inject IHighlightedRecipeManager HighlightedRecipeManager
+@inject HighlightedRecipeManager HighlightedRecipeManager
 
 <div class="card shadow p-3">
 
@@ -45,7 +45,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var response = await HighlightedRecipeManager.GetHighlighted();
+        var response = await HighlightedRecipeManager.GetById(string.Empty);
         if(response is not null)
         {
             Highlighted = response;
