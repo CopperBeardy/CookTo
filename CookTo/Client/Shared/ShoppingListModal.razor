@@ -6,7 +6,7 @@
         <ol style="list-style-type:none">           
             @foreach (var item in ShoppingList)
             {            
-              <li>@item </li>            
+              <li>@item.ToString() </li>            
             }         
         </ol>       
     </div>  
@@ -19,7 +19,7 @@
     [CascadingParameter] BlazoredModalInstance ModalInstance{ get; set; }
 
     [Parameter]
-    public List<string> ShoppingList { get; set; } = new List<string>();
+    public List<ShoppingItem> ShoppingList { get; set; } = new List<ShoppingItem>();
 
     void Close() =>  ModalInstance.CloseAsync();
     

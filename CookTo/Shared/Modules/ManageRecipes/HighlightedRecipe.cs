@@ -28,5 +28,5 @@ public class HighlightedRecipe
 
     public string Tags { get; set; }
 
-    public List<string> ShoppingList { get; set; } = new List<string>();
+    public List<ShoppingItem> ShoppingList { get; set; } = new List<ShoppingItem>();
 }

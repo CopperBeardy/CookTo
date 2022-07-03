@@ -1,0 +1,23 @@
+﻿<FormSection Title="ShoppingList">
+    @foreach (var item in Recipe.ShoppingList)
+    {
+        <div class="d-flex row gy-1 gx-1 align-items-center ms-2 mb-2">
+            <div class="ms-4">
+                <ShoppingListItem ShoppingItem="@item" />
+            </div>
+
+            <div class="col-sm-1">
+                <button aria-label="removeItem" class="btn link-danger " @onclick="@(() => Recipe.ShoppingList.Remove(item))" type="button"><i class="bi bi-dash-circle"></i></button>
+            </div>
+        </div>
+    }
+    <div class="row">
+        <div class="col">
+            <button aria-label="addShoppingListItem" class="btn btn-outline-primary" type="button" @onclick="@(() => Recipe.ShoppingList.Add(new ShoppingItem()))">Add ShoppingItem</button>
+            <ValidationMessage aria-alert="true" For="@(() => Recipe.ShoppingList)" />
+        </div>
+    </div>
+</FormSection>
+@code {
+    [Parameter] public FullRecipe Recipe { get; set; } = new FullRecipe();
+}

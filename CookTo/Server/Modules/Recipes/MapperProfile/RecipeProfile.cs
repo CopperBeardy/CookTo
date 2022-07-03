@@ -14,5 +14,6 @@ public class RecipeProfile : Profile
         CreateMap<StepIngredient, StepIngredientDocument>().ReverseMap();
         CreateMap<RecipeDocument, HighlightedRecipe>();
         CreateMap<RecipeDocument, RecipeSummary>();
+        CreateMap<ShoppingItemDocument, ShoppingItem>().ReverseMap();
     }
 }

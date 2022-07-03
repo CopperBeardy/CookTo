@@ -2,7 +2,7 @@
 <div class="col col-sm-6 m-0">
     <BlazoredTypeahead MaximumSuggestions=3 id="typeaheadInput"
                        SearchMethod="SearchItems"
-                       @bind-Value="StepIngredient.Ingredient"
+                       @bind-Value="ShoppingItem.Ingredient"
                        placeholder="Search"
                        role="combobox"
                        aria-required="true"
@@ -22,12 +22,12 @@
             new Ingredient will be selected after being added.</span>
         </NotFoundTemplate>
     </BlazoredTypeahead>
-    <ValidationMessage aria-alert="true" For="@(() => StepIngredient.Ingredient)" />
+    <ValidationMessage aria-alert="true" For="@(() => ShoppingItem.Ingredient)" />
 
 </div>
 @code {
 
-        [Parameter] public StepIngredient StepIngredient{ get; set; } = new StepIngredient();   
+        [Parameter] public ShoppingItem ShoppingItem{ get; set; } = new ShoppingItem();   
        public IList<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
            protected override async Task OnInitializedAsync()
     {
