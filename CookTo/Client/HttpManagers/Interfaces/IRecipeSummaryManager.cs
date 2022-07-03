@@ -1,6 +1,6 @@
 ﻿using CookTo.Shared.Modules.ManageRecipes;
 
-namespace CookTo.Client.Managers.Interfaces;
+namespace CookTo.Client.HttpManagers.Interfaces;
 
 public interface IRecipeSummaryManager
 {

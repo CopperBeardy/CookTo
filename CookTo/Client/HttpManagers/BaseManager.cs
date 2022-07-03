@@ -1,6 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using CookTo.Client.HttpHelpers;
+using CookTo.Client.HttpManagers.Interfaces;
+using Newtonsoft.Json;
 
-namespace CookTo.Client.Managers;
+namespace CookTo.Client.HttpManagers;
 
 public abstract class BaseManager<T> : IBaseManager<T> where T : class
 {
@@ -21,11 +23,10 @@ public abstract class BaseManager<T> : IBaseManager<T> where T : class
             var result = await httpClient.GetAsync(_url, new CancellationToken());
             var content = await result.Content.ReadAsStringAsync();
             var deserializedObject = JsonConvert.DeserializeObject<IList<T>>(content);
-            if (deserializedObject != null)
+            if(deserializedObject != null)
             {
                 return deserializedObject;
-            }
-            else
+            } else
             {
                 return new List<T>();
             }
@@ -44,11 +45,10 @@ public abstract class BaseManager<T> : IBaseManager<T> where T : class
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
             var deserializedObject = JsonConvert.DeserializeObject<T>(content);
-            if (deserializedObject != null)
+            if(deserializedObject != null)
             {
                 return deserializedObject;
-            }
-            else
+            } else
             {
                 return null;
             }
@@ -67,16 +67,14 @@ public abstract class BaseManager<T> : IBaseManager<T> where T : class
             var result = await httpClient.PostAsJsonAsync(_url, entity, new CancellationToken());
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
-           var deserializedObject = JsonConvert.DeserializeObject<T>(content);
-            if (deserializedObject != null)
+            var deserializedObject = JsonConvert.DeserializeObject<T>(content);
+            if(deserializedObject != null)
             {
                 return deserializedObject;
-            }
-            else
+            } else
             {
                 return null;
             }
-        
         } catch(Exception)
         {
             throw;

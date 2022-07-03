@@ -1,5 +1,5 @@
 ﻿@inject NavigationManager NavManager
-@inject IHighlightedRecipeManager HighlightedRecipeManager
+@inject HighlightedRecipeManager HighlightedRecipeManager
 
 <div class="card shadow p-3">
 
@@ -22,7 +22,7 @@
             <p><span class="bi bi-person-circle mr-2"></span> Added by: @Highlighted.AddedBy </p>
 
             <div class="d-flex flex-row-reverse gap-1">
-                <ShoppingListButton Title="@Highlighted.Title" ShoppingList="@Highlighted.ShoppingList"></ShoppingListButton>
+                <ShoppingListButton Title="@Highlighted.Title" ShoppingList="@ShoppingList"></ShoppingListButton>
                 <button aria-label="viewRecipe" class="btn btn-primary" title="View" @onclick="@(async () => NavManager.NavigateTo($"/recipe/{Highlighted.Id}"))">
                     <i class="bi bi-file-earmark-text"></i>
                 </button>
@@ -42,14 +42,23 @@
 
 @code {
     private HighlightedRecipe Highlighted = new HighlightedRecipe();
-
+    private List<string> ShoppingList = new List<string>();
     protected override async Task OnInitializedAsync()
     {
-        var response = await HighlightedRecipeManager.GetHighlighted();
+        var response = await HighlightedRecipeManager.GetById(string.Empty);
         if(response is not null)
         {
             Highlighted = response;
+            GetShoppingListItems();
+        }   
+    }
+
+    private void GetShoppingListItems()
+    {
+        foreach (var item in Highlighted.ShoppingList)
+        {
+            ShoppingList.Add(item.ToString());
         }
-    }   
+    }
 }
    

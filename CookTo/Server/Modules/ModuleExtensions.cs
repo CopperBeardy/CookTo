@@ -1,4 +1,5 @@
 ﻿namespace CookTo.Server.Modules;
+//based of https://timdeschryver.dev/blog/maybe-its-time-to-rethink-our-project-structure-with-dot-net-6#a-single-file-api
 
 public static class ModuleExtensions
 {
@@ -17,11 +18,11 @@ public static class ModuleExtensions
 
     public static WebApplication MapEndpoints(this WebApplication app)
     {
-        foreach (var module in registeredModules)
+        foreach(var module in registeredModules)
         {
-            module.MapEndpoints(app);
+            module.MapEndpoints(app.MapGroup("/api"));
         }
-        return app;        
+        return app;
     }
 
     private static IEnumerable<IModule> DiscoverModules()
@@ -31,6 +32,5 @@ public static class ModuleExtensions
             .Where(p => p.IsClass && p.IsAssignableTo(typeof(IModule)))
             .Select(Activator.CreateInstance)
             .Cast<IModule>();
-             
     }
 }

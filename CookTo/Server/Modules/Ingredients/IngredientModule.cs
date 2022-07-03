@@ -5,24 +5,25 @@ using CookTo.Shared.Modules.ManageIngredients;
 
 namespace CookTo.Server.Modules.Ingredients;
 
-public  class IngredientModule :IModule
+public  class IngredientModule : IModule
 {
-    public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
+    public GroupRouteBuilder MapEndpoints(GroupRouteBuilder endpoints)
     {
-        endpoints.MapGet(
-            "/api/ingredient",
+        var api = endpoints.MapGroup("/ingredient");
+        api.MapGet(
+            "/",
             async (IIngredientService service, IMapper mapper, CancellationToken token) =>
             {
                 var ingredients = await service.GetAllAsync(token);
                 return Results.Ok(mapper.Map<List<Ingredient>>(ingredients));
             });
 
-        endpoints.MapGet(
-            "/api/ingredient/{id}",
+        api.MapGet(
+            "/{id}",
             async (string id, IIngredientService service, IMapper mapper, CancellationToken token) =>
             {
                 var ing = await service.GetByIdAsync(id, token);
-                if (ing is null)
+                if(ing is null)
                 {
                     return Results.BadRequest("Ingredient was not found");
                 }
@@ -32,19 +33,18 @@ public  class IngredientModule :IModule
             });
 
 
-        endpoints.MapPost(
-            "/api/ingredient",
+        api.MapPost(
+            "/",
             async (Ingredient ingredient, IIngredientService service, IMapper mapper, CancellationToken token) =>
             {
                 var newIngredient = mapper.Map<IngredientDocument>(ingredient);
                 await service.CreateAsync(newIngredient, token);
                 return Results.Ok(mapper.Map<Ingredient>(newIngredient));
-            }).RequireAuthorization();
-        return endpoints;
+            })
+            .RequireAuthorization();
+        return api;
     }
 
-
-   
 
     public IServiceCollection RegisterModule(IServiceCollection services)
     {

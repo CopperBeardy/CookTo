@@ -14,14 +14,13 @@ public class FullRecipeValidator : AbstractValidator<FullRecipe>
             .WithMessage("Please provide a description longer than 40 characters");
 
 
-        RuleFor(x => x.Serves).GreaterThan(0).WithMessage("Please provide the number of servings ");
+        RuleFor(x => x.Serves).NotEmpty().WithMessage("Please provide the number of servings or quatnity made ");
 
         RuleFor(x => x.CookTime).GreaterThan(0).WithMessage("Please provide approx cook time ");
 
         RuleFor(x => x.PrepTime).GreaterThan(0).WithMessage("Please provide approx prep time ");
 
         RuleFor(x => x.CookingSteps).NotEmpty().WithMessage("Please provide at least 1 cooking step");
-
 
 
         RuleForEach(x => x.CookingSteps).SetValidator(new CookingStepValidator());

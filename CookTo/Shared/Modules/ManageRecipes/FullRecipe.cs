@@ -2,6 +2,7 @@
 using CookTo.Shared.Modules.ManageCategories;
 using CookTo.Shared.Modules.ManageCuisines;
 
+
 namespace CookTo.Shared.Modules.ManageRecipes;
 
 public class FullRecipe
@@ -19,9 +20,10 @@ public class FullRecipe
     public string? Image { get; set; } = string.Empty;
 
     public int PrepTime { get; set; }
+
     public int CookTime { get; set; }
 
-    public int Serves { get; set; }
+    public string Serves { get; set; }
 
     public string? Creator { get; set; }
 
@@ -35,7 +37,9 @@ public class FullRecipe
 
     public List<Tip>? Tips { get; set; } = new List<Tip>();
 
-    public List<string>? ShoppingList { get; set; }
+    public List<ShoppingItem>? ShoppingList { get; set; } = new List<ShoppingItem>();
+
+    public string Tags { get; set; }
 
     public ImageAction ImageAction { get; set; }
 }

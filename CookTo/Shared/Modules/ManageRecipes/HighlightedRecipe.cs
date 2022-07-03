@@ -1,6 +1,7 @@
 ﻿using CookTo.Shared.Modules.ManageCategories;
 using CookTo.Shared.Modules.ManageCuisines;
 
+
 namespace CookTo.Shared.Modules.ManageRecipes;
 
 public class HighlightedRecipe
@@ -25,5 +26,7 @@ public class HighlightedRecipe
 
     public string Description { get; set; } = string.Empty;
 
-    public List<string> ShoppingList { get; set; } = new List<string>();
+    public string Tags { get; set; }
+
+    public List<ShoppingItem> ShoppingList { get; set; } = new List<ShoppingItem>();
 }

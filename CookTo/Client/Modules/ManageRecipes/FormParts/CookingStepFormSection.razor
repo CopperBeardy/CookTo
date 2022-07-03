@@ -17,7 +17,7 @@
             <div>
                 <div>
                     <div class="ms-4">
-                        <StepIngredientSection CookingStep="@cookingStep" />
+                        <StepIngredientList CookingStep="@cookingStep" ShoppingList="@Recipe.ShoppingList" />
                     </div>
                     <button role="button" aria-label="newPartIngredient" class="btn btn-outline-primary col-2 mb-2" type="button" @onclick="@(() => cookingStep.StepIngredients.Add(new StepIngredient()))">Add Ingredient used in this step </button>
                     <ValidationMessage aria-alert="true" For="@(() => cookingStep.StepIngredients)" />

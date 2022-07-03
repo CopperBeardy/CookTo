@@ -1,0 +1,33 @@
+﻿@inject IngredientManager IngredientManager
+
+<div class="row gy-1 gx-1 align-items-center mb-2">
+
+    <div class="mb-2 ">
+        <div class="row mb-sm-1 ">
+            <FormInputGroup Id="quantityInput" Label="Quantity" Width="col col-sm-2">
+                <InputText aria-required="true" id="quantityInput" class="form-control  " @bind-Value="ShoppingItem.Quantity" />
+                <ValidationMessage aria-alert="true" For="@(() =>  ShoppingItem.Quantity)" />
+            </FormInputGroup>
+            <FormInputGroup Id="measureInput" Label="Measure" Width="col col-sm-2">
+                <InputText aria-required="true" id="measureInput" class="form-control  " @bind-Value="ShoppingItem.Measure" />
+                <ValidationMessage aria-alert="true" For="@(() =>  ShoppingItem.Measure)" />
+            </FormInputGroup>
+            <FormInputGroup Id="ingredientInput" Label="Ingredient" Width="col col-sm-8">
+                <ShoppingItemTypeahead ShoppingItem="@ShoppingItem" />
+            </FormInputGroup>
+
+        </div>
+        <div class="d-flex row">
+            <FormInputGroup Id="additionalInformationInput" Label="Additional Information" Width="col col-sm-8">
+                <InputText id="additionalInformationInput" class="form-control " placeholder="additional information" @bind-Value="ShoppingItem.AdditionalInformation" />
+                <ValidationMessage aria-alert="true" For="@(() =>  ShoppingItem.AdditionalInformation)" />
+            </FormInputGroup>
+
+        </div>
+    </div>
+
+</div>
+
+@code {
+    [Parameter] public ShoppingItem ShoppingItem { get; set; } = new ShoppingItem();
+}

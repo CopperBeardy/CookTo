@@ -26,7 +26,7 @@ public class RecipeDocument : BaseDocument
     public int CookTime { get; set; }
 
     [BsonElement("serves")]
-    public int Serves { get; set; }
+    public string Serves { get; set; }
 
     [BsonElement("cuisine")]
     public CuisineDocument? Cuisine { get; set; }
@@ -40,6 +40,7 @@ public class RecipeDocument : BaseDocument
     [BsonElement("dietaries")]
     public List<Dietary>? Dietaries { get; set; }
 
+
     [BsonElement("utensils")]
     public List<UtensilPartDocument>? Utensils { get; set; }
 
@@ -47,9 +48,12 @@ public class RecipeDocument : BaseDocument
     public List<CookingStepDocument>? CookingSteps { get; set; }
 
     [BsonElement("shopping_list")]
-    public List<string>? ShoppingList { get; set; }
+    public List<ShoppingItemDocument>? ShoppingList { get; set; }
 
     [BsonElement("tips")]
     public List<Tip>? Tips { get; set; }
+
+    [BsonElement("tags")]
+    public string Tags { get; set; }
 }
 

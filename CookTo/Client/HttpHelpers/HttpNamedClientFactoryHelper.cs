@@ -1,4 +1,4 @@
-﻿namespace CookTo.Client.Managers.Shared;
+﻿namespace CookTo.Client.HttpHelpers;
 
 public static class HttpNamedClientFactoryHelper
 {

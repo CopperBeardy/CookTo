@@ -2,7 +2,7 @@
 
 namespace CookTo.Server.Modules.Recipes.Core;
 
-public class StepIngredientDocument
+public class ShoppingItemDocument
 {
     [BsonElement("quantity")]
     public string Quantity { get; set; }
@@ -14,5 +14,8 @@ public class StepIngredientDocument
     public int Id { get; set; }
 
     [BsonElement("ingredient")]
-    public string Ingredient { get; set; }
+    public IngredientDocument? Ingredient { get; set; }
+
+    [BsonElement("additional_information")]
+    public string? AdditionalInformation { get; set; }
 }
