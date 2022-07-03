@@ -7,18 +7,18 @@ namespace CookTo.Server.Modules.Utensils;
 
 public  class UtensilModule : IModule
 {
-    public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
+    public GroupRouteBuilder MapEndpoints(GroupRouteBuilder endpoints)
     {
-        var api = endpoints.MapGroup("/api");
+        var api = endpoints.MapGroup("/utensil");
         api.MapGet(
-            "/utensil",
+            "/",
             async (IUtensilService service, IMapper mapper, CancellationToken token) =>
             {
                 var utensils = await service.GetAllAsync(token);
                 return Results.Ok(mapper.Map<List<Utensil>>(utensils));
             });
         api.MapPost(
-            "/utensil",
+            "/",
             async (Utensil utensil, IUtensilService service, IMapper mapper, CancellationToken token) =>
             {
                 var newUtensil = mapper.Map<UtensilDocument>(utensil);

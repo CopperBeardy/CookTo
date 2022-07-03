@@ -7,11 +7,11 @@ namespace CookTo.Server.Modules.Ingredients;
 
 public  class IngredientModule : IModule
 {
-    public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
+    public GroupRouteBuilder MapEndpoints(GroupRouteBuilder endpoints)
     {
-        var api = endpoints.MapGroup("/api");
+        var api = endpoints.MapGroup("/ingredient");
         api.MapGet(
-            "/ingredient",
+            "/",
             async (IIngredientService service, IMapper mapper, CancellationToken token) =>
             {
                 var ingredients = await service.GetAllAsync(token);
@@ -19,7 +19,7 @@ public  class IngredientModule : IModule
             });
 
         api.MapGet(
-            "/ingredient/{id}",
+            "/{id}",
             async (string id, IIngredientService service, IMapper mapper, CancellationToken token) =>
             {
                 var ing = await service.GetByIdAsync(id, token);
@@ -34,7 +34,7 @@ public  class IngredientModule : IModule
 
 
         api.MapPost(
-            "/ingredient",
+            "/",
             async (Ingredient ingredient, IIngredientService service, IMapper mapper, CancellationToken token) =>
             {
                 var newIngredient = mapper.Map<IngredientDocument>(ingredient);

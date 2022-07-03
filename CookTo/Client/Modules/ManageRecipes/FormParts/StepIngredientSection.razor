@@ -3,22 +3,15 @@
     @foreach (var ing in CookingStep.StepIngredients)
     {
         <div class="mb-2 ">    
-            <div class="row mb-sm-1 ">
-                
+            <div class="row mb-sm-1 ">                
                 <FormInputGroup Id="quantityInput" Label="Quantity" Width="col col-sm-2">
-                    <InputNumber aria-required="true" min=0 id="quantityInput" class="form-control  " @bind-Value="ing.Amount" />
-                    <ValidationMessage aria-alert="true" For="@(() =>  ing.Amount)" />
+                    <InputText aria-required="true" id="quantityInput" class="form-control  " @bind-Value="ing.Quantity" />
+                    <ValidationMessage aria-alert="true" For="@(() =>  ing.Quantity)" />
                 </FormInputGroup>
-
-                <FormInputGroup Id="measureUnitSelect" Label="Unit" Width="col col-sm-2">
-                    <InputSelect aria-required="true" role="menu" id="measureUnitSelect" class="form-control " @bind-Value="ing.Unit">
-                        @foreach (var unit in Enum.GetValues(typeof(MeasureUnit)))
-                        {
-                        <option role="menuitem" value="@unit">@unit</option>
-                        }
-                </InputSelect>
-                <ValidationMessage aria-alert="true" For="@(() =>  ing.Unit)" />
-            </FormInputGroup>
+                <FormInputGroup Id="measureInput" Label="Measure" Width="col col-sm-2">
+                    <InputText aria-required="true" id="measureInput" class="form-control  " @bind-Value="ing.Measure" />
+                    <ValidationMessage aria-alert="true" For="@(() =>  ing.Measure)" />
+                </FormInputGroup>
             <FormInputGroup Id="ingredientInput" Label="Ingredient" Width="col col-sm-8">
                     <IngredientTypeahead StepIngredient="@ing" />
                 </FormInputGroup>

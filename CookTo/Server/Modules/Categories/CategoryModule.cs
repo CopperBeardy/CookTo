@@ -7,11 +7,11 @@ namespace CookTo.Server.Modules.Categories;
 
 public  class CategoryModule : IModule
 {
-    public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
+    public GroupRouteBuilder MapEndpoints(GroupRouteBuilder endpoints)
     {
-        var api = endpoints.MapGroup("/api");
+        var api = endpoints.MapGroup("/category");
         api.MapGet(
-            "/category",
+            "/",
             async (ICategoryService service, IMapper mapper, CancellationToken token) =>
             {
                 var categories = await service.GetAllAsync(token);
@@ -19,7 +19,7 @@ public  class CategoryModule : IModule
             });
 
         api.MapGet(
-            "/category/{id}",
+            "/{id}",
             async (string id, ICategoryService service, IMapper mapper, CancellationToken token) =>
             {
                 var category = await service.GetByIdAsync(id, token);
@@ -34,7 +34,7 @@ public  class CategoryModule : IModule
 
 
         api.MapPost(
-            "/category",
+            "/",
             async (Category category, ICategoryService service, IMapper mapper, CancellationToken token) =>
             {
                 var newcategory = mapper.Map<CategoryDocument>(category);

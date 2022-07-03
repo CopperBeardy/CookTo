@@ -8,10 +8,10 @@ namespace CookTo.Server.Modules.Images;
 
 public  class UploadImageModule : IModule
 {
-    public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
+    public GroupRouteBuilder MapEndpoints(GroupRouteBuilder endpoints)
     {
         endpoints.MapPost(
-            "/api/upload",
+            "/upload",
             async (ImageUpload dto, IRecipeService service, IMapper mapper, CancellationToken token) =>
             {
                 var recipe = await service.GetByIdAsync(dto.RecipeId, token);

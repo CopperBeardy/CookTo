@@ -7,11 +7,11 @@ namespace CookTo.Server.Modules.Cuisines;
 
 public class CuisineModule : IModule
 {
-    public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
+    public GroupRouteBuilder MapEndpoints(GroupRouteBuilder endpoints)
     {
-        var api = endpoints.MapGroup("/api");
+        var api = endpoints.MapGroup("/cuisine");
         api.MapGet(
-            "/cuisine",
+            "/",
             async (ICuisineService service, IMapper mapper, CancellationToken token) =>
             {
                 var cuisines = await service.GetAllAsync(token);
@@ -19,7 +19,7 @@ public class CuisineModule : IModule
             });
 
         api.MapGet(
-            "/cuisine/{id}",
+            "/{id}",
             async (string id, ICuisineService service, IMapper mapper, CancellationToken token) =>
             {
                 var cuisine = await service.GetByIdAsync(id, token);
@@ -34,7 +34,7 @@ public class CuisineModule : IModule
 
 
         api.MapPost(
-            "/cuisine",
+            "/",
             async (Cuisine cuisine, ICuisineService service, IMapper mapper, CancellationToken token) =>
             {
                 var newCuisine = mapper.Map<CuisineDocument>(cuisine);
