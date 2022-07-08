@@ -3,6 +3,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Identity.Web;
+using Microsoft.OpenApi.Models;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,12 +16,21 @@ builder.Services
     .AddEndpointsApiExplorer()
     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.Load("CookTo.Shared")));
 
+builder.Services
+    .AddSwaggerGen(
+        c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "CookToApi", Version = "v1" });
+        });
+
 builder.Services.AddScoped<ICookToDbContext, CookToDbContext>();
 
 builder.Services
     .AddCors(
-        policy => {
-            policy.AddPolicy(   "CorsPolicy",
+        policy =>
+        {
+            policy.AddPolicy(
+                "CorsPolicy",
                 opt => opt
                 .AllowAnyOrigin()
                         .AllowAnyHeader()
@@ -37,11 +47,12 @@ builder.Services.AddRazorPages();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if(app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
-}
-else
+    app.UseSwagger();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CookTo API V1"));
+} else
 {
     app.UseExceptionHandler("/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.

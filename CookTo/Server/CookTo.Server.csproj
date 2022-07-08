@@ -23,6 +23,8 @@
 	<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.0-preview.4.22251.1" />
 	  <PackageReference Include="MongoDB.Driver" Version="2.15.1" />
 	  <PackageReference Include="SixLabors.ImageSharp" Version="2.1.2" />
+	  <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0-rc5" />
+
 
 	  
   </ItemGroup>
