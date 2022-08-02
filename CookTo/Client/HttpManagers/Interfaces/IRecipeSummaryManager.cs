@@ -1,4 +1,5 @@
-﻿using CookTo.Shared.Modules.ManageRecipes;
+﻿using CookTo.Shared.Modules;
+using CookTo.Shared.Modules.ManageRecipes;
 
 namespace CookTo.Client.HttpManagers.Interfaces;
 

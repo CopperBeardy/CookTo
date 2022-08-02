@@ -27,7 +27,7 @@ else if (_errorMessage is not null)
     private bool _isLoading;   
     private bool _submitSuccessful;
     private string? _errorMessage;
-    private FullRecipe _recipe ;
+    private Recipe _recipe ;
 
 
     [Parameter] public string RecipeId { get; set; }
@@ -40,7 +40,7 @@ else if (_errorMessage is not null)
         _isLoading = false;
     }
 
-    private async Task SubmitEditRecipe(FullRecipe recipe,IBrowserFile image)
+    private async Task SubmitEditRecipe(Recipe recipe,IBrowserFile image)
     {
 
         var response = await RecipeManager.Update(recipe);

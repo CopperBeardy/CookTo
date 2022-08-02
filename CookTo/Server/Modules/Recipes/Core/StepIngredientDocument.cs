@@ -10,9 +10,6 @@ public class StepIngredientDocument
     [BsonElement("measure")]
     public string  Measure { get; set; }
 
-    [BsonElement("id")]
-    public int Id { get; set; }
-
     [BsonElement("ingredient")]
     public string Ingredient { get; set; }
 }

@@ -2,15 +2,19 @@ using AutoMapper;
 using CookTo.Server.Modules.Recipes.Core;
 using CookTo.Server.Modules.Recipes.Helpers;
 using CookTo.Server.Modules.Recipes.Services;
+using CookTo.Server.Modules.RecipeSummaries.Core;
+using CookTo.Server.Modules.RecipeSummaries.Services;
+using CookTo.Shared.Modules.ManageCategories;
+using CookTo.Shared.Modules.ManageCuisines;
 using CookTo.Shared.Modules.ManageRecipes;
-using CookTo.Shared.Modules.ManageSearch;
 using Microsoft.Identity.Web;
+using SharpCompress.Common;
 
 namespace CookTo.Server.Modules.Recipes;
 
 public  class RecipeModule : IModule
 {
-    public GroupRouteBuilder MapEndpoints(GroupRouteBuilder endpoints)
+    public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
     {
         var api = endpoints.MapGroup("/recipe");
         api.MapGet(
@@ -22,63 +26,25 @@ public  class RecipeModule : IModule
                 {
                     return Results.BadRequest("Recipe was not found");
                 }
-                return Results.Ok(mapper.Map<FullRecipe>(recipe));
+                return Results.Ok(mapper.Map<Recipe>(recipe));
             });
-
-        endpoints.MapGet(
-            "/highlighted",
-            async (IRecipeService service, IMapper mapper, CancellationToken token) =>
-            {
-                //Todo: this is a code smell
-                // the hightlight recipe will be set by admin when fully implemented
-                // admin area not ready so taking the first recipe all the time
-
-                var recipes = await service.GetAllAsync(token);
-                var recipe = recipes.FirstOrDefault();
-                //    var recipe = await service.GetByIdAsync("622224f121307568e8720d59", token);
-
-                return Results.Ok(mapper.Map<HighlightedRecipe>(recipe));
-            });
-
-
-        endpoints.MapGet(
-            "/recipes/{amount}",
-            async (string amount, IRecipeService service, IMapper mapper, CancellationToken token) =>
-            {
-                var recipes = await service.GetByLimit(int.Parse(amount), token);
-                List<RecipeSummary> recipeSummaries = new();
-                recipeSummaries.AddRange(recipes.Select(recipe => mapper.Map<RecipeSummary>(recipe)));
-                return Results.Ok(recipeSummaries);
-            });
-
-        ////change to take a list of
-        //endpoints.MapGet(
-        //    "/api/searchrecipes/{searchRequest}",
-        //    async (SearchRequest searchRequest, IRecipeService service, IMapper mapper, CancellationToken token) =>
-        //    {
-        //        //check to see if cuisines or/and Categories has the "All" option selected
-
-        //        var recipes = await service.GetAllByTerm("", token);
-        //        List<RecipeSummary> recipeSummaries = new();
-        //        recipeSummaries.AddRange(recipes.Select(recipe => mapper.Map<RecipeSummary>(recipe)));
-        //        return Results.Ok(recipeSummaries);
-        //    });
 
         api.MapPost(
             "/",
             async (
-                FullRecipe recipe,
+                Recipe recipe,
                 IRecipeService service,
-                IMapper mapper,
+                IRecipeSummaryService summaryService,               
                 HttpContext context,
                 CancellationToken token) =>
             {
-                var entity = mapper.Map<RecipeDocument>(recipe);
+                recipe.AddedBy = context.User.Claims.First(t => t.Type == ClaimConstants.Name).Value.ToString();
 
-                entity.AddedBy = context.User.Claims.First(t => t.Type == ClaimConstants.Name).Value.ToString();
-                // entity.ShoppingList = ShoppingList.Generate(recipe.CookingSteps);
-                entity.Tags = TagHelper.GenerateTags(entity);
+                var entity = RecipeToRecipeDocumentConverter.Convert(recipe);
                 await service.CreateAsync(entity, token);
+
+                var summary = new RecipeSummaryDocument(entity.Id, entity.Title, entity.Category, entity.Cuisine, entity.Image, entity.Creator, entity.AddedBy, entity.Dietaries, entity.ShoppingList, entity.Tags);
+                await summaryService.CreateAsync(summary, token);
 
                 return Results.Created($"/api/recipe/{entity.Id}", entity);
             })
@@ -86,40 +52,37 @@ public  class RecipeModule : IModule
 
         api.MapPut(
             "/",
-            async (FullRecipe updateRecipe, IRecipeService service, IMapper mapper, CancellationToken token) =>
+            async (Recipe updateRecipe, IRecipeService service, IRecipeSummaryService summaryService , CancellationToken token) =>
             {
                 if(updateRecipe.Id is not null)
                 {
-                    var recipe = await service.GetByIdAsync(updateRecipe.Id, token);
-                    if(recipe is null)
-                    {
-                        return Results.NotFound();
-                    }
-                    var toUpdate = mapper.Map<RecipeDocument>(updateRecipe);
-                    //toUpdate.ShoppingList.Clear();
-                    //toUpdate.ShoppingList = ShoppingList.Generate(updateRecipe.CookingSteps);
+                    var toUpdateRecipe = RecipeToRecipeDocumentConverter.Convert(updateRecipe);
+                    await service.UpdateAsync(toUpdateRecipe, token);
 
-                    toUpdate.Tags = TagHelper.GenerateTags(toUpdate);
+                    var toUpdateSummary = new RecipeSummaryDocument(toUpdateRecipe.Id, toUpdateRecipe.Title, toUpdateRecipe.Category, toUpdateRecipe.Cuisine, toUpdateRecipe.Image, toUpdateRecipe.Creator, toUpdateRecipe.AddedBy, toUpdateRecipe.Dietaries, toUpdateRecipe.ShoppingList, toUpdateRecipe.Tags);
+                    await summaryService.UpdateAsync(toUpdateSummary, token);
 
-                    await service.UpdateAsync(toUpdate, token);
                     return Results.NoContent();
                 }
                 return Results.BadRequest();
             })
             .RequireAuthorization();
-
         api.MapDelete(
-            "/{id}",
-            async (string id, IRecipeService service, CancellationToken token) =>
+        "/{id}",
+        async (string id, IRecipeService service, IRecipeSummaryService summaryService, CancellationToken token) =>
+        {
+            var recipe = await service.GetByIdAsync(id, token);
+            if(recipe is null)
             {
-                var recipe = service.GetByIdAsync(id, token);
-                if(recipe is null)
-                {
-                    return Results.NotFound();
-                }
-                await service.DeleteAsync(id, token);
-                return Results.NoContent();
-            })
+                return Results.NotFound();
+            }
+            await service.DeleteAsync(id, token);
+
+            await summaryService.DeleteAsync(id, token);
+
+
+            return Results.NoContent();
+        })
             .RequireAuthorization();
         return api;
     }

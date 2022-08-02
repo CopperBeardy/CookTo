@@ -1,5 +1,6 @@
 using CookTo.Client.HttpHelpers;
 using CookTo.Client.HttpManagers.Interfaces;
+using CookTo.Shared.Modules;
 using CookTo.Shared.Modules.ManageRecipes;
 using Newtonsoft.Json;
 

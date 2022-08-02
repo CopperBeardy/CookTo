@@ -8,7 +8,7 @@
         @foreach (var ing in CookingStep.StepIngredients)
         {
           <span class="badge rounded-pill bg-light text-dark me-1 mb-1">
-              @($"{ing.Quantity} {ing.Ingredient}, {ing.AdditionalInformation}")
+              @($"{ing.Quantity} {ing.Ingredient}")
           </span>
         }
     </div>

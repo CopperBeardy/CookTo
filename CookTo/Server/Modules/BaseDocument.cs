@@ -7,5 +7,5 @@ public abstract class BaseDocument
 {
     [BsonId(IdGenerator = typeof(StringObjectIdGenerator))]
     [JsonPropertyName("id")]
-    public string? Id { get; set; }
+    public virtual  string? Id { get; set; }
 }

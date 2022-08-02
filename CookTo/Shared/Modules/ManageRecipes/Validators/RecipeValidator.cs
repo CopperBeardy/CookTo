@@ -1,8 +1,8 @@
 ﻿namespace CookTo.Shared.Modules.ManageRecipes.Validators;
 
-public class FullRecipeValidator : AbstractValidator<FullRecipe>
+public class RecipeValidator : AbstractValidator<Recipe>
 {
-    public FullRecipeValidator()
+    public RecipeValidator()
     {
         RuleFor(x => x.Title).NotEmpty().WithMessage("Please provide a title for this recipe");
         RuleFor(x => x.Title).MinimumLength(5).WithMessage("Please provide a title longer than 5 charcters");
@@ -25,5 +25,7 @@ public class FullRecipeValidator : AbstractValidator<FullRecipe>
 
         RuleForEach(x => x.CookingSteps).SetValidator(new CookingStepValidator());
         RuleForEach(x => x.Utensils).SetValidator(new UtensilPartValidator());
+        RuleFor(x => x.ShoppingList).NotEmpty().WithMessage("Please provide items needed for this recipe");
+        RuleForEach(x => x.ShoppingList).SetValidator(new ShoppingItemValidator());
     }
 }

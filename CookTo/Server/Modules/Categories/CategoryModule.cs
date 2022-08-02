@@ -1,45 +1,51 @@
 ﻿using AutoMapper;
 using CookTo.Server.Modules.Categories.Core;
 using CookTo.Server.Modules.Categories.Services;
+using CookTo.Shared;
 using CookTo.Shared.Modules.ManageCategories;
+using System.Linq;
 
 namespace CookTo.Server.Modules.Categories;
 
 public  class CategoryModule : IModule
 {
-    public GroupRouteBuilder MapEndpoints(GroupRouteBuilder endpoints)
+    public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
     {
         var api = endpoints.MapGroup("/category");
         api.MapGet(
             "/",
-            async (ICategoryService service, IMapper mapper, CancellationToken token) =>
+            async (ICategoryService service, CancellationToken token) =>
             {
-                var categories = await service.GetAllAsync(token);
-                return Results.Ok(mapper.Map<List<Category>>(categories));
+                var entites = await service.GetAllAsync(token);
+
+                if(entites is  null)
+                    return Results.NotFound(ErrorMessage<Category>.ItemsNotFound());
+
+                var categories = new List<Category>();
+                categories.AddRange(entites.Select(c => new Category { Id = c.Id, Text = c.Text }));
+                return Results.Ok(categories);
             });
 
         api.MapGet(
             "/{id}",
-            async (string id, ICategoryService service, IMapper mapper, CancellationToken token) =>
+            async (string id, ICategoryService service, CancellationToken token) =>
             {
-                var category = await service.GetByIdAsync(id, token);
-                if(category is null)
-                {
-                    return Results.BadRequest("Category was not found");
-                }
+                var entity = await service.GetByIdAsync(id, token);
+                if(entity is null)
+                    return Results.NotFound(ErrorMessage<Category>.ItemNotFound(id));
 
-                var response = mapper.Map<Category>(category);
-                return Results.Ok(response);
+                var catergory = new Category { Id = entity.Id, Text = entity.Text };
+                return Results.Ok(catergory);
             });
 
 
         api.MapPost(
             "/",
-            async (Category category, ICategoryService service, IMapper mapper, CancellationToken token) =>
+            async (Category category, ICategoryService service, CancellationToken token) =>
             {
-                var newcategory = mapper.Map<CategoryDocument>(category);
-                await service.CreateAsync(newcategory, token);
-                return Results.Ok(mapper.Map<Category>(newcategory));
+                var newCategory = new CategoryDocument() { Text = category.Text };
+                await service.CreateAsync(newCategory, token);
+                return Results.Ok(new Category { Id = newCategory.Id, Text = newCategory.Text });
             })
             .RequireAuthorization();
         return api;

@@ -5,7 +5,7 @@ using CookTo.Shared.Modules.ManageCuisines;
 
 namespace CookTo.Shared.Modules.ManageRecipes;
 
-public class FullRecipe
+public class Recipe
 {
     public string? Id { get; set; }
 

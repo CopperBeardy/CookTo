@@ -1,4 +1,5 @@
 using CookTo.Server.Modules;
+using CookTo.Shared;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.FileProviders;
@@ -33,9 +34,9 @@ builder.Services
                 "CorsPolicy",
                 opt => opt
                 .AllowAnyOrigin()
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .WithExposedHeaders("X-Pagination"));
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .WithExposedHeaders("X-Pagination"));
         });
 
 builder.Services.RegisterModules();
@@ -60,7 +61,6 @@ if(app.Environment.IsDevelopment())
 }
 
 app.MapEndpoints();
-
 app.UseHttpsRedirection();
 
 app.UseBlazorFrameworkFiles();

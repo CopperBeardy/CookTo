@@ -34,7 +34,7 @@
     <div class="mt-4 mb-5">
         <div class="row">
             <div class="offset-4 col-8 text-right">
-                <button aria-label="resetRecipe" class="btn btn-outline-secondary" type="button" @onclick="@(() => _recipe = new FullRecipe())">Reset</button>
+                <button aria-label="resetRecipe" class="btn btn-outline-secondary" type="button" @onclick="@(() => _recipe = new Recipe())">Reset</button>
                 <button class="btn btn-primary" type="submit">Submit</button>
             </div>
         </div>
@@ -42,12 +42,12 @@
 </EditForm>
 
 @code {
-    private FullRecipe _recipe = new FullRecipe();
+    private Recipe _recipe = new Recipe();
     private EditContext _editContext = default!;
     private IBrowserFile? _recipeImage;    
 
-    [Parameter, EditorRequired] public Func<FullRecipe, IBrowserFile?, Task> OnSubmit { get; set; } = default!;
-    [Parameter] public FullRecipe Recipe { get; set; }
+    [Parameter, EditorRequired] public Func<Recipe, IBrowserFile?, Task> OnSubmit { get; set; } = default!;
+    [Parameter] public Recipe Recipe { get; set; }
 
     protected override void OnParametersSet()
     {
@@ -68,7 +68,7 @@
     public void ResetForm()
     {
         AppState.NewRecipeState.ClearRecipe();
-        _recipe = new FullRecipe();
+        _recipe = new Recipe();
         _editContext = new EditContext(_recipe);
         _editContext.SetFieldCssClassProvider(new BootstrapCssClassProvider());
         _recipeImage = null;

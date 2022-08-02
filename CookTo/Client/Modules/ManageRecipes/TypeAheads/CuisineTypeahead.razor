@@ -27,7 +27,7 @@
 </div>
 @code {
 
-    [Parameter] public FullRecipe Recipe{ get; set; } = new FullRecipe();   
+    [Parameter] public Recipe Recipe{ get; set; } = new Recipe();   
     public IList<Cuisine> Cuisines { get; set; } = new List<Cuisine>();
 
     protected override async Task OnInitializedAsync()
