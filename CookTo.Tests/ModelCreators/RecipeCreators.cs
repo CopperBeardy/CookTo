@@ -68,7 +68,7 @@ public class RecipeCreators
                     {
                         new StepIngredient { Quantity = "3", Measure = "g", Ingredient = "butter" } }
                 } },
-            ShoppingList =
+            ShoppingItems =
                 new List<ShoppingItem>()
            {
                new ShoppingItem

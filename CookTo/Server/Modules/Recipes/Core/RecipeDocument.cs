@@ -47,9 +47,11 @@ public class RecipeDocument : BaseDocument
     [BsonElement("cooking_steps")]
     public List<CookingStepDocument>? CookingSteps { get; set; }
 
-    [BsonElement("shopping_list")]
-    public List<ShoppingItemDocument>? ShoppingList { get; set; }
+    [BsonElement("shopping_items")]
+    public List<ShoppingItemDocument>? ShoppingItems { get; set; }
 
+    [BsonElement("shopping_list")]
+    public List<string> ShoppingList { get; set; }
     [BsonElement("tips")]
     public List<Tip>? Tips { get; set; }
 

@@ -37,7 +37,8 @@ public class Recipe
 
     public List<Tip>? Tips { get; set; } = new List<Tip>();
 
-    public List<ShoppingItem>? ShoppingList { get; set; } = new List<ShoppingItem>();
+    public List<ShoppingItem>? ShoppingItems { get; set; } = new List<ShoppingItem>();
+    public List<string> ShoppingList { get; set; } = new List<string> ();
 
     public string Tags { get; set; }
 

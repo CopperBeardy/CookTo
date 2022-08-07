@@ -80,7 +80,7 @@ public static class RecipeDocumentCreators
                     {
                         new StepIngredientDocument { Quantity = "3", Measure = "g", Ingredient = "butter" } }
                 } },
-            ShoppingList =
+            ShoppingItems =
                 new List<ShoppingItemDocument>()
            {
                new ShoppingItemDocument

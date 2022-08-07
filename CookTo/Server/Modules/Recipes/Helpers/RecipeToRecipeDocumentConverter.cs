@@ -31,12 +31,12 @@ public static class RecipeToRecipeDocumentConverter
             AddedBy = recipe.AddedBy,
             Dietaries = recipe.Dietaries,
             Tips = recipe.Tips,
-            Tags = TagHelper.GenerateTags(recipe.Category, recipe.Cuisine, recipe.ShoppingList),
+            Tags = TagHelper.GenerateTags(recipe.Category, recipe.Cuisine, recipe.ShoppingItems),
         };
 
         recipeDoc.CookingSteps = ConvertCookingStepToCookingStepDocument(recipe.CookingSteps);
         recipeDoc.Utensils = ConvertUtensilPartToUtensilPartDocument(recipe.Utensils);
-        recipeDoc.ShoppingList = ConvertShoppingItemToShoppingItemDocument(recipe.ShoppingList);
+        recipeDoc.ShoppingItems = ConvertShoppingItemToShoppingItemDocument(recipe.ShoppingItems);
         return recipeDoc;
     }
 

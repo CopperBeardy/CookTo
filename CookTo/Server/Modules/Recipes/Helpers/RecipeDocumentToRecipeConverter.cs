@@ -32,7 +32,7 @@ public static class RecipeDocumentToRecipeConverter
 
         fullRecipe.CookingSteps = ConvertCookingStepDocumentToCookingStep(recipe.CookingSteps);
         fullRecipe.Utensils = ConvertUtensilPartDocumentToUtensilPart(recipe.Utensils);
-        fullRecipe.ShoppingList = ConvertShoppingItemDocumentToShoppingItem(recipe.ShoppingList);
+        fullRecipe.ShoppingItems = ConvertShoppingItemDocumentToShoppingItem(recipe.ShoppingItems);
         return fullRecipe;
     }
 

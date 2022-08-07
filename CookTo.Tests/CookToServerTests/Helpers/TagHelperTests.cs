@@ -18,14 +18,14 @@ public class TagHelperTests
         var model = RecipeCreators.ValidModel();
 
         //act
-        var result = TagHelper.GenerateTags(model.Category, model.Cuisine, model.ShoppingList);
+        var result = TagHelper.GenerateTags(model.Category, model.Cuisine, model.ShoppingItems);
 
         //Assert
         Assert.NotNull(result);
         Assert.IsType<string>(result);
         Assert.Contains(model.Category.Text, result);
         Assert.Contains(model.Cuisine.Text, result);
-        foreach(var item in model.ShoppingList)
+        foreach(var item in model.ShoppingItems)
         {
             Assert.Contains(item.Ingredient.Text, result);
         }

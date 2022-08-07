@@ -25,7 +25,7 @@ public class RecipeValidator : AbstractValidator<Recipe>
 
         RuleForEach(x => x.CookingSteps).SetValidator(new CookingStepValidator());
         RuleForEach(x => x.Utensils).SetValidator(new UtensilPartValidator());
-        RuleFor(x => x.ShoppingList).NotEmpty().WithMessage("Please provide items needed for this recipe");
-        RuleForEach(x => x.ShoppingList).SetValidator(new ShoppingItemValidator());
+        RuleFor(x => x.ShoppingItems).NotEmpty().WithMessage("Please provide items needed for this recipe");
+        RuleForEach(x => x.ShoppingItems).SetValidator(new ShoppingItemValidator());
     }
 }

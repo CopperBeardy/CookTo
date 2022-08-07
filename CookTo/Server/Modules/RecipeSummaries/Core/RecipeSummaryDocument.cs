@@ -46,7 +46,7 @@ public class RecipeSummaryDocument : BaseDocument
     public List<Dietary> Dietaries { get; set; }
 
     [BsonElement("shopping_list")]
-    public List<ShoppingItemDocument> ShoppingList { get; set; }
+    public List<string> ShoppingList { get; set; }
 
     [BsonElement("tags")]
     public string Tags { get; set; }

@@ -43,7 +43,7 @@ public  class RecipeModule : IModule
                 var entity = RecipeToRecipeDocumentConverter.Convert(recipe);
                 await service.CreateAsync(entity, token);
 
-                var summary = new RecipeSummaryDocument(entity.Id, entity.Title, entity.Category, entity.Cuisine, entity.Image, entity.Creator, entity.AddedBy, entity.Dietaries, entity.ShoppingList, entity.Tags);
+                var summary = new RecipeSummaryDocument(entity.Id, entity.Title, entity.Category, entity.Cuisine, entity.Image, entity.Creator, entity.AddedBy, entity.Dietaries, entity.ShoppingItems, entity.Tags);
                 await summaryService.CreateAsync(summary, token);
 
                 return Results.Created($"/api/recipe/{entity.Id}", entity);
@@ -59,7 +59,7 @@ public  class RecipeModule : IModule
                     var toUpdateRecipe = RecipeToRecipeDocumentConverter.Convert(updateRecipe);
                     await service.UpdateAsync(toUpdateRecipe, token);
 
-                    var toUpdateSummary = new RecipeSummaryDocument(toUpdateRecipe.Id, toUpdateRecipe.Title, toUpdateRecipe.Category, toUpdateRecipe.Cuisine, toUpdateRecipe.Image, toUpdateRecipe.Creator, toUpdateRecipe.AddedBy, toUpdateRecipe.Dietaries, toUpdateRecipe.ShoppingList, toUpdateRecipe.Tags);
+                    var toUpdateSummary = new RecipeSummaryDocument(toUpdateRecipe.Id, toUpdateRecipe.Title, toUpdateRecipe.Category, toUpdateRecipe.Cuisine, toUpdateRecipe.Image, toUpdateRecipe.Creator, toUpdateRecipe.AddedBy, toUpdateRecipe.Dietaries, toUpdateRecipe.ShoppingItems, toUpdateRecipe.Tags);
                     await summaryService.UpdateAsync(toUpdateSummary, token);
 
                     return Results.NoContent();

@@ -1,5 +1,5 @@
 ﻿<FormSection Title="ShoppingList">
-    @foreach (var item in Recipe.ShoppingList)
+    @foreach (var item in Recipe.ShoppingItems)
     {
         <div class="d-flex row gy-1 gx-1 align-items-center ms-2 mb-2">
             <div class="ms-4">
@@ -7,14 +7,14 @@
             </div>
 
             <div class="col-sm-1">
-                <button aria-label="removeItem" class="btn link-danger " @onclick="@(() => Recipe.ShoppingList.Remove(item))" type="button"><i class="bi bi-dash-circle"></i></button>
+                <button aria-label="removeItem" class="btn link-danger " @onclick="@(() => Recipe.ShoppingItems.Remove(item))" type="button"><i class="bi bi-dash-circle"></i></button>
             </div>
         </div>
     }
     <div class="row">
         <div class="col">
-            <button aria-label="addShoppingListItem" class="btn btn-outline-primary" type="button" @onclick="@(() => Recipe.ShoppingList.Add(new ShoppingItem()))">Add ShoppingItem</button>
-            <ValidationMessage aria-alert="true" For="@(() => Recipe.ShoppingList)" />
+            <button aria-label="addShoppingListItem" class="btn btn-outline-primary" type="button" @onclick="@(() => Recipe.ShoppingItems.Add(new ShoppingItem()))">Add ShoppingItem</button>
+            <ValidationMessage aria-alert="true" For="@(() => Recipe.ShoppingItems)" />
         </div>
     </div>
 </FormSection>
