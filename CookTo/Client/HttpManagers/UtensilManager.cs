@@ -1,7 +1,7 @@
 
 using CookTo.Shared.Modules.ManageUtensils;
 
-namespace CookTo.Client.HttpManagers;
+namespace CookTo.Client.HTTPManagers;
 
 public class UtensilManager : BaseManager<Utensil>
 {

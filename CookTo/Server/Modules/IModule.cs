@@ -4,5 +4,5 @@ public interface IModule
 {
     IServiceCollection RegisterModule(IServiceCollection services);
 
-    GroupRouteBuilder MapEndpoints(GroupRouteBuilder endpoints);
+    IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints);
 }

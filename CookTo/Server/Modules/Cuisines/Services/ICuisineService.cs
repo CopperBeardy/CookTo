@@ -1,5 +1,4 @@
-﻿using CookTo.Server.Modules;
-using CookTo.Server.Modules.Cuisines.Core;
+﻿using CookTo.Server.Modules.Cuisines.Core;
 
 namespace CookTo.Server.Modules.Cuisines.Services;
 

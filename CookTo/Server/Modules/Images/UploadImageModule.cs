@@ -1,4 +1,3 @@
-using AutoMapper;
 using CookTo.Server.Modules.Recipes.Services;
 using CookTo.Shared.Modules.ManageRecipes;
 using SixLabors.ImageSharp;
@@ -6,24 +5,20 @@ using SixLabors.ImageSharp.Processing;
 
 namespace CookTo.Server.Modules.Images;
 
-public  class UploadImageModule : IModule
+public class UploadImageModule : IModule
 {
-    public GroupRouteBuilder MapEndpoints(GroupRouteBuilder endpoints)
+    public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
     {
         endpoints.MapPost(
             "/upload",
-            async (ImageUpload dto, IRecipeService service, IMapper mapper, CancellationToken token) =>
+            async (ImageUpload dto, IRecipeService service, CancellationToken token) =>
             {
                 var recipe = await service.GetByIdAsync(dto.RecipeId, token);
-                if(recipe is null)
-                {
+                if (recipe is null)
                     return Results.BadRequest("Recipe does not exist.");
-                }
 
-                if(dto.Image.Length == 0)
-                {
+                if (dto.Image.Length == 0)
                     return Results.BadRequest("No image found.");
-                }
 
                 var filename = $"{Guid.NewGuid()}.jpg";
                 var saveLocation = Path.Combine(Directory.GetCurrentDirectory(), "Images", filename);
@@ -34,10 +29,9 @@ public  class UploadImageModule : IModule
                 image.Mutate(x => x.Resize(resizeOptions));
                 await image.SaveAsJpegAsync(saveLocation, cancellationToken: token);
 
-                if(!string.IsNullOrWhiteSpace(recipe.Image))
-                {
+                if (!string.IsNullOrWhiteSpace(recipe.Image))
                     File.Delete(Path.Combine(Directory.GetCurrentDirectory(), "Images", recipe.Image));
-                }
+
                 recipe.Image = filename;
                 await service.UpdateAsync(recipe, token);
 

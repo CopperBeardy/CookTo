@@ -1,4 +1,4 @@
-﻿namespace CookTo.Client.HttpManagers.Interfaces;
+﻿namespace CookTo.Client.HTTPManagers.Interfaces;
 
 public interface IBaseManager<T>
 {

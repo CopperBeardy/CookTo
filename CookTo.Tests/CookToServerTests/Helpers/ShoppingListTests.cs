@@ -1,11 +1,4 @@
-﻿using CookTo.Server.Modules.Recipes.Helpers;
-using CookTo.Shared.Enums;
-using CookTo.Shared.Modules.ManageIngredients;
-using CookTo.Shared.Modules.ManageRecipes;
-using System.Collections.Generic;
-using Xunit;
-
-namespace CookTo.Tests.CookTo.Server.Helpers;
+﻿namespace CookTo.Tests.CookToServerTests.Helpers;
 
 //public class ShoppingListTests
 //{

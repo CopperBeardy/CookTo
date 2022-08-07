@@ -1,5 +1,4 @@
-﻿using CookTo.Server.Modules;
-using CookTo.Server.Modules.Recipes.Core;
+﻿using CookTo.Server.Modules.Recipes.Core;
 
 namespace CookTo.Server.Modules.Recipes.Services;
 
@@ -8,17 +7,43 @@ public class RecipeService : BaseService<RecipeDocument>, IRecipeService
     public RecipeService(ICookToDbContext dbContext) : base(dbContext)
     {
     }
-    public async Task<List<RecipeDocument>> GetAllByTerm(string term, CancellationToken token)
+
+    public async Task<RecipeDocument> GetHighlighted(CancellationToken token)
     {
-        return await DbCollection.Find(
-                e => e.Title.Contains(term))
-                .ToListAsync(cancellationToken: token);
+        var filter = Builders<RecipeDocument>.Projection
+            .Exclude(x => x.Serves)
+            .Exclude(x => x.Utensils)
+            .Exclude(x => x.CookingSteps)
+            .Exclude(x => x.ShoppingItems)
+            .Exclude(x => x.Tips);
+
+        var result = await DbCollection.Find(
+            e => e.Highlighted == true)
+            .Project<RecipeDocument>(filter)
+            .FirstOrDefaultAsync();
+
+        return result;
     }
 
+    public async Task<List<RecipeDocument>> GetSummaries(int count, CancellationToken token, int skip = 0)
+    {
+        var filter = Builders<RecipeDocument>.Projection
+            .Exclude(x => x.Description)
+            .Exclude(x => x.Serves)
+            .Exclude(x => x.Utensils)
+            .Exclude(x => x.CookingSteps)
+            .Exclude(x => x.ShoppingItems)
+            .Exclude(x => x.Tips);
 
-    public async Task<List<RecipeDocument>> GetByLimit(int limit, CancellationToken token) => await DbCollection.Find(e => true)
-        .Limit(limit)
-        .ToListAsync(cancellationToken: token);
+        var result = await DbCollection.Find(
+            e => true)
+            .Project<RecipeDocument>(filter)
+            .Limit(count)
+            .Skip(skip)
+            .ToListAsync();
+
+        return result;
+    }
 }
 
 

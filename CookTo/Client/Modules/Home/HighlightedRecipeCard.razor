@@ -1,4 +1,5 @@
-﻿@inject NavigationManager NavManager
+﻿@using CookTo.Shared.Modules
+@inject NavigationManager NavManager
 @inject HighlightedRecipeManager HighlightedRecipeManager
 
 <div class="card shadow p-3">
@@ -41,7 +42,7 @@
 </div>
 
 @code {
-    private HighlightedRecipe Highlighted = new HighlightedRecipe();
+    private HighlightedRecipe Highlighted = null!;
     private List<string> ShoppingList = new List<string>();
     protected override async Task OnInitializedAsync()
     {

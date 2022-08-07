@@ -30,7 +30,7 @@ public class FormStateTracker : ComponentBase
 
             if (property != null)
             {
-                if (property.GetValue(sender, null) is FullRecipe model)
+                if (property.GetValue(sender, null) is Recipe model)
                     if (string.IsNullOrWhiteSpace(model.Id))
                     {
                         AppState.NewRecipeState.SetRecipe(model);

@@ -3,6 +3,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Identity.Web;
+using Microsoft.OpenApi.Models;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,17 +16,26 @@ builder.Services
     .AddEndpointsApiExplorer()
     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.Load("CookTo.Shared")));
 
+builder.Services
+    .AddSwaggerGen(
+        c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "CookToApi", Version = "v1" });
+        });
+
 builder.Services.AddScoped<ICookToDbContext, CookToDbContext>();
 
 builder.Services
     .AddCors(
-        policy => {
-            policy.AddPolicy(   "CorsPolicy",
+        policy =>
+        {
+            policy.AddPolicy(
+                "CorsPolicy",
                 opt => opt
                 .AllowAnyOrigin()
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .WithExposedHeaders("X-Pagination"));
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .WithExposedHeaders("X-Pagination"));
         });
 
 builder.Services.RegisterModules();
@@ -40,6 +50,8 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
+    app.UseSwagger();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CookTo API V1"));
 }
 else
 {
@@ -49,7 +61,6 @@ else
 }
 
 app.MapEndpoints();
-
 app.UseHttpsRedirection();
 
 app.UseBlazorFrameworkFiles();

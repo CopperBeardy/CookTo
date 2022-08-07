@@ -1,45 +1,37 @@
-using AutoMapper;
 using CookTo.Server.Modules.Ingredients.Core;
 using CookTo.Server.Modules.Ingredients.Services;
+using CookTo.Shared;
 using CookTo.Shared.Modules.ManageIngredients;
 
 namespace CookTo.Server.Modules.Ingredients;
 
-public  class IngredientModule : IModule
+public class IngredientModule : IModule
 {
-    public GroupRouteBuilder MapEndpoints(GroupRouteBuilder endpoints)
+    public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
     {
         var api = endpoints.MapGroup("/ingredient");
         api.MapGet(
             "/",
-            async (IIngredientService service, IMapper mapper, CancellationToken token) =>
+            async (IIngredientService service, CancellationToken token) =>
             {
-                var ingredients = await service.GetAllAsync(token);
-                return Results.Ok(mapper.Map<List<Ingredient>>(ingredients));
-            });
+                var entites = await service.GetAllAsync(token);
 
-        api.MapGet(
-            "/{id}",
-            async (string id, IIngredientService service, IMapper mapper, CancellationToken token) =>
-            {
-                var ing = await service.GetByIdAsync(id, token);
-                if(ing is null)
-                {
-                    return Results.BadRequest("Ingredient was not found");
-                }
+                if (entites is null)
+                    return Results.NotFound(ErrorMessage<Ingredient>.ItemsNotFound());
 
-                var response = mapper.Map<Ingredient>(ing);
-                return Results.Ok(response);
+                var ingredients = new List<Ingredient>();
+                ingredients.AddRange(entites.Select(c => new Ingredient { Id = c.Id, Text = c.Text }));
+                return Results.Ok(ingredients);
             });
 
 
         api.MapPost(
             "/",
-            async (Ingredient ingredient, IIngredientService service, IMapper mapper, CancellationToken token) =>
+            async (Ingredient ingredient, IIngredientService service, CancellationToken token) =>
             {
-                var newIngredient = mapper.Map<IngredientDocument>(ingredient);
+                var newIngredient = new IngredientDocument { Id = ingredient.Id, Text = ingredient.Text };
                 await service.CreateAsync(newIngredient, token);
-                return Results.Ok(mapper.Map<Ingredient>(newIngredient));
+                return Results.Ok(new Ingredient { Id = newIngredient.Id, Text = newIngredient.Text });
             })
             .RequireAuthorization();
         return api;

@@ -17,7 +17,7 @@
             <div>
                 <div>
                     <div class="ms-4">
-                        <StepIngredientList CookingStep="@cookingStep" ShoppingList="@Recipe.ShoppingList" />
+                        <StepIngredientList CookingStep="@cookingStep" ShoppingList="@Recipe.ShoppingItems" />
                     </div>
                     <button role="button" aria-label="newPartIngredient" class="btn btn-outline-primary col-2 mb-2" type="button" @onclick="@(() => cookingStep.StepIngredients.Add(new StepIngredient()))">Add Ingredient used in this step </button>
                     <ValidationMessage aria-alert="true" For="@(() => cookingStep.StepIngredients)" />
@@ -37,5 +37,5 @@
     </div>
 </FormSection>
 @code {
-    [Parameter] public FullRecipe Recipe { get; set; } = new FullRecipe();
+    [Parameter] public Recipe Recipe { get; set; } = new Recipe();
 }

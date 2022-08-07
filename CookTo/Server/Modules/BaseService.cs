@@ -25,11 +25,9 @@ public abstract class BaseService<TEntity> : IBaseService<TEntity> where TEntity
     public virtual async Task CreateAsync(TEntity obj, CancellationToken token)
     { await DbCollection.InsertOneAsync(obj); }
 
+    public virtual async Task UpdateAsync(TEntity obj, CancellationToken token) => await DbCollection.ReplaceOneAsync(e => e.Id
+        .Equals(obj.Id), obj);
 
-    public virtual async Task UpdateAsync(TEntity obj, CancellationToken token) => await DbCollection.ReplaceOneAsync(e => e.Id.Equals(obj.Id), obj);
-
-
-
-    public virtual async Task DeleteAsync(string id, CancellationToken token) => await DbCollection.DeleteOneAsync(e => e.Id.Equals(id));
-
+    public virtual async Task DeleteAsync(string id, CancellationToken token) => await DbCollection.DeleteOneAsync(e => e.Id
+        .Equals(id));
 }

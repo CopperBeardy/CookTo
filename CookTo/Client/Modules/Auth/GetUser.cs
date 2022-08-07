@@ -8,11 +8,11 @@ public static class GetUser
     {
         var state = await stateProvider.GetAuthenticationStateAsync();
         var user = state.User;
-        if(user.Identity is not null)
-        {              
-            var username = user.Identity.Name;  
+        if (user.Identity is not null)
+        {
+            var username = user.Identity.Name;
             return username;
         }
-    return string.Empty;
+        return string.Empty;
     }
 }

@@ -1,4 +1,4 @@
-﻿@inject CategoryManager Manager
+﻿@inject             CategoryManager Manager
 <div class="col col-sm-10">
     <BlazoredTypeahead MaximumSuggestions=3 id="typeaheadInput"
                        SearchMethod="SearchItems"
@@ -27,7 +27,7 @@
 </div>
 @code {
 
-        [Parameter] public FullRecipe Recipe{ get; set; } = new FullRecipe();   
+        [Parameter] public Recipe Recipe{ get; set; } = new Recipe();   
        public IList<Category> Categories { get; set; } = new List<Category>();
            protected override async Task OnInitializedAsync()
     {

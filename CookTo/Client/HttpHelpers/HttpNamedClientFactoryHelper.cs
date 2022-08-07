@@ -1,4 +1,4 @@
-﻿namespace CookTo.Client.HttpHelpers;
+﻿namespace CookTo.Client.HTTPHelpers;
 
 public static class HttpNamedClientFactoryHelper
 {
