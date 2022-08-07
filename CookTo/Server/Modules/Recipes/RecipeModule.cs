@@ -1,40 +1,89 @@
-using AutoMapper;
-using CookTo.Server.Modules.Recipes.Core;
 using CookTo.Server.Modules.Recipes.Helpers;
 using CookTo.Server.Modules.Recipes.Services;
-using CookTo.Server.Modules.RecipeSummaries.Core;
-using CookTo.Server.Modules.RecipeSummaries.Services;
+using CookTo.Shared.Modules;
 using CookTo.Shared.Modules.ManageCategories;
 using CookTo.Shared.Modules.ManageCuisines;
 using CookTo.Shared.Modules.ManageRecipes;
 using Microsoft.Identity.Web;
-using SharpCompress.Common;
+
 
 namespace CookTo.Server.Modules.Recipes;
 
-public  class RecipeModule : IModule
+public class RecipeModule : IModule
 {
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
     {
-        var api = endpoints.MapGroup("/recipe");
+        var api = endpoints.MapGroup("/recipes");
         api.MapGet(
             "/{id}",
-            async (string id, IRecipeService service, IMapper mapper, CancellationToken token) =>
+            async (string id, IRecipeService service, CancellationToken token) =>
             {
-                var recipe = await service.GetByIdAsync(id, token);
-                if(recipe is null)
+                var document = await service.GetByIdAsync(id, token);
+                if (document is null)
                 {
                     return Results.BadRequest("Recipe was not found");
                 }
-                return Results.Ok(mapper.Map<Recipe>(recipe));
+                var recipe = RecipeDocumentToRecipeConverter.Convert(document);
+                return Results.Ok(recipe);
             });
+
+        api.MapGet(
+          "/highlighted",
+          async (IRecipeService service, CancellationToken token) =>
+          {
+              var recipe = await service.GetHighlighted(token);
+              if (recipe is null)
+              {
+                  return Results.BadRequest("Recipe was not found");
+              }
+
+              var highlighted = new HighlightedRecipe(
+                  recipe.Id,
+                  new Category { Id = recipe.Id, Text = recipe.Category.Text },
+                  recipe.Title,
+                  new Cuisine { Id = recipe.Cuisine.Id, Text = recipe.Cuisine.Text },
+                  recipe.Image,
+                  recipe.Creator,
+                  recipe.AddedBy,
+                  recipe.PrepTime,
+                  recipe.CookTime,
+                  recipe.Description,
+                  recipe.Dietaries,
+                  recipe.ShoppingList,
+                  recipe.Tags);
+              return Results.Ok(highlighted);
+          });
+
+        api.MapGet(
+   "/summaries/{amount}",
+   async (int amount, IRecipeService service, CancellationToken token) =>
+   {
+       var recipes = await service.GetSummaries(amount, token, 0);
+       if (recipes is null || recipes.Count == 0)
+       {
+           return Results.BadRequest("Recipe was not found");
+       }
+       var summaries = new List<RecipeSummary>();
+       summaries.AddRange(recipes.Select(recipe => new RecipeSummary(
+                      recipe.Id,
+                      new Category { Id = recipe.Id, Text = recipe.Category.Text },
+                      recipe.Title,
+                      new Cuisine { Id = recipe.Cuisine.Id, Text = recipe.Cuisine.Text },
+                      recipe.Image,
+                      recipe.Creator,
+                      recipe.AddedBy,
+                      recipe.Dietaries,
+                      recipe.ShoppingList,
+                      recipe.Tags)));
+       return Results.Ok(summaries);
+   });
+
 
         api.MapPost(
             "/",
             async (
                 Recipe recipe,
                 IRecipeService service,
-                IRecipeSummaryService summaryService,               
                 HttpContext context,
                 CancellationToken token) =>
             {
@@ -43,8 +92,6 @@ public  class RecipeModule : IModule
                 var entity = RecipeToRecipeDocumentConverter.Convert(recipe);
                 await service.CreateAsync(entity, token);
 
-                var summary = new RecipeSummaryDocument(entity.Id, entity.Title, entity.Category, entity.Cuisine, entity.Image, entity.Creator, entity.AddedBy, entity.Dietaries, entity.ShoppingItems, entity.Tags);
-                await summaryService.CreateAsync(summary, token);
 
                 return Results.Created($"/api/recipe/{entity.Id}", entity);
             })
@@ -52,33 +99,29 @@ public  class RecipeModule : IModule
 
         api.MapPut(
             "/",
-            async (Recipe updateRecipe, IRecipeService service, IRecipeSummaryService summaryService , CancellationToken token) =>
+            async (Recipe updateRecipe, IRecipeService service, CancellationToken token) =>
             {
-                if(updateRecipe.Id is not null)
+                if (updateRecipe.Id is not null)
                 {
                     var toUpdateRecipe = RecipeToRecipeDocumentConverter.Convert(updateRecipe);
                     await service.UpdateAsync(toUpdateRecipe, token);
-
-                    var toUpdateSummary = new RecipeSummaryDocument(toUpdateRecipe.Id, toUpdateRecipe.Title, toUpdateRecipe.Category, toUpdateRecipe.Cuisine, toUpdateRecipe.Image, toUpdateRecipe.Creator, toUpdateRecipe.AddedBy, toUpdateRecipe.Dietaries, toUpdateRecipe.ShoppingItems, toUpdateRecipe.Tags);
-                    await summaryService.UpdateAsync(toUpdateSummary, token);
 
                     return Results.NoContent();
                 }
                 return Results.BadRequest();
             })
             .RequireAuthorization();
+
         api.MapDelete(
         "/{id}",
-        async (string id, IRecipeService service, IRecipeSummaryService summaryService, CancellationToken token) =>
+        async (string id, IRecipeService service, CancellationToken token) =>
         {
             var recipe = await service.GetByIdAsync(id, token);
-            if(recipe is null)
+            if (recipe is null)
             {
                 return Results.NotFound();
             }
             await service.DeleteAsync(id, token);
-
-            await summaryService.DeleteAsync(id, token);
 
 
             return Results.NoContent();

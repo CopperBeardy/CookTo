@@ -1,13 +1,11 @@
-using AutoMapper;
 using CookTo.Server.Modules.Ingredients.Core;
 using CookTo.Server.Modules.Ingredients.Services;
 using CookTo.Shared;
-using CookTo.Shared.Modules.ManageCategories;
 using CookTo.Shared.Modules.ManageIngredients;
 
 namespace CookTo.Server.Modules.Ingredients;
 
-public  class IngredientModule : IModule
+public class IngredientModule : IModule
 {
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
     {
@@ -18,7 +16,7 @@ public  class IngredientModule : IModule
             {
                 var entites = await service.GetAllAsync(token);
 
-                if(entites is null)
+                if (entites is null)
                     return Results.NotFound(ErrorMessage<Ingredient>.ItemsNotFound());
 
                 var ingredients = new List<Ingredient>();

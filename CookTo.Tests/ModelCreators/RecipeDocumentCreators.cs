@@ -7,9 +7,6 @@ using CookTo.Shared.Enums;
 using CookTo.Shared.Modules.ManageRecipes;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CookTo.Tests.ModelCreators;
 
@@ -85,7 +82,6 @@ public static class RecipeDocumentCreators
            {
                new ShoppingItemDocument
                {
-                   Id = 1,
                    Quantity = "10",
                    Measure = "g",
                    AdditionalInformation = "cubed",
@@ -93,7 +89,6 @@ public static class RecipeDocumentCreators
                },
                new ShoppingItemDocument
                {
-                   Id = 1,
                    Quantity = string.Empty,
                    Measure = "a",
                    AdditionalInformation = string.Empty,
@@ -101,7 +96,6 @@ public static class RecipeDocumentCreators
                },
                new ShoppingItemDocument
                {
-                   Id = 1,
                    Quantity = "5",
                    Measure = "g",
                    AdditionalInformation = string.Empty,

@@ -6,7 +6,7 @@ using CookTo.Shared.Modules.ManageUtensils;
 
 namespace CookTo.Server.Modules.Utensils;
 
-public  class UtensilModule : IModule
+public class UtensilModule : IModule
 {
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
     {
@@ -17,7 +17,7 @@ public  class UtensilModule : IModule
             {
                 var entites = await service.GetAllAsync(token);
 
-                if(entites is null)
+                if (entites is null)
                     return Results.NotFound(ErrorMessage<Utensil>.ItemsNotFound());
 
                 var utensils = new List<Utensil>();

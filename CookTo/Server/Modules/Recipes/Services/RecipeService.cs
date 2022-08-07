@@ -1,5 +1,4 @@
-﻿using CookTo.Server.Modules;
-using CookTo.Server.Modules.Recipes.Core;
+﻿using CookTo.Server.Modules.Recipes.Core;
 
 namespace CookTo.Server.Modules.Recipes.Services;
 
@@ -9,7 +8,7 @@ public class RecipeService : BaseService<RecipeDocument>, IRecipeService
     {
     }
 
-    public async Task<RecipeDocument> GetHighlighted( CancellationToken token)
+    public async Task<RecipeDocument> GetHighlighted(CancellationToken token)
     {
         var filter = Builders<RecipeDocument>.Projection
             .Exclude(x => x.Serves)

@@ -1,10 +1,9 @@
-using CookTo.Client.HttpHelpers;
-using CookTo.Client.HttpManagers.Interfaces;
+using CookTo.Client.HTTPHelpers;
+using CookTo.Client.HTTPManagers.Interfaces;
 using CookTo.Shared.Modules;
-using CookTo.Shared.Modules.ManageRecipes;
 using Newtonsoft.Json;
 
-namespace CookTo.Client.HttpManagers;
+namespace CookTo.Client.HTTPManagers;
 
 public class RecipeSummaryManager : IRecipeSummaryManager
 {
@@ -16,18 +15,20 @@ public class RecipeSummaryManager : IRecipeSummaryManager
         try
         {
             var httpClient = HttpNamedClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
-            var result = await httpClient.GetAsync($"/api/searchrecipes/{term}", new CancellationToken());
+            var result = await httpClient.GetAsync($"/api/recipe/summaries/{term}", new CancellationToken());
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
             var deserializedObject = JsonConvert.DeserializeObject<List<RecipeSummary>>(content);
-            if(deserializedObject != null)
+            if (deserializedObject != null)
             {
                 return deserializedObject;
-            } else
+            }
+            else
             {
                 return new List<RecipeSummary>();
             }
-        } catch(Exception)
+        }
+        catch (Exception)
         {
             return default!;
         }
@@ -38,18 +39,20 @@ public class RecipeSummaryManager : IRecipeSummaryManager
         try
         {
             var httpClient = HttpNamedClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
-            var result = await httpClient.GetAsync($"/api/recipes/{amount}", new CancellationToken());
+            var result = await httpClient.GetAsync($"/api/recipes/summaries/{amount}", new CancellationToken());
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
             var deserializedObject = JsonConvert.DeserializeObject<List<RecipeSummary>>(content);
-            if(deserializedObject != null)
+            if (deserializedObject != null)
             {
                 return deserializedObject;
-            } else
+            }
+            else
             {
                 return new List<RecipeSummary>();
             }
-        } catch(Exception)
+        }
+        catch (Exception)
         {
             return default!;
         }

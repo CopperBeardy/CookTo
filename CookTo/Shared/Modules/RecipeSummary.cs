@@ -7,14 +7,14 @@ namespace CookTo.Shared.Modules;
 
 public record RecipeSummary
 (
-     string Id ,
-     Category Category ,
-     string Title ,
-     Cuisine Cuisine ,
+     string Id,
+     Category Category,
+     string Title,
+     Cuisine Cuisine,
      string Image,
-     string Creator ,
+     string Creator,
      string AddedBy,
      List<Dietary>? Dietary,
-     List<string>ShoppingList,
+     List<string> ShoppingList,
      string Tags
 );

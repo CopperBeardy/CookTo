@@ -1,12 +1,11 @@
 using CookTo.Shared.Modules;
-using CookTo.Shared.Modules.ManageRecipes;
-using Newtonsoft.Json;
 
-namespace CookTo.Client.HttpManagers;
+
+namespace CookTo.Client.HTTPManagers;
 
 public class HighlightedRecipeManager : BaseManager<HighlightedRecipe>
 {
-    public HighlightedRecipeManager(IHttpClientFactory factory) : base(factory, "highlighted")
+    public HighlightedRecipeManager(IHttpClientFactory factory) : base(factory, "recipe/highlighted")
     {
     }
 }

@@ -2,7 +2,7 @@
 using CookTo.Shared.Modules.ManageRecipes;
 
 
-namespace CookTo.Client.HttpManagers;
+namespace CookTo.Client.HTTPManagers;
 
 public class RecipeManager : BaseManager<Recipe>
 {

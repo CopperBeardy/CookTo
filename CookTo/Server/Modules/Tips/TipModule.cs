@@ -1,15 +1,11 @@
-﻿using AutoMapper;
-using CookTo.Server.Modules.Categories.Core;
-using CookTo.Server.Modules.Tips.Core;
+﻿using CookTo.Server.Modules.Tips.Core;
 using CookTo.Server.Modules.Tips.Services;
 using CookTo.Shared;
-using CookTo.Shared.Modules.ManageCategories;
 using CookTo.Shared.Modules.ManageRecipes;
-using System.Linq;
 
 namespace CookTo.Server.Modules.Tips;
 
-public  class TipModule : IModule
+public class TipModule : IModule
 {
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
     {
@@ -20,7 +16,7 @@ public  class TipModule : IModule
             {
                 var entites = await service.GetAllAsync(token);
 
-                if(entites is  null)
+                if (entites is null)
                     return Results.NotFound(ErrorMessage<Tip>.ItemsNotFound());
 
                 var categories = new List<Tip>();
@@ -33,7 +29,7 @@ public  class TipModule : IModule
             async (string id, ITipService service, CancellationToken token) =>
             {
                 var entity = await service.GetByIdAsync(id, token);
-                if(entity is null)
+                if (entity is null)
                     return Results.NotFound(ErrorMessage<Tip>.ItemNotFound(id));
 
                 var catergory = new Tip { Id = entity.Id, Description = entity.Text };

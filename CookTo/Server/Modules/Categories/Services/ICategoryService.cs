@@ -1,5 +1,4 @@
-﻿using CookTo.Server.Modules;
-using CookTo.Server.Modules.Categories.Core;
+﻿using CookTo.Server.Modules.Categories.Core;
 
 namespace CookTo.Server.Modules.Categories.Services;
 

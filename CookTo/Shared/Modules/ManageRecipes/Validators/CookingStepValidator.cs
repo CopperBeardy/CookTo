@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace CookTo.Shared.Modules.ManageRecipes.Validators;
+﻿namespace CookTo.Shared.Modules.ManageRecipes.Validators;
 
 public class CookingStepValidator : AbstractValidator<CookingStep>
 {

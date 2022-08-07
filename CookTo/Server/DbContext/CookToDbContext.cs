@@ -17,8 +17,8 @@ public class CookToDbContext : ICookToDbContext
     {
         //client = new MongoClient(configuration.Value.Connection);
         //db = client.GetDatabase(configuration.Value.Database);
-       client = new MongoClient(configuration.Value.Connection);
-       
+        client = new MongoClient(configuration.Value.Connection);
+
         db = client.GetDatabase(configuration.Value.Database);
         Seed();
     }
@@ -35,7 +35,6 @@ public class CookToDbContext : ICookToDbContext
             SeedCategoryCollection();
             SeedUtensilCollection();
         }
-    
     }
 
     private async void SeedIngredientCollection()
@@ -45,8 +44,7 @@ public class CookToDbContext : ICookToDbContext
             new IngredientDocument() { Text = "Strong White Bread Flour" },
             new IngredientDocument() { Text = "Lemon" },
             new IngredientDocument() { Text = "Fast Acting Yeast" },
-            new IngredientDocument() { Text = "Caster Sugar" }
-        };
+            new IngredientDocument() { Text = "Caster Sugar" } };
 
         var collection = db.GetCollection<IngredientDocument>(nameof(IngredientDocument));
         await collection.InsertManyAsync(ingredients);
@@ -59,8 +57,7 @@ public class CookToDbContext : ICookToDbContext
             new CuisineDocument() { Text = "British" },
             new CuisineDocument() { Text = "French" },
             new CuisineDocument() { Text = "Chinese" },
-            new CuisineDocument() { Text = "Italian" }
-        };
+            new CuisineDocument() { Text = "Italian" } };
 
         var collection = db.GetCollection<CuisineDocument>(nameof(CuisineDocument));
         await collection.InsertManyAsync(cuisines);
@@ -78,8 +75,7 @@ public class CookToDbContext : ICookToDbContext
             new CategoryDocument() { Text = "Nibbles" },
             new CategoryDocument() { Text = "Brunch" },
             new CategoryDocument() { Text = "Side" },
-            new CategoryDocument() { Text = "Dessert" }
-        };
+            new CategoryDocument() { Text = "Dessert" } };
 
         var collection = db.GetCollection<CategoryDocument>(nameof(CategoryDocument));
         await collection.InsertManyAsync(categories);

@@ -6,10 +6,11 @@ public static class FractionConvertor
     {
         var parseQuantity = 0.0;
         var values = quantity.Split(new char[] { ',', ' ' });
-        if(values.Length == 2)
+        if (values.Length == 2)
         {
             quantity = (int.Parse(values[0]) / int.Parse(values[1])).ToString();
-        } else
+        }
+        else
         {
             quantity = (int.Parse(values[0]) + (int.Parse(values[1]) / int.Parse(values[2]))).ToString();
         }

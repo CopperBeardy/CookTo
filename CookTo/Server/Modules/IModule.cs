@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Routing;
-
-namespace CookTo.Server.Modules;
+﻿namespace CookTo.Server.Modules;
 
 public interface IModule
 {

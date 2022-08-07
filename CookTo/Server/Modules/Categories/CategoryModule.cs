@@ -1,13 +1,11 @@
-﻿using AutoMapper;
-using CookTo.Server.Modules.Categories.Core;
+﻿using CookTo.Server.Modules.Categories.Core;
 using CookTo.Server.Modules.Categories.Services;
 using CookTo.Shared;
 using CookTo.Shared.Modules.ManageCategories;
-using System.Linq;
 
 namespace CookTo.Server.Modules.Categories;
 
-public  class CategoryModule : IModule
+public class CategoryModule : IModule
 {
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
     {
@@ -18,7 +16,7 @@ public  class CategoryModule : IModule
             {
                 var entites = await service.GetAllAsync(token);
 
-                if(entites is  null)
+                if (entites is null)
                     return Results.NotFound(ErrorMessage<Category>.ItemsNotFound());
 
                 var categories = new List<Category>();
@@ -31,7 +29,7 @@ public  class CategoryModule : IModule
             async (string id, ICategoryService service, CancellationToken token) =>
             {
                 var entity = await service.GetByIdAsync(id, token);
-                if(entity is null)
+                if (entity is null)
                     return Results.NotFound(ErrorMessage<Category>.ItemNotFound(id));
 
                 var catergory = new Category { Id = entity.Id, Text = entity.Text };

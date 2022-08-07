@@ -5,11 +5,9 @@ namespace CookTo.Shared.Modules.ManageRecipes;
 
 public class UtensilPart
 {
-  
     public int RequiredAmount { get; set; }
 
     public Utensil Utensil { get; set; }
-
 
 
     public override string ToString()

@@ -1,4 +1,3 @@
-using AutoMapper;
 using CookTo.Server.Modules.Cuisines.Core;
 using CookTo.Server.Modules.Cuisines.Services;
 using CookTo.Shared;
@@ -18,7 +17,7 @@ public class CuisineModule : IModule
             {
                 var entites = await service.GetAllAsync(token);
 
-                if(entites is null)
+                if (entites is null)
                     return Results.NotFound(ErrorMessage<Ingredient>.ItemsNotFound());
 
                 var cuisines = new List<Cuisine>();

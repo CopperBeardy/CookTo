@@ -1,6 +1,6 @@
 using CookTo.Shared.Modules.ManageCategories;
 
-namespace CookTo.Client.HttpManagers;
+namespace CookTo.Client.HTTPManagers;
 
 public class CategoryManager : BaseManager<Category>
 {

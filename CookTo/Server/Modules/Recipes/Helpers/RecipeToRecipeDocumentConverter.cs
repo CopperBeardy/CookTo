@@ -3,12 +3,7 @@ using CookTo.Server.Modules.Cuisines.Core;
 using CookTo.Server.Modules.Ingredients.Core;
 using CookTo.Server.Modules.Recipes.Core;
 using CookTo.Server.Modules.Utensils.Core;
-using CookTo.Shared.Modules.ManageCategories;
-using CookTo.Shared.Modules.ManageCuisines;
-using CookTo.Shared.Modules.ManageIngredients;
 using CookTo.Shared.Modules.ManageRecipes;
-using CookTo.Shared.Modules.ManageUtensils;
-using System.Linq;
 
 namespace CookTo.Server.Modules.Recipes.Helpers;
 
@@ -44,25 +39,25 @@ public static class RecipeToRecipeDocumentConverter
     {
         var convertedShoppngList = new List<ShoppingItemDocument>();
         convertedShoppngList.AddRange(shoppingList.Select(item => new ShoppingItemDocument
-            {
-                Quantity = item.Quantity,
-                Measure = item.Measure,
-                AdditionalInformation = item.AdditionalInformation,
-                Ingredient = new IngredientDocument { Id = item.Ingredient.Id, Text = item.Ingredient.Text }
-            }));
+        {
+            Quantity = item.Quantity,
+            Measure = item.Measure,
+            AdditionalInformation = item.AdditionalInformation,
+            Ingredient = new IngredientDocument { Id = item.Ingredient.Id, Text = item.Ingredient.Text }
+        }));
         return convertedShoppngList;
     }
 
     private static List<UtensilPartDocument> ConvertUtensilPartToUtensilPartDocument(List<UtensilPart> utensils)
     {
         var convertedUtensils = new List<UtensilPartDocument>();
-        foreach(var item in utensils)
+        foreach (var item in utensils)
         {
             convertedUtensils.Add(new UtensilPartDocument
-                {
-                    RequiredAmount = item.RequiredAmount,
-                    Utensil = new UtensilDocument { Id = item.Utensil.Id, Text = item.Utensil.Text }
-                });
+            {
+                RequiredAmount = item.RequiredAmount,
+                Utensil = new UtensilDocument { Id = item.Utensil.Id, Text = item.Utensil.Text }
+            });
         }
         return convertedUtensils;
     }
@@ -70,14 +65,14 @@ public static class RecipeToRecipeDocumentConverter
     private static List<CookingStepDocument> ConvertCookingStepToCookingStepDocument(List<CookingStep> steps)
     {
         var convertedSteps = new List<CookingStepDocument>();
-        foreach(var step in steps)
+        foreach (var step in steps)
         {
             var cookingStep = new CookingStepDocument
             {
                 OrderNumber = step.OrderNumber,
                 StepDescription = step.StepDescription
             };
-            if(step.StepIngredients is not null || step.StepIngredients.Count > 0)
+            if (step.StepIngredients is not null || step.StepIngredients.Count > 0)
             {
                 cookingStep.StepIngredients = ConvertStepIngredientToStepIngredientDocument(step);
             }
@@ -89,14 +84,14 @@ public static class RecipeToRecipeDocumentConverter
     private static List<StepIngredientDocument> ConvertStepIngredientToStepIngredientDocument(CookingStep step)
     {
         var ingredients = new List<StepIngredientDocument>();
-        foreach(var ing in step.StepIngredients)
+        foreach (var ing in step.StepIngredients)
         {
             ingredients.Add(new StepIngredientDocument()
-                {
-                    Quantity = ing.Quantity,
-                    Measure = ing.Measure,
-                    Ingredient = ing.Ingredient
-                });
+            {
+                Quantity = ing.Quantity,
+                Measure = ing.Measure,
+                Ingredient = ing.Ingredient
+            });
         }
         return ingredients;
     }

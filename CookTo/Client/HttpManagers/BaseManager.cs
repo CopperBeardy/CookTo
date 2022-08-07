@@ -1,8 +1,8 @@
-﻿using CookTo.Client.HttpHelpers;
-using CookTo.Client.HttpManagers.Interfaces;
+﻿using CookTo.Client.HTTPHelpers;
+using CookTo.Client.HTTPManagers.Interfaces;
 using Newtonsoft.Json;
 
-namespace CookTo.Client.HttpManagers;
+namespace CookTo.Client.HTTPManagers;
 
 public abstract class BaseManager<T> : IBaseManager<T> where T : class
 {
@@ -23,14 +23,16 @@ public abstract class BaseManager<T> : IBaseManager<T> where T : class
             var result = await httpClient.GetAsync(_url, new CancellationToken());
             var content = await result.Content.ReadAsStringAsync();
             var deserializedObject = JsonConvert.DeserializeObject<IList<T>>(content);
-            if(deserializedObject != null)
+            if (deserializedObject != null)
             {
                 return deserializedObject;
-            } else
+            }
+            else
             {
                 return new List<T>();
             }
-        } catch(HttpRequestException)
+        }
+        catch (HttpRequestException)
         {
             return default!;
         }
@@ -45,14 +47,16 @@ public abstract class BaseManager<T> : IBaseManager<T> where T : class
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
             var deserializedObject = JsonConvert.DeserializeObject<T>(content);
-            if(deserializedObject != null)
+            if (deserializedObject != null)
             {
                 return deserializedObject;
-            } else
+            }
+            else
             {
                 return null;
             }
-        } catch(HttpRequestException)
+        }
+        catch (HttpRequestException)
         {
             return default!;
         }
@@ -68,14 +72,16 @@ public abstract class BaseManager<T> : IBaseManager<T> where T : class
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
             var deserializedObject = JsonConvert.DeserializeObject<T>(content);
-            if(deserializedObject != null)
+            if (deserializedObject != null)
             {
                 return deserializedObject;
-            } else
+            }
+            else
             {
                 return null;
             }
-        } catch(Exception)
+        }
+        catch (Exception)
         {
             throw;
         }
@@ -88,7 +94,8 @@ public abstract class BaseManager<T> : IBaseManager<T> where T : class
             var httpClient = HttpNamedClientFactoryHelper.CreateClient(_httpClientFactory, HttpClientType.Secure);
             var result = await httpClient.PutAsJsonAsync(_url, entityToUpdate);
             return result.IsSuccessStatusCode;
-        } catch(Exception)
+        }
+        catch (Exception)
         {
             throw;
         }
