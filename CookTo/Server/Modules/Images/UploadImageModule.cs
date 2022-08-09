@@ -1,4 +1,5 @@
 using CookTo.Server.Modules.Recipes.Services;
+using CookTo.Shared;
 using CookTo.Shared.Modules.ManageRecipes;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
@@ -9,15 +10,16 @@ public class UploadImageModule : IModule
 {
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapPost(
-            "/upload",
+        var api = endpoints.MapGroup(EndpointTemplate.UPLOADIMAGE);
+        api.MapPost(
+            "/",
             async (ImageUpload dto, IRecipeService service, CancellationToken token) =>
             {
                 var recipe = await service.GetByIdAsync(dto.RecipeId, token);
-                if (recipe is null)
+                if(recipe is null)
                     return Results.BadRequest("Recipe does not exist.");
 
-                if (dto.Image.Length == 0)
+                if(dto.Image.Length == 0)
                     return Results.BadRequest("No image found.");
 
                 var filename = $"{Guid.NewGuid()}.jpg";
@@ -29,7 +31,7 @@ public class UploadImageModule : IModule
                 image.Mutate(x => x.Resize(resizeOptions));
                 await image.SaveAsJpegAsync(saveLocation, cancellationToken: token);
 
-                if (!string.IsNullOrWhiteSpace(recipe.Image))
+                if(!string.IsNullOrWhiteSpace(recipe.Image))
                     File.Delete(Path.Combine(Directory.GetCurrentDirectory(), "Images", recipe.Image));
 
                 recipe.Image = filename;
@@ -38,8 +40,8 @@ public class UploadImageModule : IModule
                 return Results.Ok(recipe.Image);
             })
             .RequireAuthorization();
-        return endpoints;
+        return api;
     }
 
-    public IServiceCollection RegisterModule(IServiceCollection services) { return services; }
+    public IServiceCollection RegisterModule(IServiceCollection services) => services;
 }

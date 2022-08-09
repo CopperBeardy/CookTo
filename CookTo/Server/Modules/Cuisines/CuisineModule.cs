@@ -1,4 +1,5 @@
 using CookTo.Server.Modules.Cuisines.Core;
+using CookTo.Server.Modules.Cuisines.Handlers;
 using CookTo.Server.Modules.Cuisines.Services;
 using CookTo.Shared;
 using CookTo.Shared.Modules.ManageCuisines;
@@ -10,29 +11,10 @@ public class CuisineModule : IModule
 {
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
     {
-        var api = endpoints.MapGroup("/cuisine");
-        api.MapGet(
-            "/",
-            async (ICuisineService service, CancellationToken token) =>
-            {
-                var entites = await service.GetAllAsync(token);
+        var api = endpoints.MapGroup(EndpointTemplate.CUISINE);
+        api.MapGet(  "/", async ([AsParameters]CommonParameters cp) => await GetAllHandler.Handle(cp));
 
-                if (entites is null)
-                    return Results.NotFound(ErrorMessage<Ingredient>.ItemsNotFound());
-
-                var cuisines = new List<Cuisine>();
-                cuisines.AddRange(entites.Select(c => new Cuisine { Id = c.Id, Text = c.Text }));
-                return Results.Ok(cuisines);
-            });
-
-        api.MapPost(
-            "/",
-            async (Cuisine cuisine, ICuisineService service, CancellationToken token) =>
-            {
-                var newCuisine = new CuisineDocument { Text = cuisine.Text };
-                await service.CreateAsync(newCuisine, token);
-                return Results.Ok(new Cuisine { Id = newCuisine.Id, Text = newCuisine.Text });
-            })
+        api.MapPost("/", async (Cuisine cuisine, [AsParameters] CommonParameters cp) => await PostHandler.Handle(cuisine, cp))
             .RequireAuthorization();
         return api;
     }

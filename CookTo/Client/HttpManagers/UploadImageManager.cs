@@ -1,5 +1,6 @@
 using CookTo.Client.HTTPHelpers;
 using CookTo.Client.HTTPManagers.Interfaces;
+using CookTo.Shared;
 using CookTo.Shared.Modules.ManageRecipes;
 using Microsoft.AspNetCore.Components.Forms;
 using Newtonsoft.Json;
@@ -10,7 +11,7 @@ public class UploadImageManager : IUploadImageManager
 {
     private readonly IHttpClientFactory _factory;
 
-    private const string _url = "/api/upload";
+    private const string _url = $"/api/{EndpointTemplate.UPLOADIMAGE}";
 
     public UploadImageManager(IHttpClientFactory factory) => _factory = factory;
 
@@ -25,8 +26,7 @@ public class UploadImageManager : IUploadImageManager
             var content = await result.Content.ReadAsStringAsync();
             var deserializedObject = JsonConvert.DeserializeObject<IBrowserFile>(content);
             return deserializedObject;
-        }
-        catch (HttpRequestException)
+        } catch(HttpRequestException)
         {
             return default!;
         }
@@ -46,8 +46,7 @@ public class UploadImageManager : IUploadImageManager
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
             return content;
-        }
-        catch (Exception)
+        } catch(Exception)
         {
             throw;
         }

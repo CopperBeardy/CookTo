@@ -9,14 +9,14 @@ public class IngredientModule : IModule
 {
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
     {
-        var api = endpoints.MapGroup("/ingredient");
+        var api = endpoints.MapGroup(EndpointTemplate.INGREDIENT);
         api.MapGet(
             "/",
             async (IIngredientService service, CancellationToken token) =>
             {
                 var entites = await service.GetAllAsync(token);
 
-                if (entites is null)
+                if(entites is null)
                     return Results.NotFound(ErrorMessage<Ingredient>.ItemsNotFound());
 
                 var ingredients = new List<Ingredient>();

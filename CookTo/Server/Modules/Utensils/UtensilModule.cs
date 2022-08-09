@@ -10,14 +10,14 @@ public class UtensilModule : IModule
 {
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
     {
-        var api = endpoints.MapGroup("/utensil");
+        var api = endpoints.MapGroup(EndpointTemplate.UTENSIL);
         api.MapGet(
             "/",
             async (IUtensilService service, CancellationToken token) =>
             {
                 var entites = await service.GetAllAsync(token);
 
-                if (entites is null)
+                if(entites is null)
                     return Results.NotFound(ErrorMessage<Utensil>.ItemsNotFound());
 
                 var utensils = new List<Utensil>();

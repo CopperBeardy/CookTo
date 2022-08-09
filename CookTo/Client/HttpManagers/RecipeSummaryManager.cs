@@ -1,5 +1,6 @@
 using CookTo.Client.HTTPHelpers;
 using CookTo.Client.HTTPManagers.Interfaces;
+using CookTo.Shared;
 using CookTo.Shared.Modules;
 using Newtonsoft.Json;
 
@@ -15,20 +16,18 @@ public class RecipeSummaryManager : IRecipeSummaryManager
         try
         {
             var httpClient = HttpNamedClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
-            var result = await httpClient.GetAsync($"/api/recipe/summaries/{term}", new CancellationToken());
+            var result = await httpClient.GetAsync($"/api/{EndpointTemplate.SUMMARY}/{term}", new CancellationToken());
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
             var deserializedObject = JsonConvert.DeserializeObject<List<RecipeSummary>>(content);
-            if (deserializedObject != null)
+            if(deserializedObject != null)
             {
                 return deserializedObject;
-            }
-            else
+            } else
             {
                 return new List<RecipeSummary>();
             }
-        }
-        catch (Exception)
+        } catch(Exception)
         {
             return default!;
         }
@@ -39,20 +38,18 @@ public class RecipeSummaryManager : IRecipeSummaryManager
         try
         {
             var httpClient = HttpNamedClientFactoryHelper.CreateClient(_factory, HttpClientType.Anon);
-            var result = await httpClient.GetAsync($"/api/recipes/summaries/{amount}", new CancellationToken());
+            var result = await httpClient.GetAsync($"/api/{EndpointTemplate.SUMMARY}/{amount}", new CancellationToken());
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
             var deserializedObject = JsonConvert.DeserializeObject<List<RecipeSummary>>(content);
-            if (deserializedObject != null)
+            if(deserializedObject != null)
             {
                 return deserializedObject;
-            }
-            else
+            } else
             {
                 return new List<RecipeSummary>();
             }
-        }
-        catch (Exception)
+        } catch(Exception)
         {
             return default!;
         }
