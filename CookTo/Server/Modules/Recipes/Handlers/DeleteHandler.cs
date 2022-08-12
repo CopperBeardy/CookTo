@@ -1,13 +1,11 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace CookTo.Server.Modules.Recipes.Handlers;
+﻿namespace CookTo.Server.Modules.Recipes.Handlers;
 
 public static class DeleteHandler
 {
     public static async Task<IResult> Handle(string id, CommonParameters cp)
     {
         var recipe = await cp.RecipeService.GetByIdAsync(id, cp.CancellationToken);
-        if(recipe is null)
+        if (recipe is null)
         {
             return Results.NotFound();
         }

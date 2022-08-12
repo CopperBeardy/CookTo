@@ -1,7 +1,4 @@
-﻿using CookTo.Server.Modules.Categories.Core;
-using CookTo.Server.Modules.Categories.Services;
-using CookTo.Server.Modules.Cuisines.Core;
-using CookTo.Shared.Modules.ManageCategories;
+﻿using CookTo.Server.Modules.Cuisines.Core;
 using CookTo.Shared.Modules.ManageCuisines;
 
 namespace CookTo.Server.Modules.Cuisines.Handlers;

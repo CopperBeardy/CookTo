@@ -8,7 +8,7 @@ public static class ModuleExtensions
     public static IServiceCollection RegisterModules(this IServiceCollection services)
     {
         var modules = DiscoverModules();
-        foreach(var module in modules)
+        foreach (var module in modules)
         {
             module.RegisterModule(services);
             registeredModules.Add(module);
@@ -18,7 +18,7 @@ public static class ModuleExtensions
 
     public static WebApplication MapEndpoints(this WebApplication app)
     {
-        foreach(var module in registeredModules)
+        foreach (var module in registeredModules)
         {
             module.MapEndpoints(app.MapGroup("/api/"));
         }

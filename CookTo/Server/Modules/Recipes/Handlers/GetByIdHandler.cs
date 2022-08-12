@@ -1,5 +1,4 @@
 ﻿using CookTo.Server.Modules.Recipes.Helpers;
-using CookTo.Shared.Modules.ManageRecipes;
 
 namespace CookTo.Server.Modules.Recipes.Handlers;
 
@@ -8,7 +7,7 @@ public static class GetByIdHandler
     public static async Task<IResult> Handle(string id, CommonParameters cp)
     {
         var document = await cp.RecipeService.GetByIdAsync(id, cp.CancellationToken);
-        if(document is null)
+        if (document is null)
         {
             return Results.BadRequest("Recipe was not found");
         }

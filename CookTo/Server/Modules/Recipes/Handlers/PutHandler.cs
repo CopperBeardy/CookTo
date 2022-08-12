@@ -7,7 +7,7 @@ public static class PutHandler
 {
     public static async Task<IResult> Handle(Recipe recipe, CommonParameters cp)
     {
-        if(recipe.Id is not null)
+        if (recipe.Id is not null)
         {
             var toUpdateRecipe = RecipeToRecipeDocumentConverter.Convert(recipe);
             await cp.RecipeService.UpdateAsync(toUpdateRecipe, cp.CancellationToken);

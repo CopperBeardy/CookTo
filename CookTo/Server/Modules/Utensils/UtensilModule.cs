@@ -17,7 +17,7 @@ public class UtensilModule : IModule
             {
                 var entites = await service.GetAllAsync(token);
 
-                if(entites is null)
+                if (entites is null)
                     return Results.NotFound(ErrorMessage<Utensil>.ItemsNotFound());
 
                 var utensils = new List<Utensil>();

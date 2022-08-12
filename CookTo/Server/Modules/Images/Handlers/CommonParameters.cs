@@ -1,12 +1,10 @@
 ﻿using CookTo.Server.Modules.Recipes.Services;
 
-namespace CookTo.Server.Modules.Recipes.Handlers;
+namespace CookTo.Server.Modules.Images.Handlers;
 
-
-public record CommonParameters
+public class CommonParameters
 {
     public IRecipeService RecipeService { get; set; }
 
     public CancellationToken CancellationToken { get; set; }
 }
-

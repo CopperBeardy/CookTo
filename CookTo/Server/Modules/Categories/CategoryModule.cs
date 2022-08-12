@@ -11,9 +11,9 @@ public class CategoryModule : IModule
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
     {
         var api = endpoints.MapGroup(EndpointTemplate.CATEGORY);
-        api.MapGet(  "/", async ([AsParameters] CommonParameters common) => await  GetAllHandler.Handle(common));
+        api.MapGet("/", async ([AsParameters] CommonParameters common) => await GetAllHandler.Handle(common));
 
-        api.MapPost(  "/", async (Category category, [AsParameters] CommonParameters common) => PostHandler.Handle(category, common))
+        api.MapPost("/", async (Category category, [AsParameters] CommonParameters common) => await PostHandler.Handle(category, common))
             .RequireAuthorization();
 
         return api;
