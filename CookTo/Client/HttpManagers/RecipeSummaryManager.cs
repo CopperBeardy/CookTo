@@ -20,14 +20,16 @@ public class RecipeSummaryManager : IRecipeSummaryManager
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
             var deserializedObject = JsonConvert.DeserializeObject<List<RecipeSummary>>(content);
-            if(deserializedObject != null)
+            if (deserializedObject != null)
             {
                 return deserializedObject;
-            } else
+            }
+            else
             {
                 return new List<RecipeSummary>();
             }
-        } catch(Exception)
+        }
+        catch (Exception)
         {
             return default!;
         }
@@ -42,14 +44,16 @@ public class RecipeSummaryManager : IRecipeSummaryManager
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
             var deserializedObject = JsonConvert.DeserializeObject<List<RecipeSummary>>(content);
-            if(deserializedObject != null)
+            if (deserializedObject != null)
             {
                 return deserializedObject;
-            } else
+            }
+            else
             {
                 return new List<RecipeSummary>();
             }
-        } catch(Exception)
+        }
+        catch (Exception)
         {
             return default!;
         }

@@ -6,6 +6,6 @@ public class StepIngredient
 
     public string? Measure { get; set; }
 
-    public string? Ingredient { get; set; }
+    public string Ingredient { get; set; }
 }
 

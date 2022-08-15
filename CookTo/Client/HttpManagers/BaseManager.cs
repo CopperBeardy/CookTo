@@ -2,6 +2,7 @@
 using CookTo.Client.HTTPManagers.Interfaces;
 using Newtonsoft.Json;
 
+
 namespace CookTo.Client.HTTPManagers;
 
 public abstract class BaseManager<T> : IBaseManager<T> where T : class

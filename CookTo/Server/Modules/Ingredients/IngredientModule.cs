@@ -1,4 +1,3 @@
-using CookTo.Server.Modules.Ingredients.Core;
 using CookTo.Server.Modules.Ingredients.Handlers;
 using CookTo.Server.Modules.Ingredients.Services;
 using CookTo.Shared;
@@ -11,8 +10,8 @@ public class IngredientModule : IModule
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
     {
         var api = endpoints.MapGroup(EndpointTemplate.INGREDIENT);
-        api.MapGet( "/", async ([AsParameters]CommonParameters cp) => await GetAllHandler.Handle(cp));
-        api.MapPost( "/", async (Ingredient ingredient, [AsParameters]CommonParameters cp) => await PostHandler.Handle(ingredient, cp))
+        api.MapGet("/", async ([AsParameters] CommonParameters cp) => await GetAllHandler.Handle(cp));
+        api.MapPost("/", async (Ingredient ingredient, [AsParameters] CommonParameters cp) => await PostHandler.Handle(ingredient, cp))
             .RequireAuthorization();
         return api;
     }

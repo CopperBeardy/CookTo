@@ -1,4 +1,4 @@
-﻿using CookTo.Server.Modules.Tips.Core;
+﻿using CookTo.Server.Modules.Tips.Handlers;
 using CookTo.Server.Modules.Tips.Services;
 using CookTo.Shared;
 using CookTo.Shared.Modules.ManageRecipes;
@@ -10,42 +10,13 @@ public class TipModule : IModule
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
     {
         var api = endpoints.MapGroup(EndpointTemplate.TIP);
-        api.MapGet(
-            "/",
-            async (ITipService service, CancellationToken token) =>
-            {
-                var entites = await service.GetAllAsync(token);
+        api.MapGet("/", async ([AsParameters] CommonParameters cp) => await GetAllHandler.Handle(cp));
 
-                if (entites is null)
-                    return Results.NotFound(ErrorMessage<Tip>.ItemsNotFound());
+        api.MapGet("/{id}", async (string id, [AsParameters] CommonParameters cp) => await GetByIdHandler.Handle(id, cp));
 
-                var categories = new List<Tip>();
-                categories.AddRange(entites.Select(c => new Tip { Id = c.Id, Description = c.Text }));
-                return Results.Ok(categories);
-            });
-
-        api.MapGet(
-            "/{id}",
-            async (string id, ITipService service, CancellationToken token) =>
-            {
-                var entity = await service.GetByIdAsync(id, token);
-                if (entity is null)
-                    return Results.NotFound(ErrorMessage<Tip>.ItemNotFound(id));
-
-                var catergory = new Tip { Id = entity.Id, Description = entity.Text };
-                return Results.Ok(catergory);
-            });
-
-
-        api.MapPost(
-            "/",
-            async (Tip tip, ITipService service, CancellationToken token) =>
-            {
-                var newTip = new TipDocument() { Text = tip.Description };
-                await service.CreateAsync(newTip, token);
-                return Results.Ok(new Tip { Id = newTip.Id, Description = newTip.Text });
-            })
+        api.MapPost("/", async (Tip tip, [AsParameters] CommonParameters cp) => await PostHandler.Handle(tip, cp))
             .RequireAuthorization();
+
         return api;
     }
 

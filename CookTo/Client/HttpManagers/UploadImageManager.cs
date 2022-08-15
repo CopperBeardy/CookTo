@@ -26,7 +26,8 @@ public class UploadImageManager : IUploadImageManager
             var content = await result.Content.ReadAsStringAsync();
             var deserializedObject = JsonConvert.DeserializeObject<IBrowserFile>(content);
             return deserializedObject;
-        } catch(HttpRequestException)
+        }
+        catch (HttpRequestException)
         {
             return default!;
         }
@@ -46,7 +47,8 @@ public class UploadImageManager : IUploadImageManager
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
             return content;
-        } catch(Exception)
+        }
+        catch (Exception)
         {
             throw;
         }

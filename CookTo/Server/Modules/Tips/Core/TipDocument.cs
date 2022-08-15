@@ -2,5 +2,5 @@
 
 public class TipDocument : BaseDocument
 {
-    public string? Text { get; set; }
+    public string? Description { get; set; }
 }

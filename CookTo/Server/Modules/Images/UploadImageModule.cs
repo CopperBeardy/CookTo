@@ -11,7 +11,7 @@ public class UploadImageModule : IModule
     {
         var api = endpoints.MapGroup(EndpointTemplate.UPLOADIMAGE);
 
-        api.MapPost("/", async (ImageUpload imageUpload, [AsParameters]CommonParameters cp) => await UploadImage.Handle(imageUpload, cp))
+        api.MapPost("/", async (ImageUpload imageUpload, [AsParameters] CommonParameters cp) => await UploadImage.Handle(imageUpload, cp))
             .RequireAuthorization();
 
         return api;
