@@ -1,9 +1,11 @@
-﻿using CookTo.Server.Modules.Recipes.Core;
+﻿using CookTo.DataAccess.Documents.RecipeDocumentAccess;
+using CookTo.DataAccess.Documents.TipDocumentAccess;
 using CookTo.Shared.Modules.ManageCategories;
 using CookTo.Shared.Modules.ManageCuisines;
 using CookTo.Shared.Modules.ManageIngredients;
 using CookTo.Shared.Modules.ManageRecipes;
 using CookTo.Shared.Modules.ManageUtensils;
+using System.Linq;
 
 namespace CookTo.Server.Modules.Recipes.Helpers;
 
@@ -15,8 +17,8 @@ public static class RecipeDocumentToRecipeConverter
         {
             Id = recipe.Id,
             Title = recipe.Title,
-            Cuisine = new Cuisine { Id = recipe.Cuisine.Id, Text = recipe.Cuisine.Text },
-            Category = new Category { Id = recipe.Category.Id, Text = recipe.Category.Text },
+            Cuisine = new Cuisine { Id = recipe.Cuisine.Id, Name = recipe.Cuisine.Name },
+            Category = new Category { Id = recipe.Category.Id, Name = recipe.Category.Name },
             Description = recipe.Description,
             Image = recipe.Image,
             PrepTime = recipe.PrepTime,
@@ -25,39 +27,55 @@ public static class RecipeDocumentToRecipeConverter
             Creator = recipe.Creator,
             AddedBy = recipe.AddedBy,
             Dietaries = recipe.Dietaries,
-            Tips = recipe.Tips,
             Tags = recipe.Tags,
         };
 
         fullRecipe.CookingSteps = ConvertCookingStepDocumentToCookingStep(recipe.CookingSteps);
         fullRecipe.Utensils = ConvertUtensilPartDocumentToUtensilPart(recipe.Utensils);
         fullRecipe.ShoppingItems = ConvertShoppingItemDocumentToShoppingItem(recipe.ShoppingItems);
+        fullRecipe.Tips = ConvertTipDocumentToTip(recipe.Tips);
         return fullRecipe;
+    }
+
+    private static List<Tip> ConvertTipDocumentToTip(List<TipDocument> tips)
+    {
+        var convertedTips = new List<Tip>();
+        if(tips.Count != 0)
+        {
+            convertedTips.AddRange(tips.Select(tip => new Tip { Id = tip.Id, Description = tip.Description }));
+        }
+        return convertedTips;
     }
 
     private static List<ShoppingItem> ConvertShoppingItemDocumentToShoppingItem(List<ShoppingItemDocument> shoppingList)
     {
         var convertedShoppngList = new List<ShoppingItem>();
-        convertedShoppngList.AddRange(shoppingList.Select(item => new ShoppingItem
+        if(shoppingList is not null || shoppingList.Count != 0)
         {
-            Quantity = item.Quantity,
-            Measure = item.Measure,
-            AdditionalInformation = item.AdditionalInformation,
-            Ingredient = new Ingredient { Id = item.Ingredient.Id, Text = item.Ingredient.Text }
-        }));
+            convertedShoppngList.AddRange(shoppingList.Select(item => new ShoppingItem
+                {
+                    Quantity = item.Quantity,
+                    Measure = item.Measure,
+                    AdditionalInformation = item.AdditionalInformation,
+                    Ingredient = new Ingredient { Id = item.Ingredient.Id, Name = item.Ingredient.Name }
+                }));
+        }
         return convertedShoppngList;
     }
 
     private static List<UtensilPart> ConvertUtensilPartDocumentToUtensilPart(List<UtensilPartDocument>? utensils)
     {
         var convertedUtensils = new List<UtensilPart>();
-        foreach (var item in utensils)
+        if(utensils is not null || utensils.Count != 0)
         {
-            convertedUtensils.Add(new UtensilPart
+            foreach(var item in utensils)
             {
-                RequiredAmount = item.RequiredAmount,
-                Utensil = new Utensil { Id = item.Utensil.Id, Text = item.Utensil.Text }
-            });
+                convertedUtensils.Add(new UtensilPart
+                    {
+                        RequiredAmount = item.RequiredAmount,
+                        Utensil = new Utensil { Id = item.Utensil.Id, Name = item.Utensil.Name }
+                    });
+            }
         }
         return convertedUtensils;
     }
@@ -65,14 +83,21 @@ public static class RecipeDocumentToRecipeConverter
     private static List<CookingStep> ConvertCookingStepDocumentToCookingStep(List<CookingStepDocument> steps)
     {
         var convertedSteps = new List<CookingStep>();
-        foreach (var step in steps)
+        if(steps is not null || steps.Count != 0)
         {
-            var cookingStep = new CookingStep { OrderNumber = step.OrderNumber, StepDescription = step.StepDescription };
-            if (step.StepIngredients is not null || step.StepIngredients.Count > 0)
+            foreach(var step in steps)
             {
-                cookingStep.StepIngredients = ConvertStepIngredientDocumentToStepIngredient(step);
+                var cookingStep = new CookingStep
+                {
+                    OrderNumber = step.OrderNumber,
+                    StepDescription = step.StepDescription
+                };
+                if(step.StepIngredients is not null || step.StepIngredients.Count > 0)
+                {
+                    cookingStep.StepIngredients = ConvertStepIngredientDocumentToStepIngredient(step);
+                }
+                convertedSteps.Add(cookingStep);
             }
-            convertedSteps.Add(cookingStep);
         }
         return convertedSteps;
     }
@@ -80,14 +105,17 @@ public static class RecipeDocumentToRecipeConverter
     private static List<StepIngredient> ConvertStepIngredientDocumentToStepIngredient(CookingStepDocument step)
     {
         var ingredients = new List<StepIngredient>();
-        foreach (var ing in step.StepIngredients)
+        if(step is not null && step.StepIngredients.Count != 0)
         {
-            ingredients.Add(new StepIngredient()
+            foreach(var ing in step.StepIngredients)
             {
-                Quantity = ing.Quantity,
-                Measure = ing.Measure,
-                Ingredient = ing.Ingredient
-            });
+                ingredients.Add(new StepIngredient()
+                    {
+                        Quantity = ing.Quantity,
+                        Measure = ing.Measure,
+                        Ingredient = ing.Ingredient
+                    });
+            }
         }
         return ingredients;
     }

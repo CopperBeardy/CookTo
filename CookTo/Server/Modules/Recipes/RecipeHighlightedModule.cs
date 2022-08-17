@@ -1,4 +1,5 @@
-﻿using CookTo.Server.Modules.Recipes.Handlers;
+﻿using CookTo.DataAccess.Documents.RecipeDocumentAccess.Services;
+using CookTo.Server.Modules.Recipes.Handlers;
 using CookTo.Shared;
 
 namespace CookTo.Server.Modules.Recipes;
@@ -9,7 +10,7 @@ public class RecipeHighlightedModule : IModule
     {
         var api = endpoints.MapGroup(EndpointTemplate.HIGHLIGHTED);
 
-        api.MapGet("/", async ([AsParameters] CommonParameters cp) => await GetHighlightedRecipeHandler.Handle(cp));
+        api.MapGet("/", async (IRecipeService service, CancellationToken cancellationToken) => await GetHighlightedRecipe.Handle(service, cancellationToken));
 
         return api;
     }

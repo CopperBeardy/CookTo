@@ -1,5 +1,5 @@
-﻿using CookTo.Server.Modules.Tips.Handlers;
-using CookTo.Server.Modules.Tips.Services;
+﻿using CookTo.DataAccess.Documents.TipDocumentAccess.Services;
+using CookTo.Server.Modules.Tips.Handlers;
 using CookTo.Shared;
 using CookTo.Shared.Modules.ManageRecipes;
 
@@ -10,11 +10,10 @@ public class TipModule : IModule
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
     {
         var api = endpoints.MapGroup(EndpointTemplate.TIP);
-        api.MapGet("/", async ([AsParameters] CommonParameters cp) => await GetAllHandler.Handle(cp));
+        api.MapGet("/", async (ITipService service, CancellationToken cancellationToken) => await GetAll.Handle(service, cancellationToken));
 
-        api.MapGet("/{id}", async (string id, [AsParameters] CommonParameters cp) => await GetByIdHandler.Handle(id, cp));
 
-        api.MapPost("/", async (Tip tip, [AsParameters] CommonParameters cp) => await PostHandler.Handle(tip, cp))
+        api.MapPost("/", async (Tip tip, ITipService service, CancellationToken cancellationToken) => await Post.Handle(tip, service, cancellationToken))
             .RequireAuthorization();
 
         return api;

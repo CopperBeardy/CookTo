@@ -1,5 +1,5 @@
 ﻿using CookTo.Server.Modules.Recipes.Helpers;
-using CookTo.Tests.ModelCreators;
+using CookTo.Tests.Fakes;
 using Xunit;
 
 namespace CookTo.Tests.CookToServerTests.Helpers;
@@ -10,7 +10,7 @@ public class TagHelperTests
     public void GenerateTags_with_Valid_Values()
     {
         //arrange
-        var model = RecipeCreators.ValidModel();
+        var model = new  RecipeFaker().Generate();
 
         //act
         var result = TagHelper.GenerateTags(model.Category, model.Cuisine, model.ShoppingItems);
@@ -18,11 +18,11 @@ public class TagHelperTests
         //Assert
         Assert.NotNull(result);
         Assert.IsType<string>(result);
-        Assert.Contains(model.Category.Text, result);
-        Assert.Contains(model.Cuisine.Text, result);
-        foreach (var item in model.ShoppingItems)
+        Assert.Contains(model.Category.Name, result);
+        Assert.Contains(model.Cuisine.Name, result);
+        foreach(var item in model.ShoppingItems)
         {
-            Assert.Contains(item.Ingredient.Text, result);
+            Assert.Contains(item.Ingredient.Name, result);
         }
     }
 }

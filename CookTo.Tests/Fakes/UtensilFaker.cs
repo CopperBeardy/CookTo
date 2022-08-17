@@ -5,5 +5,5 @@ namespace CookTo.Tests.Fakes;
 
 public class UtensilFaker : Faker<Utensil>
 {
-    public UtensilFaker() { RuleFor(o => o.Text, f => f.Random.Word()); }
+    public UtensilFaker() { RuleFor(o => o.Name, f => f.Random.Word()); }
 }

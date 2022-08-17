@@ -63,11 +63,11 @@ else
             _filteredResults = _searchResults.ToList();
             if (!string.IsNullOrEmpty(filter.Category))
             {
-                _filteredResults = _filteredResults.Where(r => r.Category.Text.Equals(filter.Category)).ToList();
+                _filteredResults = _filteredResults.Where(r => r.Category.Name.Equals(filter.Category)).ToList();
             }
             if (!string.IsNullOrEmpty(filter.Cuisine))
             {
-                _filteredResults = _filteredResults.Where(r => r.Cuisine.Text.Equals(filter.Cuisine)).ToList();
+                _filteredResults = _filteredResults.Where(r => r.Cuisine.Name.Equals(filter.Cuisine)).ToList();
             }
         }
         HandleSortChanged(SortOption);
@@ -87,13 +87,13 @@ else
                     _filteredResults = _filteredResults.OrderByDescending(summary => summary.Title).ToList();
                     break;
                 case SortOptions.CuisineAsc:
-                    _filteredResults = _filteredResults.OrderBy(summary => summary.Cuisine.Text).ToList();
+                    _filteredResults = _filteredResults.OrderBy(summary => summary.Cuisine.Name).ToList();
                     break;
                 case SortOptions.CuisineDesc:
-                    _filteredResults = _filteredResults.OrderByDescending(summary => summary.Cuisine.Text).ToList();
+                    _filteredResults = _filteredResults.OrderByDescending(summary => summary.Cuisine.Name).ToList();
                     break;
                 case SortOptions.CategoryAsc:
-                    _filteredResults = _filteredResults.OrderBy(summary => summary.Category.Text).ToList();
+                    _filteredResults = _filteredResults.OrderBy(summary => summary.Category.Name).ToList();
                     break;
                 case SortOptions.CategoryDesc:
                     _filteredResults = _filteredResults.OrderByDescending(summary => summary.Category).ToList();

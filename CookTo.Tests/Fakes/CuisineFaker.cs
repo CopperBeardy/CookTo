@@ -5,5 +5,5 @@ namespace CookTo.Tests.Fakes;
 
 public class CuisineFaker : Faker<Cuisine>
 {
-    public CuisineFaker() { RuleFor(o => o.Text, f => f.Random.Word()); }
+    public CuisineFaker() { RuleFor(o => o.Name, f => f.Random.Word()); }
 }

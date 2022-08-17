@@ -3,5 +3,5 @@
 public class Utensil
 {
     public string? Id { get; set; }
-    public string Text { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
 }

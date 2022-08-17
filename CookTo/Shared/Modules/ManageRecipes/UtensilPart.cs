@@ -13,12 +13,12 @@ public class UtensilPart
     public override string ToString()
     {
         var sb = new StringBuilder();
-        if (!(RequiredAmount == 1 || RequiredAmount == 0))
+        if(!(RequiredAmount == 1 || RequiredAmount == 0))
         {
             sb.Append(RequiredAmount);
             sb.Append(' ');
         }
-        sb.Append(Utensil.Text);
+        sb.Append(Utensil.Name);
         return sb.ToString();
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Bogus;
-using CookTo.Server.Modules.Tips.Core;
+using CookTo.DataAccess.Documents.TipDocumentAccess;
 
 namespace CookTo.Tests.Fakes;
 

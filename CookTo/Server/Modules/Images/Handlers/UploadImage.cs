@@ -1,4 +1,5 @@
-﻿using CookTo.Shared.Modules.ManageRecipes;
+﻿using CookTo.DataAccess.Documents.RecipeDocumentAccess.Services;
+using CookTo.Shared.Modules.ManageRecipes;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 
@@ -6,13 +7,13 @@ namespace CookTo.Server.Modules.Images.Handlers;
 
 public static class UploadImage
 {
-    public static async Task<IResult> Handle(ImageUpload imageUpload, CommonParameters cp)
+    public static async Task<IResult> Handle(ImageUpload imageUpload, IRecipeService service, CancellationToken cancellationToken)
     {
-        var recipe = await cp.RecipeService.GetByIdAsync(imageUpload.RecipeId, cp.CancellationToken);
-        if (recipe is null)
+        var recipe = await service.GetByIdAsync(imageUpload.RecipeId, cancellationToken);
+        if(recipe is null)
             return Results.BadRequest("Recipe does not exist.");
 
-        if (imageUpload.Image.Length == 0)
+        if(imageUpload.Image.Length == 0)
             return Results.BadRequest("No image found.");
 
         var filename = $"{Guid.NewGuid()}.jpg";
@@ -22,13 +23,13 @@ public static class UploadImage
 
         using var image = Image.Load(imageUpload.Image);
         image.Mutate(x => x.Resize(resizeOptions));
-        await image.SaveAsJpegAsync(saveLocation, cp.CancellationToken);
+        await image.SaveAsJpegAsync(saveLocation, cancellationToken);
 
-        if (!string.IsNullOrWhiteSpace(recipe.Image))
+        if(!string.IsNullOrWhiteSpace(recipe.Image))
             File.Delete(Path.Combine(Directory.GetCurrentDirectory(), "Images", recipe.Image));
 
         recipe.Image = filename;
-        await cp.RecipeService.UpdateAsync(recipe, cp.CancellationToken);
+        await service.UpdateAsync(recipe, cancellationToken);
 
         return Results.Ok(recipe.Image);
     }

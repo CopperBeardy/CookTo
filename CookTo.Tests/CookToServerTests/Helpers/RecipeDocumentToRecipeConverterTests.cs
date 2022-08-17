@@ -1,6 +1,6 @@
 ﻿using CookTo.Server.Modules.Recipes.Helpers;
 using CookTo.Shared.Modules.ManageRecipes;
-using CookTo.Tests.ModelCreators;
+using CookTo.Tests.Fakes;
 using System;
 using Xunit;
 
@@ -12,7 +12,7 @@ public class RecipeDocumentToRecipeConverterTests
     public void Convert_RecipeDocument_To_FullRecipe_With_Valid_InputModel()
     {
         //Arrange
-        var input = RecipeDocumentCreators.ValidModel();
+        var input = new RecipeDocumentFaker().Generate();
 
         //Act 
         var result = RecipeDocumentToRecipeConverter.Convert(input);
@@ -27,7 +27,8 @@ public class RecipeDocumentToRecipeConverterTests
     public void Convert_RecipeDocument_To_FullRecipe_With_NullValuedModel_InputModel()
     {
         //Arrange
-        var input = RecipeDocumentCreators.NulledValuedModel();
+        var input = new RecipeDocumentFaker().Generate();
+        input.CookingSteps = null;
 
         //Act   //Assert
         Exception ex = Assert.Throws<NullReferenceException>(() => RecipeDocumentToRecipeConverter.Convert(input));

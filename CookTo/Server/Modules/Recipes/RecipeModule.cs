@@ -1,5 +1,5 @@
+using CookTo.DataAccess.Documents.RecipeDocumentAccess.Services;
 using CookTo.Server.Modules.Recipes.Handlers;
-using CookTo.Server.Modules.Recipes.Services;
 using CookTo.Shared;
 using CookTo.Shared.Modules.ManageRecipes;
 using Microsoft.Identity.Web;
@@ -12,19 +12,19 @@ public class RecipeModule : IModule
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
     {
         var api = endpoints.MapGroup(EndpointTemplate.RECIPE);
-        api.MapGet("/{id}", async (string id, [AsParameters] CommonParameters cp) => await GetByIdHandler.Handle(id, cp));
+        api.MapGet("/{id}", async (string id, IRecipeService service, CancellationToken cancellationToken) => await GetById.Handle(id, service, cancellationToken));
 
-        api.MapPost("/", async (Recipe recipe, HttpContext context, [AsParameters] CommonParameters cp) =>
+        api.MapPost("/", async (Recipe recipe, HttpContext context, IRecipeService service, CancellationToken cancellationToken) =>
         {
             recipe.AddedBy = context.User.Claims.First(t => t.Type == ClaimConstants.Name).Value.ToString();
-            return await PostHandler.Handle(recipe, cp);
+            return await Post.Handle(recipe, service, cancellationToken);
         })
             .RequireAuthorization();
 
-        api.MapPut("/", async (Recipe recipe, [AsParameters] CommonParameters cp) => await PutHandler.Handle(recipe, cp))
+        api.MapPut("/", async (Recipe recipe, IRecipeService service, CancellationToken cancellationToken) => await Put.Handle(recipe, service, cancellationToken))
             .RequireAuthorization();
 
-        api.MapDelete("/{id}", async (string id, [AsParameters] CommonParameters cp) => await DeleteHandler.Handle(id, cp))
+        api.MapDelete("/{id}", async (string id, IRecipeService service, CancellationToken cancellationToken) => await Delete.Handle(id, service, cancellationToken))
             .RequireAuthorization();
 
         return api;

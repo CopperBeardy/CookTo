@@ -1,3 +1,4 @@
+using CookTo.DataAccess.Documents.RecipeDocumentAccess.Services;
 using CookTo.Server.Modules.Images.Handlers;
 using CookTo.Shared;
 using CookTo.Shared.Modules.ManageRecipes;
@@ -11,7 +12,7 @@ public class UploadImageModule : IModule
     {
         var api = endpoints.MapGroup(EndpointTemplate.UPLOADIMAGE);
 
-        api.MapPost("/", async (ImageUpload imageUpload, [AsParameters] CommonParameters cp) => await UploadImage.Handle(imageUpload, cp))
+        api.MapPost("/", async (ImageUpload imageUpload, IRecipeService service, CancellationToken cancellationToken) => await UploadImage.Handle(imageUpload, service, cancellationToken))
             .RequireAuthorization();
 
         return api;

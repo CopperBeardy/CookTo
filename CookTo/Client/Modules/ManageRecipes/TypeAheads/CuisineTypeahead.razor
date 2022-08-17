@@ -12,10 +12,10 @@
                        EnableDropDown="false"
                        AddItemOnEmptyResultMethod="HandleAdd">
         <SelectedTemplate Context="cuisine">
-         <span role="menuitem">@cuisine.Text</span> 
+         <span role="menuitem">@cuisine.Name</span> 
         </SelectedTemplate>
         <ResultTemplate Context="cuisine">
-            @cuisine.Text
+            @cuisine.Name
         </ResultTemplate>
         <NotFoundTemplate Context="searchText">
             <span role="menuitem">Add "@searchText" as a new Cuisine <br />
@@ -35,11 +35,11 @@
         Cuisines = await Manager.GetAll();
     }
 
-        private async Task<IEnumerable<Cuisine>> SearchItems(string searchText) => await Task.FromResult(Cuisines.Where(x => x.Text.ToLower().Contains(searchText.ToLower())).ToList());
+        private async Task<IEnumerable<Cuisine>> SearchItems(string searchText) => await Task.FromResult(Cuisines.Where(x => x.Name.ToLower().Contains(searchText.ToLower())).ToList());
 
         private async Task<Cuisine> HandleAdd(string searchAdd)
         {
-            var result = await Manager.Insert(new Cuisine() { Text = searchAdd.ToLower() });
+            var result = await Manager.Insert(new Cuisine() { Name = searchAdd.ToLower() });
             if (result is null) return null;
 
         Cuisines.Add(result);

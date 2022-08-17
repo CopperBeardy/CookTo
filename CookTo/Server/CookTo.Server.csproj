@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+	<ProjectReference Include="..\..\CookTo.DataAccess\CookTo.DataAccess.csproj" />
 	<ProjectReference Include="..\Client\CookTo.Client.csproj" />
 	<ProjectReference Include="..\Shared\CookTo.Shared.csproj" />
   </ItemGroup>
