@@ -8,12 +8,15 @@ using MongoDB.Driver;
 
 namespace CookTo.DataAccess.DbContext;
 
-public class CookToDbContext : ICookToDbContext
+public class CookToSeederDbContext : ICookToSeederDbContext
 {
     private readonly MongoClient client;
-    private readonly IMongoDatabase db;
 
-    public CookToDbContext(IOptions<MongoSettings> configuration)
+    public IClientSessionHandle? Session { get; set; }
+
+    public IMongoDatabase db { get; set; }
+
+    public CookToSeederDbContext(IOptions<MongoSettings> configuration)
     {
         //client = new MongoClient(configuration.Value.Connection);
         //db = client.GetDatabase(configuration.Value.Database);

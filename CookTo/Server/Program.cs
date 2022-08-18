@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi.Writers;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +27,7 @@ builder.Services
         });
 
 builder.Services.AddScoped<ICookToDbContext, CookToDbContext>();
+builder.Services.AddScoped<ICookToSeederDbContext, CookToSeederDbContext>();
 
 builder.Services
     .AddCors(
@@ -42,7 +44,7 @@ builder.Services
 
 builder.Services.RegisterModules();
 
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+//builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddRazorPages();
 
@@ -60,7 +62,11 @@ if(app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+using(var scope = app.Services.CreateScope())
+{
+    var dbSeeder = scope.ServiceProvider.GetRequiredService<ICookToSeederDbContext>();
+    dbSeeder.HasSeeded(dbSeeder.db);
+}
 
 app.MapEndpoints();
 app.UseHttpsRedirection();
