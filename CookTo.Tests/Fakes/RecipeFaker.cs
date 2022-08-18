@@ -10,6 +10,7 @@ public class RecipeFaker : Faker<Recipe>
 {
     public RecipeFaker()
     {
+        RuleFor(o => o.Id, f => f.Random.Guid().ToString());
         RuleFor(o => o.Title, f => f.Random.Word());
         RuleFor(o => o.Cuisine, new CuisineFaker().Generate());
         RuleFor(o => o.Category, new CategoryFaker().Generate());

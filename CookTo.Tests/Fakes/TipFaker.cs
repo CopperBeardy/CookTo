@@ -5,5 +5,9 @@ namespace CookTo.Tests.Fakes;
 
 public class TipFaker : Faker<Tip>
 {
-    public TipFaker() { RuleFor(o => o.Description, f => f.Lorem.Sentence()); }
+    public TipFaker()
+    {
+        RuleFor(o => o.Id, f => f.Random.Guid().ToString());
+        RuleFor(o => o.Description, f => f.Lorem.Sentence());
+    }
 }

@@ -27,7 +27,7 @@ builder.Services
         });
 
 builder.Services.AddScoped<ICookToDbContext, CookToDbContext>();
-builder.Services.AddScoped<ICookToSeederDbContext, CookToSeederDbContext>();
+
 
 builder.Services
     .AddCors(
@@ -62,11 +62,7 @@ if(app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-using(var scope = app.Services.CreateScope())
-{
-    var dbSeeder = scope.ServiceProvider.GetRequiredService<ICookToSeederDbContext>();
-    dbSeeder.HasSeeded(dbSeeder.db);
-}
+
 
 app.MapEndpoints();
 app.UseHttpsRedirection();

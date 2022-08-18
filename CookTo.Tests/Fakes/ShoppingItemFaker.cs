@@ -11,6 +11,5 @@ public class ShoppingItemFaker : Faker<ShoppingItem>
         RuleFor(o => o.Measure, f => f.PickRandom(SharedGenerators.Measures));
         RuleFor(o => o.Ingredient, new IngredientFaker().Generate());
         RuleFor(o => o.AdditionalInformation, f => f.Random.Words());
-        ;
     }
 }
