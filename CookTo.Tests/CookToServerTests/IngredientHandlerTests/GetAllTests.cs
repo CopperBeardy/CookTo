@@ -3,7 +3,9 @@ using CookTo.DataAccess.Documents.IngredientDocumentAccess.Services;
 using CookTo.Server.Modules.Ingredients;
 using CookTo.Shared.Modules.ManageIngredients;
 using CookTo.Tests.Fakes;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Moq;
+using NuGet.Frameworks;
 using System.Collections.Generic;
 using System.Threading;
 using Xunit;
@@ -26,9 +28,7 @@ public class GetAllTests
         var response = await IngredientModule.GetAllIngredients(ingredientServiceMock.Object, new CancellationToken());
 
         //Assert
-        //  var result = response.
-
-        var value = Assert.IsAssignableFrom<List<Ingredient>>(response);
-        // Assert.NotNull(response);
+        var returnItems = Assert.IsType<Ok<List<Ingredient>>>(response).Value;
+        Assert.Equal(fakes.Count, returnItems.Count);
     }
 }

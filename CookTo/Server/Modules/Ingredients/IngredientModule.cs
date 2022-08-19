@@ -15,23 +15,23 @@ public class IngredientModule : IModule
         return api;
     }
 
-    internal static async Task<List<Ingredient>> GetAllIngredients(IIngredientService service, CancellationToken cancellationToken)
+    internal static async Task<IResult> GetAllIngredients(IIngredientService service, CancellationToken cancellationToken)
     {
         var entites = await service.GetAllAsync(cancellationToken);
         var ingredients = new List<Ingredient>();
 
-        if (entites is not null || entites.Any())
+        if(entites is not null || entites.Any())
             ingredients.AddRange(entites.Select(c => new Ingredient { Id = c.Id, Name = c.Name }));
 
-        return ingredients;
+        return TypedResults.Ok( ingredients);
     }
 
-    internal static async Task<Ingredient> PostIngredient(Ingredient category, IIngredientService service, CancellationToken cancellationToken)
+    internal static async Task<IResult> PostIngredient(Ingredient category, IIngredientService service, CancellationToken cancellationToken)
     {
         var newIngredient = new IngredientDocument() { Name = category.Name };
         await service.CreateAsync(newIngredient, cancellationToken);
-
-        return new Ingredient { Id = newIngredient.Id, Name = newIngredient.Name };
+        var response = new Ingredient { Id = newIngredient.Id, Name = newIngredient.Name };
+        return TypedResults.Ok(response);
     }
 
 

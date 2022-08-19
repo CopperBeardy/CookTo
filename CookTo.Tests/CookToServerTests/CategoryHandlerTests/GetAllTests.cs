@@ -4,6 +4,7 @@ using CookTo.DataAccess.Documents.CategoryDocumentAccess.Services;
 using CookTo.Server.Modules.Categories;
 using CookTo.Shared.Modules.ManageCategories;
 using CookTo.Tests.Fakes;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Moq;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,9 +29,11 @@ public class GetAllTests
         var response = await CategoryModule.GetAllCategories(categoryServiceMock.Object, new CancellationToken());
 
         //Assert
-        Assert.NotNull(response);
-        Assert.IsAssignableFrom<List<Category>>(response);
-        Assert.Equal(fakes.Count, response.Count);
+
+        var returnedItems = Assert.IsType<Ok<List<Category>>>(response).Value;
+        Assert.NotNull(returnedItems);
+        Assert.IsAssignableFrom<List<Category>>(returnedItems);
+        Assert.Equal(fakes.Count, returnedItems.Count);
     }
 
     [Fact]
@@ -47,7 +50,8 @@ public class GetAllTests
 
         //Assert
         Assert.NotNull(response);
-        Assert.IsAssignableFrom<List<Category>>(response);
-        Assert.Equal(0, response.Count);
+        var returnedItems = Assert.IsType<Ok<List<Category>>>(response).Value;
+
+        Assert.Equal(0, returnedItems.Count);
     }
 }

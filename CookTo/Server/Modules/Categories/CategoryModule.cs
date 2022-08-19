@@ -17,23 +17,23 @@ public partial class CategoryModule : IModule
         return api;
     }
 
-    internal static async Task<List<Category>> GetAllCategories(ICategoryService service, CancellationToken cancellationToken)
+    internal static async Task<IResult> GetAllCategories(ICategoryService service, CancellationToken cancellationToken)
     {
         var entites = await service.GetAllAsync(cancellationToken);
-        var categories = new List<Category>();
+        var response = new List<Category>();
 
         if (entites is not null || entites.Any())
-            categories.AddRange(entites.Select(c => new Category { Id = c.Id, Name = c.Name }));
+            response.AddRange(entites.Select(c => new Category { Id = c.Id, Name = c.Name }));
 
-        return categories;
+        return TypedResults.Ok( response);
     }
 
-    internal static async Task<Category> PostCategory(Category category, ICategoryService service, CancellationToken cancellationToken)
+    internal static async Task<IResult> PostCategory(Category category, ICategoryService service, CancellationToken cancellationToken)
     {
         var newCategory = new CategoryDocument() { Name = category.Name };
         await service.CreateAsync(newCategory, cancellationToken);
-
-        return new Category { Id = newCategory.Id, Name = newCategory.Name };
+        var response = new Category { Id = newCategory.Id, Name = newCategory.Name };
+        return  TypedResults.Ok(response);
     }
 
 

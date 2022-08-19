@@ -16,23 +16,23 @@ public class TipModule : IModule
         return api;
     }
 
-    internal static async Task<List<Tip>> GetAllTips(ITipService service, CancellationToken cancellationToken)
+    internal static async Task<IResult> GetAllTips(ITipService service, CancellationToken cancellationToken)
     {
         var entites = await service.GetAllAsync(cancellationToken);
-        var tips = new List<Tip>();
+        var response = new List<Tip>();
 
-        if (entites is not null || entites.Any())
-            tips.AddRange(entites.Select(c => new Tip { Id = c.Id, Description = c.Description }));
+        if(entites is not null || entites.Any())
+            response.AddRange(entites.Select(c => new Tip { Id = c.Id, Description = c.Description }));
 
-        return tips;
+        return TypedResults.Ok(response);
     }
 
-    internal static async Task<Tip> PostTip(Tip category, ITipService service, CancellationToken cancellationToken)
+    internal static async Task<IResult> PostTip(Tip category, ITipService service, CancellationToken cancellationToken)
     {
         var newTip = new TipDocument() { Description = category.Description };
         await service.CreateAsync(newTip, cancellationToken);
-
-        return new Tip { Id = newTip.Id, Description = newTip.Description };
+        var response = new Tip { Id = newTip.Id, Description = newTip.Description };
+        return TypedResults.Ok(response);
     }
 
 

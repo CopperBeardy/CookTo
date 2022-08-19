@@ -3,8 +3,10 @@ using CookTo.DataAccess.Documents.CategoryDocumentAccess.Services;
 using CookTo.Server.Modules.Categories;
 using CookTo.Shared.Modules.ManageCategories;
 using CookTo.Tests.Fakes;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Moq;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using Xunit;
 
@@ -31,7 +33,8 @@ public class PostTests
 
         //Assert
         Assert.NotNull(response);
-        Assert.IsAssignableFrom<Category>(response);
-        Assert.Equal(fakeCategory.Name, response.Name);
+        var returnedItem = Assert.IsType<Ok<Category>>(response).Value;
+        Assert.IsAssignableFrom<Category>(returnedItem);
+        Assert.Equal(fakeCategory.Name, returnedItem.Name);
     }
 }

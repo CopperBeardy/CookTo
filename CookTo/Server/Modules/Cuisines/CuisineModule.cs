@@ -19,23 +19,23 @@ public class CuisineModule : IModule
         return api;
     }
 
-    internal static async Task<List<Cuisine>> GetAllCuisines(ICuisineService service, CancellationToken cancellationToken)
+    internal static async Task<IResult> GetAllCuisines(ICuisineService service, CancellationToken cancellationToken)
     {
         var entites = await service.GetAllAsync(cancellationToken);
-        var cuisines = new List<Cuisine>();
+        var response = new List<Cuisine>();
 
-        if (entites is not null || entites.Any())
-            cuisines.AddRange(entites.Select(c => new Cuisine { Id = c.Id, Name = c.Name }));
+        if(entites is not null || entites.Any())
+            response.AddRange(entites.Select(c => new Cuisine { Id = c.Id, Name = c.Name }));
 
-        return cuisines;
+        return TypedResults.Ok(response);
     }
 
-    internal static async Task<Cuisine> PostCuisine(Cuisine category, ICuisineService service, CancellationToken cancellationToken)
+    internal static async Task<IResult> PostCuisine(Cuisine category, ICuisineService service, CancellationToken cancellationToken)
     {
         var newCuisine = new CuisineDocument() { Name = category.Name };
         await service.CreateAsync(newCuisine, cancellationToken);
-
-        return new Cuisine { Id = newCuisine.Id, Name = newCuisine.Name };
+        var response = new Cuisine { Id = newCuisine.Id, Name = newCuisine.Name };
+        return TypedResults.Ok(response);
     }
 
     public IServiceCollection RegisterModule(IServiceCollection services)

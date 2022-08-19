@@ -16,23 +16,23 @@ public class UtensilModule : IModule
         return api;
     }
 
-    internal static async Task<List<Utensil>> GetAllUtensils(IUtensilService service, CancellationToken cancellationToken)
+    internal static async Task<IResult> GetAllUtensils(IUtensilService service, CancellationToken cancellationToken)
     {
         var entites = await service.GetAllAsync(cancellationToken);
-        var utensils = new List<Utensil>();
+        var response = new List<Utensil>();
 
         if(entites is not null || entites.Any())
-            utensils.AddRange(entites.Select(c => new Utensil { Id = c.Id, Name = c.Name }));
+            response.AddRange(entites.Select(c => new Utensil { Id = c.Id, Name = c.Name }));
 
-        return utensils;
+        return TypedResults.Ok(response);
     }
 
-    internal static async Task<Utensil> PostUtensil(Utensil category, IUtensilService service, CancellationToken cancellationToken)
+    internal static async Task<IResult> PostUtensil(Utensil category, IUtensilService service, CancellationToken cancellationToken)
     {
         var newUtensil = new UtensilDocument() { Name = category.Name };
         await service.CreateAsync(newUtensil, cancellationToken);
-
-        return new Utensil { Id = newUtensil.Id, Name = newUtensil.Name };
+        var response = new Utensil { Id = newUtensil.Id, Name = newUtensil.Name };
+        return TypedResults.Ok(response);
     }
 
 

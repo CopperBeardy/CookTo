@@ -2,10 +2,13 @@
 using CookTo.DataAccess.Documents.RecipeDocumentAccess;
 using CookTo.DataAccess.Documents.RecipeDocumentAccess.Services;
 using CookTo.Server.Modules.Recipes.Handlers;
+using CookTo.Shared.Modules.ManageCategories;
 using CookTo.Shared.Modules.ManageRecipes;
 using CookTo.Tests.Fakes;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Moq;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using Xunit;
 
@@ -27,6 +30,7 @@ public class GetCompleteRecipeTests
 
         // Assert
         Assert.NotNull(response);
+
         Assert.IsAssignableFrom<Recipe>(response);
     }
 
