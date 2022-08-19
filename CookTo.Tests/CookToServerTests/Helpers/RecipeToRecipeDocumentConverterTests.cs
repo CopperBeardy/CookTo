@@ -1,6 +1,5 @@
 ﻿using CookTo.DataAccess.Documents.RecipeDocumentAccess;
 using CookTo.Server.Modules.Recipes.Helpers;
-using CookTo.Shared.Modules.ManageRecipes;
 using CookTo.Tests.Fakes;
 using Xunit;
 

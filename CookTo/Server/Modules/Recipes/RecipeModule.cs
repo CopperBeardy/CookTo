@@ -1,7 +1,5 @@
-using CookTo.DataAccess.Documents.RecipeDocumentAccess;
 using CookTo.DataAccess.Documents.RecipeDocumentAccess.Services;
 using CookTo.Server.Modules.Recipes.Handlers;
-using CookTo.Server.Modules.Recipes.Helpers;
 using CookTo.Shared;
 using CookTo.Shared.Modules.ManageRecipes;
 using Microsoft.Identity.Web;
@@ -17,7 +15,7 @@ public class RecipeModule : IModule
         api.MapGet("/{id}", async (string id, IRecipeService service, CancellationToken cancellationToken) =>
         {
             var response = await GetById.Handle(id, service, cancellationToken);
-            if(response is null)
+            if (response is null)
                 return Results.NotFound(ErrorMessage<Recipe>.ItemNotFound(id));
             return Results.Ok(response);
         });
@@ -36,7 +34,7 @@ public class RecipeModule : IModule
         {
             var response = await Put.Handle(recipe, service, cancellationToken);
 
-            if(response is null)
+            if (response is null)
                 return Results.NotFound(ErrorMessage<Recipe>.ItemNotFound(recipe.Id));
 
             return Results.NoContent();

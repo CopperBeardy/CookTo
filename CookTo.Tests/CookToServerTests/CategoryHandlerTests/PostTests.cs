@@ -1,16 +1,11 @@
 ﻿using CookTo.DataAccess.Documents.CategoryDocumentAccess;
 using CookTo.DataAccess.Documents.CategoryDocumentAccess.Services;
-using CookTo.Server.Modules.Categories.Handlers;
+using CookTo.Server.Modules.Categories;
 using CookTo.Shared.Modules.ManageCategories;
 using CookTo.Tests.Fakes;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace CookTo.Tests.CookToServerTests.CategoryHandlerTests;
@@ -32,7 +27,7 @@ public class PostTests
             });
 
         //Act
-        var response = await Post.Handle(fakeCategory, categoryServiceMock.Object, new CancellationToken());
+        var response = await CategoryModule.PostCategory(fakeCategory, categoryServiceMock.Object, new CancellationToken());
 
         //Assert
         Assert.NotNull(response);

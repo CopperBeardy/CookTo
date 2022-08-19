@@ -40,25 +40,25 @@ public static class RecipeToRecipeDocumentConverter
     {
         var convertedShoppngList = new List<ShoppingItemDocument>();
         convertedShoppngList.AddRange(shoppingList.Select(item => new ShoppingItemDocument
-            {
-                Quantity = item.Quantity,
-                Measure = item.Measure,
-                AdditionalInformation = item.AdditionalInformation,
-                Ingredient = new IngredientDocument { Id = item.Ingredient.Id, Name = item.Ingredient.Name }
-            }));
+        {
+            Quantity = item.Quantity,
+            Measure = item.Measure,
+            AdditionalInformation = item.AdditionalInformation,
+            Ingredient = new IngredientDocument { Id = item.Ingredient.Id, Name = item.Ingredient.Name }
+        }));
         return convertedShoppngList;
     }
 
     private static List<UtensilPartDocument> ConvertUtensilPartToUtensilPartDocument(List<UtensilPart> utensils)
     {
         var convertedUtensils = new List<UtensilPartDocument>();
-        foreach(var item in utensils)
+        foreach (var item in utensils)
         {
             convertedUtensils.Add(new UtensilPartDocument
-                {
-                    RequiredAmount = item.RequiredAmount,
-                    Utensil = new UtensilDocument { Id = item.Utensil.Id, Name = item.Utensil.Name }
-                });
+            {
+                RequiredAmount = item.RequiredAmount,
+                Utensil = new UtensilDocument { Id = item.Utensil.Id, Name = item.Utensil.Name }
+            });
         }
         return convertedUtensils;
     }
@@ -66,14 +66,14 @@ public static class RecipeToRecipeDocumentConverter
     private static List<CookingStepDocument> ConvertCookingStepToCookingStepDocument(List<CookingStep> steps)
     {
         var convertedSteps = new List<CookingStepDocument>();
-        foreach(var step in steps)
+        foreach (var step in steps)
         {
             var cookingStep = new CookingStepDocument
             {
                 OrderNumber = step.OrderNumber,
                 StepDescription = step.StepDescription
             };
-            if(step.StepIngredients is not null || step.StepIngredients.Count > 0)
+            if (step.StepIngredients is not null || step.StepIngredients.Count > 0)
             {
                 cookingStep.StepIngredients = ConvertStepIngredientToStepIngredientDocument(step);
             }
@@ -85,14 +85,14 @@ public static class RecipeToRecipeDocumentConverter
     private static List<StepIngredientDocument> ConvertStepIngredientToStepIngredientDocument(CookingStep step)
     {
         var ingredients = new List<StepIngredientDocument>();
-        foreach(var ing in step.StepIngredients)
+        foreach (var ing in step.StepIngredients)
         {
             ingredients.Add(new StepIngredientDocument()
-                {
-                    Quantity = ing.Quantity,
-                    Measure = ing.Measure,
-                    Ingredient = ing.Ingredient
-                });
+            {
+                Quantity = ing.Quantity,
+                Measure = ing.Measure,
+                Ingredient = ing.Ingredient
+            });
         }
         return ingredients;
     }

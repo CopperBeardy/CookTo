@@ -12,7 +12,7 @@ public static class Post
         var entity = RecipeToRecipeDocumentConverter.Convert(recipe);
         await service.CreateAsync(entity, cancellationToken);
 
-        return  RecipeDocumentToRecipeConverter.Convert(entity);
+        return RecipeDocumentToRecipeConverter.Convert(entity);
     }
 }
 

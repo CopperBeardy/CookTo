@@ -24,7 +24,7 @@ public static class TagHelper
     private static List<string> GetIngredients(List<ShoppingItem> ShoppingList)
     {
         List<string> ingredients = new List<string>();
-        foreach(var item in ShoppingList)
+        foreach (var item in ShoppingList)
         {
             ingredients.Add(item.Ingredient.Name);
         }

@@ -2,9 +2,6 @@
 using CookTo.Shared.Enums;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CookTo.Tests.Fakes;
 
@@ -19,7 +16,7 @@ public static class SharedGenerators
 
         var listItem = new List<string>();
 
-        for(int i = 0; i < count; i++)
+        for (int i = 0; i < count; i++)
         {
             listItem.Add(new Faker().PickRandom(items));
         }
@@ -32,9 +29,9 @@ public static class SharedGenerators
         var count = new Random().Next(0, 3);
 
         var dietaries = new List<Dietary>();
-        if(count != 0)
+        if (count != 0)
         {
-            for(int i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
                 dietaries.Add(new Faker().PickRandom<Dietary>());
             }

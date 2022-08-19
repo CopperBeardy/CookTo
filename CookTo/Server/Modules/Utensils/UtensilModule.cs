@@ -1,6 +1,5 @@
-using AutoMapper;
+using CookTo.DataAccess.Documents.UtensilDocumentAccess;
 using CookTo.DataAccess.Documents.UtensilDocumentAccess.Services;
-using CookTo.Server.Modules.Utensils.Handlers;
 using CookTo.Shared;
 using CookTo.Shared.Modules.ManageUtensils;
 
@@ -11,20 +10,31 @@ public class UtensilModule : IModule
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
     {
         var api = endpoints.MapGroup(EndpointTemplate.UTENSIL);
-        api.MapGet(   "/", async (IUtensilService service, CancellationToken cancellationToken) =>
-        {
-            var response = await GetAll.Handle(service, cancellationToken);
-            return Results.Ok(response);
-        });
-        api.MapPost( "/", async (Utensil utensil, IUtensilService service, CancellationToken cancellationToken) =>
-        {
-            var response = await Post.Handle(utensil, service, cancellationToken);
-            return Results.Ok(response);
-        })
-            .RequireAuthorization();
+        api.MapGet("/", GetAllUtensils);
+        api.MapPost("/", PostUtensil).RequireAuthorization();
 
         return api;
     }
+
+    internal static async Task<List<Utensil>> GetAllUtensils(IUtensilService service, CancellationToken cancellationToken)
+    {
+        var entites = await service.GetAllAsync(cancellationToken);
+        var utensils = new List<Utensil>();
+
+        if(entites is not null || entites.Any())
+            utensils.AddRange(entites.Select(c => new Utensil { Id = c.Id, Name = c.Name }));
+
+        return utensils;
+    }
+
+    internal static async Task<Utensil> PostUtensil(Utensil category, IUtensilService service, CancellationToken cancellationToken)
+    {
+        var newUtensil = new UtensilDocument() { Name = category.Name };
+        await service.CreateAsync(newUtensil, cancellationToken);
+
+        return new Utensil { Id = newUtensil.Id, Name = newUtensil.Name };
+    }
+
 
     public IServiceCollection RegisterModule(IServiceCollection services)
     {

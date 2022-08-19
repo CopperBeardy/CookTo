@@ -6,11 +6,7 @@ using CookTo.Shared.Modules.ManageRecipes;
 using CookTo.Tests.Fakes;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace CookTo.Tests.CookToServerTests.RecipeHandlerTests;
@@ -52,8 +48,8 @@ public class GetCompleteRecipeTests
 
     //dietaries populate and empty
     //cooking step with and without ingredients
-        //stepingredient with and without quantity and measure 
+    //stepingredient with and without quantity and measure 
     //utensil must have atleast 1 item 
     //shopping list must have atleast 1 item
-         //shopping list items with and without - quantity, measure or additional information
+    //shopping list items with and without - quantity, measure or additional information
 }

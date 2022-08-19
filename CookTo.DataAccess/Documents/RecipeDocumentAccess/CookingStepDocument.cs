@@ -1,6 +1,4 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-
-namespace CookTo.DataAccess.Documents.RecipeDocumentAccess;
+﻿namespace CookTo.DataAccess.Documents.RecipeDocumentAccess;
 
 
 public class CookingStepDocument

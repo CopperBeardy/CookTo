@@ -5,7 +5,6 @@ using CookTo.Shared.Modules.ManageCuisines;
 using CookTo.Shared.Modules.ManageIngredients;
 using CookTo.Shared.Modules.ManageRecipes;
 using CookTo.Shared.Modules.ManageUtensils;
-using System.Linq;
 
 namespace CookTo.Server.Modules.Recipes.Helpers;
 
@@ -40,7 +39,7 @@ public static class RecipeDocumentToRecipeConverter
     private static List<Tip> ConvertTipDocumentToTip(List<TipDocument> tips)
     {
         var convertedTips = new List<Tip>();
-        if(tips.Count != 0)
+        if (tips.Count != 0)
         {
             convertedTips.AddRange(tips.Select(tip => new Tip { Id = tip.Id, Description = tip.Description }));
         }
@@ -50,15 +49,15 @@ public static class RecipeDocumentToRecipeConverter
     private static List<ShoppingItem> ConvertShoppingItemDocumentToShoppingItem(List<ShoppingItemDocument> shoppingList)
     {
         var convertedShoppngList = new List<ShoppingItem>();
-        if(shoppingList is not null || shoppingList.Count != 0)
+        if (shoppingList is not null || shoppingList.Count != 0)
         {
             convertedShoppngList.AddRange(shoppingList.Select(item => new ShoppingItem
-                {
-                    Quantity = item.Quantity,
-                    Measure = item.Measure,
-                    AdditionalInformation = item.AdditionalInformation,
-                    Ingredient = new Ingredient { Id = item.Ingredient.Id, Name = item.Ingredient.Name }
-                }));
+            {
+                Quantity = item.Quantity,
+                Measure = item.Measure,
+                AdditionalInformation = item.AdditionalInformation,
+                Ingredient = new Ingredient { Id = item.Ingredient.Id, Name = item.Ingredient.Name }
+            }));
         }
         return convertedShoppngList;
     }
@@ -66,15 +65,15 @@ public static class RecipeDocumentToRecipeConverter
     private static List<UtensilPart> ConvertUtensilPartDocumentToUtensilPart(List<UtensilPartDocument>? utensils)
     {
         var convertedUtensils = new List<UtensilPart>();
-        if(utensils is not null || utensils.Count != 0)
+        if (utensils is not null || utensils.Count != 0)
         {
-            foreach(var item in utensils)
+            foreach (var item in utensils)
             {
                 convertedUtensils.Add(new UtensilPart
-                    {
-                        RequiredAmount = item.RequiredAmount,
-                        Utensil = new Utensil { Id = item.Utensil.Id, Name = item.Utensil.Name }
-                    });
+                {
+                    RequiredAmount = item.RequiredAmount,
+                    Utensil = new Utensil { Id = item.Utensil.Id, Name = item.Utensil.Name }
+                });
             }
         }
         return convertedUtensils;
@@ -83,16 +82,16 @@ public static class RecipeDocumentToRecipeConverter
     private static List<CookingStep> ConvertCookingStepDocumentToCookingStep(List<CookingStepDocument> steps)
     {
         var convertedSteps = new List<CookingStep>();
-        if(steps is not null || steps.Count != 0)
+        if (steps is not null || steps.Count != 0)
         {
-            foreach(var step in steps)
+            foreach (var step in steps)
             {
                 var cookingStep = new CookingStep
                 {
                     OrderNumber = step.OrderNumber,
                     StepDescription = step.StepDescription
                 };
-                if(step.StepIngredients is not null || step.StepIngredients.Count > 0)
+                if (step.StepIngredients is not null || step.StepIngredients.Count > 0)
                 {
                     cookingStep.StepIngredients = ConvertStepIngredientDocumentToStepIngredient(step);
                 }
@@ -105,16 +104,16 @@ public static class RecipeDocumentToRecipeConverter
     private static List<StepIngredient> ConvertStepIngredientDocumentToStepIngredient(CookingStepDocument step)
     {
         var ingredients = new List<StepIngredient>();
-        if(step is not null && step.StepIngredients.Count != 0)
+        if (step is not null && step.StepIngredients.Count != 0)
         {
-            foreach(var ing in step.StepIngredients)
+            foreach (var ing in step.StepIngredients)
             {
                 ingredients.Add(new StepIngredient()
-                    {
-                        Quantity = ing.Quantity,
-                        Measure = ing.Measure,
-                        Ingredient = ing.Ingredient
-                    });
+                {
+                    Quantity = ing.Quantity,
+                    Measure = ing.Measure,
+                    Ingredient = ing.Ingredient
+                });
             }
         }
         return ingredients;

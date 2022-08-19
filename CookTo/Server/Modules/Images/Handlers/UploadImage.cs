@@ -10,10 +10,10 @@ public static class UploadImage
     public static async Task<IResult> Handle(ImageUpload imageUpload, IRecipeService service, CancellationToken cancellationToken)
     {
         var recipe = await service.GetByIdAsync(imageUpload.RecipeId, cancellationToken);
-        if(recipe is null)
+        if (recipe is null)
             return Results.BadRequest("Recipe does not exist.");
 
-        if(imageUpload.Image.Length == 0)
+        if (imageUpload.Image.Length == 0)
             return Results.BadRequest("No image found.");
 
         var filename = $"{Guid.NewGuid()}.jpg";
@@ -25,7 +25,7 @@ public static class UploadImage
         image.Mutate(x => x.Resize(resizeOptions));
         await image.SaveAsJpegAsync(saveLocation, cancellationToken);
 
-        if(!string.IsNullOrWhiteSpace(recipe.Image))
+        if (!string.IsNullOrWhiteSpace(recipe.Image))
             File.Delete(Path.Combine(Directory.GetCurrentDirectory(), "Images", recipe.Image));
 
         recipe.Image = filename;

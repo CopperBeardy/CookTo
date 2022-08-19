@@ -1,8 +1,5 @@
 ﻿using Bogus;
 using CookTo.DataAccess.Documents.RecipeDocumentAccess;
-using CookTo.Shared.Enums;
-using System;
-using System.Collections.Generic;
 
 namespace CookTo.Tests.Fakes;
 

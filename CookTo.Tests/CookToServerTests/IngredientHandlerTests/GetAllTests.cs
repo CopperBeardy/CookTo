@@ -1,10 +1,8 @@
 ﻿using Bogus;
 using CookTo.DataAccess.Documents.IngredientDocumentAccess.Services;
-using CookTo.Server.Modules.Ingredients.Handlers;
+using CookTo.Server.Modules.Ingredients;
 using CookTo.Shared.Modules.ManageIngredients;
 using CookTo.Tests.Fakes;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Collections.Generic;
 using System.Threading;
@@ -25,10 +23,10 @@ public class GetAllTests
 
 
         //Act
-        var response = await GetAll.Handle(ingredientServiceMock.Object, new CancellationToken());
+        var response = await IngredientModule.GetAllIngredients(ingredientServiceMock.Object, new CancellationToken());
 
         //Assert
-      //  var result = response.
+        //  var result = response.
 
         var value = Assert.IsAssignableFrom<List<Ingredient>>(response);
         // Assert.NotNull(response);

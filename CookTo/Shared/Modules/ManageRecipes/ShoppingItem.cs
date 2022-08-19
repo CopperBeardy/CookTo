@@ -16,19 +16,19 @@ public class ShoppingItem
     public override string ToString()
     {
         var sb = new StringBuilder();
-        if(Quantity is not null | Quantity != string.Empty)
+        if (Quantity is not null | Quantity != string.Empty)
         {
             sb.Append($"{Quantity} ");
         }
-        if(Measure is not null | Measure != string.Empty)
+        if (Measure is not null | Measure != string.Empty)
         {
             sb.Append($"{Measure} ");
         }
-        if(Ingredient is not null)
+        if (Ingredient is not null)
         {
             sb.Append($"{Ingredient.Name} ");
         }
-        if(AdditionalInformation is not null || AdditionalInformation != string.Empty)
+        if (AdditionalInformation is not null || AdditionalInformation != string.Empty)
         {
             sb.Append($", {AdditionalInformation}");
         }

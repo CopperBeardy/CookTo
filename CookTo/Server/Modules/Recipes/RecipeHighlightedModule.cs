@@ -14,7 +14,7 @@ public class RecipeHighlightedModule : IModule
         {
             var response = await GetHighlightedRecipe.Handle(service, cancellationToken);
 
-            return Results.Ok ( response);
+            return Results.Ok(response);
         });
 
         return api;

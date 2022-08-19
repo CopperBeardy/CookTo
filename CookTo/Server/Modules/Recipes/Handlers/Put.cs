@@ -8,7 +8,7 @@ public static class Put
 {
     public static async Task<Recipe?> Handle(Recipe recipe, IRecipeService service, CancellationToken cancellationToken)
     {
-        if(recipe is not null)
+        if (recipe is not null)
         {
             var toUpdateRecipe = RecipeToRecipeDocumentConverter.Convert(recipe);
             await service.UpdateAsync(toUpdateRecipe, cancellationToken);
