@@ -10,10 +10,18 @@ public class TipModule : IModule
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
     {
         var api = endpoints.MapGroup(EndpointTemplate.TIP);
-        api.MapGet("/", async (ITipService service, CancellationToken cancellationToken) => await GetAll.Handle(service, cancellationToken));
+        api.MapGet("/", async (ITipService service, CancellationToken cancellationToken) =>
+        {
+            var response = await GetAll.Handle(service, cancellationToken);
+            return Results.Ok(response);
+        });
 
 
-        api.MapPost("/", async (Tip tip, ITipService service, CancellationToken cancellationToken) => await Post.Handle(tip, service, cancellationToken))
+        api.MapPost("/", async (Tip tip, ITipService service, CancellationToken cancellationToken) =>
+        {
+            var response = await Post.Handle(tip, service, cancellationToken);
+            return Results.Ok(response);
+        })
             .RequireAuthorization();
 
         return api;

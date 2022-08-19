@@ -6,11 +6,13 @@ namespace CookTo.Server.Modules.Ingredients.Handlers;
 
 public static class Post
 {
-    public static async Task<IResult> Handle(Ingredient ingredient, IIngredientService service, CancellationToken cancellationToken)
+    public static async Task<Ingredient> Handle(Ingredient ingredient, IIngredientService service, CancellationToken cancellationToken)
     {
         var newIngredient = new IngredientDocument() { Name = ingredient.Name };
+
         await service.CreateAsync(newIngredient, cancellationToken);
-        return Results.Ok(new Ingredient { Id = newIngredient.Id, Name = newIngredient.Name });
+
+        return new Ingredient { Id = newIngredient.Id, Name = newIngredient.Name };
     }
 }
 

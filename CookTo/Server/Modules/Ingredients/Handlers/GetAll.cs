@@ -8,15 +8,15 @@ namespace CookTo.Server.Modules.Ingredients.Handlers;
 
 public static class GetAll
 {
-    public static async Task<IResult> Handle(IIngredientService service, CancellationToken cancellationToken)
+    public static async Task<List<Ingredient>?> Handle(IIngredientService service, CancellationToken cancellationToken)
     {
         var entites = await service.GetAllAsync(cancellationToken);
 
-        if(entites is null)
-            return Results.NotFound(ErrorMessage<IngredientDocument>.ItemsNotFound());
+        var ingredients = new List<Ingredient>();
 
-        var ingredient = new List<Ingredient>();
-        ingredient.AddRange(entites.Select(c => new Ingredient { Id = c.Id, Name = c.Name }));
-        return Results.Ok(ingredient);
+        if(entites is not null || entites.Any())
+            ingredients.AddRange(entites.Select(c => new Ingredient { Id = c.Id, Name = c.Name }));
+
+        return ingredients;
     }
 }

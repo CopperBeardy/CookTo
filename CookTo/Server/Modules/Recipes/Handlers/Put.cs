@@ -6,15 +6,15 @@ namespace CookTo.Server.Modules.Recipes.Handlers;
 
 public static class Put
 {
-    public static async Task<IResult> Handle(Recipe recipe, IRecipeService service, CancellationToken cancellationToken)
+    public static async Task<Recipe?> Handle(Recipe recipe, IRecipeService service, CancellationToken cancellationToken)
     {
-        if(recipe.Id is not null)
+        if(recipe is not null)
         {
             var toUpdateRecipe = RecipeToRecipeDocumentConverter.Convert(recipe);
             await service.UpdateAsync(toUpdateRecipe, cancellationToken);
-
-            return Results.Ok(RecipeDocumentToRecipeConverter.Convert(toUpdateRecipe));
+            return RecipeDocumentToRecipeConverter.Convert(toUpdateRecipe);
         }
-        return Results.BadRequest();
+
+        return null;
     }
 }

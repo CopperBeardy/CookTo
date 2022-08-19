@@ -11,9 +11,16 @@ public class CategoryModule : IModule
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
     {
         var api = endpoints.MapGroup(EndpointTemplate.CATEGORY);
-        api.MapGet("/", async (ICategoryService service, CancellationToken cancellationToken) => await GetAll.Handle(service, cancellationToken));
+        api.MapGet("/", async (ICategoryService service, CancellationToken cancellationToken) =>
+        {
+            var response = await GetAll.Handle(service, cancellationToken);
+            return Results.Ok(response);
+        });
 
-        api.MapPost("/", async (Category category, ICategoryService service, CancellationToken cancellationToken) => await Post.Handle(category, service, cancellationToken))
+        api.MapPost("/", async (Category category, ICategoryService service, CancellationToken cancellationToken) =>
+        {
+            await Post.Handle(category, service, cancellationToken);
+        })
             .RequireAuthorization();
 
         return api;

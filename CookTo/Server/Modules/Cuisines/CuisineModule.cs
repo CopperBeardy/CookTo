@@ -10,10 +10,19 @@ public class CuisineModule : IModule
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
     {
         var api = endpoints.MapGroup(EndpointTemplate.CUISINE);
-        api.MapGet("/", async (ICuisineService service, CancellationToken cancellationToken) => await GetAll.Handle(service, cancellationToken));
+        api.MapGet("/", async (ICuisineService service, CancellationToken cancellationToken) =>
+        {
+            var response = await GetAll.Handle(service, cancellationToken);
+            return Results.Ok(response);
+        });
 
-        api.MapPost("/", async (Cuisine cuisine, ICuisineService service, CancellationToken cancellationToken) => await Post.Handle(cuisine, service, cancellationToken))
+        api.MapPost("/", async (Cuisine cuisine, ICuisineService service, CancellationToken cancellationToken) =>
+        {
+            var response = await Post.Handle(cuisine, service, cancellationToken);
+            return Results.Ok(response);
+        })
             .RequireAuthorization();
+
         return api;
     }
 

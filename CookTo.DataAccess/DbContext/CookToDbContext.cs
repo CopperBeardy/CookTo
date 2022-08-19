@@ -1,8 +1,4 @@
-﻿using CookTo.DataAccess.Documents.CategoryDocumentAccess;
-using CookTo.DataAccess.Documents.CuisineDocumentAccess;
-using CookTo.DataAccess.Documents.IngredientDocumentAccess;
-using CookTo.DataAccess.Documents.UtensilDocumentAccess;
-using CookTo.DataAccess.SeedDataJson;
+﻿
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
@@ -22,13 +18,6 @@ public class CookToDbContext : ICookToDbContext
         db = client.GetDatabase(configuration.Value.Database);
     }
 
-    public  void HasSeeded(IMongoDatabase db)
-    {
-        if(!db.ListCollections().Any())
-        {
-            Seeder.Seed(db);
-        }
-    }
 
     public IMongoCollection<T> GetCollection<T>(string name) => db.GetCollection<T>(name);
 }

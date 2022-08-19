@@ -1,21 +1,20 @@
 ﻿using CookTo.DataAccess.Documents.CategoryDocumentAccess.Services;
 using CookTo.Shared;
 using CookTo.Shared.Modules.ManageCategories;
-
+using CookTo.Shared.Modules.ManageIngredients;
 
 namespace CookTo.Server.Modules.Categories.Handlers;
 
 public static class GetAll
 {
-    public static async Task<IResult> Handle(ICategoryService service, CancellationToken cancellationToken)
+    public static async Task<List<Category>> Handle(ICategoryService service, CancellationToken cancellationToken)
     {
         var entites = await service.GetAllAsync(cancellationToken);
-
-        if(entites is null)
-            return Results.NotFound(ErrorMessage<Category>.ItemsNotFound());
-
         var categories = new List<Category>();
-        categories.AddRange(entites.Select(c => new Category { Id = c.Id, Name = c.Name }));
-        return Results.Ok(categories);
+
+        if(entites is not null || entites.Any())
+            categories.AddRange(entites.Select(c => new Category { Id = c.Id, Name = c.Name }));
+
+        return categories;
     }
 }

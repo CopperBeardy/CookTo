@@ -7,13 +7,9 @@ namespace CookTo.Server.Modules.Recipes.Handlers;
 
 public static class GetHighlightedRecipe
 {
-    public static async Task<IResult> Handle(IRecipeService service, CancellationToken cancellationToken)
+    public static async Task<HighlightedRecipe> Handle(IRecipeService service, CancellationToken cancellationToken)
     {
         var recipe = await service.GetHighlighted(cancellationToken);
-        if(recipe is null)
-        {
-            return Results.BadRequest("Recipe was not found");
-        }
 
         var highlighted = new HighlightedRecipe(
             recipe.Id,
@@ -29,6 +25,7 @@ public static class GetHighlightedRecipe
             recipe.Dietaries,
             recipe.ShoppingList,
             recipe.Tags);
-        return Results.Ok(highlighted);
+
+        return highlighted;
     }
 }

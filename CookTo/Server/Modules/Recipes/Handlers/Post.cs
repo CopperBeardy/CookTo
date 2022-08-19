@@ -7,13 +7,12 @@ namespace CookTo.Server.Modules.Recipes.Handlers;
 
 public static class Post
 {
-    public static async Task<IResult> Handle(Recipe recipe, IRecipeService service, CancellationToken cancellationToken)
+    public static async Task<Recipe> Handle(Recipe recipe, IRecipeService service, CancellationToken cancellationToken)
     {
         var entity = RecipeToRecipeDocumentConverter.Convert(recipe);
         await service.CreateAsync(entity, cancellationToken);
 
-
-        return Results.Created($"/api/recipe/{entity.Id}", entity);
+        return  RecipeDocumentToRecipeConverter.Convert(entity);
     }
 }
 

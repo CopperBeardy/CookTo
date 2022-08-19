@@ -10,7 +10,12 @@ public class RecipeHighlightedModule : IModule
     {
         var api = endpoints.MapGroup(EndpointTemplate.HIGHLIGHTED);
 
-        api.MapGet("/", async (IRecipeService service, CancellationToken cancellationToken) => await GetHighlightedRecipe.Handle(service, cancellationToken));
+        api.MapGet("/", async (IRecipeService service, CancellationToken cancellationToken) =>
+        {
+            var response = await GetHighlightedRecipe.Handle(service, cancellationToken);
+
+            return Results.Ok ( response);
+        });
 
         return api;
     }

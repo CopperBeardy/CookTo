@@ -18,18 +18,19 @@ public class GetAllTests
     public async void Get_All_Ingredients_Existing_IngredientDocuments_Success()
     {
         //Arrange
+        var fakes = new IngredientDocumentFaker().GenerateBetween(1, 4);
 
         var ingredientServiceMock = new Mock<IIngredientService>();
-        ingredientServiceMock.Setup(x => x.GetAllAsync(It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new IngredientDocumentFaker().GenerateBetween(1, 4));
+        ingredientServiceMock.Setup(x => x.GetAllAsync(It.IsAny<CancellationToken>())).ReturnsAsync(fakes);
 
 
         //Act
         var response = await GetAll.Handle(ingredientServiceMock.Object, new CancellationToken());
 
         //Assert
-        var result = Assert.IsAssignableFrom<OkObjectResult>(response);
-        var value = Assert.IsAssignableFrom<List<Ingredient>>(result.Value);
+      //  var result = response.
+
+        var value = Assert.IsAssignableFrom<List<Ingredient>>(response);
         // Assert.NotNull(response);
     }
 }

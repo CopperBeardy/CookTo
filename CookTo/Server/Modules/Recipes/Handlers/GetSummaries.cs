@@ -8,15 +8,13 @@ namespace CookTo.Server.Modules.Recipes.Handlers;
 
 public static class GetSummaries
 {
-    public static async Task<IResult> Handle(int amount, IRecipeService service, CancellationToken cancellationToken)
+    public static async Task<List<RecipeSummary>?> Handle(int amount, IRecipeService service, CancellationToken cancellationToken)
     {
-        var recipes = await service.GetSummaries(amount, cancellationToken, 0);
-        if(recipes is null || recipes.Count == 0)
-        {
-            return Results.BadRequest("Recipe was not found");
-        }
-        var summaries = new List<RecipeSummary>();
-        summaries.AddRange(recipes.Select(recipe => new RecipeSummary(
+        var response = await service.GetSummaries(amount, cancellationToken, 0);
+     var summaries = new List<RecipeSummary>();
+        if(response is not null || response.Any())      
+   
+        summaries.AddRange(response.Select(recipe => new RecipeSummary(
             recipe.Id,
             new Category { Id = recipe.Id, Name = recipe.Category.Name },
             recipe.Title,
@@ -27,6 +25,6 @@ public static class GetSummaries
             recipe.Dietaries,
             recipe.ShoppingList,
             recipe.Tags)));
-        return Results.Ok(summaries);
+        return summaries;
     }
 }
