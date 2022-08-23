@@ -1,5 +1,4 @@
-﻿
-using CookTo.DataAccess.DbContext;
+﻿using CookTo.DataAccess.DbContext;
 using MongoDB.Driver;
 
 namespace CookTo.DataAccess.Documents.RecipeDocumentAccess.Services;

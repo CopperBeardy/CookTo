@@ -17,6 +17,8 @@ public class RecipeFaker : Faker<Recipe>
             set.RuleFor(o => o.PrepTime, f => f.Random.Number());
             set.RuleFor(o => o.CookTime, f => f.Random.Number());
             set.RuleFor(o => o.Serves, f => f.Random.Number().ToString());
+            set.RuleFor(o => o.Creator, f => f.Random.Word().ToString());
+            set.RuleFor(o => o.AddedBy, f => f.Random.Word().ToString());
             set.RuleFor(o => o.Dietaries, SharedGenerators.GenerateDietaries());
             set.RuleFor(o => o.CookingSteps, new CookingStepFaker().GenerateBetween(1, 5));
             set.RuleFor(o => o.Utensils, new UtensilPartFaker().GenerateBetween(1, 4));
@@ -35,6 +37,8 @@ public class RecipeFaker : Faker<Recipe>
         RuleFor(o => o.PrepTime, f => f.Random.Number());
         RuleFor(o => o.CookTime, f => f.Random.Number());
         RuleFor(o => o.Serves, f => f.Random.Number().ToString());
+        RuleFor(o => o.Creator, f => f.Random.Word().ToString());
+        RuleFor(o => o.AddedBy, f => f.Random.Word().ToString());
         RuleFor(o => o.Dietaries, SharedGenerators.GenerateDietaries());
         RuleFor(o => o.CookingSteps, new CookingStepFaker().GenerateBetween(1, 5));
         RuleFor(o => o.Utensils, new UtensilPartFaker().GenerateBetween(1, 4));

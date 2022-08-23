@@ -4,7 +4,7 @@ using CookTo.Tests.Fakes;
 using System;
 using Xunit;
 
-namespace CookTo.Tests.CookToServerTests.Helpers;
+namespace CookTo.Tests.CookToServerTests.HelpersTests;
 
 public class RecipeDocumentToRecipeConverterTests
 {

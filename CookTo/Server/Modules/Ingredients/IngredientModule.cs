@@ -1,3 +1,5 @@
+using AutoMapper;
+using CookTo.DataAccess.Documents.CuisineDocumentAccess.Services;
 using CookTo.DataAccess.Documents.IngredientDocumentAccess;
 using CookTo.DataAccess.Documents.IngredientDocumentAccess.Services;
 using CookTo.Shared;
@@ -11,27 +13,40 @@ public class IngredientModule : IModule
     {
         var api = endpoints.MapGroup(EndpointTemplate.INGREDIENT);
         api.MapGet("/", GetAllIngredients);
+        api.MapGet("/{Id}", GetByIdIngredient);
         api.MapPost("/", PostIngredient).RequireAuthorization();
         return api;
     }
 
-    internal static async Task<IResult> GetAllIngredients(IIngredientService service, CancellationToken cancellationToken)
+    internal record Request(IIngredientService IngredientService, IMapper Mapper, CancellationToken CancellationToken);
+
+    internal static async Task<IResult> GetAllIngredients([AsParameters] Request request)
     {
-        var entites = await service.GetAllAsync(cancellationToken);
+        var entites = await request.IngredientService.GetAllAsync(request.CancellationToken);
         var ingredients = new List<Ingredient>();
 
         if(entites is not null || entites.Any())
-            ingredients.AddRange(entites.Select(c => new Ingredient { Id = c.Id, Name = c.Name }));
+            ingredients.AddRange(entites.Select(c => request.Mapper.Map<Ingredient>(c)));
 
-        return TypedResults.Ok( ingredients);
+        return TypedResults.Ok(ingredients);
     }
 
-    internal static async Task<IResult> PostIngredient(Ingredient category, IIngredientService service, CancellationToken cancellationToken)
+    internal static async Task<IResult> GetByIdIngredient(string id, [AsParameters] Request request)
     {
-        var newIngredient = new IngredientDocument() { Name = category.Name };
-        await service.CreateAsync(newIngredient, cancellationToken);
-        var response = new Ingredient { Id = newIngredient.Id, Name = newIngredient.Name };
+        var document = await request.IngredientService.GetByIdAsync(id, request.CancellationToken);
+        if(document is null)
+            return TypedResults.NotFound(ErrorMessage<Ingredient>.ItemNotFound(id));
+
+        var response = request.Mapper.Map<Ingredient>(document);
         return TypedResults.Ok(response);
+    }
+
+    internal static async Task<IResult> PostIngredient(Ingredient category, [AsParameters] Request request)
+    {
+        var document = request.Mapper.Map<IngredientDocument>(category);
+        await request.IngredientService.CreateAsync(document, request.CancellationToken);
+        var response = request.Mapper.Map<Ingredient>(document);
+        return TypedResults.Created($"{EndpointTemplate.CATEGORY_REDIRECT}/{response.Id}", response);
     }
 
 

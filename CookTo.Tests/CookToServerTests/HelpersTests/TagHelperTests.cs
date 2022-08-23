@@ -2,7 +2,7 @@
 using CookTo.Tests.Fakes;
 using Xunit;
 
-namespace CookTo.Tests.CookToServerTests.Helpers;
+namespace CookTo.Tests.CookToServerTests.HelpersTests;
 
 public class TagHelperTests
 {
@@ -20,7 +20,7 @@ public class TagHelperTests
         Assert.IsType<string>(result);
         Assert.Contains(model.Category.Name, result);
         Assert.Contains(model.Cuisine.Name, result);
-        foreach (var item in model.ShoppingItems)
+        foreach(var item in model.ShoppingItems)
         {
             Assert.Contains(item.Ingredient.Name, result);
         }

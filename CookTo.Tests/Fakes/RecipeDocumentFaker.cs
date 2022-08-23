@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using CookTo.DataAccess;
 using CookTo.DataAccess.Documents.RecipeDocumentAccess;
 
 namespace CookTo.Tests.Fakes;
@@ -16,6 +17,8 @@ public class RecipeDocumentFaker : Faker<RecipeDocument>
         RuleFor(o => o.PrepTime, f => f.Random.Number());
         RuleFor(o => o.CookTime, f => f.Random.Number());
         RuleFor(o => o.Serves, f => f.Random.Number().ToString());
+        RuleFor(o => o.Creator, f => f.Random.Word().ToString());
+        RuleFor(o => o.AddedBy, f => f.Random.Word().ToString());
         RuleFor(o => o.Dietaries, SharedGenerators.GenerateDietaries());
         RuleFor(o => o.CookingSteps, new CookingStepDocumentFaker().GenerateBetween(1, 5));
         RuleFor(o => o.Utensils, new UtensilPartDocumentFaker().GenerateBetween(1, 4));

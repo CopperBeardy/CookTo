@@ -3,7 +3,7 @@ using MongoDB.Driver;
 
 namespace CookTo.DataAccess;
 
-public abstract class BaseService<TEntity> : IBaseService<TEntity> where TEntity : BaseDocument
+public abstract class BaseService<TEntity> : IBaseService<TEntity> where TEntity : IBaseDocument
 {
     protected readonly ICookToDbContext dbContext;
 
@@ -20,10 +20,14 @@ public abstract class BaseService<TEntity> : IBaseService<TEntity> where TEntity
         .ToListAsync();
 
 
-    public virtual async Task<TEntity> GetByIdAsync(string id, CancellationToken token) => await DbCollection.Find(
+    public virtual async Task<TEntity> GetByIdAsync(string id, CancellationToken token)
+    {
+        var response = await DbCollection.Find(
         e => e.Id.Equals(id))
-        .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync();
 
+        return response;
+    }
 
     public virtual async Task CreateAsync(TEntity obj, CancellationToken token)
     { await DbCollection.InsertOneAsync(obj); }

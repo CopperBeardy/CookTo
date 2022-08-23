@@ -1,4 +1,5 @@
-﻿using Bogus;
+﻿using AutoMapper;
+using Bogus;
 using CookTo.DataAccess.Documents.CategoryDocumentAccess;
 using CookTo.DataAccess.Documents.CategoryDocumentAccess.Services;
 using CookTo.Server.Modules.Categories;
@@ -11,22 +12,24 @@ using System.Linq;
 using System.Threading;
 using Xunit;
 
-namespace CookTo.Tests.CookToServerTests.CategoryHandlerTests;
+namespace CookTo.Tests.CookToServerTests.CategoryModuleInternalMethodsTests;
 
-public class GetAllTests
+public class CategoryModuleGetAllCategories
 {
     [Fact]
-    public async void Get_All_Categories_With_Valid_Data_Success()
+    public async void Return_ListOfCategory_GivenService_FindsExistingCategoryDocuments()
     {
         //Arrange
         var categoryServiceMock = new Mock<ICategoryService>();
         var fakes = new CategoryDocumentFaker().GenerateBetween(1, 4).ToList();
+        var mapperMock = new Mock<IMapper>();
 
         categoryServiceMock.Setup(x => x.GetAllAsync(It.IsAny<CancellationToken>())).ReturnsAsync(fakes);
 
+        var request = new CategoryModule.Request(categoryServiceMock.Object, mapperMock.Object, new CancellationToken());
 
         //Act 
-        var response = await CategoryModule.GetAllCategories(categoryServiceMock.Object, new CancellationToken());
+        var response = await CategoryModule.GetAllCategories(request);
 
         //Assert
 
@@ -37,21 +40,21 @@ public class GetAllTests
     }
 
     [Fact]
-    public async void Get_All_With_No_Data_Success()
+    public async void Return_EmptyListOfCategory_GivenService_FindsNoCategoryDocuments()
     {
         //Arrange
         var categoryServiceMock = new Mock<ICategoryService>();
+        var mapperMock = new Mock<IMapper>();
 
         categoryServiceMock.Setup(x => x.GetAllAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<CategoryDocument>());
+        var request = new CategoryModule.Request(categoryServiceMock.Object, mapperMock.Object, new CancellationToken());
 
         //Act 
-        var response = await CategoryModule.GetAllCategories(categoryServiceMock.Object, new CancellationToken());
-
+        var response = await CategoryModule.GetAllCategories(request);
         //Assert
         Assert.NotNull(response);
         var returnedItems = Assert.IsType<Ok<List<Category>>>(response).Value;
-
-        Assert.Equal(0, returnedItems.Count);
+        Assert.Empty(returnedItems);
     }
 }

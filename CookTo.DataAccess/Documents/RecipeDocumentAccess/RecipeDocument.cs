@@ -1,9 +1,8 @@
-﻿
-
-
-using CookTo.DataAccess.Documents.CategoryDocumentAccess;
+﻿using CookTo.DataAccess.Documents.CategoryDocumentAccess;
 using CookTo.DataAccess.Documents.CuisineDocumentAccess;
+using CookTo.DataAccess.Documents.IngredientDocumentAccess;
 using CookTo.DataAccess.Documents.TipDocumentAccess;
+
 using CookTo.Shared.Enums;
 
 namespace CookTo.DataAccess.Documents.RecipeDocumentAccess;
@@ -39,12 +38,14 @@ public class RecipeDocument : BaseDocument
 
     public List<ShoppingItemDocument> ShoppingItems { get; set; }
 
-    public List<string> ShoppingList { get; set; }
+    public List<string>? ShoppingList { get; set; }
 
     public List<TipDocument> Tips { get; set; }
 
     public string Tags { get; set; }
 
     public bool Highlighted { get; set; }
+
+    public ImageAction ImageAction { get; set; }
 }
 

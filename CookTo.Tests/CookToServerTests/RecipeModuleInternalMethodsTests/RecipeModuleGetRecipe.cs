@@ -1,53 +1,61 @@
-﻿
+﻿using AutoMapper;
+using CookTo.DataAccess;
 using CookTo.DataAccess.Documents.RecipeDocumentAccess;
 using CookTo.DataAccess.Documents.RecipeDocumentAccess.Services;
-using CookTo.Server.Modules.Recipes.Handlers;
-using CookTo.Shared.Modules.ManageCategories;
+using CookTo.Server.Modules.Recipes;
 using CookTo.Shared.Modules.ManageRecipes;
 using CookTo.Tests.Fakes;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Moq;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using Xunit;
 
-namespace CookTo.Tests.CookToServerTests.RecipeHandlerTests;
+namespace CookTo.Tests.CookToServerTests.RecipeModuleInternalMethodsTests;
 
-public class GetCompleteRecipeTests
+public class RecipeModuleGetRecipe
 {
     [Fact]
-    public async void Get_Recipe_With_All_Values_Populate_Success()
+    public async void Returns_Recipe_WithAllFieldsPopulated_GivenService_FindsValidRecipeDocument()
     {
         // Arrange
         var recipeFake = new RecipeDocumentFaker().Generate();
         var recipeServiceMock = new Mock<IRecipeService>();
+        var mapperMock = new Mock<IMapper>();
 
         recipeServiceMock.Setup(x => x.GetByIdAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(recipeFake);
+        var request = new RecipeModule.Request(recipeServiceMock.Object, mapperMock.Object, new CancellationToken());
+
+
         // Act
-        var response = await GetById.Handle(new Guid().ToString(), recipeServiceMock.Object, new CancellationToken());
+        var response = await RecipeModule.GetByIdRecipe(new Guid().ToString(), request);
 
         // Assert
         Assert.NotNull(response);
-
-        Assert.IsAssignableFrom<Recipe>(response);
+        var result = Assert.IsType<Ok<Recipe>>(response).Value;
+        Assert.IsAssignableFrom<Recipe>(result);
     }
 
     [Fact]
-    public async void Get_Recipe_With_No_relate_db_object_failure()
+    public async void Returns_NotFoundResult_WhenInvalidId()
     {
         // Arrange
 
         var recipeServiceMock = new Mock<IRecipeService>();
+        var mapperMock = new Mock<IMapper>();
 
         recipeServiceMock.Setup(x => x.GetByIdAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((RecipeDocument)null);
+        var request = new RecipeModule.Request(recipeServiceMock.Object, mapperMock.Object, new CancellationToken());
+
+
         // Act
-        var response = await GetById.Handle(new Guid().ToString(), recipeServiceMock.Object, new CancellationToken());
+        var response = await RecipeModule.GetByIdRecipe(new Guid().ToString(), request);
 
         // Assert
-        Assert.Null(response);
+        Assert.NotNull(response);
+        Assert.IsType<NotFound<string>>(response);
     }
 
     //dietaries populate and empty

@@ -56,11 +56,11 @@ else if (_errorMessage is not null)
             _recipe = recipe;
 
             _submitSuccessful = true;
-            if(recipe.ImageAction == ImageAction.Add)
+            if(_recipe.ImageAction == ImageAction.Add && recipe.Image is null || recipe.Image == string.Empty)
             {
                 _submitSuccessful = await ProcessImage(recipe.Id, image!);
             }
-            if (recipe.ImageAction == ImageAction.Remove) 
+            if (_recipe.ImageAction == ImageAction.Remove) 
             {
                 _recipe.Image = null;
             }

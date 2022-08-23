@@ -1,9 +1,10 @@
-﻿using CookTo.DataAccess.Documents.RecipeDocumentAccess;
+﻿using CookTo.DataAccess;
+using CookTo.DataAccess.Documents.RecipeDocumentAccess;
 using CookTo.Server.Modules.Recipes.Helpers;
 using CookTo.Tests.Fakes;
 using Xunit;
 
-namespace CookTo.Tests.CookToServerTests.Helpers;
+namespace CookTo.Tests.CookToServerTests.HelpersTests;
 
 public class RecipeToRecipeDocumentConverterTests
 {

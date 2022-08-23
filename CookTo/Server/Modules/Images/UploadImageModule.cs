@@ -42,7 +42,7 @@ public class UploadImageModule : IModule
         recipe.Image = filename;
         await service.UpdateAsync(recipe, cancellationToken);
 
-        return TypedResults.Ok(recipe);
+        return TypedResults.Ok(recipe.Image);
     }
 
     public IServiceCollection RegisterModule(IServiceCollection services) => services;

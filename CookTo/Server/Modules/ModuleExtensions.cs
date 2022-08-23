@@ -1,4 +1,6 @@
-﻿namespace CookTo.Server.Modules;
+﻿using CookTo.Shared;
+
+namespace CookTo.Server.Modules;
 //based of https://timdeschryver.dev/blog/maybe-its-time-to-rethink-our-project-structure-with-dot-net-6#a-single-file-api
 
 public static class ModuleExtensions
@@ -20,7 +22,7 @@ public static class ModuleExtensions
     {
         foreach (var module in registeredModules)
         {
-            module.MapEndpoints(app.MapGroup("/api/"));
+            module.MapEndpoints(app.MapGroup(EndpointTemplate.BASE_ENDPOINT));
         }
         return app;
     }

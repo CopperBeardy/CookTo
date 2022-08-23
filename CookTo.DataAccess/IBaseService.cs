@@ -1,6 +1,6 @@
 ﻿namespace CookTo.DataAccess;
 
-public interface IBaseService<TEntity> where TEntity : BaseDocument
+public interface IBaseService<TEntity> where TEntity : IBaseDocument
 {
     Task<List<TEntity>> GetAllAsync(CancellationToken token);
 

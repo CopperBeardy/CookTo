@@ -1,5 +1,4 @@
-﻿
-namespace CookTo.DataAccess.Documents.RecipeDocumentAccess.Services;
+﻿namespace CookTo.DataAccess.Documents.RecipeDocumentAccess.Services;
 
 public interface IRecipeService : IBaseService<RecipeDocument>
 {

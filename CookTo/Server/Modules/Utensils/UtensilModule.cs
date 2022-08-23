@@ -1,3 +1,5 @@
+using AutoMapper;
+using CookTo.DataAccess.Documents.CuisineDocumentAccess.Services;
 using CookTo.DataAccess.Documents.UtensilDocumentAccess;
 using CookTo.DataAccess.Documents.UtensilDocumentAccess.Services;
 using CookTo.Shared;
@@ -11,28 +13,41 @@ public class UtensilModule : IModule
     {
         var api = endpoints.MapGroup(EndpointTemplate.UTENSIL);
         api.MapGet("/", GetAllUtensils);
+        api.MapGet("/{id}", GetByIdUtensil);
         api.MapPost("/", PostUtensil).RequireAuthorization();
 
         return api;
     }
 
-    internal static async Task<IResult> GetAllUtensils(IUtensilService service, CancellationToken cancellationToken)
+    internal record Request(IUtensilService UtensilService, IMapper Mapper, CancellationToken CancellationToken);
+
+    internal static async Task<IResult> GetAllUtensils([AsParameters] Request request)
     {
-        var entites = await service.GetAllAsync(cancellationToken);
+        var documents = await request.UtensilService.GetAllAsync(request.CancellationToken);
         var response = new List<Utensil>();
 
-        if(entites is not null || entites.Any())
-            response.AddRange(entites.Select(c => new Utensil { Id = c.Id, Name = c.Name }));
+        if(documents is not null || documents.Any())
+            response.AddRange(documents.Select(c => request.Mapper.Map<Utensil>(c)));
 
         return TypedResults.Ok(response);
     }
 
-    internal static async Task<IResult> PostUtensil(Utensil category, IUtensilService service, CancellationToken cancellationToken)
+    internal static async Task<IResult> GetByIdUtensil(string id, [AsParameters] Request request)
     {
-        var newUtensil = new UtensilDocument() { Name = category.Name };
-        await service.CreateAsync(newUtensil, cancellationToken);
-        var response = new Utensil { Id = newUtensil.Id, Name = newUtensil.Name };
+        var document = await request.UtensilService.GetByIdAsync(id, request.CancellationToken);
+        if(document is null)
+            return TypedResults.NotFound(ErrorMessage<Utensil>.ItemNotFound(id));
+
+        var response = request.Mapper.Map<Utensil>(document);
         return TypedResults.Ok(response);
+    }
+
+    internal static async Task<IResult> PostUtensil(Utensil category, [AsParameters] Request request)
+    {
+        var document = request.Mapper.Map<UtensilDocument>(category);
+        await request.UtensilService.CreateAsync(document, request.CancellationToken);
+        var response = request.Mapper.Map<Utensil>(document);
+        return TypedResults.Created($"{EndpointTemplate.CATEGORY_REDIRECT}/{response.Id}", response);
     }
 
 

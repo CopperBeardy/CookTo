@@ -1,3 +1,4 @@
+using AutoMapper;
 using CookTo.DataAccess.Documents.CuisineDocumentAccess;
 using CookTo.DataAccess.Documents.CuisineDocumentAccess.Services;
 
@@ -13,29 +14,42 @@ public class CuisineModule : IModule
     {
         var api = endpoints.MapGroup(EndpointTemplate.CUISINE);
         api.MapGet("/", GetAllCuisines);
+        api.MapGet("/{id}", GetByIdCuisines);
 
-        api.MapPost("/", PostCuisine).RequireAuthorization();
+        api.MapPost("/", PostCuisine);
 
         return api;
     }
 
-    internal static async Task<IResult> GetAllCuisines(ICuisineService service, CancellationToken cancellationToken)
+    internal record Request(ICuisineService CuisineService, IMapper Mapper, CancellationToken CancellationToken);
+
+    internal static async Task<IResult> GetAllCuisines([AsParameters] Request request)
     {
-        var entites = await service.GetAllAsync(cancellationToken);
+        var entites = await request.CuisineService.GetAllAsync(request.CancellationToken);
         var response = new List<Cuisine>();
 
         if(entites is not null || entites.Any())
-            response.AddRange(entites.Select(c => new Cuisine { Id = c.Id, Name = c.Name }));
+            response.AddRange(entites.Select(c => request.Mapper.Map<Cuisine>(c)));
 
         return TypedResults.Ok(response);
     }
 
-    internal static async Task<IResult> PostCuisine(Cuisine category, ICuisineService service, CancellationToken cancellationToken)
+    internal static async Task<IResult> GetByIdCuisines(string id, [AsParameters] Request request)
     {
-        var newCuisine = new CuisineDocument() { Name = category.Name };
-        await service.CreateAsync(newCuisine, cancellationToken);
-        var response = new Cuisine { Id = newCuisine.Id, Name = newCuisine.Name };
+        var document = await request.CuisineService.GetByIdAsync(id, request.CancellationToken);
+        if(document is null)
+            return TypedResults.NotFound(ErrorMessage<Cuisine>.ItemNotFound(id));
+
+        var response = request.Mapper.Map<Cuisine>(document);
         return TypedResults.Ok(response);
+    }
+
+    internal static async Task<IResult> PostCuisine(Cuisine cuisine, [AsParameters] Request request)
+    {
+        var newCuisine = request.Mapper.Map<CuisineDocument>(cuisine);
+        await request.CuisineService.CreateAsync(newCuisine, request.CancellationToken);
+        var response = request.Mapper.Map<Cuisine>(newCuisine);
+        return TypedResults.Created($"{EndpointTemplate.CATEGORY_REDIRECT}/{response.Id}", response);
     }
 
     public IServiceCollection RegisterModule(IServiceCollection services)

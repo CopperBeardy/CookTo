@@ -1,0 +1,18 @@
+﻿  
+ <div class="col col-sm-4 justify-content-center">
+    <h5><strong>Ingredients </strong>  </h5>
+  </div>
+<div>
+    <ul style="list-style-type:none">
+        @foreach (var item in ShoppingList)
+       {
+           <li>@item</li>
+       }
+    </ul>
+    <ShoppingListButton Title="@Title" ShoppingList="@ShoppingList"></ShoppingListButton>
+</div>
+
+@code {
+    [Parameter] public string Title { get; set; } = string.Empty; 
+    [Parameter] public List<string> ShoppingList { get; set; } = new List<string>();
+}
