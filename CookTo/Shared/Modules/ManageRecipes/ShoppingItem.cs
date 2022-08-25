@@ -26,7 +26,7 @@ public class ShoppingItem
         }
         if (Ingredient is not null)
         {
-            sb.Append($"{Ingredient.Text} ");
+            sb.Append($"{Ingredient.Name} ");
         }
         if (AdditionalInformation is not null || AdditionalInformation != string.Empty)
         {

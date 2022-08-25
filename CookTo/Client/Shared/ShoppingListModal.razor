@@ -19,7 +19,7 @@
     [CascadingParameter] BlazoredModalInstance ModalInstance{ get; set; }
 
     [Parameter]
-    public List<ShoppingItem> ShoppingList { get; set; } = new List<ShoppingItem>();
+    public List<string> ShoppingList { get; set; } = new List<string>();
 
     void Close() =>  ModalInstance.CloseAsync();
     

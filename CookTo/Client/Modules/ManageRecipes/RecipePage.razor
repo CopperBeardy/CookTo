@@ -27,10 +27,14 @@ else
                     <div class="d-flex ms-4 me-4">
                         <div class="vr"></div>
                     </div>
-                    <div class="col-sm-4">                                    
+                    <div class="col-sm-4 flex-column">
+                    <div>
+                        <IngredientSection Title="@Recipe.Title" ShoppingList="@Recipe.ShoppingList" />
+                    </div>
+                    <div >                                    
                         <UtensilSection UtensilParts="@Recipe.Utensils" />
                     </div>
-
+                    </div>
                 </div>
             </div>
         </div>

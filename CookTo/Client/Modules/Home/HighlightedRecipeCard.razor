@@ -11,7 +11,7 @@
 
         <div class="col col-sm-6 d-flex flex-column">
             <h3>@Highlighted.Title</h3>
-            <h6 class=" mb-3 text-muted"><span class="bi bi-grid mr-2"></span>  @Highlighted.Category.Text</h6>
+            <h6 class=" mb-3 text-muted"><span class="bi bi-grid mr-2"></span>  @Highlighted.Category.Name</h6>
             <p> Approx Prep Time : @Highlighted.PrepTime</p>
             <p> Approx Cook Time : @Highlighted.CookTime</p>
             <p>@Highlighted.Description</p>
@@ -23,7 +23,7 @@
             <p><span class="bi bi-person-circle mr-2"></span> Added by: @Highlighted.AddedBy </p>
 
             <div class="d-flex flex-row-reverse gap-1">
-                <ShoppingListButton Title="@Highlighted.Title" ShoppingList="@ShoppingList"></ShoppingListButton>
+                <ShoppingListButton Title="@Highlighted.Title" ShoppingList="@Highlighted.ShoppingList"></ShoppingListButton>
                 <button aria-label="viewRecipe" class="btn btn-primary" title="View" @onclick="@(async () => NavManager.NavigateTo($"/recipe/{Highlighted.Id}"))">
                     <i class="bi bi-file-earmark-text"></i>
                 </button>
@@ -42,24 +42,18 @@
 </div>
 
 @code {
-    private HighlightedRecipe Highlighted = null!;
-    private List<string> ShoppingList = new List<string>();
+    private HighlightedRecipe Highlighted = new HighlightedRecipe();
+
     protected override async Task OnInitializedAsync()
     {
         var response = await HighlightedRecipeManager.GetById(string.Empty);
         if(response is not null)
         {
             Highlighted = response;
-            GetShoppingListItems();
+            
         }   
     }
 
-    private void GetShoppingListItems()
-    {
-        foreach (var item in Highlighted.ShoppingList)
-        {
-            ShoppingList.Add(item.ToString());
-        }
-    }
+   
 }
    

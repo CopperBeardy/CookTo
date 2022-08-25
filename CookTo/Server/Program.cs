@@ -1,3 +1,6 @@
+using AutoMapper;
+using CookTo.DataAccess.DbContext;
+using CookTo.Server;
 using CookTo.Server.Modules;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -16,6 +19,7 @@ builder.Services
     .AddEndpointsApiExplorer()
     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.Load("CookTo.Shared")));
 
+
 builder.Services
     .AddSwaggerGen(
         c =>
@@ -24,6 +28,7 @@ builder.Services
         });
 
 builder.Services.AddScoped<ICookToDbContext, CookToDbContext>();
+
 
 builder.Services
     .AddCors(
@@ -40,25 +45,25 @@ builder.Services
 
 builder.Services.RegisterModules();
 
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddSingleton(MapperConfigurate.Configure());
 
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if(app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CookTo API V1"));
-}
-else
+} else
 {
     app.UseExceptionHandler("/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
 
 app.MapEndpoints();
 app.UseHttpsRedirection();

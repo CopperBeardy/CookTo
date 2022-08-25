@@ -1,7 +1,12 @@
-﻿namespace CookTo.Shared.Modules.ManageCuisines;
+﻿using System.Text.Json.Serialization;
+
+namespace CookTo.Shared.Modules.ManageCuisines;
 
 public class Cuisine
 {
+    [JsonPropertyName("id")]
     public string? Id { get; set; }
-    public string Text { get; set; } = string.Empty;
+
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = string.Empty;
 }

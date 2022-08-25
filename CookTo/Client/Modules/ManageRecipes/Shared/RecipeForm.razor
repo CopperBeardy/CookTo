@@ -44,8 +44,8 @@
 @code {
     private Recipe _recipe = new Recipe();
     private EditContext _editContext = default!;
-    private IBrowserFile? _recipeImage;    
-
+    private IBrowserFile? _recipeImage; 
+  
     [Parameter, EditorRequired] public Func<Recipe, IBrowserFile?, Task> OnSubmit { get; set; } = default!;
     [Parameter] public Recipe Recipe { get; set; }
 
@@ -53,6 +53,7 @@
     {
         if (Recipe is not null)
         {
+            
             _recipe = Recipe;
         }
         else
@@ -64,7 +65,7 @@
 
     }
 
-   
+
     public void ResetForm()
     {
         AppState.NewRecipeState.ClearRecipe();
@@ -75,9 +76,9 @@
     }
     private void LoadRecipeImage(InputFileChangeEventArgs args)
     {
-        _recipeImage = args.File;
+      
+        _recipeImage = args.File;     
         _recipe.ImageAction = ImageAction.Add;
-
     }
 
     private void RemoveRecipeImage()

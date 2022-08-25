@@ -1,7 +1,13 @@
-﻿namespace CookTo.Shared.Modules.ManageCategories;
+﻿
+using System.Text.Json.Serialization;
+
+namespace CookTo.Shared.Modules.ManageCategories;
 
 public class Category
 {
-    public string? Id { get; set; }
-    public string Text { get; set; } = string.Empty;
+    [JsonPropertyName("id")]
+    public string Id { get; set; } = string.Empty;
+
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = string.Empty;
 }

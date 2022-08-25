@@ -17,16 +17,16 @@ public static class TagHelper
         return tagstring;
     }
 
-    private static string GetCategory(Category category) => category.Text;
+    private static string GetCategory(Category category) => category.Name;
 
-    private static string GetCuisine(Cuisine cuisine) => cuisine.Text;
+    private static string GetCuisine(Cuisine cuisine) => cuisine.Name;
 
     private static List<string> GetIngredients(List<ShoppingItem> ShoppingList)
     {
         List<string> ingredients = new List<string>();
         foreach (var item in ShoppingList)
         {
-            ingredients.Add(item.Ingredient.Text);
+            ingredients.Add(item.Ingredient.Name);
         }
         return ingredients;
     }

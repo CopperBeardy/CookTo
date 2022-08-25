@@ -1,7 +1,12 @@
-﻿namespace CookTo.Shared.Modules.ManageUtensils;
+﻿using System.Text.Json.Serialization;
+
+namespace CookTo.Shared.Modules.ManageUtensils;
 
 public class Utensil
 {
+    [JsonPropertyName("id")]
     public string? Id { get; set; }
-    public string Text { get; set; } = string.Empty;
+
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = string.Empty;
 }
