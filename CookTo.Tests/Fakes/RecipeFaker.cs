@@ -23,6 +23,7 @@ public class RecipeFaker : Faker<Recipe>
             set.RuleFor(o => o.CookingSteps, new CookingStepFaker().GenerateBetween(1, 5));
             set.RuleFor(o => o.Utensils, new UtensilPartFaker().GenerateBetween(1, 4));
             set.RuleFor(o => o.Tips, new TipFaker().GenerateBetween(0, 2));
+            set.RuleFor(o => o.RecipeParts, new RecipePartFaker().GenerateBetween(1, 3));
             set.RuleFor(o => o.ShoppingItems, new ShoppingItemFaker().GenerateBetween(1, 6));
             set.RuleFor(o => o.ShoppingList, SharedGenerators.GenerateShoppingList());
             set.RuleFor(o => o.Tags, f => f.Lorem.Sentence());
@@ -43,6 +44,7 @@ public class RecipeFaker : Faker<Recipe>
         RuleFor(o => o.CookingSteps, new CookingStepFaker().GenerateBetween(1, 5));
         RuleFor(o => o.Utensils, new UtensilPartFaker().GenerateBetween(1, 4));
         RuleFor(o => o.Tips, new TipFaker().GenerateBetween(0, 2));
+        RuleFor(o => o.RecipeParts, new RecipePartFaker().GenerateBetween(1, 3));
         RuleFor(o => o.ShoppingItems, new ShoppingItemFaker().GenerateBetween(1, 6));
         RuleFor(o => o.ShoppingList, SharedGenerators.GenerateShoppingList());
         RuleFor(o => o.Tags, f => f.Lorem.Sentence());

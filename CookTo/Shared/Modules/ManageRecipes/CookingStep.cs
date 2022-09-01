@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace CookTo.Shared.Modules.ManageRecipes;
+﻿namespace CookTo.Shared.Modules.ManageRecipes;
 
 public class CookingStep
 {

@@ -16,7 +16,8 @@ public class RecipeMapperProfile : Profile
 		CreateMap<ShoppingItem, ShoppingItemDocument>().ReverseMap();
 		CreateMap<StepIngredient, StepIngredientDocument>().ReverseMap();
 		CreateMap<UtensilPart, UtensilPartDocument>().ReverseMap();
-
+		CreateMap<PartIngredient, PartIngredientDocument>().ReverseMap();
+		CreateMap<RecipePart, RecipePartDocument>().ReverseMap();
 		CreateMap<RecipeDocument, RecipeSummary>();
 
 		CreateMap<RecipeDocument, HighlightedRecipe>();

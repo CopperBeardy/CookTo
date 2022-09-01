@@ -1,0 +1,29 @@
+﻿<div class="d-flex row gy-1 gx-1 align-items-center ms-2 mb-2">
+    <InputText @bind-Value="RecipePart.Title" />
+</div>
+
+<div class="d-flex row gy-1 gx-1 align-items-center ms-2 mb-2">
+    @foreach (var item in RecipePart.PartIngredients)
+    {
+        <div class="d-flex row gy-1 gx-1 align-items-center ms-2 mb-2">
+            <div class="ms-4">
+                <PartIngredientItem PartIngredient="@item" />
+            </div>        
+        </div> 
+   
+
+    <div class="col-sm-1">
+        <button aria-label="removeItem" class="btn link-danger " @onclick="@(() => RecipePart.PartIngredients.Remove(item))" type="button"><i class="bi bi-dash-circle"></i></button>
+    </div>
+    }
+    </div>
+    <div class="row">
+        <div class="col">
+            <button aria-label="addPartIngredientItem" class="btn btn-outline-primary" type="button" @onclick="@(() =>RecipePart.PartIngredients.Add(new PartIngredient()))">Add Part Ingredient</button>
+            <ValidationMessage aria-alert="true" For="@(() => RecipePart)" />
+        </div>
+    </div>
+
+        @code {
+            [Parameter] public RecipePart RecipePart { get; set; } = new RecipePart();
+    }

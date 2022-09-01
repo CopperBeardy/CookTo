@@ -1,4 +1,6 @@
 ﻿@inject             IngredientManager IngredientManager
+@inject  AppState AppState
+
 <div class="row gy-1 gx-1 align-items-center mb-2">
     @foreach (var ing in CookingStep.StepIngredients)
     {
@@ -15,9 +17,9 @@
             <FormInputGroup Id="ingredientSelect" Label="Ingredient" Width="col col-sm-8">
                    <InputSelect aria-required="true" id="ingredientSelect" @bind-Value="ing.Ingredient">
                         <option>select ingredient</option>
-                         @foreach (var item in ShoppingList)
+                         @foreach (var item in AppState.IngredientInRecipeState.GetIngredients())
                          {
-                             <option>@item.Ingredient.Name</option>
+                             <option>@item.Name</option>
                          }
                    </InputSelect>
                 </FormInputGroup>
@@ -29,5 +31,5 @@
 
 @code {
     [Parameter] public CookingStep CookingStep { get; set; } = new CookingStep();
-    [Parameter] public List<ShoppingItem> ShoppingList { get; set; } = new List<ShoppingItem>();
+   
 }

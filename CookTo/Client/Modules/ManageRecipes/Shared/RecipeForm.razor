@@ -24,9 +24,9 @@
             }
         </div>    
     </FormSection>
-   
+   <RecipePartsSection Recipe="_recipe"/>
     <ShoppingListSection Recipe="_recipe"/>
-   <CookingStepFormSection Recipe="_recipe"/>
+   <CookingStepsFormSection CookingSteps="_recipe.CookingSteps"/>
     <UtensilsFormSection Recipe="_recipe"/>   
     <TipsFormSection  Recipe="_recipe"/>
 
@@ -45,7 +45,7 @@
     private Recipe _recipe = new Recipe();
     private EditContext _editContext = default!;
     private IBrowserFile? _recipeImage; 
-  
+
     [Parameter, EditorRequired] public Func<Recipe, IBrowserFile?, Task> OnSubmit { get; set; } = default!;
     [Parameter] public Recipe Recipe { get; set; }
 
@@ -53,18 +53,18 @@
     {
         if (Recipe is not null)
         {
-            
+
             _recipe = Recipe;
         }
         else
         {
             _recipe = AppState.NewRecipeState.GetRecipe();
+            AppState.IngredientInRecipeState.AddIngredientsOnEditLoad(_recipe.RecipeParts);
         }
         _editContext = new EditContext(_recipe);
         _editContext.SetFieldCssClassProvider(new BootstrapCssClassProvider());
 
     }
-
 
     public void ResetForm()
     {

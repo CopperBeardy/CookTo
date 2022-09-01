@@ -1,5 +1,4 @@
-﻿using AutoMapper.Configuration.Annotations;
-using CookTo.Shared.Enums;
+﻿using CookTo.Shared.Enums;
 using CookTo.Shared.Modules.ManageCategories;
 using CookTo.Shared.Modules.ManageCuisines;
 using CookTo.Shared.Modules.ManageTips;
@@ -37,6 +36,8 @@ public class Recipe
     public List<UtensilPart> Utensils { get; set; } = new List<UtensilPart>();
 
     public List<Tip> Tips { get; set; } = new List<Tip>();
+
+    public List<RecipePart> RecipeParts { get; set; } = new List<RecipePart>();
 
     public List<ShoppingItem>? ShoppingItems { get; set; } = new List<ShoppingItem>();
 

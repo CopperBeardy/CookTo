@@ -3,7 +3,7 @@
     @{
         var i = 0;
     }
-    @foreach (var cookingStep in Recipe.CookingSteps)
+    @foreach (var cookingStep in CookingSteps)
     {
         i++;
         cookingStep.OrderNumber = i;
@@ -17,7 +17,7 @@
             <div>
                 <div>
                     <div class="ms-4">
-                        <StepIngredientList CookingStep="@cookingStep" ShoppingList="@Recipe.ShoppingItems" />
+                        <StepIngredientList CookingStep="@cookingStep"  />
                     </div>
                     <button role="button" aria-label="newPartIngredient" class="btn btn-outline-primary col-2 mb-2" type="button" @onclick="@(() => cookingStep.StepIngredients.Add(new StepIngredient()))">Add Ingredient used in this step </button>
                     <ValidationMessage aria-alert="true" For="@(() => cookingStep.StepIngredients)" />
@@ -25,17 +25,18 @@
             </div>
 
             <div class="col-sm-1">
-                <button aria-label="removeStep" class="btn link-danger " @onclick="@(() => Recipe.CookingSteps.Remove(cookingStep))" type="button"><i class="bi bi-dash-circle"></i></button>
+                <button aria-label="removeStep" class="btn link-danger " @onclick="@(() => CookingSteps.Remove(cookingStep))" type="button"><i class="bi bi-dash-circle"></i></button>
             </div>
         </div>
     }
     <div class="row">
         <div class="col">
-            <button aria-label="addNewCookingStep" class="btn btn-outline-primary" type="button" @onclick="@(() => Recipe.CookingSteps.Add(new CookingStep()))">Add CookingStep</button>
-            <ValidationMessage aria-alert="true" For="@(() => Recipe.CookingSteps)" />
+            <button aria-label="addNewCookingStep" class="btn btn-outline-primary" type="button" @onclick="@(() => CookingSteps.Add(new CookingStep()))">Add CookingStep</button>
+            <ValidationMessage aria-alert="true" For="@(() => CookingSteps)" />
         </div>
     </div>
 </FormSection>
+
 @code {
-    [Parameter] public Recipe Recipe { get; set; } = new Recipe();
+    [Parameter] public List<CookingStep> CookingSteps { get; set; } = new List<CookingStep>();
 }

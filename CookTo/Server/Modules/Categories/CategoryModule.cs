@@ -11,9 +11,9 @@ public class CategoryModule : IModule
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
     {
         var api = endpoints.MapGroup(EndpointTemplate.CATEGORY);
-        api.MapGet("/{id}", GetByIdCategory);
-        api.MapGet("/", GetAllCategories);
-        api.MapPost("/", PostCategory);
+        api.MapGet("/{id}", GetByIdCategory).WithName("GetCategoryById");
+        api.MapGet("/", GetAllCategories).WithName("GetListOfCategories");
+        api.MapPost("/", PostCategory).WithName("CreateNewCategory");
 
         return api;
     }

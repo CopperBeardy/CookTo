@@ -1,5 +1,6 @@
 ﻿using Blazored.LocalStorage;
 using CookTo.Shared.Enums;
+using CookTo.Shared.Modules.ManageIngredients;
 
 namespace CookTo.Client.State;
 
@@ -9,7 +10,13 @@ public class AppState
 
     public NewRecipeState NewRecipeState { get; }
 
-    public AppState(ILocalStorageService localStorageService) { NewRecipeState = new NewRecipeState(); }
+    public IngredientsInRecipeState IngredientInRecipeState { get; }
+
+    public AppState(ILocalStorageService localStorageService)
+    {
+        NewRecipeState = new NewRecipeState();
+        IngredientInRecipeState = new IngredientsInRecipeState();
+    }
 
     public Task Initialize()
     {
