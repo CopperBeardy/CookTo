@@ -2,11 +2,8 @@
 
 namespace CookTo.Shared.Modules.ManageUtensils;
 
-public class Utensil
+public class Utensil : BaseEntity
 {
-    [JsonPropertyName("id")]
-    public string? Id { get; set; }
-
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
 }

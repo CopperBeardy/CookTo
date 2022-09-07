@@ -5,10 +5,8 @@ using CookTo.Shared.Modules.ManageTips;
 
 namespace CookTo.Shared.Modules.ManageRecipes;
 
-public class Recipe
+public class Recipe : BaseEntity
 {
-    public string? Id { get; set; }
-
     public string Title { get; set; } = string.Empty;
 
     public Cuisine Cuisine { get; set; } = new Cuisine();

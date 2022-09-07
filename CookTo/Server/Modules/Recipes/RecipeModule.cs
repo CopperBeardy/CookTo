@@ -1,9 +1,11 @@
 using AutoMapper;
 using CookTo.DataAccess;
+using CookTo.DataAccess.Documents.CategoryDocumentAccess;
 using CookTo.DataAccess.Documents.RecipeDocumentAccess;
 using CookTo.DataAccess.Documents.RecipeDocumentAccess.Services;
 using CookTo.Server.Modules.Recipes.Helpers;
 using CookTo.Shared;
+using CookTo.Shared.Modules.ManageCategories;
 using CookTo.Shared.Modules.ManageRecipes;
 using Microsoft.Identity.Web;
 using System.Reflection.Metadata;
@@ -26,51 +28,30 @@ public class RecipeModule : IModule
 
     internal record Request(IRecipeService RecipeService, IMapper Mapper, CancellationToken CancellationToken);
 
-    internal static async Task<IResult> GetByIdRecipe(string id, [AsParameters] Request request)
-    {
-        var document = await request.RecipeService.GetByIdAsync(id, request.CancellationToken);
-        if(document is null)
-            return TypedResults.NotFound(ErrorMessage<Recipe>.ItemNotFound(id));
-
-        var response = request.Mapper.Map<Recipe>(document);
-        return TypedResults.Ok(response);
-    }
+    internal static async Task<IResult> GetByIdRecipe(string id, [AsParameters] Request request) => await GenericHandlers<RecipeDocument, Recipe>
+        .GetByIdAsync(id, request.RecipeService, request.CancellationToken, request.Mapper);
 
     internal static async Task<IResult> PostRecipe(Recipe recipe, HttpContext httpContext, [AsParameters] Request request)
     {
-        recipe.AddedBy = httpContext.User.Claims.First(t => t.Type == ClaimConstants.Name).Value.ToString();
-
-        var document = request.Mapper.Map<RecipeDocument>(recipe);
-        document.ShoppingList.Clear();
-        document.ShoppingList = ShoppingListGenerator.Generate(document.ShoppingItems);
-        await request.RecipeService.CreateAsync(document, request.CancellationToken);
-        var response = request.Mapper.Map<Recipe>(document);
-        ;
-        return TypedResults.Created($"{EndpointTemplate.RECIPE_REDIRECT}/{recipe.Id}", response);
+        // need to change this to iterate over the recipePArts
+        recipe.ShoppingList.Clear();
+        recipe.ShoppingList = ShoppingListGenerator.Generate(recipe.ShoppingItems);
+        return   await GenericHandlers<RecipeDocument, Recipe>
+        .PostAsync(recipe, request.RecipeService, request.CancellationToken, request.Mapper, EndpointTemplate.RECIPE_GET_REDIRECT);
     }
 
-    internal static async Task<IResult> PutRecipe(Recipe recipe, [AsParameters] Request request)
+    internal static async Task<IResult> PutRecipe(Recipe recipe, HttpContext httpContext, [AsParameters] Request request)
     {
-        var exisitingRecipe = await request.RecipeService.GetByIdAsync(recipe.Id, request.CancellationToken);
-        if(exisitingRecipe is null)
-            return TypedResults.NotFound(ErrorMessage<Recipe>.ItemNotFound(recipe.Id));
-
-        var document = request.Mapper.Map<RecipeDocument>(recipe);
-        document.ShoppingList.Clear();
-        document.ShoppingList = ShoppingListGenerator.Generate(document.ShoppingItems);
-        await request.RecipeService.UpdateAsync(document, request.CancellationToken);
-        var response = request.Mapper.Map<Recipe>(document);
-        return TypedResults.Created($"{EndpointTemplate.RECIPE_REDIRECT}/{recipe.Id}", response);
+        // need to change this to iterate over the recipePArts
+        recipe.ShoppingList.Clear();
+        recipe.ShoppingList = ShoppingListGenerator.Generate(recipe.ShoppingItems);
+        return await GenericHandlers<RecipeDocument, Recipe>
+           .PutAsync(recipe, request.RecipeService, request.CancellationToken, request.Mapper, EndpointTemplate.RECIPE_GET_REDIRECT);
     }
 
-    internal static async Task<IResult> DeleteRecipe(string id, [AsParameters] Request request)
-    {
-        var recipe = await request.RecipeService.GetByIdAsync(id, request.CancellationToken);
-        if(recipe is null)
-            return TypedResults.NotFound(ErrorMessage<Recipe>.ItemNotFound(id));
-        await request.RecipeService.DeleteAsync(id, request.CancellationToken);
-        return TypedResults.NoContent();
-    }
+    internal static async Task<IResult> DeleteRecipe(string id, [AsParameters] Request request) => await GenericHandlers<RecipeDocument, Recipe>
+        .DeleteAsync(id, request.RecipeService, request.CancellationToken, request.Mapper);
+
 
     public IServiceCollection RegisterModule(IServiceCollection services)
     {

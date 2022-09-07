@@ -8,6 +8,8 @@ namespace CookTo.Server.Modules.Categories;
 
 public class CategoryModule : IModule
 {
+    public  record Request(ICategoryService CategoryService, IMapper Mapper, CancellationToken CancellationToken);
+
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
     {
         var api = endpoints.MapGroup(EndpointTemplate.CATEGORY);
@@ -18,36 +20,17 @@ public class CategoryModule : IModule
         return api;
     }
 
-    public  record Request(ICategoryService CategoryService, IMapper Mapper, CancellationToken CancellationToken);
+    internal static async Task<IResult> GetByIdCategory(string id, [AsParameters] Request request) =>
+        await GenericHandlers<CategoryDocument, Category>
+        .GetByIdAsync(id, request.CategoryService, request.CancellationToken, request.Mapper);
 
-    internal static async Task<IResult> GetByIdCategory(string id, [AsParameters] Request request)
-    {
-        var document = await request.CategoryService.GetByIdAsync(id, request.CancellationToken);
-        if(document is null)
-            return TypedResults.NotFound(ErrorMessage<Category>.ItemNotFound(id));
+    internal static async Task<IResult> GetAllCategories([AsParameters] Request request) =>
+        await GenericHandlers<CategoryDocument, Category>
+        .GetAllAsync(request.CategoryService, request.CancellationToken, request.Mapper);
 
-        var response = request.Mapper.Map<Category>(document);
-        return TypedResults.Ok(response);
-    }
-
-    internal static async Task<IResult> GetAllCategories([AsParameters] Request request)
-    {
-        var entites = await request.CategoryService.GetAllAsync(request.CancellationToken);
-        var response = new List<Category>();
-
-        if(entites is not null || entites.Any())
-            response.AddRange(entites.Select(c => request.Mapper.Map<Category>(c)));
-
-        return TypedResults.Ok(response);
-    }
-
-    internal static async Task<IResult> PostCategory(Category category, [AsParameters] Request request)
-    {
-        var newCategory = request.Mapper.Map<CategoryDocument>(category);
-        await request.CategoryService.CreateAsync(newCategory, request.CancellationToken);
-        var response = request.Mapper.Map<Category>(newCategory);
-        return TypedResults.Created($"{EndpointTemplate.CATEGORY_REDIRECT}/{response.Id}", response);
-    }
+    internal static async Task<IResult> PostCategory(Category category, [AsParameters] Request request) =>
+        await GenericHandlers<CategoryDocument, Category>
+        .PostAsync(category, request.CategoryService, request.CancellationToken, request.Mapper, EndpointTemplate.CATEGORY_GET_REDIRECT);
 
     public IServiceCollection RegisterModule(IServiceCollection services)
     {

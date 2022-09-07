@@ -2,11 +2,8 @@
 
 namespace CookTo.Shared.Modules.ManageCuisines;
 
-public class Cuisine
+public class Cuisine : BaseEntity
 {
-    [JsonPropertyName("id")]
-    public string? Id { get; set; }
-
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
 }

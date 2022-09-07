@@ -6,8 +6,8 @@ public enum MeasureUnit
     ml,
     g,
     pinch,
-    tsp_dry,
-    tbsp_dry,
-    tsp_liquid,
-    tbsp_liquid,
+    tsp_g,
+    tbsp_g,
+    tsp_ml,
+    tbsp_ml,
 }

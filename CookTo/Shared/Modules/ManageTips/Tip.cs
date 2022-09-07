@@ -2,11 +2,8 @@
 
 namespace CookTo.Shared.Modules.ManageTips;
 
-public class Tip
+public class Tip : BaseEntity
 {
-    [JsonPropertyName("id")]
-    public string? Id { get; set; }
-
     [JsonPropertyName("description")]
     public string Description { get; set; } = string.Empty;
 }

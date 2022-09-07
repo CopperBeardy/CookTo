@@ -1,11 +1,12 @@
 ﻿using CookTo.DataAccess.Documents.RecipeDocumentAccess;
+using CookTo.Shared.Modules.ManageRecipes;
 using System.Text;
 
 namespace CookTo.Server.Modules.Recipes.Helpers;
 
 public  static class ShoppingListGenerator
 {
-    public static List<string> Generate(List<ShoppingItemDocument> items)
+    public static List<string> Generate(List<ShoppingItem> items)
     {
         var shoppingList = new List<string>();
         foreach(var item in items)
