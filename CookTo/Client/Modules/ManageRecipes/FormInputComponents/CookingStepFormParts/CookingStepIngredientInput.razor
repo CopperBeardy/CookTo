@@ -1,0 +1,32 @@
+﻿@inject AppState AppState
+
+<FormInputGroup Id="quantityInput" Label="Quantity" Width="col col-sm-2">
+    <InputText aria-required="true" id="quantityInput" class="form-control  " @bind-Value="CookingStepIngredient.Quantity" />
+    <ValidationMessage aria-alert="true" For="@(() =>  CookingStepIngredient.Quantity)" />
+</FormInputGroup>
+<FormInputGroup Id="measureInput" Label="Measure" Width="col col-sm-2">
+    <MeasureSelect MeasureItem="@CookingStepIngredient.Measure"></MeasureSelect>
+    <ValidationMessage aria-alert="true" For="@(() =>  CookingStepIngredient.Measure)" />
+</FormInputGroup>
+<FormInputGroup Id="ingredientSelect" Label="Ingredient" Width="col col-sm-8">
+    <select @onchange="@OnValueChanged">
+        <option>@placeholder</option>
+        @foreach (var item in AppState.IngredientInRecipeState.GetIngredients())
+        {
+            <option value="@item.Id">@item.Name</option>
+        }
+    </select>
+</FormInputGroup>
+
+@code {
+    [Parameter] public CookingStepIngredient CookingStepIngredient { get; set; } = new();
+    private string SelectedIngredient;
+    private string placeholder = "Select Ingredient";
+    public void OnValueChanged(ChangeEventArgs args)
+    {
+        var value = args.Value.ToString();
+        if (value is not null || value != placeholder)
+            CookingStepIngredient.Ingredient = AppState.IngredientInRecipeState.GetIngredients().Where(x => x.Id == value).FirstOrDefault();
+
+    }
+}

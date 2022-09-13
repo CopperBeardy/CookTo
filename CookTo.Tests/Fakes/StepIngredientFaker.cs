@@ -3,7 +3,7 @@ using CookTo.Shared.Modules.ManageRecipes;
 
 namespace CookTo.Tests.Fakes;
 
-public class StepIngredientFaker : Faker<StepIngredient>
+public class StepIngredientFaker : Faker<CookingStepIngredient>
 {
     public StepIngredientFaker()
     {

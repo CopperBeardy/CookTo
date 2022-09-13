@@ -1,10 +1,7 @@
 ﻿namespace CookTo.Shared.Modules.ManageRecipes.Validators;
 
-public class StepIngredientValidator : AbstractValidator<StepIngredient>
+public class StepIngredientValidator : AbstractValidator<CookingStepIngredient>
 {
     public StepIngredientValidator()
-    {
-        RuleFor(x => x.Ingredient).NotEmpty().WithMessage("Please select a Ingredient");
-        RuleFor(x => x.Ingredient).NotEqual("select ingredient");
-    }
+    { RuleFor(x => x.Ingredient).NotEmpty().WithMessage("Please select a Ingredient"); }
 }

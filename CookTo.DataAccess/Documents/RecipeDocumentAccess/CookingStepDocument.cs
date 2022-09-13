@@ -7,6 +7,6 @@ public class CookingStepDocument
 
     public string StepDescription { get; set; } = string.Empty;
 
-    public List<StepIngredientDocument>? StepIngredients { get; set; }
+    public List<CookingStepIngredientDocument>? CookingStepIngredients { get; set; }
 }
 

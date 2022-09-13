@@ -2,8 +2,7 @@
 @inject AppState AppState
 <div class="col col-sm-6 m-0">
     <BlazoredTypeahead MaximumSuggestions=3 id="typeaheadInput"
-                       SearchMethod="SearchItems"                
-   
+                       SearchMethod="SearchItems"        
                        placeholder="Search"
                        role="combobox"
                        aria-required="true"
@@ -12,9 +11,9 @@
                       aria-haspopup="true" 
                       TValue="Ingredient"
                       TItem="Ingredient"
-                        Value="PartIngredient.Ingredient"
+                        Value="RecipePartIngredient.Ingredient"
                         ValueChanged="SelectedResultChanged"
-                        ValueExpression="@(() => PartIngredient.Ingredient)"
+                        ValueExpression="@(() => RecipePartIngredient.Ingredient)"
                        EnableDropDown="false"
                        AddItemOnEmptyResultMethod="HandleAdd"  >
         <SelectedTemplate Context="ingredient">
@@ -28,12 +27,12 @@
             new Ingredient will be selected after being added.</span>
         </NotFoundTemplate>
     </BlazoredTypeahead>
-    <ValidationMessage aria-alert="true" For="@(() => PartIngredient.Ingredient)" />
+    <ValidationMessage aria-alert="true" For="@(() => RecipePartIngredient.Ingredient)" />
 
 </div>
 @code {
 
-    [Parameter] public PartIngredient PartIngredient{ get; set; } = new PartIngredient();    
+    [Parameter] public RecipePartIngredient RecipePartIngredient{ get; set; } = new ();    
     public IList<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
     protected override async Task OnInitializedAsync()
     {
@@ -44,11 +43,11 @@
 
     private async Task SelectedResultChanged(Ingredient ingredient)
     {
-        if(PartIngredient.Ingredient is not null)
+        if(RecipePartIngredient.Ingredient is not null)
         {
-            AppState.IngredientInRecipeState.RemoveIngredient(PartIngredient.Ingredient);
+            AppState.IngredientInRecipeState.RemoveIngredient(ingredient);
         } 
-        PartIngredient.Ingredient = ingredient;
+       RecipePartIngredient.Ingredient = ingredient;
 
         AppState.IngredientInRecipeState.AddIngredient(ingredient);
 
@@ -60,8 +59,6 @@
             if (result is null) return null;
 
         Ingredients.Add(result);
-
-        //add it in here 
 
         return await Task.FromResult(result);
       

@@ -1,0 +1,9 @@
+﻿ <InputSelect @bind-Value="@MeasureItem" >
+    @foreach (var measure in Enum.GetValues(typeof(MeasureUnit)))
+    {
+          <option value="@measure">@measure </option>
+    }
+ </InputSelect>
+@code {
+    [Parameter] public MeasureUnit MeasureItem { get; set; }
+}

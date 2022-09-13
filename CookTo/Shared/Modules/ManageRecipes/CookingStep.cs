@@ -6,5 +6,5 @@ public class CookingStep
 
     public string StepDescription { get; set; } = string.Empty;
 
-    public List<StepIngredient> StepIngredients { get; set; } = new List<StepIngredient>();
+    public List<CookingStepIngredient> CookingStepIngredients { get; set; } = new List<CookingStepIngredient>();
 }

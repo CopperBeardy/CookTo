@@ -4,6 +4,7 @@ using CookTo.DataAccess.Documents.IngredientDocumentAccess;
 using CookTo.DataAccess.Documents.TipDocumentAccess;
 
 using CookTo.Shared.Enums;
+using CookTo.Shared.Modules.ManageRecipes;
 
 namespace CookTo.DataAccess.Documents.RecipeDocumentAccess;
 
@@ -35,6 +36,8 @@ public class RecipeDocument : BaseDocument
     public List<UtensilPartDocument> Utensils { get; set; }
 
     public List<CookingStepDocument> CookingSteps { get; set; }
+
+    public List<RecipePart> RecipeParts { get; set; }
 
     public List<ShoppingItemDocument> ShoppingItems { get; set; }
 

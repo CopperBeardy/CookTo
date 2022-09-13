@@ -1,6 +1,5 @@
 ﻿@page "/recipe/{RecipeId}"
-
-@inject             RecipeManager RecipeManager
+@inject  RecipeManager RecipeManager
 <PageTitle>@Recipe.Title</PageTitle>
 
 <BreadCrumb PageName="@Recipe.Title" />
@@ -16,23 +15,24 @@ else
             <h2>@Recipe.Title</h2>
         </div>
         <div class="row mb-3">
-            <HeaderSection RecipeDto="@Recipe" />
+            <HeaderDisplaySection RecipeDto="@Recipe" />
         </div>
         <div class="row mb-3">
             <div class="card shadow p-3 mt-3">
                 <div class="d-flex flex-row">                
                     <div class="col-sm-7">
-                        <MethodSection CookingSteps="@Recipe.CookingSteps" />
+                        <CookingStepsDisplaySection CookingSteps="@Recipe.CookingSteps" />
                     </div>
                     <div class="d-flex ms-4 me-4">
                         <div class="vr"></div>
                     </div>
                     <div class="col-sm-4 flex-column">
                     <div>
-                        <IngredientSection Title="@Recipe.Title" ShoppingList="@Recipe.ShoppingList" />
+                       @* Replace with RecipeParts*@
+                        <RecipePartsDisplaySection Title="@Recipe.Title" RecipeParts="@Recipe.RecipeParts" />
                     </div>
                     <div >                                    
-                        <UtensilSection UtensilParts="@Recipe.Utensils" />
+                        <UtensilDisplaySection UtensilParts="@Recipe.Utensils" />
                     </div>
                     </div>
                 </div>
@@ -40,7 +40,7 @@ else
         </div>
         @if (Recipe.Tips is not null )
         {
-            <TipsSection Tips="@Recipe.Tips"  />
+            <TipsDisplaySection Tips="@Recipe.Tips"  />
         }
     </div>
 }

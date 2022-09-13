@@ -10,5 +10,5 @@ public  class RecipePartDocument
 {
     public string Title { get; set; } = string.Empty;
 
-    public List<PartIngredientDocument> PartIngredients { get; set; } = new List<PartIngredientDocument>();
+    public List<RecipePartIngredientDocument> RecipePartIngredients { get; set; } = new List<RecipePartIngredientDocument>();
 }

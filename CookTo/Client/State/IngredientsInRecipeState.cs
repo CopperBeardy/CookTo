@@ -18,7 +18,7 @@ public class IngredientsInRecipeState
             return;
         foreach(var part in parts)
         {
-            foreach(var partIngredient in part.PartIngredients)
+            foreach(var partIngredient in part.RecipePartIngredients)
             {
                 AddIngredient(partIngredient.Ingredient);
             }

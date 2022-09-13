@@ -1,0 +1,24 @@
+﻿  <div class="col col-sm-4 justify-content-center">
+    <h5><strong>@Title</strong>  </h5>
+  </div>
+<div>
+    <ul style="list-style-type:none">
+        @foreach (var recipePart in RecipeParts)
+       {
+         @if(RecipeParts.Count > 1)
+            {
+                <h6>@recipePart.Title</h6>
+            }
+            @foreach (var partIngredient in recipePart.RecipePartIngredients)
+            {
+                <li>@partIngredient.ToString();</li>
+            }
+        }
+    </ul>
+    
+</div>
+
+@code {
+    [Parameter] public string Title { get; set; } = string.Empty; 
+    [Parameter] public List<RecipePart> RecipeParts { get; set; } = new ();
+}

@@ -25,10 +25,10 @@ internal static class GenericHandlers<TDocument, TEntity> where TDocument : Base
     internal static async Task<IResult> GetAllAsync(IBaseService<TDocument> service, CancellationToken cancellationToken, IMapper mapper)
     {
         var entites = await service.GetAllAsync(cancellationToken);
-        var response = new List<Category>();
+        var response = new List<TEntity>();
 
         if(entites is not null || entites.Any())
-            response.AddRange(entites.Select(c => mapper.Map<Category>(c)));
+            response.AddRange(entites.Select(c => mapper.Map<TEntity>(c)));
 
         return TypedResults.Ok(response);
     }

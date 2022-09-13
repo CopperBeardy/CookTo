@@ -8,6 +8,8 @@ namespace CookTo.Server.Modules.Cuisines;
 
 public class CuisineModule : IModule
 {
+    internal record Request(ICuisineService CuisineService, IMapper Mapper, CancellationToken CancellationToken);
+
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
     {
         var api = endpoints.MapGroup(EndpointTemplate.CUISINE);
@@ -16,8 +18,6 @@ public class CuisineModule : IModule
         api.MapPost("/", PostCuisine);
         return api;
     }
-
-    internal record Request(ICuisineService CuisineService, IMapper Mapper, CancellationToken CancellationToken);
 
     internal static async Task<IResult> GetByIdCuisine(string id, [AsParameters] Request request) => await GenericHandlers<CuisineDocument, Cuisine>
     .GetByIdAsync(id, request.CuisineService, request.CancellationToken, request.Mapper);

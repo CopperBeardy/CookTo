@@ -9,11 +9,11 @@
                 <ValidationMessage aria-alert="true" For="@(() =>  PartIngredient.Quantity)" />
             </FormInputGroup>
             <FormInputGroup Id="measureInput" Label="Measure" Width="col col-sm-2">
-                <InputText aria-required="true" id="measureInput" class="form-control  " @bind-Value="PartIngredient.Measure" />
+               <MeasureSelect MeasureItem="@PartIngredient.Measure"/>
                 <ValidationMessage aria-alert="true" For="@(() =>  PartIngredient.Measure)" />
             </FormInputGroup>
             <FormInputGroup Id="ingredientInput" Label="Ingredient" Width="col col-sm-8">
-                <PartIngredientTypeahead PartIngredient="@PartIngredient"   />
+                <IngredientTypeahead RecipePartIngredient="@PartIngredient"   />
             </FormInputGroup>
 
         </div>
@@ -29,5 +29,5 @@
 </div>
 
 @code {
-    [Parameter] public PartIngredient PartIngredient { get; set; } = new PartIngredient();
+    [Parameter] public RecipePartIngredient PartIngredient { get; set; } = new RecipePartIngredient();
 }

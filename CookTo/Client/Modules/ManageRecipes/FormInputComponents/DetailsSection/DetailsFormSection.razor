@@ -19,11 +19,11 @@
     </FormInputGroup>
 
     <FormInputGroup Width="col col-sm-6"  Id="recipeCuisine" Label="Cuisine" Margins="mb-2" >
-           <CuisineTypeahead Recipe="@Recipe" />
+           <CuisineTypeahead Cuisine="@Recipe.Cuisine" />
     </FormInputGroup>
   
      <FormInputGroup Width="col col-sm-6"  Id="recipeCategory" Label="Category" Margins="mb-2" >
-              <CategoryTypeahead  Recipe="@Recipe"/>   
+              <CategoryTypeahead  Category="@Recipe.Category"/>   
     </FormInputGroup>
  
           <FormInputGroup Width="col col-sm-6" Id="prepTime" Label="Prep Time" Margins="mb-2">

@@ -15,9 +15,9 @@ public  class RecipePartFaker : Faker<RecipePart>
 		RuleSet("WithTitle", set =>
 		{
 			set.RuleFor(x => x.Title, f => f.Random.Word());
-			set.RuleFor(x => x.PartIngredients, new PartIngredientFaker().GenerateBetween(1, 5));
+			set.RuleFor(x => x.RecipePartIngredients, new PartIngredientFaker().GenerateBetween(1, 5));
 		});
 		RuleFor(x => x.Title, string.Empty);
-		RuleFor(x => x.PartIngredients, new PartIngredientFaker().GenerateBetween(1, 5));
+		RuleFor(x => x.RecipePartIngredients, new PartIngredientFaker().GenerateBetween(1, 5));
 	}
 }

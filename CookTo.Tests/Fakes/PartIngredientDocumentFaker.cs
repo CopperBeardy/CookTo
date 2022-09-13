@@ -3,7 +3,7 @@ using CookTo.DataAccess.Documents.RecipeDocumentAccess;
 
 namespace CookTo.Tests.Fakes;
 
-public class PartIngredientDocumentFaker : Faker<PartIngredientDocument>
+public class PartIngredientDocumentFaker : Faker<RecipePartIngredientDocument>
 {
     public PartIngredientDocumentFaker()
     {

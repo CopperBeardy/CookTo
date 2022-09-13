@@ -32,7 +32,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.Tips, opt => opt.AllowNull())
             .ReverseMap();
         CreateMap<CookingStep, CookingStepDocument>()
-            .ForMember(dest => dest.StepIngredients, src => src.AllowNull())
+            .ForMember(dest => dest.CookingStepIngredients, src => src.AllowNull())
             .ReverseMap();
         CreateMap<ShoppingItem, ShoppingItemDocument>()
             .ForMember(dest => dest.Quantity, src => src.AllowNull())
@@ -40,7 +40,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.AdditionalInformation, src => src.AllowNull())
             .ReverseMap();
 
-        CreateMap<StepIngredient, StepIngredientDocument>()
+        CreateMap<CookingStepIngredient, CookingStepIngredientDocument>()
             .ForMember(dest => dest.Quantity, src => src.AllowNull())
             .ForMember(dest => dest.Measure, src => src.AllowNull())
             .ReverseMap();

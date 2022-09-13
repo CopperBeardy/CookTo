@@ -9,6 +9,6 @@ public class CookingStepDocumentFaker : Faker<CookingStepDocument>
     {
         RuleFor(o => o.OrderNumber, f => f.Random.Number(1, 10));
         RuleFor(o => o.StepDescription, f => f.Random.Words());
-        RuleFor(o => o.StepIngredients, new Faker<StepIngredientDocument>().GenerateBetween(0, 10));
+        RuleFor(o => o.CookingStepIngredients, new Faker<CookingStepIngredientDocument>().GenerateBetween(0, 10));
     }
 }
