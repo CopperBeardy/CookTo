@@ -1,0 +1,66 @@
+﻿@inject             IngredientManager Manager
+@inject AppState AppState
+<div class="col col-sm-6 m-0">
+    <BlazoredTypeahead MaximumSuggestions=3 id="typeaheadInput"
+                       SearchMethod="SearchItems"        
+                       placeholder="Search"
+                       role="combobox"
+                       aria-required="true"
+                       aria-expanded="false"
+                       aria-controls="true"
+                      aria-haspopup="true" 
+                      TValue="Ingredient"
+                      TItem="Ingredient"
+                        Value="RecipePartIngredient.Ingredient"
+                        ValueChanged="SelectedResultChanged"
+                        ValueExpression="@(() => RecipePartIngredient.Ingredient)"
+                       EnableDropDown="false"
+                       AddItemOnEmptyResultMethod="HandleAdd"  >
+        <SelectedTemplate Context="ingredient">
+         <span role="menuitem">@ingredient.Name</span> 
+        </SelectedTemplate>
+        <ResultTemplate Context="ingredient">
+            @ingredient.Name
+        </ResultTemplate>
+        <NotFoundTemplate Context="searchText">
+            <span role="menuitem">Add "@searchText" as a new Ingredient <br />
+            new Ingredient will be selected after being added.</span>
+        </NotFoundTemplate>
+    </BlazoredTypeahead>
+    <ValidationMessage aria-alert="true" For="@(() => RecipePartIngredient.Ingredient)" />
+
+</div>
+@code {
+
+    [Parameter] public RecipePartIngredient RecipePartIngredient{ get; set; } = new ();    
+    public IEnumerable<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
+    protected override async Task OnInitializedAsync()
+    {
+        Ingredients = await Manager.GetAllAsync();
+    }
+
+    private async Task<IEnumerable<Ingredient>> SearchItems(string searchText) => await Task.FromResult(Ingredients.Where(x => x.Name.ToLower().Contains(searchText.ToLower())).ToList());
+
+    private async Task SelectedResultChanged(Ingredient ingredient)
+    {
+        if(RecipePartIngredient.Ingredient is not null)
+        {
+            AppState.IngredientInRecipeState.RemoveIngredient(ingredient);
+        } 
+       RecipePartIngredient.Ingredient = ingredient;
+
+        AppState.IngredientInRecipeState.AddIngredient(ingredient);
+
+    }
+
+        private async Task<Ingredient> HandleAdd(string searchAdd)
+        {
+            var result = await Manager.Insert(new Ingredient() { Name = searchAdd.ToLower() });
+            if (result is null) return null;
+
+        Ingredients.Append(result);
+
+        return await Task.FromResult(result);
+      
+    }
+}

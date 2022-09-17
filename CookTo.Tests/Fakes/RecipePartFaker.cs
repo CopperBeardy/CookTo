@@ -1,5 +1,5 @@
 ﻿using Bogus;
-using CookTo.Shared.Modules.ManageRecipes;
+using CookTo.Shared.Models.ManageRecipes;
 using System;
 using System.Collections.Generic;
 using System.Linq;

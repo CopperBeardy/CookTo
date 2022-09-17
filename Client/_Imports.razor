@@ -1,0 +1,41 @@
+﻿@using System.Net.Http
+@using System.Net.Http.Json
+
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.AspNetCore.Components.WebAssembly.Http
+@using Microsoft.JSInterop
+
+@using CookTo.Client
+@using CookTo.Client.Shared
+@using CookTo.Client.Layout
+@using CookTo.Client.Login
+@using CookTo.Client.State
+@using CookTo.Client.Validation
+@using CookTo.Client.HTTPHelpers
+@using CookTo.Client.Modules
+@using CookTo.Client.Modules.Home
+@using CookTo.Client.Modules.ManageRecipes
+@using CookTo.Client.Modules.Search
+@using CookTo.Client.Components
+@using CookTo.Client.Services
+
+@using CookTo.Shared.Enums
+@using CookTo.Shared.Models
+@using CookTo.Shared.Models.ManageCategories
+@using CookTo.Shared.Models.ManageCuisines
+@using CookTo.Shared.Models.ManageIngredients
+@using CookTo.Shared.Models.ManageRecipes
+@using CookTo.Shared.Models.ManageTips
+@using CookTo.Shared.Models.ManageUtensils
+@using CookTo.Shared.Repositories
+@using CookTo.Shared.Models.Search
+
+
+
+@using Blazored.Modal
+@using Blazored.Modal.Services

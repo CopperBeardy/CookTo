@@ -1,7 +1,5 @@
 ﻿using Bogus;
 using CookTo.Shared.Enums;
-using System;
-using System.Collections.Generic;
 
 namespace CookTo.Tests.Fakes;
 
