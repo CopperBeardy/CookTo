@@ -1,11 +1,13 @@
 ﻿using CookTo.Shared.Models;
 using CookTo.Shared.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.Identity.Web.Resource;
 
 namespace CookTo.Server.Controllers;
 
+[Authorize]
 [Route("[controller]")]
 [ApiController]
 //[RequiredScope(RequiredScopesConfigurationKey = "AzureAdB2C:Scopes")]
@@ -56,7 +58,7 @@ public class MFControllerBase<TEntity> : ControllerBase where TEntity : BaseEnti
         }
     }
 
-    [HttpPost]
+    [HttpPut]
     public async Task<IResult> Update([FromBody] TEntity entity)
     {
         try

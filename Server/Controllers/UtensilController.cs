@@ -1,6 +1,7 @@
 ﻿using CookTo.Shared.Models.ManageUtensils;
 using CookTo.Shared.Repositories;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CookTo.Server.Controllers;
@@ -10,5 +11,6 @@ namespace CookTo.Server.Controllers;
 public class UtensilController : MFControllerBase<Utensil>
 {
     MongoRepository<Utensil> repository;
+
     public UtensilController(MongoRepository<Utensil> _repository) : base(_repository) { repository = _repository; }
 }

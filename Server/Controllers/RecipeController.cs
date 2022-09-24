@@ -1,5 +1,6 @@
 ﻿using CookTo.Shared.Models.ManageRecipes;
 using CookTo.Shared.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CookTo.Server.Controllers;
@@ -9,5 +10,6 @@ namespace CookTo.Server.Controllers;
 public class RecipeController : MFControllerBase<Recipe>
 {
     MongoRepository<Recipe> repository;
+
     public RecipeController(MongoRepository<Recipe> _repository) : base(_repository) { repository = _repository; }
 }

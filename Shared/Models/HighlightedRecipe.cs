@@ -18,9 +18,9 @@ public class HighlightedRecipe : BaseEntity
 
     public   string AddedBy { get; set; } = string.Empty;
 
-    public   int PrepTime { get; set; }
+    public   string PrepTime { get; set; }
 
-    public   int CookTime { get; set; }
+    public   string CookTime { get; set; }
 
     public   string Description { get; set; } = string.Empty;
 

@@ -2,6 +2,7 @@
 using CookTo.Shared.Models.ManageCategories;
 using CookTo.Shared.Repositories;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CookTo.Server.Controllers;
@@ -11,5 +12,6 @@ namespace CookTo.Server.Controllers;
 public class CategoryController : MFControllerBase<Category>
 {
     MongoRepository<Category> repository;
+
     public CategoryController(MongoRepository<Category> _repository) : base(_repository) { repository = _repository; }
 }

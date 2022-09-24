@@ -13,8 +13,8 @@ public class RecipeUpdateFaker : Faker<Recipe>
         RuleFor(o => o.Category, new CategoryFaker().Generate());
         RuleFor(o => o.Description, f => f.Lorem.Paragraph());
         RuleFor(o => o.Image, f => f.Random.Word());
-        RuleFor(o => o.PrepTime, f => f.Random.Number());
-        RuleFor(o => o.CookTime, f => f.Random.Number());
+        RuleFor(o => o.PrepTime, f => f.Random.Word());
+        RuleFor(o => o.CookTime, f => f.Random.Word());
         RuleFor(o => o.Serves, f => f.Random.Number().ToString());
         RuleFor(o => o.Creator, f => f.Random.Word().ToString());
         RuleFor(o => o.AddedBy, f => f.Random.Word().ToString());

@@ -1,30 +1,32 @@
-﻿@inject             IngredientManager Manager
+﻿@inject IngredientManager Manager
 @inject AppState AppState
 <div class="col col-sm-6 m-0">
     <BlazoredTypeahead MaximumSuggestions=3 id="typeaheadInput"
-                       SearchMethod="SearchItems"        
+                       SearchMethod="SearchItems"
                        placeholder="Search"
                        role="combobox"
                        aria-required="true"
                        aria-expanded="false"
                        aria-controls="true"
-                      aria-haspopup="true" 
-                      TValue="Ingredient"
-                      TItem="Ingredient"
-                        Value="RecipePartIngredient.Ingredient"
-                        ValueChanged="SelectedResultChanged"
-                        ValueExpression="@(() => RecipePartIngredient.Ingredient)"
+                       aria-haspopup="true"
+                       TValue="Ingredient"
+                       TItem="Ingredient"
+                       Value="selectedIngredient"
+                       ValueChanged="SelectedResultChanged"
+                       ValueExpression="@(() => selectedIngredient)"
                        EnableDropDown="false"
-                       AddItemOnEmptyResultMethod="HandleAdd"  >
+                       AddItemOnEmptyResultMethod="HandleAdd">
         <SelectedTemplate Context="ingredient">
-         <span role="menuitem">@ingredient.Name</span> 
+            <span role="menuitem">@ingredient.Name</span>
         </SelectedTemplate>
         <ResultTemplate Context="ingredient">
             @ingredient.Name
         </ResultTemplate>
         <NotFoundTemplate Context="searchText">
-            <span role="menuitem">Add "@searchText" as a new Ingredient <br />
-            new Ingredient will be selected after being added.</span>
+            <span role="menuitem">
+                Add "@searchText" as a new Ingredient <br />
+                new Ingredient will be selected after being added.
+            </span>
         </NotFoundTemplate>
     </BlazoredTypeahead>
     <ValidationMessage aria-alert="true" For="@(() => RecipePartIngredient.Ingredient)" />
@@ -32,8 +34,11 @@
 </div>
 @code {
 
-    [Parameter] public RecipePartIngredient RecipePartIngredient{ get; set; } = new ();    
+    [Parameter] public RecipePartIngredient RecipePartIngredient { get; set; } = new();
     public IEnumerable<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
+    private Ingredient selectedIngredient;
+
+
     protected override async Task OnInitializedAsync()
     {
         Ingredients = await Manager.GetAllAsync();
@@ -43,24 +48,27 @@
 
     private async Task SelectedResultChanged(Ingredient ingredient)
     {
-        if(RecipePartIngredient.Ingredient is not null)
+        if (selectedIngredient is not null)
         {
             AppState.IngredientInRecipeState.RemoveIngredient(ingredient);
-        } 
-       RecipePartIngredient.Ingredient = ingredient;
+
+        }
+        selectedIngredient = ingredient;
+
+        RecipePartIngredient.Ingredient = ingredient;
 
         AppState.IngredientInRecipeState.AddIngredient(ingredient);
 
     }
 
-        private async Task<Ingredient> HandleAdd(string searchAdd)
-        {
-            var result = await Manager.Insert(new Ingredient() { Name = searchAdd.ToLower() });
-            if (result is null) return null;
+    private async Task<Ingredient> HandleAdd(string searchAdd)
+    {
+        var result = await Manager.Insert(new Ingredient() { Name = searchAdd.ToLower() });
+        if (result is null) return null;
 
         Ingredients.Append(result);
 
         return await Task.FromResult(result);
-      
+
     }
 }

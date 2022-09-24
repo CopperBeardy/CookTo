@@ -1,5 +1,5 @@
 ﻿<FormSection Title="Recipe Parts">
-    @foreach (var part in RecipeParts)
+    @foreach (var part in Recipe.RecipeParts)
     {
         <div class="d-flex row gy-1 gx-1 align-items-center ms-2 mb-2">
             <div class="ms-4">
@@ -7,17 +7,17 @@
             </div>
 
             <div class="col-sm-1">
-                <button aria-label="removeItem" class="btn link-danger " @onclick="@(() => RecipeParts.Remove(part))" type="button"><i class="bi bi-dash-circle"></i></button>
+                <button aria-label="removeItem" class="btn link-danger " @onclick="@(() => Recipe.RecipeParts.Remove(part))" type="button"><i class="bi bi-dash-circle"></i></button>
             </div>
         </div>
     }
     <div class="row">
         <div class="col">
-            <button aria-label="addRecipePartItem" class="btn btn-outline-primary" type="button" @onclick="@(() => RecipeParts.Add(new RecipePart()))">Add Recipe Part</button>
-            <ValidationMessage aria-alert="true" For="@(() => RecipeParts)" />
+            <button aria-label="addRecipePartItem" class="btn btn-outline-primary" type="button" @onclick="@(() => Recipe.RecipeParts.Add(new RecipePart()))">Add Recipe Part</button>
+            <ValidationMessage aria-alert="true" For="@(() => Recipe.RecipeParts )" />
         </div>
     </div>
 </FormSection>
 @code {
-    [Parameter] public List<RecipePart> RecipeParts { get; set; } = new ();
+    [Parameter] public Recipe Recipe { get; set; } = new ();
 }

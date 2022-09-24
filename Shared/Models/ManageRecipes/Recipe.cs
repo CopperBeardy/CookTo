@@ -17,9 +17,9 @@ public class Recipe : BaseEntity
 
     public string? Image { get; set; } = string.Empty;
 
-    public int PrepTime { get; set; }
+    public string PrepTime { get; set; }
 
-    public int CookTime { get; set; }
+    public string CookTime { get; set; }
 
     public string Serves { get; set; }
 

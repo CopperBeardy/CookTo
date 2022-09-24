@@ -1,6 +1,7 @@
 ﻿using CookTo.Shared;
 using CookTo.Shared.Models.ManageRecipes;
 using CookTo.Shared.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
@@ -13,7 +14,9 @@ namespace CookTo.Server.Controllers;
 public class ImageController : ControllerBase
 {
     MongoRepository<Recipe> repository;
-    public ImageController(MongoRepository<Recipe> repository) => this.repository = repository;
+
+    public ImageController(MongoRepository<Recipe> repository) { this.repository = repository; }
+
     [HttpPost]
     public async Task<IResult> Post([FromBody]ImageUpload imageUpload)
     {

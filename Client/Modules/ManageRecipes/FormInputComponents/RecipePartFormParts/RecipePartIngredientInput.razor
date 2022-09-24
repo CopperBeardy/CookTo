@@ -9,7 +9,12 @@
                 <ValidationMessage aria-alert="true" For="@(() =>  PartIngredient.Quantity)" />
             </FormInputGroup>
             <FormInputGroup Id="measureInput" Label="Measure" Width="col col-sm-2">
-               <MeasureSelect MeasureItem="@PartIngredient.Measure"/>
+                <InputSelect @bind-Value="@PartIngredient.Measure">
+                    @foreach (var measure in Enum.GetValues(typeof(MeasureUnit)))
+                    {
+                        <option value="@measure">@measure </option>
+                    }
+                </InputSelect>
                 <ValidationMessage aria-alert="true" For="@(() =>  PartIngredient.Measure)" />
             </FormInputGroup>
             <FormInputGroup Id="ingredientInput" Label="Ingredient" Width="col col-sm-8">

@@ -2,9 +2,13 @@
 
 <h3 class="mt-5 mb-4">Add a Recipe</h3>
 <EditForm OnValidSubmit="SubmitForm" EditContext="_editContext" aria-label="form">
-    <FluentValidationValidator/>
+    <FluentValidationValidator  Options="@(options => options.IncludeAllRuleSets())"/>
     <FormStateTracker />
- 
+    <ValidationSummary />
+
+
+
+
     <DetailsFormSection  Recipe="_recipe"/>
     <FormSection Title="Image" >
        
@@ -24,8 +28,8 @@
             }
         </div>    
     </FormSection>
-   <RecipePartsSection RecipeParts="_recipe.RecipeParts"/>   
-   <CookingStepsSection CookingSteps="_recipe.CookingSteps"/>
+   <RecipePartsSection Recipe="_recipe"/>   
+   <CookingStepsSection Recipe="_recipe"/>
     <UtensilsFormSection Recipe="_recipe"/>   
     <TipsFormSection  Recipe="_recipe"/>
 

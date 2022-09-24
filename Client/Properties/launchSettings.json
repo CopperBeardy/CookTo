@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "https": {
+    "CookTo_Browser": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

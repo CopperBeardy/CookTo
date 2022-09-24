@@ -7,10 +7,12 @@ using CookTo.Shared.Models.ManageUtensils;
 using CookTo.Shared.Repositories;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Identity.Web;
 using MongoFramework;
 using System.Reflection;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,23 +20,18 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAdB2C"));
+
+//builder.Services
+//    .Configure<IdentityOptions>(options => options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier);
+
+
 builder.Services.Configure<MongoSettings>(builder.Configuration.GetSection(nameof(MongoSettings))).AddOptions();
+
 builder.Services
     .AddEndpointsApiExplorer()
     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.Load("CookTo.Shared")));
 
-builder.Services
-    .AddTransient<IMongoDbConnection>(c =>
-    {
-        var settings = builder.Configuration.GetSection(nameof(MongoSettings));
-        var connectionString = settings.GetValue<string>("ConnectionString");
-        var database = settings.GetValue<string>("Database");
 
-        var connection = MongoDbConnection.FromConnectionString($"{connectionString}/{database}");
-
-
-        return connection;
-    });
 builder.Services.AddTransient<CookToDbContext, CookToDbContext>();
 builder.Services.AddTransient<MongoRepository<Ingredient>>();
 builder.Services.AddTransient<MongoRepository<Cuisine>>();
@@ -50,25 +47,12 @@ builder.Services
             c.SwaggerDoc("v1", new() { Title = "CookToApi", Version = "v1" });
         });
 
-builder.Services
-    .AddCors(
-        policy =>
-        {
-            policy.AddPolicy(
-                "CorsPolicy",
-                opt => opt
-                .AllowAnyOrigin()
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .WithExposedHeaders("X-Pagination"));
-        });
-
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
 if(app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
@@ -77,7 +61,6 @@ if(app.Environment.IsDevelopment())
 } else
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -96,7 +79,6 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.UseCors("CorsPolicy");
 app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");

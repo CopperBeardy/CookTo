@@ -4,7 +4,7 @@ namespace CookTo.Shared.Repositories;
 
 public interface IMongoRepository<TEntity> where TEntity : BaseEntity
 {
-    Task<IEnumerable<TEntity>> GetAllAsync();
+    Task<IList<TEntity>> GetAllAsync();
 
     Task<TEntity> GetByIdAsync(string id);
 

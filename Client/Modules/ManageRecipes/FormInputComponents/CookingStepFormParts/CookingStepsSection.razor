@@ -3,7 +3,7 @@
     @{
         var i = 0;
     }
-    @foreach (var cookingStep in CookingSteps)
+    @foreach (var cookingStep in Recipe.CookingSteps)
     {
         i++;
         cookingStep.OrderNumber = i;
@@ -12,18 +12,18 @@
             <CookingStepSection CookingStep="@cookingStep"/>
 
             <div class="col-sm-1">
-                <button aria-label="removeStep" class="btn link-danger " @onclick="@(() => CookingSteps.Remove(cookingStep))" type="button"><i class="bi bi-dash-circle"></i></button>
+                <button aria-label="removeStep" class="btn link-danger " @onclick="@(() => Recipe.CookingSteps.Remove(cookingStep))" type="button"><i class="bi bi-dash-circle"></i></button>
             </div>
         </div>
     }
     <div class="row">
         <div class="col">
-            <button aria-label="addNewCookingStep" class="btn btn-outline-primary" type="button" @onclick="@(() => CookingSteps.Add(new CookingStep()))">Add CookingStep</button>
-            <ValidationMessage aria-alert="true" For="@(() => CookingSteps)" />
+            <button aria-label="addNewCookingStep" class="btn btn-outline-primary" type="button" @onclick="@(() => Recipe.CookingSteps.Add(new CookingStep()))">Add CookingStep</button>
+            <ValidationMessage aria-alert="true" For="@(() => Recipe.CookingSteps)" />
         </div>
     </div>
 </FormSection>
 
 @code {
-    [Parameter] public List<CookingStep> CookingSteps { get; set; } = new List<CookingStep>();
+    [Parameter] public Recipe Recipe { get; set; } = new();
 }

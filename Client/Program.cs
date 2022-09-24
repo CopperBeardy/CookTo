@@ -26,7 +26,7 @@ builder.Services
     {
         builder.Configuration.Bind("AzureAdB2C", options.ProviderOptions.Authentication);
         options.ProviderOptions.DefaultAccessTokenScopes
-            .Add("https://cookto.onmicrosoft.com/2d23510f-1f37-4e29-8d76-349682b13841/CookToB2CServer.Access");
+            .Add("https://cookto.onmicrosoft.com/2d23510f-1f37-4e29-8d76-349682b13841/CookToServer.Access");
     });
 
 builder.Services.AddScoped<CategoryManager>();

@@ -1,6 +1,7 @@
 ﻿using CookTo.Client.HTTPHelpers;
 using CookTo.Shared.Models;
 using CookTo.Shared.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Json;
@@ -23,7 +24,7 @@ public class APIRepository<TEntity> : IMongoRepository<TEntity> where TEntity : 
     }
 
 
-    public async Task<IEnumerable<TEntity>> GetAllAsync()
+    public async Task<IList<TEntity>> GetAllAsync()
     {
         try
         {
@@ -31,13 +32,14 @@ public class APIRepository<TEntity> : IMongoRepository<TEntity> where TEntity : 
             var result = await httpClient.GetAsync($"/{controllerName}");
             result.EnsureSuccessStatusCode();
             string responseBody = await result.Content.ReadAsStringAsync();
-            var response = JsonConvert.DeserializeObject<IEnumerable<TEntity>>(responseBody);
+            var response = JsonConvert.DeserializeObject<IList<TEntity>>(responseBody);
             if(response is not null)
                 return response;
             else
                 return new List<TEntity>();
         } catch(Exception ex)
         {
+            Console.Write(ex);
             var msg = ex.Message;
             return null;
         }
@@ -64,7 +66,7 @@ public class APIRepository<TEntity> : IMongoRepository<TEntity> where TEntity : 
         }
     }
 
-
+    [Authorize]
     public async Task<TEntity> Insert(TEntity entity)
     {
         try
@@ -81,6 +83,7 @@ public class APIRepository<TEntity> : IMongoRepository<TEntity> where TEntity : 
                 return null;
         } catch(Exception ex)
         {
+            Console.Write(ex.Message);
             return null;
         }
     }
