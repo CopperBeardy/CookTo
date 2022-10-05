@@ -28,7 +28,7 @@
 
 </div>
 @code {
-    [Parameter] public Recipe Recipe { get; set; } = new();
+    [CascadingParameter] public Recipe Recipe { get; set; } = new();
     public IEnumerable<Cuisine> Cuisines { get; set; } = new List<Cuisine>();
 
     protected override async Task OnInitializedAsync()

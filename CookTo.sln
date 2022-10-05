@@ -8,7 +8,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookTo.Client", "Client\Coo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookTo.Shared", "Shared\CookTo.Shared.csproj", "{42DB30ED-9ADA-457A-8A45-4E5F47C907F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookTo.Tests", "CookTo.Tests\CookTo.Tests.csproj", "{8F67DBE8-A6B3-4D73-AEC3-493A8BA89CC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookTo.Tests", "CookTo.Tests\CookTo.Tests.csproj", "{8F67DBE8-A6B3-4D73-AEC3-493A8BA89CC0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

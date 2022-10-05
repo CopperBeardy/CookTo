@@ -1,12 +1,13 @@
 ﻿@inject AppState AppState
 
-<h3 class="mt-5 mb-4">Add a Recipe</h3>
+
 <EditForm OnValidSubmit="SubmitForm" EditContext="_editContext" aria-label="form">
     <FluentValidationValidator  Options="@(options => options.IncludeAllRuleSets())"/>
     <FormStateTracker />
     <ValidationSummary />
 
-    <DetailsFormSection  Recipe="_recipe"/>
+    <CascadingValue Value="_recipe">
+    <DetailsFormSection />
     <FormSection Title="Image" >
        
         <div class="col-5">
@@ -25,11 +26,11 @@
             }
         </div>    
     </FormSection>
-   <RecipePartsSection Recipe="_recipe"/>   
-   <CookingStepsSection Recipe="_recipe"/>
-    <UtensilsFormSection Recipe="_recipe"/>   
-    <TipsFormSection  Recipe="_recipe"/>
-
+   <RecipePartsSection/>   
+   <CookingStepsSection />
+    <UtensilsFormSection />   
+    <TipsFormSection  />
+    </CascadingValue>
 
     <div class="mt-4 mb-5">
         <div class="row">

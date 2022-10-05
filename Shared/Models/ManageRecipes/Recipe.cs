@@ -1,6 +1,7 @@
 ﻿using CookTo.Shared.Enums;
 using CookTo.Shared.Models.ManageCategories;
 using CookTo.Shared.Models.ManageCuisines;
+using CookTo.Shared.Models.ManageIngredients;
 using CookTo.Shared.Models.ManageTips;
 
 namespace CookTo.Shared.Models.ManageRecipes;
@@ -43,6 +44,7 @@ public class Recipe : BaseEntity
 
     public bool Highlighted { get; set; }
 
+    public List<Ingredient> ContainedIngredients { get; set; } = new List<Ingredient>();
 
     public ImageAction ImageAction { get; set; } = ImageAction.None;
 }

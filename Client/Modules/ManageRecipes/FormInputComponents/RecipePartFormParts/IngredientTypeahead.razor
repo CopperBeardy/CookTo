@@ -11,9 +11,9 @@
                        aria-haspopup="true"
                        TValue="Ingredient"
                        TItem="Ingredient"
-                       Value="selectedIngredient"
+                       Value="_selectedIngredient"
                        ValueChanged="SelectedResultChanged"
-                       ValueExpression="@(() => selectedIngredient)"
+                       ValueExpression="@(() => _selectedIngredient)"
                        EnableDropDown="false"
                        AddItemOnEmptyResultMethod="HandleAdd">
         <SelectedTemplate Context="ingredient">
@@ -33,31 +33,35 @@
 
 </div>
 @code {
-
+    [CascadingParameter] public Recipe Recipe { get; set; } = new();
     [Parameter] public RecipePartIngredient RecipePartIngredient { get; set; } = new();
     public IEnumerable<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
-    private Ingredient selectedIngredient;
+    private Ingredient _selectedIngredient;
 
 
     protected override async Task OnInitializedAsync()
     {
         Ingredients = await Manager.GetAllAsync();
+        if(RecipePartIngredient.Ingredient is not null)
+        {
+            _selectedIngredient = RecipePartIngredient.Ingredient;
+        }
     }
 
     private async Task<IEnumerable<Ingredient>> SearchItems(string searchText) => await Task.FromResult(Ingredients.Where(x => x.Name.ToLower().Contains(searchText.ToLower())).ToList());
 
     private async Task SelectedResultChanged(Ingredient ingredient)
     {
-        if (selectedIngredient is not null)
+        if (_selectedIngredient is not null)
         {
-            AppState.IngredientInRecipeState.RemoveIngredient(ingredient);
+            Recipe.ContainedIngredients.Remove(ingredient);
 
         }
-        selectedIngredient = ingredient;
+        _selectedIngredient = ingredient;
 
         RecipePartIngredient.Ingredient = ingredient;
 
-        AppState.IngredientInRecipeState.AddIngredient(ingredient);
+        Recipe.ContainedIngredients.Add(ingredient);
 
     }
 

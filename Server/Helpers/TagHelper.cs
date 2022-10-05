@@ -1,17 +1,21 @@
 ﻿using CookTo.Shared.Models.ManageCategories;
 using CookTo.Shared.Models.ManageCuisines;
+using CookTo.Shared.Models.ManageIngredients;
 using CookTo.Shared.Models.ManageRecipes;
 
 namespace CookTo.Server.Helpers;
 
 public static class TagHelper
 {
-    public static string GenerateTags(Category category, Cuisine cuisine, List<RecipePartIngredient> recipePartIngredients)
+    public static string GenerateTags(Category category, Cuisine cuisine, List<Ingredient> ingredients)
     {
         List<string> tags = new List<string>();
-        tags.Add(GetCategory(category));
+        if(GetCategory(category) != "na")
+        {
+            tags.Add(GetCategory(category));
+        }
         tags.Add(GetCuisine(cuisine));
-        tags.AddRange(GetIngredients(recipePartIngredients));
+        tags.AddRange(GetIngredients(ingredients));
         var tagstring = tags.Aggregate(string.Empty, (accumulator, t) => accumulator += $"{t},").TrimEnd(',');
 
         return tagstring;
@@ -21,14 +25,14 @@ public static class TagHelper
 
     private static string GetCuisine(Cuisine cuisine) => cuisine.Name;
 
-    private static List<string> GetIngredients(List<RecipePartIngredient> partIngredients)
+    private static List<string> GetIngredients(List<Ingredient> ingredients)
     {
-        List<string> ingredients = new List<string>();
-        foreach(var item in partIngredients)
+        List<string> _ingredients = new List<string>();
+        foreach(var item in ingredients)
         {
-            if(!ingredients.Contains(item.Ingredient.Name))
-                ingredients.Add(item.Ingredient.Name);
+            if(!_ingredients.Contains(item.Name))
+                _ingredients.Add(item.Name);
         }
-        return ingredients;
+        return _ingredients;
     }
 }

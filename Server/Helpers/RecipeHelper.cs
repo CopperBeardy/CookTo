@@ -9,7 +9,7 @@ public class RecipeHelper
         List<RecipePartIngredient> GatheredIngredients = GatherAllIngredients(recipe.RecipeParts);
         List<RecipePartIngredient> NormalizedIngredients = NormalizeIngredients(GatheredIngredients);
         List<RecipePartIngredient> AggregatedIngredient = AggregateIngredients(NormalizedIngredients);
-        recipe.Tags = TagHelper.GenerateTags( recipe.Category, recipe.Cuisine, NormalizedIngredients);
+        recipe.Tags = TagHelper.GenerateTags( recipe.Category, recipe.Cuisine, recipe.ContainedIngredients);
         recipe.ShoppingList = ShoppingListHelper.CreateShoppingList(AggregatedIngredient);
 
         return recipe;

@@ -27,7 +27,7 @@
     <ValidationMessage aria-alert="true" For="@(() => Recipe.Category)" />
 </div>
 @code {
-    [Parameter] public Recipe Recipe { get; set; } = new();
+    [CascadingParameter] public Recipe Recipe { get; set; } = new();
     public IEnumerable<Category> Categories { get; set; } = new List<Category>();
 
     protected override async Task OnInitializedAsync()

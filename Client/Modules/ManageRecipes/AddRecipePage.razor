@@ -6,16 +6,9 @@
 <PageTitle>Add Recipe - CookTo</PageTitle>
 <BreadCrumb PageName="Add Recipe"/>
 
+<h3 class="mt-5 mb-4">Add a Recipe</h3>
+    <NotificationDisplay SubmitSuccessful=_submitSuccessful ErrorMessage="@_errorMessage" ProcessType="Add" />
 
-@if (_submitSuccessful)
-{
-     <h3 class="mt-5 mb-4">Add Recipe</h3>
-    <SuccessAlert Message="Your recipe has been added successfully!" />
-}
-else if (_errorMessage is not null)
-{
-    <ErrorAlert Message="@_errorMessage" />
-}
 
 <RecipeForm @ref="_recipeForm"   OnSubmit="SubmitNewRecipe" />
 

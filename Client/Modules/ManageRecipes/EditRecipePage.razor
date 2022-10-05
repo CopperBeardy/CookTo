@@ -6,22 +6,13 @@
 
 <PageTitle>Edit Recipe - CookTo</PageTitle>
 <BreadCrumb PageName="Edit Recipe"/>
-@if(_isLoading)
-{
-    <p>Loading Recipe</p>
-}
-else
-{
-       <h3 class="mt-5 mb-4">Editing Recipe: @_recipe.Title</h3>
-@if (_submitSuccessful)
-{
-    <SuccessAlert Message="Your recipe has been updated successfully!" />
-}
-else if (_errorMessage is not null)
-{
-    <ErrorAlert Message="@_errorMessage" />
-}
-}
+
+<h3 class="mt-5 mb-4">Editing Recipe: @_recipe.Title</h3>
+<LoadingRecipeDisplay IsLoading=@_isLoading>  
+    <NotificationDisplay SubmitSuccessful=_submitSuccessful ErrorMessage="@_errorMessage" ProcessType="update" />
+</LoadingRecipeDisplay>
+
+
 <RecipeForm Recipe="_recipe" OnSubmit="SubmitEditRecipe"/>
 
 @code {

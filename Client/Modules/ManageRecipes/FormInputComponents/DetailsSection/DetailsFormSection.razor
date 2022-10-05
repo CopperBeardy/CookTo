@@ -19,12 +19,12 @@
     </FormInputGroup>
 
     <FormInputGroup Width="col col-sm-6"  Id="recipeCuisine" Label="Cuisine" Margins="mb-2" >
-           <CuisineTypeahead Recipe="@Recipe" />
+           <CuisineTypeahead  />
      
     </FormInputGroup>
   
      <FormInputGroup Width="col col-sm-6"  Id="recipeCategory" Label="Category" Margins="mb-2" >
-        <CategoryTypeahead Recipe="@Recipe" />
+        <CategoryTypeahead  />
       
     </FormInputGroup>
  
@@ -45,5 +45,5 @@
 
 
 @code {
-    [Parameter] public Recipe Recipe { get; set; } = new Recipe();
+    [CascadingParameter] public Recipe Recipe { get; set; } = new Recipe();
 }
