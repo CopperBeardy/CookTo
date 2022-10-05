@@ -7,7 +7,10 @@
 <PageTitle>Edit Recipe - CookTo</PageTitle>
 <BreadCrumb PageName="Edit Recipe"/>
 
-<h3 class="mt-5 mb-4">Editing Recipe: @_recipe.Title</h3>
+@if (_recipe is not null)
+{
+    <h3 class="mt-5 mb-4">Editing Recipe: @_recipe.Title</h3>
+}
 <LoadingRecipeDisplay IsLoading=@_isLoading>  
     <NotificationDisplay SubmitSuccessful=_submitSuccessful ErrorMessage="@_errorMessage" ProcessType="update" />
 </LoadingRecipeDisplay>
@@ -22,14 +25,14 @@
     private Recipe _recipe ;
 
 
-    [Parameter] public string RecipeId { get; set; }
+    [Parameter] public string RecipeId { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
         _isLoading = true;
 
         _recipe = await RecipeManager.GetByIdAsync(RecipeId);
-        AppState.IngredientInRecipeState.AddIngredientsOnEditLoad(_recipe.RecipeParts);
+    
 
         _isLoading = false;
     }
@@ -38,7 +41,7 @@
     {
 
         var response = await RecipeManager.Update(recipe);
-        if (response is not null)
+        if (response is null)
         {
             _errorMessage = "There was a problem saving your Recipe.";
             _submitSuccessful = false;

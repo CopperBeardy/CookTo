@@ -9,13 +9,8 @@ public class AppState
 
     public NewRecipeState NewRecipeState { get; }
 
-    public IngredientsInRecipeState IngredientInRecipeState { get; }
 
-    public AppState(ILocalStorageService localStorageService)
-    {
-        NewRecipeState = new NewRecipeState();
-        IngredientInRecipeState = new IngredientsInRecipeState();
-    }
+    public AppState(ILocalStorageService localStorageService) { NewRecipeState = new NewRecipeState(); }
 
     public Task Initialize()
     {

@@ -32,6 +32,6 @@
 </div>
 
 @code {
-    [Parameter, EditorRequired] public RecipeSummary RecipeSummary { get; set; } 
-    
+    [Parameter, EditorRequired] public RecipeSummary RecipeSummary { get; set; } = new();
+
 }

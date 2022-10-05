@@ -4,12 +4,7 @@
 
 <BreadCrumb PageName="@Recipe.Title" />
 
-@if (_isLoading)
-{
-    <p>Loading Recipe</p>
-}
-else
-{
+<LoadingRecipeDisplay IsLoading="@_isLoading">
     <div class="grid">
         <div class="row">
             <h2>@Recipe.Title</h2>
@@ -43,7 +38,7 @@ else
             <TipsDisplaySection Tips="@Recipe.Tips"  />
         }
     </div>
-}
+</LoadingRecipeDisplay>
 
 
 @code {

@@ -7,7 +7,7 @@ public class UtensilPart
 {
     public int RequiredAmount { get; set; } = 1;
 
-    public Utensil Utensil { get; set; }
+    public Utensil Utensil { get; set; } = new();
 
 
     public override string ToString()

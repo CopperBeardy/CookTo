@@ -18,15 +18,15 @@ public class Recipe : BaseEntity
 
     public string? Image { get; set; } = string.Empty;
 
-    public string PrepTime { get; set; }
+    public string PrepTime { get; set; } = string.Empty;
 
-    public string CookTime { get; set; }
+    public string CookTime { get; set; } = string.Empty;
 
-    public string Serves { get; set; }
+    public string Serves { get; set; } = string.Empty;
 
-    public string? Creator { get; set; }
+    public string? Creator { get; set; } = string.Empty;
 
-    public string? AddedBy { get; set; }
+    public string? AddedBy { get; set; } = string.Empty;
 
     public List<Dietary> Dietaries { get; set; } = new List<Dietary>();
 
@@ -40,9 +40,9 @@ public class Recipe : BaseEntity
 
     public List<string>? ShoppingList { get; set; } = new List<string>();
 
-    public string? Tags { get; set; }
+    public string? Tags { get; set; } = string.Empty;
 
-    public bool Highlighted { get; set; }
+    public bool Highlighted { get; set; } = true;
 
     public List<Ingredient> ContainedIngredients { get; set; } = new List<Ingredient>();
 

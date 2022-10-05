@@ -59,7 +59,7 @@ public class RecipeHelperTests
     }
 
 
-[Fact]z
+[Fact]
 
     public async Task AggregateIngredients()
     {

@@ -10,7 +10,7 @@ public class CookingStepIngredient
 
     public MeasureUnit Measure { get; set; } = MeasureUnit.None;
 
-    public Ingredient Ingredient { get; set; }
+    public Ingredient Ingredient { get; set; } = new();
 
     public override string ToString()
     {

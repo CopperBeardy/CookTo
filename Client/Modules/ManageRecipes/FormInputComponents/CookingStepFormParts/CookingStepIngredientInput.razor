@@ -14,17 +14,12 @@
     <ValidationMessage aria-alert="true" For="@(() =>  CookingStepIngredient.Measure)" />
 </FormInputGroup>
 <FormInputGroup Id="ingredientSelect" Label="Ingredient" Width="col col-sm-8">
-    <select @onchange="@OnValueChanged" id="ingredientSelect" class="form-control"  >
-        <option>@placeholder</option>
+    <select value="@selectedId" @onchange="@OnValueChanged"  id="ingredientSelect" class="form-control"  >
+        <option hidden>@placeholder</option>
         @foreach (var item in Recipe.ContainedIngredients)
-        {
-            @if(CookingStepIngredient.Ingredient is not null)
-            {
-                <option value="@item.Id" selected>@item.Name</option>
-            }else
-            {
+        {          
             <option value="@item.Id">@item.Name</option>
-        }
+        
         }
     </select>
 </FormInputGroup>
@@ -32,25 +27,25 @@
 @code {
     [CascadingParameter] public Recipe Recipe { get; set; } = new();
     [Parameter] public CookingStepIngredient CookingStepIngredient { get; set; } = new();
-  
-    private string placeholder = "Select Ingredient";
-   
 
-    protected override async Task OnInitializedAsync()
+    private string selectedId;
+    private string placeholder = "Select Ingredient";
+
+    protected override void OnParametersSet()
     {
         if(CookingStepIngredient.Ingredient  is not null)
         {
-            //ingredientSelect.Value = CookingStepIngredient.Ingredient.Name;
-      
-       
-    } 
+            selectedId = CookingStepIngredient.Ingredient.Id;
+        } 
     }
+
 
     public void OnValueChanged(ChangeEventArgs args)
     {
         var value = args.Value.ToString();
         if (value is not null || value != placeholder)
-            CookingStepIngredient.Ingredient = Recipe.ContainedIngredients.Where(x => x.Id == value).FirstOrDefault();
+            selectedId = value;
+        CookingStepIngredient.Ingredient = Recipe.ContainedIngredients.Where(x => x.Id == value).FirstOrDefault();
 
     }
 }

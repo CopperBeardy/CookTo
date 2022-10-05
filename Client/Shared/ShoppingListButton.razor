@@ -4,9 +4,9 @@
   </button>
 @code {
     [Parameter]
-    public  string Title { get; set; }
+    public string Title { get; set; } = string.Empty;
     [Parameter]
-    public IReadOnlyList<string> ShoppingList { get; set; }
+    public IReadOnlyList<string> ShoppingList { get; set; } = new List<string>();
 
     [CascadingParameter]
     public IModalService Modal { get; set; }
