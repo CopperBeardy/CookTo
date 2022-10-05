@@ -37,11 +37,9 @@ public class Recipe : BaseEntity
 
     public List<RecipePart> RecipeParts { get; set; } = new List<RecipePart>();
 
-    public List<ShoppingItem>? ShoppingItems { get; set; } = new List<ShoppingItem>();
-
     public List<string>? ShoppingList { get; set; } = new List<string>();
 
-    public string Tags { get; set; }
+    public string? Tags { get; set; }
 
     public bool Highlighted { get; set; }
 

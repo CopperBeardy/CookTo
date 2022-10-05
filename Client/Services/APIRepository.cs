@@ -51,7 +51,7 @@ public class APIRepository<TEntity> : IMongoRepository<TEntity> where TEntity : 
         {
             var httpClient = HttpNamedClientFactoryHelper.CreateClient(_httpClientFactory, HttpClientType.Anon);
 
-            var result = await httpClient.GetAsync(controllerName);
+            var result = await httpClient.GetAsync($"/{controllerName}/{id}");
             result.EnsureSuccessStatusCode();
             string responseBody = await result.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<TEntity>(responseBody);

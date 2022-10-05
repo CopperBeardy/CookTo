@@ -17,7 +17,7 @@ public class RecipeSummaryManager : APIRepository<RecipeSummary>
         {
             var httpClient = HttpNamedClientFactoryHelper.CreateClient(_httpClientFactory, HttpClientType.Anon);
 
-            var result = await httpClient.GetAsync($"{ ControllerNames.SUMMARY}/{term}");
+            var result = await httpClient.GetAsync($"/{ ControllerNames.SUMMARY}/{term}");
             result.EnsureSuccessStatusCode();
             string responseBody = await result.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<IEnumerable<RecipeSummary>>(responseBody);

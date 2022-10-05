@@ -21,7 +21,7 @@ public class MongoRepository<TEntity> where TEntity : BaseEntity
     public async Task<TEntity> GetByIdAsync(string id) => await dbCollection.Find(e => e.Id.Equals(id))
         .FirstOrDefaultAsync();
 
-    public async Task Insert(TEntity entity) => await dbCollection.InsertOneAsync(entity);
+    public virtual async Task Insert(TEntity entity) => await dbCollection.InsertOneAsync(entity);
 
-    public async Task Update(TEntity entity) => await dbCollection.ReplaceOneAsync(e => e.Id.Equals(entity.Id), entity);
+    public virtual async Task Update(TEntity entity) => await dbCollection.ReplaceOneAsync(e => e.Id.Equals(entity.Id), entity);
 }

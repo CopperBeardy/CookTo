@@ -2,6 +2,7 @@
 @attribute [Authorize]
 @inject  IImageManager ImageManager
 @inject  RecipeManager RecipeManager
+@inject AppState AppState
 
 <PageTitle>Edit Recipe - CookTo</PageTitle>
 <BreadCrumb PageName="Edit Recipe"/>
@@ -37,6 +38,8 @@ else if (_errorMessage is not null)
         _isLoading = true;
 
         _recipe = await RecipeManager.GetByIdAsync(RecipeId);
+        AppState.IngredientInRecipeState.AddIngredientsOnEditLoad(_recipe.RecipeParts);
+
         _isLoading = false;
     }
 

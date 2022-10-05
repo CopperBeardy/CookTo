@@ -1,3 +1,4 @@
+using CookTo.Server.Repositories;
 using CookTo.Shared.Models.ManageCategories;
 using CookTo.Shared.Models.ManageCuisines;
 using CookTo.Shared.Models.ManageIngredients;
@@ -39,6 +40,9 @@ builder.Services.AddTransient<MongoRepository<Category>>();
 builder.Services.AddTransient<MongoRepository<Utensil>>();
 builder.Services.AddTransient<MongoRepository<Tip>>();
 builder.Services.AddTransient<MongoRepository<Recipe>>();
+builder.Services.AddTransient<IRecipeSummaryRepository, RecipeSummaryRepository>();
+builder.Services.AddTransient<IHighlightedRecipeRepository, HighlightedRecipeRepository>();
+
 
 builder.Services
     .AddSwaggerGen(

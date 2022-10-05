@@ -26,7 +26,6 @@ public class RecipeSummaryRepository : IRecipeSummaryRepository
             .Exclude(x => x.Serves)
             .Exclude(x => x.Utensils)
             .Exclude(x => x.CookingSteps)
-            .Exclude(x => x.ShoppingItems)
             .Exclude(x => x.Tips);
 
         var result = await dbCollection.Find(

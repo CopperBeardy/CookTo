@@ -49,7 +49,7 @@ else
 @code {
     public Recipe Recipe = new();
     private bool _isLoading = true;
-    [Parameter] public string RecipeId { get; set; }
+    [Parameter] public string RecipeId { get; set; } = string.Empty;
     protected override async Task OnInitializedAsync()
     {
         var response = await RecipeManager.GetByIdAsync(RecipeId);

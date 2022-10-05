@@ -9,7 +9,9 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Security.Policy;
 
-namespace CookTo.Client.Services; public class ImageManager : IImageManager
+namespace CookTo.Client.Services;
+
+public class ImageManager : IImageManager
 {
     private readonly IHttpClientFactory _httpClientFactory;
     public ImageManager(IHttpClientFactory httpClientFactory) { _httpClientFactory = httpClientFactory; }
@@ -29,8 +31,7 @@ namespace CookTo.Client.Services; public class ImageManager : IImageManager
             result.EnsureSuccessStatusCode();
             var content = await result.Content.ReadAsStringAsync();
             return content;
-        }
-        catch (Exception)
+        } catch(Exception)
         {
             throw;
         }

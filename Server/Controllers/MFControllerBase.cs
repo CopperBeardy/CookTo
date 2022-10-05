@@ -32,7 +32,7 @@ public class MFControllerBase<TEntity> : ControllerBase where TEntity : BaseEnti
     }
 
     [HttpGet("{id}")]
-    public virtual async Task<IResult> GetById(string id)
+    public async Task<IResult> GetById(string id)
     {
         try
         {
@@ -46,7 +46,7 @@ public class MFControllerBase<TEntity> : ControllerBase where TEntity : BaseEnti
     }
 
     [HttpPost]
-    public async Task<IResult> Create([FromBody] TEntity entity)
+    public virtual  async Task<IResult> Create([FromBody] TEntity entity)
     {
         try
         {
@@ -59,7 +59,7 @@ public class MFControllerBase<TEntity> : ControllerBase where TEntity : BaseEnti
     }
 
     [HttpPut]
-    public async Task<IResult> Update([FromBody] TEntity entity)
+    public virtual async Task<IResult> Update([FromBody] TEntity entity)
     {
         try
         {

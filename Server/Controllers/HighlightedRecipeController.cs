@@ -15,7 +15,7 @@ namespace CookTo.Server.Controllers;
 
 [Route("[controller]")]
 [ApiController]
-public class HighlightedRecipeController
+public class HighlightedRecipeController : ControllerBase
 {
     IHighlightedRecipeRepository repository;
     public HighlightedRecipeController(IHighlightedRecipeRepository _repository) { repository = _repository; }

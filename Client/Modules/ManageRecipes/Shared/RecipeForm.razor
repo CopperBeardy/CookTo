@@ -6,9 +6,6 @@
     <FormStateTracker />
     <ValidationSummary />
 
-
-
-
     <DetailsFormSection  Recipe="_recipe"/>
     <FormSection Title="Image" >
        
@@ -56,13 +53,13 @@
     {
         if (Recipe is not null)
         {
-
-            _recipe = Recipe;
+            _recipe = Recipe; 
+            
         }
         else
         {
             _recipe = AppState.NewRecipeState.GetRecipe();
-            AppState.IngredientInRecipeState.AddIngredientsOnEditLoad(_recipe.RecipeParts);
+           
         }
         _editContext = new EditContext(_recipe);
         _editContext.SetFieldCssClassProvider(new BootstrapCssClassProvider());

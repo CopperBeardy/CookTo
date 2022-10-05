@@ -6,12 +6,12 @@ namespace CookTo.Server.Helpers;
 
 public static class TagHelper
 {
-    public static string GenerateTags(Category category, Cuisine cuisine, List<ShoppingItem> shoppingItems)
+    public static string GenerateTags(Category category, Cuisine cuisine, List<RecipePartIngredient> recipePartIngredients)
     {
         List<string> tags = new List<string>();
         tags.Add(GetCategory(category));
         tags.Add(GetCuisine(cuisine));
-        tags.AddRange(GetIngredients(shoppingItems));
+        tags.AddRange(GetIngredients(recipePartIngredients));
         var tagstring = tags.Aggregate(string.Empty, (accumulator, t) => accumulator += $"{t},").TrimEnd(',');
 
         return tagstring;
@@ -21,12 +21,13 @@ public static class TagHelper
 
     private static string GetCuisine(Cuisine cuisine) => cuisine.Name;
 
-    private static List<string> GetIngredients(List<ShoppingItem> ShoppingList)
+    private static List<string> GetIngredients(List<RecipePartIngredient> partIngredients)
     {
         List<string> ingredients = new List<string>();
-        foreach(var item in ShoppingList)
+        foreach(var item in partIngredients)
         {
-            ingredients.Add(item.Ingredient.Name);
+            if(!ingredients.Contains(item.Ingredient.Name))
+                ingredients.Add(item.Ingredient.Name);
         }
         return ingredients;
     }

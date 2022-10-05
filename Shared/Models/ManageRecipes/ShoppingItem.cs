@@ -1,4 +1,5 @@
-﻿using CookTo.Shared.Models.ManageIngredients;
+﻿using CookTo.Shared.Enums;
+using CookTo.Shared.Models.ManageIngredients;
 using System.Text;
 
 namespace CookTo.Shared.Models.ManageRecipes;
@@ -7,11 +8,10 @@ public class ShoppingItem
 {
     public string Quantity { get; set; } = string.Empty;
 
-    public string Measure { get; set; } = string.Empty;
+    public MeasureUnit Measure { get; set; } = MeasureUnit.None;
 
     public Ingredient Ingredient { get; set; } = new Ingredient();
 
-    public string? AdditionalInformation { get; set; } = string.Empty;
 
     public override string ToString()
     {
@@ -20,7 +20,7 @@ public class ShoppingItem
         {
             sb.Append($"{Quantity} ");
         }
-        if(Measure is not null | Measure != string.Empty)
+        if(Measure != MeasureUnit.None)
         {
             sb.Append($"{Measure} ");
         }
@@ -28,10 +28,7 @@ public class ShoppingItem
         {
             sb.Append($"{Ingredient.Name} ");
         }
-        if(AdditionalInformation is not null || AdditionalInformation != string.Empty)
-        {
-            sb.Append($", {AdditionalInformation}");
-        }
+
         return sb.ToString();
     }
 }
