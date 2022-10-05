@@ -1,0 +1,17 @@
+﻿
+<div class="row gy-1 gx-1 align-items-center mb-2">
+    @foreach (var ing in CookingStepIngredients)
+    {
+        <div class="mb-2 ">    
+            <div class="row mb-sm-1 ">                
+           <CookingStepIngredientInput CookingStepIngredient="ing" />
+        <button role="button" aria-label="removeIngredient" @onclick="(() => CookingStepIngredients.Remove(ing))" class="btn link-danger col-auto ml-3" type="button"><i class="bi bi-dash-circle"></i></button>
+       </div>
+    </div>   
+    }
+</div>
+
+@code {
+    [Parameter] public List<CookingStepIngredient> CookingStepIngredients { get; set; } = new ();
+   
+}

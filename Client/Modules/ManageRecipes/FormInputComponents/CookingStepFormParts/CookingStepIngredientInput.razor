@@ -1,0 +1,51 @@
+﻿@inject AppState AppState
+
+<FormInputGroup Id="quantityInput" Label="Quantity" Width="col col-sm-2">
+    <InputText aria-required="true" id="quantityInput" class="form-control  " @bind-Value="CookingStepIngredient.Quantity" />
+    <ValidationMessage aria-alert="true" For="@(() =>  CookingStepIngredient.Quantity)" />
+</FormInputGroup>
+<FormInputGroup Id="measureInput" Label="Measure" Width="col col-sm-2">
+    <InputSelect @bind-Value="@CookingStepIngredient.Measure">
+                    @foreach (var measure in Enum.GetValues(typeof(MeasureUnit)))
+                    {
+                        <option value="@measure">@measure </option>
+                    }
+                </InputSelect>
+    <ValidationMessage aria-alert="true" For="@(() =>  CookingStepIngredient.Measure)" />
+</FormInputGroup>
+<FormInputGroup Id="ingredientSelect" Label="Ingredient" Width="col col-sm-8">
+    <select value="@selectedId" @onchange="@OnValueChanged"  id="ingredientSelect" class="form-control"  >
+        <option hidden>@placeholder</option>
+        @foreach (var item in Recipe.ContainedIngredients)
+        {          
+            <option value="@item.Id">@item.Name</option>
+        
+        }
+    </select>
+</FormInputGroup>
+
+@code {
+    [CascadingParameter] public Recipe Recipe { get; set; } = new();
+    [Parameter] public CookingStepIngredient CookingStepIngredient { get; set; } = new();
+
+    private string selectedId;
+    private string placeholder = "Select Ingredient";
+
+    protected override void OnParametersSet()
+    {
+        if(CookingStepIngredient.Ingredient  is not null)
+        {
+            selectedId = CookingStepIngredient.Ingredient.Id;
+        } 
+    }
+
+
+    public void OnValueChanged(ChangeEventArgs args)
+    {
+        var value = args.Value.ToString();
+        if (value is not null || value != placeholder)
+            selectedId = value;
+        CookingStepIngredient.Ingredient = Recipe.ContainedIngredients.Where(x => x.Id == value).FirstOrDefault();
+
+    }
+}

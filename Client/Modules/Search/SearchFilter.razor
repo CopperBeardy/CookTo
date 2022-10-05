@@ -1,0 +1,71 @@
+﻿@inject             CuisineManager CuisineManager
+@inject             CategoryManager CategoryManager
+
+<div class="filters">
+
+    <label for="category">Category</label>
+    <select aria-menu="menu" @bind="Filter.Category" class="form-control" id="category">
+        @foreach (var category in _categories)
+        {
+            <option aria-role="menuitem" value="@category">@category</option>
+        }
+    </select>
+
+    <label for="cuisines">Cuisine</label>
+    <select aria-role="menu" @bind="Filter.Cuisine" class=form-control id="category">
+        @foreach (var cuisine in _cuisines)
+        {
+            <option aria-role="menuitem" value="@cuisine">@cuisine</option>
+        }
+    </select>
+
+    <button aria-label="filterResults" class="btn btn-outline-primary"
+            @onclick="FilterSearchResults">
+        Filter
+    </button>
+    <button aria-label="clearFilters" class="btn btn-outline-secondary"
+            @onclick="ClearSearchFilter">
+        Clear
+    </button>
+
+</div>
+
+
+@code {
+    private Filter Filter { get; set; } = new Filter();
+    private IEnumerable<string> _cuisines = new List<string>();
+    private IEnumerable<string> _categories = new List<string>();
+
+    [Parameter] public EventCallback<Filter> FilterChanged { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var categoryResponse = await CategoryManager.GetAllAsync();
+        _categories.Append("All");
+        foreach (var cat in categoryResponse)
+        {
+            _categories.Append(cat.Name);
+        }
+
+        var cuisineResponse = await CuisineManager.GetAllAsync();
+        _cuisines.Append("All");
+        foreach (var cuisine in cuisineResponse)
+        {
+            _cuisines.Append(cuisine.Name);
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private void FilterSearchResults()
+    {
+        FilterChanged.InvokeAsync(Filter);
+    }
+
+    private void ClearSearchFilter()
+    {
+        Filter.Category = null;
+        Filter.Cuisine = null;
+        FilterSearchResults();
+    }
+}

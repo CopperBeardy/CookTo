@@ -1,5 +1,5 @@
 ﻿using Bogus;
-using CookTo.Shared.Modules.ManageRecipes;
+using CookTo.Shared.Models.ManageRecipes;
 
 namespace CookTo.Tests.Fakes;
 
@@ -13,8 +13,8 @@ public class RecipeUpdateFaker : Faker<Recipe>
         RuleFor(o => o.Category, new CategoryFaker().Generate());
         RuleFor(o => o.Description, f => f.Lorem.Paragraph());
         RuleFor(o => o.Image, f => f.Random.Word());
-        RuleFor(o => o.PrepTime, f => f.Random.Number());
-        RuleFor(o => o.CookTime, f => f.Random.Number());
+        RuleFor(o => o.PrepTime, f => f.Random.Word());
+        RuleFor(o => o.CookTime, f => f.Random.Word());
         RuleFor(o => o.Serves, f => f.Random.Number().ToString());
         RuleFor(o => o.Creator, f => f.Random.Word().ToString());
         RuleFor(o => o.AddedBy, f => f.Random.Word().ToString());
@@ -22,7 +22,6 @@ public class RecipeUpdateFaker : Faker<Recipe>
         RuleFor(o => o.CookingSteps, new CookingStepFaker().GenerateBetween(1, 5));
         RuleFor(o => o.Utensils, new UtensilPartFaker().GenerateBetween(1, 4));
         RuleFor(o => o.Tips, new TipFaker().GenerateBetween(0, 2));
-        RuleFor(o => o.ShoppingItems, new ShoppingItemFaker().GenerateBetween(0, 6));
         RuleFor(o => o.ShoppingList, SharedGenerators.GenerateShoppingList);
         RuleFor(o => o.Tags, f => f.Lorem.Sentence());
     }

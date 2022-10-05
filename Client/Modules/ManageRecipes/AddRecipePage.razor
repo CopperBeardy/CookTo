@@ -1,0 +1,62 @@
+@page "/add-recipe"
+@*@attribute [Authorize]*@
+@inject IImageManager ImageManager
+@inject RecipeManager RecipeManager
+
+<PageTitle>Add Recipe - CookTo</PageTitle>
+<BreadCrumb PageName="Add Recipe"/>
+
+<h3 class="mt-5 mb-4">Add a Recipe</h3>
+    <NotificationDisplay SubmitSuccessful=_submitSuccessful ErrorMessage="@_errorMessage" ProcessType="Add" />
+
+
+<RecipeForm @ref="_recipeForm"   OnSubmit="SubmitNewRecipe" />
+
+@code {
+    private bool _submitSuccessful;
+    private string? _errorMessage; 
+    private RecipeForm _recipeForm;
+   
+    private async Task SubmitNewRecipe(Recipe recipe,IBrowserFile image)
+    {    
+        var recipeResponse = await RecipeManager.Insert(recipe);
+        if (recipeResponse == null)
+        {
+            _errorMessage = "There was a problem saving your Recipe.";
+            _submitSuccessful = false;
+            StateHasChanged();
+            return;
+        }
+
+        if(image is null)
+        {
+            _submitSuccessful = true;            
+            _recipeForm.ResetForm();
+            StateHasChanged();
+            return;
+        }
+
+        _submitSuccessful= await ProcessImage(recipeResponse.Id,image);
+
+        if (_submitSuccessful)
+        {
+            _recipeForm.ResetForm();
+        }
+
+        StateHasChanged();
+
+
+    }
+
+    private async Task<bool> ProcessImage(string recipeId,IBrowserFile image)
+    {
+       
+        var name = await ImageManager.UploadImage(recipeId, image);
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            _errorMessage = "Your recipe was saved but there was a problem uploading the image";
+            return false;
+        }
+        return true;
+    }
+ }

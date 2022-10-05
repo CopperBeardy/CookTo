@@ -1,5 +1,5 @@
 ﻿using Bogus;
-using CookTo.Shared.Modules.ManageTips;
+using CookTo.Shared.Models.ManageTips;
 
 namespace CookTo.Tests.Fakes;
 

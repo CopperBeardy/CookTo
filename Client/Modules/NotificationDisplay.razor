@@ -1,0 +1,20 @@
+﻿
+@if (SubmitSuccessful)
+{
+        <SuccessAlert Message="@_message" />
+}
+else if (ErrorMessage is not null)
+{
+        <ErrorAlert Message="@ErrorMessage" />
+}
+@code {
+    [Parameter] public bool SubmitSuccessful { get; set; }
+    [Parameter] public string ErrorMessage { get; set; }
+    [Parameter] public string ProcessType { get; set; }
+    private string _message;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _message = $"Your recipe has been {ProcessType} successfully!";
+    }
+}

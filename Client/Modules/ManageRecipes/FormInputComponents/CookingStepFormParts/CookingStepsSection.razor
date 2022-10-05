@@ -1,0 +1,29 @@
+﻿
+<FormSection Title="Cooking steps">
+    @{
+        var i = 0;
+    }
+    @foreach (var cookingStep in Recipe.CookingSteps)
+    {
+        i++;
+        cookingStep.OrderNumber = i;
+        <div class="d-flex row gy-1 gx-1 align-items-center ms-2 mb-2">
+            <label id="orderNumber" class="col col-auto"> @cookingStep.OrderNumber </label>
+            <CookingStepSection CookingStep="@cookingStep"/>
+
+            <div class="col-sm-1">
+                <button aria-label="removeStep" class="btn link-danger " @onclick="@(() => Recipe.CookingSteps.Remove(cookingStep))" type="button"><i class="bi bi-dash-circle"></i></button>
+            </div>
+        </div>
+    }
+    <div class="row">
+        <div class="col">
+            <button aria-label="addNewCookingStep" class="btn btn-outline-primary" type="button" @onclick="@(() => Recipe.CookingSteps.Add(new CookingStep()))">Add CookingStep</button>
+            <ValidationMessage aria-alert="true" For="@(() => Recipe.CookingSteps)" />
+        </div>
+    </div>
+</FormSection>
+
+@code {
+    [CascadingParameter] public Recipe Recipe { get; set; } = new();
+}
