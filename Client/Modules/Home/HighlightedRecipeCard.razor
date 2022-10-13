@@ -44,7 +44,7 @@
 @code {
     private HighlightedRecipe Highlighted = new HighlightedRecipe();
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         var response = await HighlightedRecipeManager.Get();
         if(response is not null)

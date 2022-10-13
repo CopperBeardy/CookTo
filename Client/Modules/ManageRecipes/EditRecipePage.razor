@@ -11,9 +11,9 @@
 {
     <h3 class="mt-5 mb-4">Editing Recipe: @_recipe.Title</h3>
 }
-<LoadingRecipeDisplay IsLoading=@_isLoading>  
+<LoadingDisplay IsLoading=@_isLoading>  
     <NotificationDisplay SubmitSuccessful=_submitSuccessful ErrorMessage="@_errorMessage" ProcessType="update" />
-</LoadingRecipeDisplay>
+</LoadingDisplay>
 
 
 <RecipeForm Recipe="_recipe" OnSubmit="SubmitEditRecipe"/>

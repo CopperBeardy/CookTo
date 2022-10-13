@@ -1,12 +1,14 @@
 ﻿using CookTo.Shared.Enums;
 using CookTo.Shared.Models.ManageCategories;
 using CookTo.Shared.Models.ManageCuisines;
+using System.Text.Json.Serialization;
 
 namespace CookTo.Shared.Models;
 
 public sealed class HighlightedRecipe : BaseEntity
 {
     public Category Category { get; set; } = new Category();
+
 
     public   string Title { get; set; } = string.Empty;
 

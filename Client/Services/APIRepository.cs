@@ -2,25 +2,23 @@
 using CookTo.Shared.Models;
 using CookTo.Shared.Repositories;
 using Microsoft.AspNetCore.Authorization;
-using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Json;
-
+using System.Text.Json;
 
 namespace CookTo.Client.Services;
 
 public class APIRepository<TEntity> : IMongoRepository<TEntity> where TEntity : BaseEntity
 {
     string controllerName;
-    string primaryKeyName;
     private readonly IHttpClientFactory _httpClientFactory;
+    private JsonSerializerOptions serliazerOptions;
 
-
-    public APIRepository(IHttpClientFactory httpClientFactory, string _controllerName, string _primaryKeyName)
+    public APIRepository(IHttpClientFactory httpClientFactory, string _controllerName)
     {
         _httpClientFactory = httpClientFactory;
         controllerName = _controllerName;
-        primaryKeyName = _primaryKeyName;
+        serliazerOptions = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
     }
 
 
@@ -29,19 +27,17 @@ public class APIRepository<TEntity> : IMongoRepository<TEntity> where TEntity : 
         try
         {
             var httpClient = HttpNamedClientFactoryHelper.CreateClient(_httpClientFactory, HttpClientType.Anon);
-            var result = await httpClient.GetAsync($"/{controllerName}");
-            result.EnsureSuccessStatusCode();
-            string responseBody = await result.Content.ReadAsStringAsync();
-            var response = JsonConvert.DeserializeObject<IList<TEntity>>(responseBody);
-            if(response is not null)
-                return response;
+            var response = await httpClient.GetAsync($"/{controllerName}");
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+            var listOfEntity = JsonSerializer.Deserialize<IList<TEntity>>(responseBody, serliazerOptions);
+            if(listOfEntity is not null)
+                return listOfEntity;
             else
                 return new List<TEntity>();
         } catch(Exception ex)
         {
-            Console.Write(ex);
-            var msg = ex.Message;
-            return null;
+            throw new NotImplementedException();
         }
     }
 
@@ -51,12 +47,12 @@ public class APIRepository<TEntity> : IMongoRepository<TEntity> where TEntity : 
         {
             var httpClient = HttpNamedClientFactoryHelper.CreateClient(_httpClientFactory, HttpClientType.Anon);
 
-            var result = await httpClient.GetAsync($"/{controllerName}/{id}");
-            result.EnsureSuccessStatusCode();
-            string responseBody = await result.Content.ReadAsStringAsync();
-            var response = JsonConvert.DeserializeObject<TEntity>(responseBody);
-            if(response is not null)
-                return response;
+            var response = await httpClient.GetAsync($"/{controllerName}/{id}");
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+            var entity = JsonSerializer.Deserialize<TEntity>(responseBody, serliazerOptions);
+            if(entity is not null)
+                return entity;
             else
                 return null;
         } catch(Exception ex)
@@ -67,18 +63,18 @@ public class APIRepository<TEntity> : IMongoRepository<TEntity> where TEntity : 
     }
 
     [Authorize]
-    public async Task<TEntity> Insert(TEntity entity)
+    public async Task<TEntity> Insert(TEntity newEntity)
     {
         try
         {
             var httpClient = HttpNamedClientFactoryHelper.CreateClient(_httpClientFactory, HttpClientType.Secure);
 
-            var result = await httpClient.PostAsJsonAsync(controllerName, entity);
-            result.EnsureSuccessStatusCode();
-            string responseBody = await result.Content.ReadAsStringAsync();
-            var response = JsonConvert.DeserializeObject<TEntity>(responseBody);
-            if(response is not null)
-                return response;
+            var response = await httpClient.PostAsJsonAsync(controllerName, newEntity);
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+            var entity = JsonSerializer.Deserialize<TEntity>(responseBody, serliazerOptions);
+            if(entity is not null)
+                return entity;
             else
                 return null;
         } catch(Exception ex)
@@ -94,12 +90,12 @@ public class APIRepository<TEntity> : IMongoRepository<TEntity> where TEntity : 
         {
             var httpClient = HttpNamedClientFactoryHelper.CreateClient(_httpClientFactory, HttpClientType.Secure);
 
-            var result = await httpClient.PutAsJsonAsync(controllerName, entityToUpdate);
-            result.EnsureSuccessStatusCode();
-            string responseBody = await result.Content.ReadAsStringAsync();
-            var response = JsonConvert.DeserializeObject<TEntity>(responseBody);
-            if(response is not null)
-                return response;
+            var response = await httpClient.PutAsJsonAsync(controllerName, entityToUpdate);
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+            var entity = JsonSerializer.Deserialize<TEntity>(responseBody, serliazerOptions);
+            if(entity is not null)
+                return entity;
             else
                 return null;
         } catch(Exception ex)
@@ -108,28 +104,14 @@ public class APIRepository<TEntity> : IMongoRepository<TEntity> where TEntity : 
         }
     }
 
-    public async Task<bool> Delete(TEntity entityToDelete)
-    {
-        try
-        {
-            var value = entityToDelete.GetType().GetProperty(primaryKeyName).GetValue(entityToDelete, null).ToString();
 
-            return await DeleteByValue(primaryKeyName, value);
-        } catch(Exception ex)
-        {
-            return false;
-        }
-    }
-
-    public async Task<bool> DeleteByValue(string PropertyName, string Value)
+    public async Task<bool> Delete(string id)
     {
         try
         {
             var httpClient = HttpNamedClientFactoryHelper.CreateClient(_httpClientFactory, HttpClientType.Secure);
-
-            var url = $"{controllerName}/{WebUtility.HtmlEncode(PropertyName)}/{WebUtility.HtmlEncode(Value)}/DeleteByValue";
-            var result = await httpClient.DeleteAsync(url);
-            result.EnsureSuccessStatusCode();
+            var response = await httpClient.DeleteAsync( $"{controllerName}/{id}");
+            response.EnsureSuccessStatusCode();
             return true;
         } catch(Exception ex)
         {

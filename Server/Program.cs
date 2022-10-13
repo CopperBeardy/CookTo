@@ -6,9 +6,11 @@ using CookTo.Shared.Models.ManageRecipes;
 using CookTo.Shared.Models.ManageTips;
 using CookTo.Shared.Models.ManageUtensils;
 using CookTo.Shared.Repositories;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Identity.Web;
 using MongoFramework;
@@ -17,6 +19,7 @@ using System.Reflection;
 using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 builder.Services
@@ -29,9 +32,7 @@ builder.Services
 
 builder.Services.Configure<MongoSettings>(builder.Configuration.GetSection(nameof(MongoSettings))).AddOptions();
 
-builder.Services
-    .AddEndpointsApiExplorer()
-    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.Load("CookTo.Shared")));
+builder.Services.AddEndpointsApiExplorer().AddValidatorsFromAssembly(Assembly.Load("CookTo.Shared"));
 
 
 builder.Services.AddTransient<CookToDbContext, CookToDbContext>();

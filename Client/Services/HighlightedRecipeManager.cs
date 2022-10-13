@@ -1,15 +1,14 @@
 ﻿using CookTo.Client.HTTPHelpers;
 using CookTo.Shared;
 using CookTo.Shared.Models;
-using Newtonsoft.Json;
-using System.Net.Http;
+using System.Text.Json;
 
 namespace CookTo.Client.Services;
 
 public class HighlightedRecipeManager : APIRepository<HighlightedRecipe>
 {
     IHttpClientFactory _httpClientFactory;
-    public HighlightedRecipeManager(IHttpClientFactory httpClientFactory) : base(httpClientFactory, ControllerNames.HIGHLIGHTED, "Id")
+    public HighlightedRecipeManager(IHttpClientFactory httpClientFactory) : base(httpClientFactory, ControllerNames.HIGHLIGHTED)
     { _httpClientFactory = httpClientFactory; }
 
     public async Task<HighlightedRecipe> Get()
@@ -21,7 +20,10 @@ public class HighlightedRecipeManager : APIRepository<HighlightedRecipe>
             var result = await httpClient.GetAsync(ControllerNames.HIGHLIGHTED);
             result.EnsureSuccessStatusCode();
             string responseBody = await result.Content.ReadAsStringAsync();
-            var response = JsonConvert.DeserializeObject<HighlightedRecipe>(responseBody);
+
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+            var response = JsonSerializer.Deserialize<HighlightedRecipe>(responseBody, options);
             if(response is not null)
                 return response;
             else

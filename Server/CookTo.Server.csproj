@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>CookTo.Server-ff6368a1-e32b-4b81-9d5c-ae1702f899d1</UserSecretsId>
+	  <IncludeOpenAPIAnalysers>true</IncludeOpenAPIAnalysers>
   </PropertyGroup>
 
   <ItemGroup>

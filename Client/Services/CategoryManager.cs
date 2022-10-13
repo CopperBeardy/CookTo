@@ -5,7 +5,7 @@ namespace CookTo.Client.Services;
 
 public class CategoryManager : APIRepository<Category>
 {
-    public CategoryManager(IHttpClientFactory httpClientFactory) : base(httpClientFactory, ControllerNames.CATEGORY, "Id")
+    public CategoryManager(IHttpClientFactory httpClientFactory) : base(httpClientFactory, ControllerNames.CATEGORY)
     {
     }
 }

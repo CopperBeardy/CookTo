@@ -4,14 +4,7 @@
 
 <PageTitle>CookTo Recipes</PageTitle>
 
-
-
-@if (_recipeSummaries is null || !_recipeSummaries.Any())
-{
-    <p>Recipes Loading</p>
-}
-else
-{
+<LoadingDisplay IsLoading="_isLoading">
      <HighlightedRecipeCard  />
      <div class="row mt-5">
          <div role="list" class="grid">
@@ -21,7 +14,7 @@ else
              }
              </div> 
       </div>
-   
+</LoadingDisplay>
         <div class="mb-4 mt-4">
             <p class="font-italic text-center">Have a recipe to share <a aria-label="navAddRecipe" href="add-recipe">Add Recipe here</a>.</p>
         </div>
@@ -29,17 +22,11 @@ else
 
 @code {
     private IEnumerable<RecipeSummary>? _recipeSummaries= new List<RecipeSummary>();
-  
-    protected override async Task OnInitializedAsync()
+    private bool _isLoading;
+    protected override async Task OnParametersSetAsync()
     {
-        try
-        {    
-            _recipeSummaries =  await RecipeSummaryManager.GetByTermsAsync("10");           
-            await InvokeAsync(StateHasChanged);
-        }
-        catch (HttpRequestException ex)
-        {
-            Console.WriteLine($"There was a problem loading Recipe data: {ex.Message}");
-        }
+        _isLoading = true;
+        _recipeSummaries =  await RecipeSummaryManager.GetByTermsAsync("10");
+        _isLoading = false;
     }
 }

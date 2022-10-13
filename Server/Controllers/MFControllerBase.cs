@@ -19,7 +19,6 @@ public abstract class MFControllerBase<TEntity> : ControllerBase where TEntity :
 
     [HttpGet]
     [AllowAnonymous]
-
     public virtual async Task<IResult> Get()
     {
         try

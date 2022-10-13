@@ -5,7 +5,7 @@ namespace CookTo.Client.Services;
 
 public class RecipeManager : APIRepository<Recipe>
 {
-    public RecipeManager(IHttpClientFactory httpClientFactory) : base(httpClientFactory, ControllerNames.RECIPE, "Id")
+    public RecipeManager(IHttpClientFactory httpClientFactory) : base(httpClientFactory, ControllerNames.RECIPE)
     {
     }
 }

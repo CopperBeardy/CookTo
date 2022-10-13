@@ -59,13 +59,13 @@ public class RecipeHelperTests
     }
 
 
-[Fact]
+//[Fact]
 
-    public async Task AggregateIngredients()
-    {
-        recipe.Cuisine = new Cuisine() { Id = "dasd", Name = "British" };
-        recipe.Category = new Category() { Id = "dasda", Name = "Cake" };
-        var result = await RecipeHelper.CompleteRecipe(recipe);
-        Assert.NotNull(result);
-    }
+//    public async Task AggregateIngredients()
+//    {
+//        recipe.Cuisine = new Cuisine() { Id = "dasd", Name = "British" };
+//        recipe.Category = new Category() { Id = "dasda", Name = "Cake" };
+//        var result = await RecipeHelper.CompleteRecipe(recipe);
+//        Assert.NotNull(result);
+//    }
 }

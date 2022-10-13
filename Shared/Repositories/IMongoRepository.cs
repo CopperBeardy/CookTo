@@ -12,5 +12,5 @@ public interface IMongoRepository<TEntity> where TEntity : BaseEntity
 
     Task<TEntity> Update(TEntity entity);
 
-    Task<bool> Delete(TEntity entity);
+    Task<bool> Delete(string id);
 }

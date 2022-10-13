@@ -4,7 +4,6 @@
 <EditForm OnValidSubmit="SubmitForm" EditContext="_editContext" aria-label="form">
     <FluentValidationValidator  Options="@(options => options.IncludeAllRuleSets())"/>
     <FormStateTracker />
-    <ValidationSummary />
 
     <CascadingValue Value="_recipe">
     <DetailsFormSection />
