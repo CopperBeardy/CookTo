@@ -2,7 +2,7 @@
 
 namespace CookTo.Server.Helpers;
 
-public class RecipeHelper
+internal static class RecipeHelper
 {
     public static async Task<Recipe> CompleteRecipe(Recipe recipe)
     {

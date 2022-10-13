@@ -11,7 +11,7 @@ namespace CookTo.Server.Controllers;
 [Route("[controller]")]
 [ApiController]
 //[RequiredScope(RequiredScopesConfigurationKey = "AzureAdB2C:Scopes")]
-public class MFControllerBase<TEntity> : ControllerBase where TEntity : BaseEntity
+public abstract class MFControllerBase<TEntity> : ControllerBase where TEntity : BaseEntity
 {
     private MongoRepository<TEntity> repository;
 
@@ -19,6 +19,7 @@ public class MFControllerBase<TEntity> : ControllerBase where TEntity : BaseEnti
 
     [HttpGet]
     [AllowAnonymous]
+
     public virtual async Task<IResult> Get()
     {
         try

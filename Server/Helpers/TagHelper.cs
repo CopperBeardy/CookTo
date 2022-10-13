@@ -10,11 +10,13 @@ public static class TagHelper
     public static string GenerateTags(Category category, Cuisine cuisine, List<Ingredient> ingredients)
     {
         List<string> tags = new List<string>();
-        if(GetCategory(category) != "na")
+
+        tags.Add(GetCategory(category));
+        if(GetCuisine(cuisine) != "na")
         {
-            tags.Add(GetCategory(category));
+            tags.Add(GetCuisine(cuisine));
         }
-        tags.Add(GetCuisine(cuisine));
+
         tags.AddRange(GetIngredients(ingredients));
         var tagstring = tags.Aggregate(string.Empty, (accumulator, t) => accumulator += $"{t},").TrimEnd(',');
 

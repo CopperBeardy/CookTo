@@ -4,11 +4,10 @@ public static class HttpNamedClientFactoryHelper
 {
     public static HttpClient CreateClient(IHttpClientFactory factory, HttpClientType type)
     {
-        if (type == HttpClientType.Anon)
+        if(type == HttpClientType.Anon)
         {
             return factory.CreateClient("CookTo.ServerAPIAnonymous");
-        }
-        else
+        } else
         {
             return factory.CreateClient("CookTo.ServerAPI");
         }

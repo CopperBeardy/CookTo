@@ -3,7 +3,7 @@ using System.Text;
 
 namespace CookTo.Shared.Models.ManageRecipes;
 
-public class UtensilPart
+public sealed class UtensilPart
 {
     public int RequiredAmount { get; set; } = 1;
 

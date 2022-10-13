@@ -2,13 +2,13 @@
 
 public static class ControllerNames
 {
-    public const string CATEGORY = "category";
-    public const string CUISINE = "cuisine";
-    public const string UTENSIL = "utensil";
-    public const string RECIPE = "recipe";
-    public const string HIGHLIGHTED = "highlightedrecipe";
-    public const string SUMMARY = "summary";
-    public const string IMAGE = "image";
-    public const string INGREDIENT = "ingredient";
-    public const string TIP = "tip";
+    public static readonly string CATEGORY = "category";
+    public static readonly string CUISINE = "cuisine";
+    public static readonly string UTENSIL = "utensil";
+    public static readonly string RECIPE = "recipe";
+    public static readonly string HIGHLIGHTED = "highlightedrecipe";
+    public static readonly string SUMMARY = "summary";
+    public static readonly string IMAGE = "image";
+    public static readonly string INGREDIENT = "ingredient";
+    public static readonly string TIP = "tip";
 }

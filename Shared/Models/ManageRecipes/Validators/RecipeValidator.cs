@@ -2,7 +2,7 @@
 
 namespace CookTo.Shared.Models.ManageRecipes.Validators;
 
-public class RecipeValidator : AbstractValidator<Recipe>
+public sealed  class RecipeValidator : AbstractValidator<Recipe>
 {
     public RecipeValidator()
     {

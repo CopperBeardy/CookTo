@@ -4,7 +4,7 @@ using MongoDB.Driver;
 
 namespace CookTo.Server.Repositories;
 
-public class HighlightedRecipeRepository : IHighlightedRecipeRepository
+internal sealed class HighlightedRecipeRepository : IHighlightedRecipeRepository
 {
     private readonly CookToDbContext context;
     private IMongoCollection<Recipe> dbCollection;

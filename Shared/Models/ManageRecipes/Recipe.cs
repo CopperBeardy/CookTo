@@ -6,7 +6,7 @@ using CookTo.Shared.Models.ManageTips;
 
 namespace CookTo.Shared.Models.ManageRecipes;
 
-public class Recipe : BaseEntity
+public sealed class Recipe : BaseEntity
 {
     public string Title { get; set; } = string.Empty;
 

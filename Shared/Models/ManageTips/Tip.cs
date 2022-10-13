@@ -2,7 +2,7 @@
 
 namespace CookTo.Shared.Models.ManageTips;
 
-public class Tip : BaseEntity
+public sealed class Tip : BaseEntity
 {
     [JsonPropertyName("description")]
     public string Description { get; set; } = string.Empty;

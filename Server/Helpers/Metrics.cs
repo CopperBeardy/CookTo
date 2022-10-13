@@ -4,7 +4,7 @@ using CookTo.Shared.Models.ManageRecipes;
 
 namespace CookTo.Server.Helpers;
 
-public static class Metrics
+internal  static class Metrics
 {
     //public static List<CookingStep> Convert(List<CookingStep> steps)
     //{

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace CookTo.Server.Helpers;
 
-public  static class ShoppingListHelper
+internal  static class ShoppingListHelper
 {
     public static List<string> CreateShoppingList(List<RecipePartIngredient> items)
     {

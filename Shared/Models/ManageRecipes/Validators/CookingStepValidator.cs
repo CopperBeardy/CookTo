@@ -2,7 +2,7 @@
 
 namespace CookTo.Shared.Models.ManageRecipes.Validators;
 
-public class CookingStepValidator : AbstractValidator<CookingStep>
+public sealed class CookingStepValidator : AbstractValidator<CookingStep>
 {
     public CookingStepValidator()
     {

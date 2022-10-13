@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace CookTo.Shared.Models.ManageCuisines;
 
-public class CuisineValidator : AbstractValidator<Utensil>
+public sealed class CuisineValidator : AbstractValidator<Utensil>
 {
     public CuisineValidator() { RuleFor(x => x.Name).NotEmpty().WithMessage("you must choose or enter a value"); }
 }

@@ -4,7 +4,7 @@ using CookTo.Shared.Models.ManageCuisines;
 
 namespace CookTo.Shared.Models;
 
-public class HighlightedRecipe : BaseEntity
+public sealed class HighlightedRecipe : BaseEntity
 {
     public Category Category { get; set; } = new Category();
 

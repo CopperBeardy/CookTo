@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Identity.Web;
 using MongoFramework;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Reflection;
 using System.Security.Claims;
 
@@ -61,7 +62,13 @@ if(app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
     app.UseSwagger();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CookTo API V1"));
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "CookTo API V1");
+        c.SupportedSubmitMethods(new[] {
+            SubmitMethod.Get, SubmitMethod.Post, SubmitMethod.Put, SubmitMethod.Delete
+        });
+    });
 } else
 {
     app.UseExceptionHandler("/Error");

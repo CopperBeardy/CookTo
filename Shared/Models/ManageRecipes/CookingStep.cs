@@ -1,6 +1,6 @@
 ﻿namespace CookTo.Shared.Models.ManageRecipes;
 
-public class CookingStep
+public sealed class CookingStep
 {
     public int OrderNumber { get; set; }
 

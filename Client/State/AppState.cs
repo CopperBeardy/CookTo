@@ -3,7 +3,7 @@ using CookTo.Shared.Enums;
 
 namespace CookTo.Client.State;
 
-public class AppState
+public sealed class AppState
 {
     private bool _isInitialized;
 

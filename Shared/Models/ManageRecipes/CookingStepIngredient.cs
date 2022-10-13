@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CookTo.Shared.Models.ManageRecipes;
 
-public class CookingStepIngredient
+public sealed class CookingStepIngredient
 {
     public string? Quantity { get; set; }
 

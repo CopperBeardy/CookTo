@@ -8,7 +8,7 @@ using MongoFramework.Linq;
 
 namespace CookTo.Server.Repositories;
 
-public class RecipeSummaryRepository : IRecipeSummaryRepository
+internal sealed class RecipeSummaryRepository : IRecipeSummaryRepository
 {
     private readonly CookToDbContext context;
     private IMongoCollection<Recipe> dbCollection;

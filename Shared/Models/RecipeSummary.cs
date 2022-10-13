@@ -4,7 +4,7 @@ using CookTo.Shared.Models.ManageCuisines;
 
 namespace CookTo.Shared.Models;
 
-public class RecipeSummary : BaseEntity
+public sealed class RecipeSummary : BaseEntity
 {
     public Category Category { get; set; }
 

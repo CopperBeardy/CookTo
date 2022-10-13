@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace CookTo.Shared.Models.ManageRecipes.Validators;
 
-public class RecipePartValidator : AbstractValidator<RecipePart>
+public sealed class RecipePartValidator : AbstractValidator<RecipePart>
 {
 	public RecipePartValidator()
 	{

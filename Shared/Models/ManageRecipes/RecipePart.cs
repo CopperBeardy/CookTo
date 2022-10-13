@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace CookTo.Shared.Models.ManageRecipes;
 
-public  class RecipePart
+public sealed  class RecipePart
 {
     public string Title { get; set; } = string.Empty;
 
