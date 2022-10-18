@@ -22,6 +22,13 @@ a, .btn-link {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
+.divstepgroup
+{
+    align-content:center;
+    justify-content: space-between;
+    align-self: center
+}
+
 .content {
     padding-top: 1.1rem;
 }

@@ -23,16 +23,18 @@
 
         </div>
         <div class="d-flex row">
-            <FormInputGroup Id="additionalInformationInput" Label="Additional Information" Width="col col-sm-8">
+            <FormInputGroup Id="additionalInformationInput" Label="Additional Information" Width="col col-sm-6">
                 <InputText id="additionalInformationInput" class="form-control " placeholder="additional information" @bind-Value="PartIngredient.AdditionalInformation" />
                 <ValidationMessage aria-alert="true" For="@(() =>  PartIngredient.AdditionalInformation)" />
             </FormInputGroup>
-
+                @ChildContent
         </div>
     </div>
-
+    
 </div>
 
 @code {
     [Parameter] public RecipePartIngredient PartIngredient { get; set; } = new ();
+    [Parameter, EditorRequired]
+    public RenderFragment ChildContent { get; set; } = default!;
 }

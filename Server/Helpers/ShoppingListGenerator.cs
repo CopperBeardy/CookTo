@@ -14,7 +14,7 @@ internal  static class ShoppingListHelper
         foreach(var item in items)
         {
             var builder = new StringBuilder();
-            if(item.Quantity != string.Empty || item.Quantity != "0")
+            if(item.Quantity != "0" || string.IsNullOrEmpty(item.Quantity))
             {
                 builder.Append(item.Quantity);
             }

@@ -5,7 +5,7 @@
     <ValidationMessage aria-alert="true" For="@(() =>  CookingStepIngredient.Quantity)" />
 </FormInputGroup>
 <FormInputGroup Id="measureInput" Label="Measure" Width="col col-sm-2">
-    <InputSelect @bind-Value="@CookingStepIngredient.Measure">
+    <InputSelect class="form-control" @bind-Value="@CookingStepIngredient.Measure">
                     @foreach (var measure in Enum.GetValues(typeof(MeasureUnit)))
                     {
                         <option value="@measure">@measure </option>
@@ -13,7 +13,7 @@
                 </InputSelect>
     <ValidationMessage aria-alert="true" For="@(() =>  CookingStepIngredient.Measure)" />
 </FormInputGroup>
-<FormInputGroup Id="ingredientSelect" Label="Ingredient" Width="col col-sm-8">
+<FormInputGroup Id="ingredientSelect" Label="Ingredient" Width="col col-sm-4">
     <select value="@selectedId" @onchange="@OnValueChanged"  id="ingredientSelect" class="form-control"  >
         <option hidden>@placeholder</option>
         @foreach (var item in Recipe.ContainedIngredients)

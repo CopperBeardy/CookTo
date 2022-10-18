@@ -11,12 +11,13 @@
 
              <FormInputGroup Id="utensil" Label="Utensil" Width="col-sm-8"  >                
                    <UtensilTypeahead  UtensilPart="utensilPart" />
+                <div class="col-sm-1">
+                    <button role="button" aria-label="removeUtensil" class="btn link-danger " @onclick="@(() => Recipe.Utensils.Remove(utensilPart))" type="button"><i class="bi bi-dash-circle"></i></button>
+                </div>
                </FormInputGroup>
           
                
-              <div class="col-sm-1">
-                    <button role="button" aria-label="removeUtensil" class="btn link-danger " @onclick="@(() => Recipe.Utensils.Remove(utensilPart))" type="button"><i class="bi bi-dash-circle"></i></button>
-                </div>
+    
             </div>  
         }
         <div class="row">

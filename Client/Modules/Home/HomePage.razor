@@ -2,6 +2,7 @@
 @using CookTo.Shared.Models
 @inject  RecipeSummaryManager RecipeSummaryManager
 
+
 <PageTitle>CookTo Recipes</PageTitle>
 
 <LoadingDisplay IsLoading="_isLoading">
@@ -18,7 +19,7 @@
         <div class="mb-4 mt-4">
             <p class="font-italic text-center">Have a recipe to share <a aria-label="navAddRecipe" href="add-recipe">Add Recipe here</a>.</p>
         </div>
-   }
+   
 
 @code {
     private IEnumerable<RecipeSummary>? _recipeSummaries= new List<RecipeSummary>();
@@ -29,4 +30,5 @@
         _recipeSummaries =  await RecipeSummaryManager.GetByTermsAsync("10");
         _isLoading = false;
     }
+
 }

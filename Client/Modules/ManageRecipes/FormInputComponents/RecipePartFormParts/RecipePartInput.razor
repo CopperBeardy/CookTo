@@ -1,29 +1,34 @@
-﻿<div class="d-flex row gy-1 gx-1 align-items-center ms-2 mb-2">
-    <InputText @bind-Value="RecipePart.Title" />
+﻿<div class="d-flex row gy-1 gx-1 align-items-center  mb-2 col-sm-10">
+    <FormInputGroup Id="titleInput" Label="Part Title" >
+        <InputText class="col col-sm-8 form-control" @bind-Value="RecipePart.Title" />
+        <ValidationMessage aria-alert="true" For="@(() =>  RecipePart.Title)" />
+    </FormInputGroup>
 </div>
 <div class="d-flex row gy-1 gx-1 align-items-center ms-2 mb-2">
     @foreach (var partIngredient in RecipePart.RecipePartIngredients)
     {
-        <div class="d-flex row gy-1 gx-1 align-items-center ms-2 mb-2">
-            <div class="ms-4">
-                <RecipePartIngredientInput PartIngredient="@partIngredient" />
-            </div>
+        <div class="d-flex row gy-1 gx-1 align-items-center ms-2 mb-2  ">
+            <RecipePartIngredientInput PartIngredient="@partIngredient">
+                    <button aria-label="removeItem" class="btn link-danger col-sm-1" @onclick="@(() => RecipePart.RecipePartIngredients.Remove(partIngredient))" type="button"><i class="bi bi-dash-circle"></i></button>
+
+                    </RecipePartIngredientInput>     
         </div>
 
-
-        <div class="col-sm-1">
-            <button aria-label="removeItem" class="btn link-danger " @onclick="@(() => RecipePart.RecipePartIngredients.Remove(partIngredient))" type="button"><i class="bi bi-dash-circle"></i></button>
-        </div>
+    
     }
 </div>
 
-<div class="row">
-    <div class="col">
+
+    <div class="d-flex justify-content-between mb-2">
         <button aria-label="addPartIngredientItem" class="btn btn-outline-primary" type="button" @onclick="@(() =>RecipePart.RecipePartIngredients.Add(new RecipePartIngredient()))">Add Part Ingredient</button>
         <ValidationMessage aria-alert="true" For="@(() => RecipePart)" />
+            @ChildContent
     </div>
-</div>
+
+
+
 
 @code {
     [Parameter] public RecipePart RecipePart { get; set; } = new ();
+    [Parameter,EditorRequired] public RenderFragment ChildContent { get; set; }
 }

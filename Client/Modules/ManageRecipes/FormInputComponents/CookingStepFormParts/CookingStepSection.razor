@@ -3,16 +3,25 @@
     <ValidationMessage aria-alert="true" For="@(() => CookingStep.StepDescription)" />
 </FormInputGroup>
 
-<div>
-    <div>
+
+  
         <div class="ms-4">
-            <CookingStepIngredientList CookingStepIngredients="@CookingStep.CookingStepIngredients" />
-        </div>
-        <button role="button" aria-label="newPartIngredient" class="btn btn-outline-primary col-2 mb-2" type="button" @onclick="@(() => CookingStep.CookingStepIngredients.Add(new CookingStepIngredient()))">Add Ingredient used in this step </button>
+         <CookingStepIngredientList CookingStepIngredients="@CookingStep.CookingStepIngredients" />
+       
+   
         <ValidationMessage aria-alert="true" For="@(() => CookingStep.CookingStepIngredients)" />
     </div>
+    <div class="d-flex justify-content-between">
+    <button role="button" aria-label="newStepIngredient" class="btn btn-outline-primary col-sm-3 mb-2 " type="button" @onclick="@(() => CookingStep.CookingStepIngredients.Add(new CookingStepIngredient()))">Add Ingredient used in this step </button>
+    @ChildContent
+
 </div>
+   
+
+
 
 @code {
     [Parameter] public CookingStep CookingStep { get; set; } = new();
+    [Parameter, EditorRequired]
+    public RenderFragment ChildContent { get; set; } = default!;
 }
