@@ -1,22 +1,20 @@
-﻿  <div class="col col-sm-4 justify-content-center">
+﻿  <div class="col  justify-content-center">
     <h5><strong>@Title</strong>  </h5>
   </div>
-<div>
-    <ul style="list-style-type:none">
+    <ul style="list-style-type:none;padding:unset;margin:unset">
         @foreach (var recipePart in RecipeParts)
        {
          @if(RecipeParts.Count > 1)
             {
                 <h6>@recipePart.Title</h6>
             }
-            @foreach (var partIngredient in recipePart.RecipePartIngredients)
+
+            @foreach (var ing in recipePart.RecipePartIngredients)
             {
-                <li>@partIngredient.ToString();</li>
+             <li >  @IngredientDisplayHelper.Format(ing.Quantity,ing.Measure,ing.Ingredient.Name,ing.AdditionalInformation) </li>
             }
-        }
-    </ul>
-    
-</div>
+        }    
+</ul>
 
 @code {
     [Parameter] public string Title { get; set; } = string.Empty; 

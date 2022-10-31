@@ -1,18 +1,19 @@
 ﻿
-<li class="mb-2">
-        <div class="d-flex row gy-1 gx-1 align-items-top ms-2 ">
+
+<div class="d-flex row gy-1 gx-1 align-items-top ms-2 mb-4">
         <label class="col col-auto me-sm-2">@CookingStep.OrderNumber </label>
+
         <span class="col col-sm-10">@CookingStep.StepDescription</span>
-    </div>
-    <div  class="d-flex flex-row flex-wrap justify-content-center">
+
+    <div class="d-flex flex-row flex-wrap justify-content-center ">
         @foreach (var ing in CookingStep.CookingStepIngredients)
         {
-          <span class="badge rounded-pill bg-light text-dark me-1 mb-1">
-              @($"{ing.Quantity}{ing.Measure} {ing.Ingredient}")
+          <span class="badge rounded-pill bg-info text-dark me-1 mb-1">
+              @IngredientDisplayHelper.Format(ing.Quantity, ing.Measure,ing.Ingredient.Name)
           </span>
         }
     </div>
-</li>
+</div>
 
 @code {
     [Parameter]public CookingStep CookingStep { get; set; }

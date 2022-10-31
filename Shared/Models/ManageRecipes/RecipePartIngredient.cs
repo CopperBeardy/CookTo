@@ -6,7 +6,7 @@ namespace CookTo.Shared.Models.ManageRecipes;
 
 public sealed class RecipePartIngredient
 {
-    public string Quantity { get; set; } = string.Empty;
+    public string Quantity { get; set; } = "0";
 
     public MeasureUnit Measure { get; set; } = MeasureUnit.None;
 
@@ -17,7 +17,7 @@ public sealed class RecipePartIngredient
     public override string ToString()
     {
         StringBuilder stringBuilder = new();
-        if(!string.IsNullOrEmpty(Quantity))
+        if(Quantity != string.Empty && Quantity != "0")
         {
             stringBuilder.Append(Quantity);
         }
